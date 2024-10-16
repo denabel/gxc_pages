@@ -1,8 +1,9 @@
 project:
   type: website
+  output-dir: docs
 
 website:
-  title: "gxc_website"
+  title: "GESIS meets Copernicus (GxC)"
   navbar:
     left:
       - href: index.qmd
