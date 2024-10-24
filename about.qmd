@@ -2,8 +2,8 @@
 title: "About"
 ---
 
-About this site
+## GESIS
 
-```{r}
-1 + 1
-```
+## Project history
+
+## The research team

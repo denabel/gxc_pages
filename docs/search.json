@@ -2,9 +2,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "gxc_website",
+    "title": "GESIS meets Copernicus (GxC)",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2"
+    "text": "Welcome to the project website of “GESIS meets Copernicus” (GxC).\n\n\nFor many researchers in the social sciences, Earth observation (EO) data represents a black box. Social science researchers face many obstacles in applying and using these data, resulting from 1) a lack of technical expertise, 2) a lack of knowledge of data sources and how to access them, 3) unfamiliarity with complex data formats, such as high-resolution, longitudinal raster datacubes, and 4) lack of expertise in integrating the data into existing social science datasets. GxC aims to close the gap by creating an automated interface to EO data and complementary resources for social science research.\n\n\n\n\n\n\n\nThe project’s core is creating an open-source tool to link time- and space-sensitive social science datasets with data from Earth observation programs. Detailed documentation and beginner-friendly tutorials complement the tool to showcase the capability of our project. The social science community is the main target group of our tool. At the same time, Earth system science researchers may similarly profit from integrated social science data. This project supports inter- and transdisciplinary research which is often made difficult because of technical, disciplinary, and organizational barriers. The project emphasizes research data management (RDM) workflows based on FAIR and Open Data principles. All code is written in the open-source software R and is made available on this website.\nBelow, you will find more information about navigation on this page."
   },
   {
     "objectID": "about.html",
@@ -12,5 +12,222 @@
     "title": "About",
     "section": "",
     "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "index.html#welcome-to-my-package",
+    "href": "index.html#welcome-to-my-package",
+    "title": "GESIS meets Copernicus (GxC)",
+    "section": "",
+    "text": "Welcome to the official website for our R package! This package provides useful functionality to help with X, Y, and Z. You can use it for data analysis, visualization, and much more.\n\n\nExplore the documentation and tutorials to get started with our package, and feel free to contribute or report issues on our GitHub repository!"
+  },
+  {
+    "objectID": "index.html#introduction",
+    "href": "index.html#introduction",
+    "title": "GESIS meets Copernicus (GxC)",
+    "section": "",
+    "text": "Welcome to the project website of “GESIS meets Copernicus” (GxC).\n\n\nFor many researchers in the social sciences, Earth observation (EO) data represents a black box. Social science researchers face many obstacles in applying and using these data, resulting from 1) a lack of technical expertise, 2) a lack of knowledge of data sources and how to access them, 3) unfamiliarity with complex data formats, such as high-resolution, longitudinal raster datacubes, and 4) lack of expertise in integrating the data into existing social science datasets. GxC aims to close the gap by creating an automated interface to EO data and complementary resources for social science research.\n\n\n\n\n\n\n\nThe project’s core is creating an open-source tool to link time- and space-sensitive social science datasets with data from Earth observation programs. Detailed documentation and beginner-friendly tutorials complement the tool to showcase the capability of our project. The social science community is the main target group of our tool. At the same time, Earth system science researchers may similarly profit from integrated social science data. This project supports inter- and transdisciplinary research which is often made difficult because of technical, disciplinary, and organizational barriers. The project emphasizes research data management (RDM) workflows based on FAIR and Open Data principles. All code is written in the open-source software R and is made available on this website.\nBelow, you will find more information about navigation on this page."
+  },
+  {
+    "objectID": "index.html#navigation",
+    "href": "index.html#navigation",
+    "title": "GESIS meets Copernicus (GxC)",
+    "section": "Navigation",
+    "text": "Navigation\nOn top, you find the following tabs:\n\nTutorials: Check out our tutorials and learning material\nPackage: Documentation for the gxc-package\nArticles: Lists published and ongoing research based on GxC\nAbout: Information on GESIS, the research team and the project history"
+  },
+  {
+    "objectID": "package.html",
+    "href": "package.html",
+    "title": "Package",
+    "section": "",
+    "text": "The unique feature of the tool should be the possibility of carrying out both geographically and temporally high-resolution queries of data from Copernicus and other Earth observation data sources, which at the same time function efficiently on simple workstations albeit large amounts of data. Our tested workflow development has identified five major levers: indicator type, indicator intensity, focal time period, baseline time period, and spatial buffer. Flexibility on these five attributes should be maximized for users. The tool also offers the functionality to automatically derive spatio-temporal links with other georeferenced data (e.g., surveys, digital behavioral data).\n\n\n\n\n\n\n\nUsers should benefit from the core variables integrated into the interface for social research. Preparatory work is currently being carried out to select appropriate indicators from the corpus of indicators offered by data providers and conceptualize the data integration logic. Furthermore, in exchange with users and other stakeholders, we compile data products from EOD that are particularly relevant for social scientists. Examples include data on local air quality and pollutants, extreme weather events, or land use changes. The main data providers will be the Copernicus Monitoring Services on Climate Change, Atmosphere, and Land.\n\n\n\nMajor attributes for indicator specification. Source: Abel and Jünger 2024\n\n\nGESIS strongly supports the FAIR data principles and Open Data. The selection of R as the programming language for the tool supports open-source infrastructure development and shareability, as well as quality control via online repositories. Publishing the R scripts for data management and analysis ensures the reproducibility of all research steps."
+  },
+  {
+    "objectID": "package.html#documentation",
+    "href": "package.html#documentation",
+    "title": "Package",
+    "section": "Documentation",
+    "text": "Documentation\ntba"
+  },
+  {
+    "objectID": "articles.html",
+    "href": "articles.html",
+    "title": "Articles",
+    "section": "",
+    "text": "tba"
+  },
+  {
+    "objectID": "articles.html#working-papers",
+    "href": "articles.html#working-papers",
+    "title": "Articles",
+    "section": "",
+    "text": "tba"
+  },
+  {
+    "objectID": "articles.html#published",
+    "href": "articles.html#published",
+    "title": "Articles",
+    "section": "Published",
+    "text": "Published\ntba"
+  },
+  {
+    "objectID": "about.html#project-history",
+    "href": "about.html#project-history",
+    "title": "About",
+    "section": "Project history",
+    "text": "Project history"
+  },
+  {
+    "objectID": "about.html#the-research-team",
+    "href": "about.html#the-research-team",
+    "title": "About",
+    "section": "The research team",
+    "text": "The research team"
+  },
+  {
+    "objectID": "eod_intro.html",
+    "href": "eod_intro.html",
+    "title": "Introduction to Earth observation data",
+    "section": "",
+    "text": "Earth observation (EO) data refers to all collected information about the Earth’s physical, chemical, and biological systems. Utilizing Earth observation data allows to study the Earth’s atmosphere, land cover, oceans and inland waters, as well as biological diversity and ecosystems. Applications of EO data in academia, industry, and policy-making are extensive. It is crucial for the operation of activities in environmental protection, energy management, urban planning, agriculture and fisheries, forestry, public health, transport and mobility, civil protection, or tourism.\n\n\nAdditional information on Earth system indicators\n\nThere are many crucial Earth system indicators. With respect to the Earth’s climate, for example, the Global Climate Observing System (GCOS) maps 55 Essential Climate Variables (ECVs). ECVs are seen as the empirical evidence base for the guidance of mitigation and adaptation measures, risk assessment and the understanding of climate services. EO data is essential for systematically measuring these variables. Check out their documentation of ECVs.\n\n\n\nECVs as proposed by GCOS. Source: GCOS 2024 (https://gcos.wmo.int/en/essential-climate-variables/)\n\n\n\nThere is often confusion about terms such as Earth observation data, geodata, remote sensing, or satellite data. Let’s disentangle these different concepts.\n\nEarth observation data: Information collected about the Earth’s system\nGeospatial data: Data that is georeferenced (includes information on the location)\nRemote sensing data: Information that is acquired by sensors “from a distance”\nSatellite data: Information that is acquired by sensors via satellites.\n\nAs you can see, these four terminologies address different aspects of the data. While “EO data” refers to the content of the data (the Earth system), “geospatial data” addresses the location, and “remote sensing” and “satellite data” address the way of obtaining the data.\nThe Venn diagram below visualizes these definitions and shows overlaps and gaps between these concepts. Except for satellite data, which can be seen as a subset of remote sensing data, all other concepts have overlaps and gaps with each other.\n\n\n\nEO Venn diagram. Source: Abel and Jünger 2024\n\n\nLet’s disentangle these overlaps a bit further:\n\nA: The area A captures all concepts discussed above - Georeferenced Earth observation data derived from satellite data (and thus remote sensing). An example for this are nighttime lights. The sentinel satellite… [insert example and link].\nB: Area B is similar to A except that this data is derived from remote sensing OTHER than satellite data. There are, in fact, other sources of sensors from aircrafts or drones. Data on gases in the atmosphere are collected that way - an example would be… [insert]\nC: C represents EO data which is georeferenced but NOT derived from remote sensing. There are several alternatives to EO data generation: When it comes to sensor-based data collection, ground-based sensors (called “in-situ”) which collect data locally are common sources of EO data. Weather stations are common examples. But C also captures a data source which is very familiar to social scientists: Field surveys and survey-based methods. This work is not just performed by experts. Think about citizen science projects: Scientists work together with “laypeople” to map bird populations [link], the quality of rivers [link], or XXX.\nD and E: The two areas D and E deviate from the previous areas because they are NOT EO data. D captures all geodata which is not derived from remote sensing and does not constitute EO data. This is primarily data which is human-centered - many examples of which are familiar to social scientists: Georeferenced variables on socio-demographics or economic indicators like Census data [link], electoral outcomes [link], or environmental attitudes and behavior [link]. E represents a special case of such data derived from remote sensing. Examples could be XY.\n\nAs you can see, the main areas when it comes to EO data are A, B, and C. As social scientists interested in working with EO data, D and E are similarly relevant: Often, we are interested in spatially linking our social indicators (D) with EO data. We therefore see these as two sides of the same coin. The geolocation represents the link.\nBe aware that there are a few additional areas in the Venn diagram which we have not highlighted. These are the fields which do not overlap with the circle for “geodata”. There are some examples for non-georeferenced EO data or remote sensing data like X, Y, Z. Since we are focussing on geo-referenced data in this project, these part will not be further considered in our tutorials.\nIt should be noted that in practice, common indicators are integrated from various sensors or data collection types to increase data quality by enhancing accuracy, scope and resolution, to validate data, or to fill data gaps. We will explore a few common sources and indicators in the next chapter."
+  },
+  {
+    "objectID": "eod_intro.html#what-is-earth-observation-data",
+    "href": "eod_intro.html#what-is-earth-observation-data",
+    "title": "Introduction to Earth observation data",
+    "section": "",
+    "text": "Earth observation (EO) data refers to all collected information about the Earth’s physical, chemical, and biological systems. Utilizing Earth observation data allows to study the Earth’s atmosphere, land cover, oceans and inland waters, as well as biological diversity and ecosystems. Applications of EO data in academia, industry, and policy-making are extensive. It is crucial for the operation of activities in environmental protection, energy management, urban planning, agriculture and fisheries, forestry, public health, transport and mobility, civil protection, or tourism.\n\n\nAdditional information on Earth system indicators\n\nThere are many crucial Earth system indicators. With respect to the Earth’s climate, for example, the Global Climate Observing System (GCOS) maps 55 Essential Climate Variables (ECVs). ECVs are seen as the empirical evidence base for the guidance of mitigation and adaptation measures, risk assessment and the understanding of climate services. EO data is essential for systematically measuring these variables. Check out their documentation of ECVs.\n\n\n\nECVs as proposed by GCOS. Source: GCOS 2024 (https://gcos.wmo.int/en/essential-climate-variables/)\n\n\n\nThere is often confusion about terms such as Earth observation data, geodata, remote sensing, or satellite data. Let’s disentangle these different concepts.\n\nEarth observation data: Information collected about the Earth’s system\nGeospatial data: Data that is georeferenced (includes information on the location)\nRemote sensing data: Information that is acquired by sensors “from a distance”\nSatellite data: Information that is acquired by sensors via satellites.\n\nAs you can see, these four terminologies address different aspects of the data. While “EO data” refers to the content of the data (the Earth system), “geospatial data” addresses the location, and “remote sensing” and “satellite data” address the way of obtaining the data.\nThe Venn diagram below visualizes these definitions and shows overlaps and gaps between these concepts. Except for satellite data, which can be seen as a subset of remote sensing data, all other concepts have overlaps and gaps with each other.\n\n\n\nEO Venn diagram. Source: Abel and Jünger 2024\n\n\nLet’s disentangle these overlaps a bit further:\n\nA: The area A captures all concepts discussed above - Georeferenced Earth observation data derived from satellite data (and thus remote sensing). An example for this are nighttime lights. The sentinel satellite… [insert example and link].\nB: Area B is similar to A except that this data is derived from remote sensing OTHER than satellite data. There are, in fact, other sources of sensors from aircrafts or drones. Data on gases in the atmosphere are collected that way - an example would be… [insert]\nC: C represents EO data which is georeferenced but NOT derived from remote sensing. There are several alternatives to EO data generation: When it comes to sensor-based data collection, ground-based sensors (called “in-situ”) which collect data locally are common sources of EO data. Weather stations are common examples. But C also captures a data source which is very familiar to social scientists: Field surveys and survey-based methods. This work is not just performed by experts. Think about citizen science projects: Scientists work together with “laypeople” to map bird populations [link], the quality of rivers [link], or XXX.\nD and E: The two areas D and E deviate from the previous areas because they are NOT EO data. D captures all geodata which is not derived from remote sensing and does not constitute EO data. This is primarily data which is human-centered - many examples of which are familiar to social scientists: Georeferenced variables on socio-demographics or economic indicators like Census data [link], electoral outcomes [link], or environmental attitudes and behavior [link]. E represents a special case of such data derived from remote sensing. Examples could be XY.\n\nAs you can see, the main areas when it comes to EO data are A, B, and C. As social scientists interested in working with EO data, D and E are similarly relevant: Often, we are interested in spatially linking our social indicators (D) with EO data. We therefore see these as two sides of the same coin. The geolocation represents the link.\nBe aware that there are a few additional areas in the Venn diagram which we have not highlighted. These are the fields which do not overlap with the circle for “geodata”. There are some examples for non-georeferenced EO data or remote sensing data like X, Y, Z. Since we are focussing on geo-referenced data in this project, these part will not be further considered in our tutorials.\nIt should be noted that in practice, common indicators are integrated from various sensors or data collection types to increase data quality by enhancing accuracy, scope and resolution, to validate data, or to fill data gaps. We will explore a few common sources and indicators in the next chapter."
+  },
+  {
+    "objectID": "eod_intro.html#relevant-sources-of-earth-observation-data",
+    "href": "eod_intro.html#relevant-sources-of-earth-observation-data",
+    "title": "Introduction to Earth observation data",
+    "section": "Relevant sources of Earth observation data",
+    "text": "Relevant sources of Earth observation data\nEurope’s Earth Observation programme is called Copernicus. It is funded and managed by the European Commission and partners like the European Space Agency (ESA) and the European Organisation for the Exploitation of Meteorological Satellites (EUMETSAT). It has been operational since 2014 and provides free access to a wealth of satellite data from ESA’s “Sentinel” fleet. Copernicus combines data from satellites, ground-based as well as air- and sea-borne sensors to track the Earth system and provide this information largely free for all customers.\n\n\nAdditional information on the Copernicus programme\n\nCheck out this 5min video on the Copernicus programme.\n\nThe ESA describes Copernicus as the world’s most ambitious Earth observation program, which will be further expanded in the coming years. On the Copernicus homepage, the daily data collection is estimated at 12 terabytes. Given the complexity of issues, Copernicus has separated its services for public usage along several thematic areas:\n\nAtmosphere: Copernicus Atmosphere Monitoring Service (CAMS)\nMarine: Copernicus Marine Service (CMEMS)\nLand: Copernicus Land Monitoring Service (CLMS)\nClimate change: Copernicus Climate Change Service (C3S)\nEmergency: Copernicus Emergency Management Service (CEMS).\n\n\n\n\nCopernicus infrastructure and data services. Source: https://www.copernicus.eu/en/accessing-data-where-and-how/conventional-data-access-hubs\n\n\nThis project focuses on the data provided by the Copernicus programme. However, this is not the only relevant source of EO data which you can consider for your projects. The US equivalent, for example, is based on the Landsat satellite programme, which is jointly operated by NASA and the US Geological Survey (USGS). Google’s Earth Engine Cloud Computing Platform catalogs an extensive selection of additional data sets from various sources."
+  },
+  {
+    "objectID": "raster_data.html",
+    "href": "raster_data.html",
+    "title": "Working with raster data in R",
+    "section": "",
+    "text": "tba"
+  },
+  {
+    "objectID": "raster_data.html#r-set-up",
+    "href": "raster_data.html#r-set-up",
+    "title": "Working with raster data in R",
+    "section": "",
+    "text": "tba"
+  },
+  {
+    "objectID": "raster_data.html#example-1",
+    "href": "raster_data.html#example-1",
+    "title": "Working with raster data in R",
+    "section": "Example 1",
+    "text": "Example 1\ntba"
+  },
+  {
+    "objectID": "courses.html",
+    "href": "courses.html",
+    "title": "Courses and workshops",
+    "section": "",
+    "text": "tba"
+  },
+  {
+    "objectID": "courses.html#upcoming",
+    "href": "courses.html#upcoming",
+    "title": "Courses and workshops",
+    "section": "",
+    "text": "tba"
+  },
+  {
+    "objectID": "courses.html#past-courses",
+    "href": "courses.html#past-courses",
+    "title": "Courses",
+    "section": "Past courses",
+    "text": "Past courses\ntba"
+  },
+  {
+    "objectID": "issp.html",
+    "href": "issp.html",
+    "title": "Case Study: Linking ISSP survey data",
+    "section": "",
+    "text": "For this case study, we are working with the cumulation of the environment module of the ISSP survey programme."
+  },
+  {
+    "objectID": "issp.html#loading-issp-data",
+    "href": "issp.html#loading-issp-data",
+    "title": "Case Study: Linking ISSP survey data",
+    "section": "",
+    "text": "tba\n\n# Packages ----------------------------------------------------------------\n\nlibrary(haven)\nlibrary(sjlabelled)\n\n\nAttache Paket: 'sjlabelled'\n\n\nDie folgenden Objekte sind maskiert von 'package:haven':\n\n    as_factor, read_sas, read_spss, read_stata, write_sas, zap_labels\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.1     ✔ tibble    3.2.1\n✔ lubridate 1.9.3     ✔ tidyr     1.3.1\n✔ purrr     1.0.2     \n\n\n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ forcats::as_factor()     masks sjlabelled::as_factor(), haven::as_factor()\n✖ dplyr::as_label()        masks ggplot2::as_label(), sjlabelled::as_label()\n✖ dplyr::filter()          masks stats::filter()\n✖ dplyr::lag()             masks stats::lag()\n✖ sjlabelled::read_sas()   masks haven::read_sas()\n✖ sjlabelled::read_spss()  masks haven::read_spss()\n✖ sjlabelled::read_stata() masks haven::read_stata()\n✖ sjlabelled::write_sas()  masks haven::write_sas()\n✖ sjlabelled::zap_labels() masks haven::zap_labels()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nlibrary(vtable)\n\nLade nötiges Paket: kableExtra\n\nAttache Paket: 'kableExtra'\n\nDas folgende Objekt ist maskiert 'package:dplyr':\n\n    group_rows\n\nlibrary(rnaturalearth)"
+  },
+  {
+    "objectID": "issp.html#spatial-linking",
+    "href": "issp.html#spatial-linking",
+    "title": "Case Study: Linking ISSP survey data",
+    "section": "Spatial linking",
+    "text": "Spatial linking\n\n\n\nSteps in the spatial linking process. Source: Jünger 2019"
+  },
+  {
+    "objectID": "issp.html#the-issp-data",
+    "href": "issp.html#the-issp-data",
+    "title": "Case Study: Linking ISSP survey data",
+    "section": "",
+    "text": "For this case study, we are working with the cumulation of the environment module of the ISSP survey programme."
+  },
+  {
+    "objectID": "issp.html#setup-and-loading-the-data",
+    "href": "issp.html#setup-and-loading-the-data",
+    "title": "Case Study: Linking ISSP survey data",
+    "section": "Setup and loading the data",
+    "text": "Setup and loading the data\nFor loading and wrangling with the data, we need some packages. Keep in mind to install (install.packages()) those packages first before loading with the library-function.\n\nlibrary(haven) # For working with SPSS datafiles\nlibrary(sjlabelled) # To remove labels from SPSS datafiles\nlibrary(tidyverse) # For so much\n\nWe are loading the SPSS-file and directly remove all labels.\n\nissp &lt;- haven::read_spss(\"./data/ZA8793_v1-0-0.sav\") |&gt; \n  sjlabelled::remove_all_labels()"
+  },
+  {
+    "objectID": "issp.html#setup",
+    "href": "issp.html#setup",
+    "title": "Case Study: Linking ISSP survey data",
+    "section": "Setup",
+    "text": "Setup\nFor loading and wrangling with the data, we need some packages. Keep in mind to install (install.packages()) those packages first before loading with the library-function.\n\nlibrary(haven) # For working with SPSS datafiles\nlibrary(sjlabelled) # To remove labels from SPSS datafiles\nlibrary(tidyverse) # For so much\n\nWe are loading the SPSS-file and directly remove all labels.\n\nissp &lt;- haven::read_spss(\"./data/ZA8793_v1-0-0.sav\") |&gt; \n  sjlabelled::remove_all_labels()\n\nLet’s reduce and clean the dataset. We want to investigate the relationship between the experience of extreme heat and climate change concern. Let’s subset to those variables which are necessary for this analysis and rename directly.\n\nissp &lt;- issp |&gt; \n  select(\n    year, \n    country, \n    concern = v42\n    )\n\nWe can check out the documentation to identify the country names for the numeric values in the dataset. Let’s label it. We will also combine responses from Northern Ireland and Great Britain into “United Kingdom” and store it in a new variable.\n\nissp &lt;- issp |&gt; \n  mutate(\n    country = factor(country, levels=c(36, 40, 100, 124, 152, 158, 191, 203, \n                                       208, 246, 250, 276, 348, 352, 372, 376,\n                                       380, 392, 410, 428, 440, 484, 528, 554,\n                                       578, 608, 620, 643, 703, 705, 710, 724,\n                                       752, 756, 826, 840, 82602), \n                          labels=c(\"Australia\", \"Austria\", \"Bulgaria\", \"Canada\",\n                                   \"Chile\", \"Taiwan\", \"Croatia\", \"Czechia\",\n                                   \"Denmark\", \"Finland\", \"France\", \"Germany\",\n                                   \"Hungary\", \"Iceland\", \"Ireland\", \"Israel\",\n                                   \"Italy\", \"Japan\", \"South Korea\", \"Latvia\",\n                                   \"Lithuania\", \"Mexico\", \"Netherlands\",\n                                   \"New Zealand\", \"Norway\", \"Philippines\",\n                                   \"Portugal\", \"Russia\", \"Slovakia\",\n                                   \"Slovenia\", \"South Africa\", \"Spain\", \"Sweden\",\n                                   \"Switzerland\", \"Great Britain\", \n                                   \"United States of America\",\n                                   \"Northern Ireland\"))\n  )\n\nissp &lt;- issp |&gt; \n  mutate(\n    country_new = case_when(\n      country == \"Great Britain\" | country == \"Northern Ireland\" ~ \"United Kingdom\",\n      TRUE ~ country\n      ),\n    .after = country\n  )\n\nLet’s also reverse the concern-scale so that higher values indicate higher concern.\n\nissp &lt;- issp |&gt; \n  mutate(\n    concern = case_match(concern,\n                         1 ~ 5,\n                         2 ~ 4,\n                         3 ~ 3,\n                         4 ~ 2,\n                         5 ~ 1)\n  )\n\nThe dataset is set for linking with our temperature data.\n\nhead(issp)\n\n  year   country country_new concern\n1 1993 Australia   Australia       4\n2 1993 Australia   Australia       4\n3 1993 Australia   Australia       5\n4 1993 Australia   Australia       3\n5 1993 Australia   Australia       3\n6 1993 Australia   Australia       3\n\n\nLet’s explore the distribution of climate concern across countries for the 2020 wave.\n\n# Define Likert-theme\nlikert_theme &lt;- theme_gray() +\n  theme(text = element_text(size = 12, face = \"bold\"),\n        plot.title = element_text(size = 13, face = \"bold\",\n                                  margin = margin(10, 0, 10, 0)), \n        plot.margin = unit(c(.4,0,.4,.4), \"cm\"),\n        plot.subtitle = element_text(face = \"italic\"),\n        legend.title = element_blank(),\n        legend.key.size = unit(1, \"line\"),\n        legend.background = element_rect(fill = \"grey90\"),\n        panel.grid = element_blank(),\n        axis.text.x = element_blank(),\n        axis.ticks = element_blank(),\n        axis.title = element_blank(),\n        panel.background = element_blank(),\n        strip.text = element_text(size = 12, face = \"bold\"))\n\n# Let's look at 2020 only\nissp_2020 &lt;- issp |&gt; \n  filter(year == \"2020\")\n\n# calculate averages across countries\nissp_2020_averages &lt;- issp_2020 |&gt;\n  group_by(country_new) |&gt; \n  summarise(median_concern = round(median(concern, na.rm=TRUE), digits=2),\n            mean_concern = round(mean(concern, na.rm=TRUE), digits=2))\n\n# Plot\nissp_2020 |&gt;\n  filter(!is.na(concern)) |&gt;\n  mutate(country_new = forcats::fct_reorder(country_new, concern, \n                                            .fun=mean, .desc=FALSE)) |&gt; \n  arrange(country_new) |&gt;\n  group_by(country_new, concern) |&gt;\n  summarize(count = n()) |&gt;\n  group_by(country_new) |&gt; \n  mutate(prop_value = count / sum(count)) |&gt;\n  ggplot() +\n  geom_bar(mapping = aes(x = country_new,\n                         y = prop_value,\n                         fill = forcats::fct_rev(factor(concern))),\n           position = \"fill\",\n           stat = \"identity\")+\n  geom_text(aes(x = country_new, y = prop_value, label = round(100*prop_value)), \n            position = position_stack(vjust = 0.5), \n            fontface = \"bold\") +\n  geom_text(data = issp_2020_averages, \n            aes(x = country_new, y=1.1, label=paste(\"(\", median_concern, \"/\",\n                                                    mean_concern, \")\")),\n            fontface=\"bold\", colour=\"black\", check_overlap=TRUE) +\n  scale_fill_brewer(type = \"div\", palette = \"PRGn\", direction = -1,\n                    labels = c(\"5 - High concern\", \"4\", \"3\", \"2\", \"1 - No concern\")) +\n  coord_flip() +\n  likert_theme +\n  theme(legend.position = \"bottom\") +\n  guides(fill = guide_legend(reverse = TRUE, nrow =1))"
+  },
+  {
+    "objectID": "eod_intro.html#applications-in-the-social-sciences",
+    "href": "eod_intro.html#applications-in-the-social-sciences",
+    "title": "Introduction to Earth observation data",
+    "section": "Applications in the social sciences",
+    "text": "Applications in the social sciences\nA growing interest in economics and the social sciences in earth observation data has led to a broad thematic spectrum of publications in recent years. They range from studying environmental attitudes and behavior, economic development, the role of climate change for violent conflicts and causes of flight, and electoral behavior.\nArticles include (García-León et al., 2021; Hoffmann et al., 2022; Jean et al., 2016).\nNovel applications of machine learning (ML) on satellite and aerial imagery expand the potential of EO data for the construction of new indicators. Stanford’s DeepSolar, for example, maps solar PV installations."
+  },
+  {
+    "objectID": "eod_intro.html#sources",
+    "href": "eod_intro.html#sources",
+    "title": "Introduction to Earth Observation data",
+    "section": "Sources",
+    "text": "Sources"
+  },
+  {
+    "objectID": "courses.html#past-events",
+    "href": "courses.html#past-events",
+    "title": "Courses and workshops",
+    "section": "Past events",
+    "text": "Past events\n\nInternational Expert Workshop on “Earth Observation Data in the Social Sciences”, 13-15 December 2023 at GESIS - Leibniz Institute for Social Sciences. Check out a few impressions from the workshop in this video."
+  },
+  {
+    "objectID": "package.html#introduction",
+    "href": "package.html#introduction",
+    "title": "Package",
+    "section": "",
+    "text": "The unique feature of the tool should be the possibility of carrying out both geographically and temporally high-resolution queries of data from Copernicus and other Earth observation data sources, which at the same time function efficiently on simple workstations albeit large amounts of data. Our tested workflow development has identified five major levers: indicator type, indicator intensity, focal time period, baseline time period, and spatial buffer. Flexibility on these five attributes should be maximized for users. The tool also offers the functionality to automatically derive spatio-temporal links with other georeferenced data (e.g., surveys, digital behavioral data).\n\n\n\n\n\n\n\nUsers should benefit from the core variables integrated into the interface for social research. Preparatory work is currently being carried out to select appropriate indicators from the corpus of indicators offered by data providers and conceptualize the data integration logic. Furthermore, in exchange with users and other stakeholders, we compile data products from EOD that are particularly relevant for social scientists. Examples include data on local air quality and pollutants, extreme weather events, or land use changes. The main data providers will be the Copernicus Monitoring Services on Climate Change, Atmosphere, and Land.\n\n\n\nMajor attributes for indicator specification. Source: Abel and Jünger 2024\n\n\nGESIS strongly supports the FAIR data principles and Open Data. The selection of R as the programming language for the tool supports open-source infrastructure development and shareability, as well as quality control via online repositories. Publishing the R scripts for data management and analysis ensures the reproducibility of all research steps."
+  },
+  {
+    "objectID": "issp.html#eo-indicators",
+    "href": "issp.html#eo-indicators",
+    "title": "Case Study: Linking ISSP survey data",
+    "section": "EO indicators",
+    "text": "EO indicators\ntba\n\n\n\nMajor attributes for indicator specification. Source: Abel and Jünger 2024"
+  },
+  {
+    "objectID": "eod_intro.html#data-quality",
+    "href": "eod_intro.html#data-quality",
+    "title": "Introduction to Earth observation data",
+    "section": "Data quality",
+    "text": "Data quality\nData quality\nThe German Federal Statistical Office (DESTATIS) is currently evaluating the usage of remote sensing data for official statistical accounts in several projects as part of their experimental statistics.\n\nSmart business cycle statistics based on satellite data\nRemote sensing data and artifical intelligence in the register census\nSatellite-based early estimate of short-term economic development"
   }
 ]

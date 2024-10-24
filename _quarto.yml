@@ -8,7 +8,25 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - text: Tutorials
+        menu:
+          - href: eod_intro.qmd
+            text: Intro to EOD
+          - href: raster_data.qmd
+            text: Raster data
+          - href: issp.qmd
+            text: Case study ISSP
+      - href: package.qmd
+        text: Package
+      - href: courses.qmd
+        text: Courses
+      - href: articles.qmd
+        text: Articles
+      - href: about.qmd
+        text: About
+
+bibliography: bib/references.bib
+csl: bib/apa-single-spaced.csl
 
 format:
   html:
@@ -16,5 +34,10 @@ format:
     css: styles.css
     toc: true
 
-editor: visual
+editor: source
 
+execute:
+  echo: true
+  eval: true
+  warning: true
+  message: true
