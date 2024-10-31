@@ -8,6 +8,8 @@ tba
 
 ## Past events
 
+- Methods Primer on "**Working with Earth Observation data in R**", 31 October 2024, MethodsNET Launch Conference at UCLouvain, Belgium. The slides are accessible [here](slides/primer.html){target="_blank"}.
+
 - International Expert Workshop on "**Earth Observation Data in the Social Sciences**",
 13-15 December 2023 at GESIS - Leibniz Institute for Social Sciences. Check out
 a few impressions from the workshop in this [video](https://youtu.be/iW4onh38UmA).
