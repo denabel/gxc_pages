@@ -3,7 +3,11 @@ title: "About"
 ---
 
 ## GESIS
+GESIS is one of the world's leading infrastructure institutions for the social sciences and supports researchers with expertise and infrastructure services at all levels of their research projects. We help to ensure that socially relevant questions can be answered on the basis of reliable data, the latest scientific methods and research information. We help with study planning and data collection, provide high-quality research data, support with data processing and analysis and finally with archiving the data.
 
-## Project history
+[https://www.gesis.org/en](GESIS Homepage)
 
-## The research team
+## Team
+- [Dr. Dennis Abel](https://www.gesis.org/en/institute/about-us/staff/person/Dennis.Abel)
+
+- [Dr. Stefan Jünger](https://www.gesis.org/en/institute/about-us/staff/person/stefan.juenger)
