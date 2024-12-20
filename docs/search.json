@@ -109,7 +109,7 @@
     "href": "raster_data.html",
     "title": "Working with raster data in R",
     "section": "",
-    "text": "tba"
+    "text": "Hold information on (most of the time) evenly shaped grid cells\nBasically, a simple data table\neach cell represents one observation"
   },
   {
     "objectID": "raster_data.html#r-set-up",
@@ -243,5 +243,194 @@
     "title": "About",
     "section": "Team",
     "text": "Team\n\nDr. Dennis Abel\nDr. Stefan Jünger"
+  },
+  {
+    "objectID": "raster_data.html#what-exactly-are-raster-data",
+    "href": "raster_data.html#what-exactly-are-raster-data",
+    "title": "Working with raster data in R",
+    "section": "",
+    "text": "Hold information on (most of the time) evenly shaped grid cells\nBasically, a simple data table\neach cell represents one observation"
+  },
+  {
+    "objectID": "raster_data.html#metadata",
+    "href": "raster_data.html#metadata",
+    "title": "Working with raster data in R",
+    "section": "Metadata",
+    "text": "Metadata\n\nInformation about geometries is globally stored\nthey are the same for all observations\ntheir location in space is defined by their cell location in the data table\nWithout this information, raster data were simple image files"
+  },
+  {
+    "objectID": "raster_data.html#important-metadata",
+    "href": "raster_data.html#important-metadata",
+    "title": "Working with raster data in R",
+    "section": "Important Metadata",
+    "text": "Important Metadata\n\nRaster Dimensions\n\nnumber of columns, rows, and cells\n\nExtent\n\nSimilar to bounding box in vector data\n\nResolution\n\nthe size of each raster cell\n\nCoordinate reference system\n\ndefines where on the earth’s surface the raster layer lies"
+  },
+  {
+    "objectID": "raster_data.html#all-beginnings-are-easy",
+    "href": "raster_data.html#all-beginnings-are-easy",
+    "title": "Working with raster data in R",
+    "section": "All Beginnings Are… Easy!",
+    "text": "All Beginnings Are… Easy!\n\nterra::rast()\n\nclass       : SpatRaster \ndimensions  : 180, 360, 1  (nrow, ncol, nlyr)\nresolution  : 1, 1  (x, y)\nextent      : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)\ncoord. ref. : lon/lat WGS 84 (CRS84) (OGC:CRS84)"
+  },
+  {
+    "objectID": "raster_data.html#feed-with-data",
+    "href": "raster_data.html#feed-with-data",
+    "title": "Working with raster data in R",
+    "section": "Feed With Data",
+    "text": "Feed With Data\n\ninput_data &lt;- \n  sample(1:100, 16) |&gt; \n  matrix(nrow = 4)\n\nraster_layer &lt;- terra::rast(input_data)\n\nraster_layer\n\nclass       : SpatRaster \ndimensions  : 4, 4, 1  (nrow, ncol, nlyr)\nresolution  : 1, 1  (x, y)\nextent      : 0, 4, 0, 4  (xmin, xmax, ymin, ymax)\ncoord. ref. :  \nsource(s)   : memory\nname        : lyr.1 \nmin value   :     5 \nmax value   :    93"
+  },
+  {
+    "objectID": "raster_data.html#plotting",
+    "href": "raster_data.html#plotting",
+    "title": "Working with raster data in R",
+    "section": "Plotting",
+    "text": "Plotting\n\nterra::plot(raster_layer)"
+  },
+  {
+    "objectID": "raster_data.html#file-formatsextensions",
+    "href": "raster_data.html#file-formatsextensions",
+    "title": "Working with raster data in R",
+    "section": "File Formats/Extensions",
+    "text": "File Formats/Extensions\n\nGtiff/GeoTiff\nJPEG2000\nGRIB\n.grd\nnetCDF\n…\nsometimes, raster data come even in a text format, such as CSV"
+  },
+  {
+    "objectID": "raster_data.html#implementations-in-r",
+    "href": "raster_data.html#implementations-in-r",
+    "title": "Working with raster data in R",
+    "section": "Implementations in R",
+    "text": "Implementations in R\nAFAIK terra is the most commonly used package for raster data in R.\nSome other developments, e.g., in the stars package, also implement an interface to simple features in sf.\nThe terra package also helps to use more elaborate zonal statistics. The same holds for the spatstat package."
+  },
+  {
+    "objectID": "raster_data.html#basic-raster-operations",
+    "href": "raster_data.html#basic-raster-operations",
+    "title": "Working with raster data in R",
+    "section": "Basic Raster Operations",
+    "text": "Basic Raster Operations"
+  },
+  {
+    "objectID": "raster_data.html#loading-raster-tiffs-temperature-data",
+    "href": "raster_data.html#loading-raster-tiffs-temperature-data",
+    "title": "Working with raster data in R",
+    "section": "Loading Raster Tiffs (temperature data)",
+    "text": "Loading Raster Tiffs (temperature data)\n\ntemp_6_2019 &lt;-\n  terra::rast(\"./data/temp_6_2019.tif\")\n\ntemp_7_2019 &lt;-\n  terra::rast(\"./data/temp_7_2019.tif\")\n\ntemp_6_2019\n\nclass       : SpatRaster \ndimensions  : 561, 1440, 1  (nrow, ncol, nlyr)\nresolution  : 0.25, 0.25  (x, y)\nextent      : -180.125, 179.875, -56.125, 84.125  (xmin, xmax, ymin, ymax)\ncoord. ref. : lon/lat WGS 84 (EPSG:4326) \nsource      : temp_6_2019.tif \nname        : SFC (Ground or water surface); 2 metre temperature [C] \nmin value   :                                               258.1914 \nmax value   :                                               313.1426"
+  },
+  {
+    "objectID": "raster_data.html#compare-layers-by-plotting",
+    "href": "raster_data.html#compare-layers-by-plotting",
+    "title": "Working with raster data in R",
+    "section": "Compare Layers by Plotting",
+    "text": "Compare Layers by Plotting\n\nterra::plot(temp_6_2019)\n\n\n\n\n\n\n\n\n\nterra::plot(temp_7_2019)"
+  },
+  {
+    "objectID": "raster_data.html#simple-statistics",
+    "href": "raster_data.html#simple-statistics",
+    "title": "Working with raster data in R",
+    "section": "Simple Statistics",
+    "text": "Simple Statistics\nWorking with raster data is straightforward - quite speedy - yet not as comfortable as working with sf objects\nFor example, to calculate the mean we would use:\n\nterra::global(temp_6_2019, fun = \"mean\", na.rm = TRUE)\n\n                                                           mean\nSFC (Ground or water surface); 2 metre temperature [C] 289.9985"
+  },
+  {
+    "objectID": "raster_data.html#combining-raster-layers-to-calculate-new-values",
+    "href": "raster_data.html#combining-raster-layers-to-calculate-new-values",
+    "title": "Working with raster data in R",
+    "section": "Combining Raster Layers to Calculate New Values",
+    "text": "Combining Raster Layers to Calculate New Values\nAlthough raster data are simple data tables, working with them is a bit different compared to, e.g., simple features.\n\ntemp_6_2019_celsius &lt;-\n  temp_6_2019 - 273.15\n\ntemp_7_2019_celsius &lt;-\n  temp_7_2019 - 273.15\n\ntemp_6_2019_celsius\n\nclass       : SpatRaster \ndimensions  : 561, 1440, 1  (nrow, ncol, nlyr)\nresolution  : 0.25, 0.25  (x, y)\nextent      : -180.125, 179.875, -56.125, 84.125  (xmin, xmax, ymin, ymax)\ncoord. ref. : lon/lat WGS 84 (EPSG:4326) \nsource(s)   : memory\nvarname     : temp_6_2019 \nname        : SFC (Ground or water surface); 2 metre temperature [C] \nmin value   :                                              -14.95859 \nmax value   :                                               39.99258"
+  },
+  {
+    "objectID": "raster_data.html#combining-raster-layers-to-calculate-new-values-1",
+    "href": "raster_data.html#combining-raster-layers-to-calculate-new-values-1",
+    "title": "Working with raster data in R",
+    "section": "Combining Raster Layers to Calculate New Values",
+    "text": "Combining Raster Layers to Calculate New Values\nAlthough raster data are simple data tables, working with them is a bit different compared to, e.g., simple features.\n\ntemp_diff &lt;-\n  temp_7_2019 - temp_6_2019\n\ntemp_diff\n\nclass       : SpatRaster \ndimensions  : 561, 1440, 1  (nrow, ncol, nlyr)\nresolution  : 0.25, 0.25  (x, y)\nextent      : -180.125, 179.875, -56.125, 84.125  (xmin, xmax, ymin, ymax)\ncoord. ref. : lon/lat WGS 84 (EPSG:4326) \nsource(s)   : memory\nvarname     : temp_7_2019 \nname        : SFC (Ground or water surface); 2 metre temperature [C] \nmin value   :                                              -6.845703 \nmax value   :                                              12.255859"
+  },
+  {
+    "objectID": "raster_data.html#subsetting-raster-layers",
+    "href": "raster_data.html#subsetting-raster-layers",
+    "title": "Working with raster data in R",
+    "section": "‘Subsetting’ Raster Layers",
+    "text": "‘Subsetting’ Raster Layers\nWe can subset vector data by simply filtering for specific attribute values. For example, to subset a world map only to Belgium, we can use the Tidyverse for sf data:\n\nworld &lt;- rnaturalearth::ne_countries(\n  scale = \"medium\", \n  returnclass = \"sf\")\n\n# Subset to relevant variables\nworld &lt;- world |&gt; \n  dplyr::select(admin, geometry)\n\n# Subset to Belgium\nbelgium &lt;- world |&gt; \n  dplyr::filter(admin == \"Belgium\")\n\nsf::st_geometry(belgium)\n\nGeometry set for 1 feature \nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: 2.524902 ymin: 49.51089 xmax: 6.364453 ymax: 51.49111\nGeodetic CRS:  WGS 84\n\n\nMULTIPOLYGON (((4.226172 51.38647, 4.304492 51...."
+  },
+  {
+    "objectID": "raster_data.html#cropping",
+    "href": "raster_data.html#cropping",
+    "title": "Working with raster data in R",
+    "section": "Cropping",
+    "text": "Cropping\nCropping is a method of cutting out a specific slice of a raster layer based on an input dataset or geospatial extent, such as a bounding box. Cropping reduces the spatial extent of a raster to a specified rectangular bounding box.\n\ncropped_temp_6_2019 &lt;-\n  terra::crop(temp_6_2019_celsius, belgium)"
+  },
+  {
+    "objectID": "raster_data.html#masking",
+    "href": "raster_data.html#masking",
+    "title": "Working with raster data in R",
+    "section": "Masking",
+    "text": "Masking\nMasking is similar to cropping, yet values outside the extent are set to missing values (NA). Masking creates a precise match between the spatial extent of your shape and the raster values.\n\nmasked_temp_6_2019 &lt;-\n  raster::mask(temp_6_2019_celsius, terra::vect(belgium))"
+  },
+  {
+    "objectID": "raster_data.html#combining-cropping-and-masking",
+    "href": "raster_data.html#combining-cropping-and-masking",
+    "title": "Working with raster data in R",
+    "section": "Combining Cropping and Masking",
+    "text": "Combining Cropping and Masking\nCropping first and masking afterwards combines both processes.\n\ntemp_6_2019_belgium &lt;-\n  terra::crop(temp_6_2019_celsius, belgium) |&gt; \n  raster::mask(terra::vect(belgium))\n\n\n\nBreaking News: tmap 3.x is retiring. Please test v4, e.g. with\nremotes::install_github('r-tmap/tmap')"
+  },
+  {
+    "objectID": "raster_data.html#raster-extraction-zonal-statistics",
+    "href": "raster_data.html#raster-extraction-zonal-statistics",
+    "title": "Working with raster data in R",
+    "section": "Raster Extraction / Zonal statistics",
+    "text": "Raster Extraction / Zonal statistics"
+  },
+  {
+    "objectID": "raster_data.html#sampling-of-some-points",
+    "href": "raster_data.html#sampling-of-some-points",
+    "title": "Working with raster data in R",
+    "section": "Sampling of some points",
+    "text": "Sampling of some points\n\nrandom_points &lt;-\n  temp_6_2019_belgium |&gt; \n  terra::spatSample(size = 10, na.rm = TRUE, as.points = TRUE) |&gt; \n  sf::st_as_sf() |&gt; \n  dplyr::select(-1)\n\n\nplot(random_points)"
+  },
+  {
+    "objectID": "raster_data.html#extract-information-from-rasters",
+    "href": "raster_data.html#extract-information-from-rasters",
+    "title": "Working with raster data in R",
+    "section": "Extract Information From Rasters",
+    "text": "Extract Information From Rasters\nRaster data are helpful when we aim to - apply calculations that are the same for all geometries in the dataset - extract information from raster fast and efficient\n\nlibrary(tmap)\n\ntm_shape(temp_6_2019_belgium) +\n  tm_raster() +\n  tm_shape(belgium) +\n  tm_borders(col = \"black\", lwd = 2) +\n  tm_shape(random_points) +\n  tm_dots(size = .25)"
+  },
+  {
+    "objectID": "raster_data.html#raster-extraction",
+    "href": "raster_data.html#raster-extraction",
+    "title": "Working with raster data in R",
+    "section": "Raster Extraction",
+    "text": "Raster Extraction\nTo extract the raster values at a specific point by location, we use the following:\n\nterra::extract(temp_6_2019_belgium, random_points, ID = FALSE)\n\n   SFC (Ground or water surface); 2 metre temperature [C]\n1                                                18.34414\n2                                                17.61172\n3                                                17.94180\n4                                                18.66055\n5                                                17.19375\n6                                                18.12148\n7                                                18.82852\n8                                                19.13711\n9                                                19.34609\n10                                               18.19375"
+  },
+  {
+    "objectID": "raster_data.html#add-results-to-existing-dataset",
+    "href": "raster_data.html#add-results-to-existing-dataset",
+    "title": "Working with raster data in R",
+    "section": "Add Results to Existing Dataset",
+    "text": "Add Results to Existing Dataset\nThis information can be added to an existing dataset (our points in this example):\n\nrandom_points &lt;-\n  random_points |&gt; \n  dplyr::mutate(\n    temp_value = \n      as.vector(\n        terra::extract(temp_6_2019_belgium, random_points, ID = FALSE, raw = TRUE)\n      )\n  )\n\nrandom_points\n\nSimple feature collection with 10 features and 1 field\nGeometry type: POINT\nDimension:     XY\nBounding box:  xmin: 3.25 ymin: 49.75 xmax: 6.25 ymax: 51.25\nGeodetic CRS:  WGS 84\n             geometry temp_value\n1     POINT (4.25 51)   18.34414\n2      POINT (4.5 50)   17.61172\n3   POINT (3.25 50.5)   17.94180\n4  POINT (4.75 51.25)   18.66055\n5  POINT (6.25 50.25)   17.19375\n6  POINT (4.75 49.75)   18.12148\n7  POINT (5.75 50.75)   18.82852\n8     POINT (5.25 51)   19.13711\n9      POINT (5.5 51)   19.34609\n10 POINT (4.25 50.75)   18.19375"
+  },
+  {
+    "objectID": "raster_data.html#more-elaborated-spatial-buffers",
+    "href": "raster_data.html#more-elaborated-spatial-buffers",
+    "title": "Working with raster data in R",
+    "section": "More Elaborated: Spatial Buffers",
+    "text": "More Elaborated: Spatial Buffers\nSometimes, extracting information 1:1 is not enough - too narrow - missing information about the surroundings of a point\n\ntm_shape(temp_6_2019_belgium) +\n  tm_raster() +\n  tm_shape(\n    sf::st_buffer(random_points, 5000) \n  ) +\n  tm_dots(size = .1) +\n  tm_borders()"
+  },
+  {
+    "objectID": "raster_data.html#a-closer-look",
+    "href": "raster_data.html#a-closer-look",
+    "title": "Working with raster data in R",
+    "section": "A Closer Look",
+    "text": "A Closer Look\n\nJünger, 2021"
+  },
+  {
+    "objectID": "raster_data.html#raster-stacks",
+    "href": "raster_data.html#raster-stacks",
+    "title": "Working with raster data in R",
+    "section": "Raster Stacks",
+    "text": "Raster Stacks\nSo far, raster data have been unidimensional: we only had one attribute for each dataset.\nBut they can also be stacked:\n\ntemp_stack &lt;- c(temp_6_2019, temp_7_2019)\n\ntemp_stack\n\nclass       : SpatRaster \ndimensions  : 561, 1440, 2  (nrow, ncol, nlyr)\nresolution  : 0.25, 0.25  (x, y)\nextent      : -180.125, 179.875, -56.125, 84.125  (xmin, xmax, ymin, ymax)\ncoord. ref. : lon/lat WGS 84 (EPSG:4326) \nsources     : temp_6_2019.tif  \n              temp_7_2019.tif  \nnames       : SFC (Ground or ~temperature [C], SFC (Ground or ~temperature [C] \nmin values  :                        258.1914,                        258.7051 \nmax values  :                        313.1426,                        314.7812"
+  },
+  {
+    "objectID": "raster_data.html#magic-of-data-cubes-in-the-stars-package",
+    "href": "raster_data.html#magic-of-data-cubes-in-the-stars-package",
+    "title": "Working with raster data in R",
+    "section": "Magic of Data Cubes In the stars Package",
+    "text": "Magic of Data Cubes In the stars Package\n\nhttps://raw.githubusercontent.com/r-spatial/stars/master/images/cube2.png"
   }
 ]

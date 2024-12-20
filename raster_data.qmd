@@ -2,10 +2,366 @@
 title: "Working with raster data in R"
 ---
 
-## R set up
+## What Exactly Are Raster Data?
 
-tba
+- Hold information on (most of the time) evenly shaped grid cells
+- Basically, a simple data table
+- each cell represents one observation
 
-## Example 1
+![](./images/table_to_raster.png)
 
-tba
+## Metadata
+
+- Information about geometries is globally stored
+- they are the same for all observations
+- their location in space is defined by their cell location in the data table
+- Without this information, raster data were simple image files
+
+
+
+## Important Metadata
+
+- Raster Dimensions
+  - number of columns, rows, and cells
+- Extent
+  - Similar to bounding box in vector data
+- Resolution
+  - the size of each raster cell
+- Coordinate reference system
+  - defines where on the earth's surface the raster layer lies
+
+
+
+## All Beginnings Are... Easy!
+
+```{r create-empty-raster}
+terra::rast()
+```
+
+
+
+## Feed With Data
+
+```{r fill-raster}
+input_data <- 
+  sample(1:100, 16) |> 
+  matrix(nrow = 4)
+
+raster_layer <- terra::rast(input_data)
+
+raster_layer
+```
+
+
+
+## Plotting
+
+```{r plot-raster, out.width = "60%"}
+terra::plot(raster_layer)
+```
+
+
+
+## File Formats/Extensions
+
+- Gtiff/GeoTiff
+- JPEG2000
+- GRIB
+- .grd
+- netCDF
+- ...
+- sometimes, raster data come even in a text format, such as CSV
+
+
+
+## Implementations in `R`
+
+AFAIK `terra` is the most commonly used package for raster data in `R`.
+
+Some other developments, e.g., in the `stars` package, also implement an interface to simple features in `sf`.
+
+The `terra` package also helps to use more elaborate zonal statistics. The same holds for the `spatstat` package.
+
+
+
+## Basic Raster Operations
+
+
+
+## Loading Raster Tiffs (temperature data)
+
+```{r temperature}
+temp_6_2019 <-
+  terra::rast("./data/temp_6_2019.tif")
+
+temp_7_2019 <-
+  terra::rast("./data/temp_7_2019.tif")
+
+temp_6_2019
+```
+
+
+## Compare Layers by Plotting
+
+
+```{r plot-temperature-june}
+terra::plot(temp_6_2019)
+```
+
+```{r plot-temperature-july}
+terra::plot(temp_7_2019)
+```
+
+
+## Simple Statistics
+
+Working with raster data is straightforward
+- quite speedy
+- yet not as comfortable as working with `sf` objects
+
+For example, to calculate the mean we would use:
+
+```{r cellstats-mean}
+terra::global(temp_6_2019, fun = "mean", na.rm = TRUE)
+```
+
+
+
+## Combining Raster Layers to Calculate New Values
+
+Although raster data are simple data tables, working with them is a bit different compared to, e.g., simple features.
+
+
+```{r transforming-raster-layers}
+temp_6_2019_celsius <-
+  temp_6_2019 - 273.15
+
+temp_7_2019_celsius <-
+  temp_7_2019 - 273.15
+
+temp_6_2019_celsius
+```
+
+
+
+```{r transformed-raster-plot, echo = FALSE}
+terra::plot(temp_6_2019_celsius)
+```
+
+## Combining Raster Layers to Calculate New Values
+
+Although raster data are simple data tables, working with them is a bit different compared to, e.g., simple features.
+
+```{r combining-raster-layers}
+temp_diff <-
+  temp_7_2019 - temp_6_2019
+
+temp_diff
+```
+
+```{r combined-raster-plot, echo = FALSE}
+terra::plot(temp_diff)
+```
+
+## 'Subsetting' Raster Layers
+
+We can subset vector data by simply filtering for specific attribute values. 
+For example, to subset a world map only to Belgium, we can use the `Tidyverse` for `sf` data:
+
+
+```{r belgium}
+world <- rnaturalearth::ne_countries(
+  scale = "medium", 
+  returnclass = "sf")
+
+# Subset to relevant variables
+world <- world |> 
+  dplyr::select(admin, geometry)
+
+# Subset to Belgium
+belgium <- world |> 
+  dplyr::filter(admin == "Belgium")
+
+sf::st_geometry(belgium)
+
+```
+
+
+```{r plot-deutz, echo = FALSE}
+tmap::tm_shape(belgium) +
+  tmap::tm_borders()
+```
+
+## Cropping
+
+Cropping is a method of cutting out a specific `slice` of a raster layer based 
+on an input dataset or geospatial extent, such as a bounding box. Cropping 
+reduces the spatial extent of a raster to a specified rectangular bounding box. 
+
+
+```{r crop-raster}
+cropped_temp_6_2019 <-
+  terra::crop(temp_6_2019_celsius, belgium)
+```
+
+```{r crop-raster-map, echo = FALSE}
+terra::plot(cropped_temp_6_2019)
+```
+
+
+
+
+## Masking
+
+Masking is similar to cropping, yet values outside the extent are set to 
+missing values (`NA`). Masking creates a precise match between the spatial extent
+of your shape and the raster values.
+
+```{r mask-raster}
+masked_temp_6_2019 <-
+  raster::mask(temp_6_2019_celsius, terra::vect(belgium))
+```
+```{r mask-raster-map, echo = FALSE}
+terra::plot(masked_temp_6_2019)
+```
+
+
+
+
+## Combining Cropping and Masking
+
+Cropping first and masking afterwards combines both processes.
+
+```{r crop-mask-raster}
+temp_6_2019_belgium <-
+  terra::crop(temp_6_2019_celsius, belgium) |> 
+  raster::mask(terra::vect(belgium))
+```
+
+
+
+```{r crop-mask-raster-map, echo = FALSE}
+library(tmap)
+
+tm_shape(temp_6_2019_belgium) +
+  tm_raster()
+```
+
+
+
+
+## Raster Extraction / Zonal statistics
+
+
+## Sampling of some points
+
+```{r random-points}
+random_points <-
+  temp_6_2019_belgium |> 
+  terra::spatSample(size = 10, na.rm = TRUE, as.points = TRUE) |> 
+  sf::st_as_sf() |> 
+  dplyr::select(-1)
+```
+
+
+```{r plot-random-points}
+plot(random_points)
+```
+
+## Extract Information From Rasters
+
+Raster data are helpful when we aim to
+- apply calculations that are the same for all geometries in the dataset
+- **extract information from raster fast and efficient**
+
+
+```{r plot-raster-extraction}
+library(tmap)
+
+tm_shape(temp_6_2019_belgium) +
+  tm_raster() +
+  tm_shape(belgium) +
+  tm_borders(col = "black", lwd = 2) +
+  tm_shape(random_points) +
+  tm_dots(size = .25)
+```
+
+
+
+
+## Raster Extraction
+
+To extract the raster values at a specific point by location, we use the following:
+
+```{r raster-extraction}
+terra::extract(temp_6_2019_belgium, random_points, ID = FALSE)
+```
+
+
+
+## Add Results to Existing Dataset
+
+This information can be added to an existing dataset (our points in this example):
+
+```{r add-results}
+random_points <-
+  random_points |> 
+  dplyr::mutate(
+    temp_value = 
+      as.vector(
+        terra::extract(temp_6_2019_belgium, random_points, ID = FALSE, raw = TRUE)
+      )
+  )
+
+random_points
+```
+
+
+
+## More Elaborated: Spatial Buffers
+
+Sometimes, extracting information 1:1 is not enough
+- too narrow
+- missing information about the surroundings of a point
+
+```{r plot-buffer-extraction, out.width = "75%"}
+tm_shape(temp_6_2019_belgium) +
+  tm_raster() +
+  tm_shape(
+    sf::st_buffer(random_points, 5000) 
+  ) +
+  tm_dots(size = .1) +
+  tm_borders()
+```
+
+
+## A Closer Look
+
+![](./images/FIGURE_1.png)
+
+Jünger, 2021
+
+
+
+## Raster Stacks
+
+So far, raster data have been unidimensional: we only had one attribute for each dataset.
+
+But they can also be stacked:
+
+```{r raster-stack}
+temp_stack <- c(temp_6_2019, temp_7_2019)
+
+temp_stack
+```
+
+
+
+
+
+## Magic of Data Cubes In the `stars` Package
+
+
+![](./images/cube2.png)
+
+https://raw.githubusercontent.com/r-spatial/stars/master/images/cube2.png
