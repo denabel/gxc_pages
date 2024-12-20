@@ -11,7 +11,7 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "About this site\n\n1 + 1\n\n[1] 2"
+    "text": "GESIS is one of the world’s leading infrastructure institutions for the social sciences and supports researchers with expertise and infrastructure services at all levels of their research projects. We help to ensure that socially relevant questions can be answered on the basis of reliable data, the latest scientific methods and research information. We help with study planning and data collection, provide high-quality research data, support with data processing and analysis and finally with archiving the data.\nhttps://www.gesis.org/en"
   },
   {
     "objectID": "index.html#welcome-to-my-package",
@@ -53,21 +53,21 @@
     "href": "articles.html",
     "title": "Articles",
     "section": "",
-    "text": "tba"
+    "text": "Abel, Dennis, Manuel Linsenmeier & Stefan Jünger. “GeoCliP-GER - A georeferenced local climate policy database for Germany”\nAbel, Dennis & Stefan Jünger. “How flooding events shape subjective risk perceptions and climate change opinion”\nJünger, Stefan, Dennis Abel & Anne Stroppe. “The uncertain geographic context problem and the unknown effect of extreme weather on climate change attitudes”"
   },
   {
     "objectID": "articles.html#working-papers",
     "href": "articles.html#working-papers",
     "title": "Articles",
     "section": "",
-    "text": "tba"
+    "text": "Abel, Dennis, Manuel Linsenmeier & Stefan Jünger. “GeoCliP-GER - A georeferenced local climate policy database for Germany”\nAbel, Dennis & Stefan Jünger. “How flooding events shape subjective risk perceptions and climate change opinion”\nJünger, Stefan, Dennis Abel & Anne Stroppe. “The uncertain geographic context problem and the unknown effect of extreme weather on climate change attitudes”"
   },
   {
     "objectID": "articles.html#published",
     "href": "articles.html#published",
     "title": "Articles",
     "section": "Published",
-    "text": "Published\ntba"
+    "text": "Published"
   },
   {
     "objectID": "about.html#project-history",
@@ -81,7 +81,7 @@
     "href": "about.html#the-research-team",
     "title": "About",
     "section": "The research team",
-    "text": "The research team"
+    "text": "The research team\n\nDr. Dennis Abel\nDr. Stefan Jünger"
   },
   {
     "objectID": "eod_intro.html",
@@ -207,7 +207,7 @@
     "href": "courses.html#past-events",
     "title": "Courses and workshops",
     "section": "Past events",
-    "text": "Past events\n\nInternational Expert Workshop on “Earth Observation Data in the Social Sciences”, 27-29 November 2023 at GESIS - Leibniz Institute for Social Sciences.\nMethods Primer on “Working with Earth Observation data in R”, 31 October 2024, MethodsNET Launch Conference at UCLouvain, Belgium. The slides are accessible here.\nGESIS Workshop on Geospatial Techniques for Social Scientists in R, including matters relevant for Earth Observation Data, April 23/24 2024. All the materials are accessible here\nInternational Expert Workshop on “Earth Observation Data in the Social Sciences”, 13-15 December 2023 at GESIS - Leibniz Institute for Social Sciences. Check out a few impressions from the workshop in this video."
+    "text": "Past events\n\nInternational Expert Workshop on “Earth Observation Data in the Social Sciences”, 27-29 November 2023 at GESIS - Leibniz Institute for Social Sciences.\nMethods Primer on “Working with Earth Observation data in R”, 31 October 2024, MethodsNET Launch Conference at UCLouvain, Belgium. The slides are accessible here.\nGESIS Workshop on “Introduction to Geospatial Techniques for Social Scientists in R”, including matters relevant for Earth Observation Data, April 23/24 2024. All the materials are accessible here\nInternational Expert Workshop on “Earth Observation Data in the Social Sciences”, 13-15 December 2023 at GESIS - Leibniz Institute for Social Sciences. Check out a few impressions from the workshop in this video."
   },
   {
     "objectID": "package.html#introduction",
@@ -229,5 +229,19 @@
     "title": "Introduction to Earth observation data",
     "section": "Data quality",
     "text": "Data quality\nData quality\nThe German Federal Statistical Office (DESTATIS) is currently evaluating the usage of remote sensing data for official statistical accounts in several projects as part of their experimental statistics.\n\nSmart business cycle statistics based on satellite data\nRemote sensing data and artifical intelligence in the register census\nSatellite-based early estimate of short-term economic development"
+  },
+  {
+    "objectID": "about.html#gesis",
+    "href": "about.html#gesis",
+    "title": "About",
+    "section": "",
+    "text": "GESIS is one of the world’s leading infrastructure institutions for the social sciences and supports researchers with expertise and infrastructure services at all levels of their research projects. We help to ensure that socially relevant questions can be answered on the basis of reliable data, the latest scientific methods and research information. We help with study planning and data collection, provide high-quality research data, support with data processing and analysis and finally with archiving the data.\nhttps://www.gesis.org/en"
+  },
+  {
+    "objectID": "about.html#team",
+    "href": "about.html#team",
+    "title": "About",
+    "section": "Team",
+    "text": "Team\n\nDr. Dennis Abel\nDr. Stefan Jünger"
   }
 ]

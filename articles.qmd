@@ -4,8 +4,14 @@ title: "Articles"
 
 ## Working papers
 
-tba
+- Abel, Dennis & Stefan Jünger. "**Earth Observation Data in the Social Sciences - Opportunities and Limitations**"
+
+- Abel, Dennis, Manuel Linsenmeier & Stefan Jünger. "**GeoCliP-GER - A georeferenced local climate policy database for Germany**"
+
+- Abel, Dennis & Stefan Jünger. "**How flooding events shape subjective risk perceptions and climate change opinion**"
+
+- Jünger, Stefan, Dennis Abel & Anne Stroppe. "**The uncertain geographic context problem and the unknown effect of extreme weather on climate change attitudes**"
 
 ## Published
 
-tba
+
