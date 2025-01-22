@@ -4,7 +4,7 @@ title: "Working with raster data in R"
 
 ## What Exactly Are Raster Data?
 
-![Let's code!](images/cat_scientist.png){ width=60% align=center }
+![Let's code (AI generated image)!](images/cat_scientist.png){ width=60% align=center }
 
 ## What Exactly Are Raster Data?
 

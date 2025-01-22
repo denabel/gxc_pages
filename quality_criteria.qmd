@@ -1,0 +1,6 @@
+---
+title: "EO data quality criteria"
+---
+
+## What is Earth observation data?
+

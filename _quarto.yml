@@ -11,7 +11,9 @@ website:
       - text: Tutorials
         menu:
           - href: eod_intro.qmd
-            text: Intro to EOD
+            text: Intro to EO data
+          - href: quality_criteria.qmd
+            text: Quality criteria
           - href: raster_data.qmd
             text: Raster data
           - href: issp.qmd
@@ -24,6 +26,8 @@ website:
         text: Articles
       - href: about.qmd
         text: About
+      - href: imprint.qmd
+        text: Imprint
 
 bibliography: bib/references.bib
 csl: bib/apa-single-spaced.csl
