@@ -166,7 +166,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-is-earth-observation-data" id="toc-what-is-earth-observation-data" class="nav-link active" data-scroll-target="#what-is-earth-observation-data">What is Earth observation data?</a></li>
+  <li><a href="#major-attributes-of-eo-datasets" id="toc-major-attributes-of-eo-datasets" class="nav-link active" data-scroll-target="#major-attributes-of-eo-datasets">Major attributes of EO datasets</a></li>
   </ul>
 </nav>
     </div>
@@ -192,8 +192,18 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="what-is-earth-observation-data" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-earth-observation-data">What is Earth observation data?</h2>
+<section id="major-attributes-of-eo-datasets" class="level2">
+<h2 class="anchored" data-anchor-id="major-attributes-of-eo-datasets">Major attributes of EO datasets</h2>
+<p>The list below summarizes the most important data quality criteria for EO data:</p>
+<ul>
+<li><strong>Parameter type</strong>: Measuring the specific indicator of interest. This could be for example values of nighttime lights, GHG emissions like CO2 or CH4 from the <a href="https://edgar.jrc.ec.europa.eu/">Emission Database for Global Atmospheric Research (EDGAR)</a>, or landscape values like NDVI.</li>
+<li><strong>Spatial resolution</strong>: The spatial resolution reports the granularity of the data. Finer granularity stores more detailed information on the parameter. For gridded data, and depending on the measurement framework, the spatial resolution is either reported in angular units (degrees) that represent longitude and latitude in a spherical coordinate system or square (kilo-)meters projected into Cartesian coordinate systems. High-resolution airborne monitoring, for example, achieves a spatial resolution at or below 1x1m. Publicly available data products derived from satellite data are often much more coarse with values of 1x1km or larger, like the <a href="https://odiac.org/index.html">Open-source Data Inventory for Anthropogenic CO2 (ODIAC)</a>. The spatial resolution of georeferenced data which is stored in vector-format refers to the detailedness and aggregation level of data in points, lines, and polygons. For example, is pollution data stored for each individual emitting factory in point location or as regional or national averages?</li>
+<li><strong>Spatial coverage</strong>: The spatial coverage (or scope) refers to the extensiveness of data across the globe. The delineation of coverage can be based on the exact spatial extent of gridded data, or on administrative units like regions and countries.</li>
+<li><strong>Temporal resolution</strong>: Similar to the spatial resolution, the temporal resolution records the intervalls at which information is stored. (Near-)real-time data from public sources have hourly or daily intervals. Many datasets also provide monthly or yearly averages.</li>
+<li><strong>Temporal coverage</strong>: The temporal coverage (scope) means the time period, which is covered by the dataset. Given that many remote sensing and satellite programs have emerged only recently, the temporal coverage of <strong>observational</strong> data is limited. Fortunately, <a href="https://climate.copernicus.eu/climate-reanalysis">reanalysis</a> programs, simulation studies, and data fusion projects have extended the historical coverage of many EO indicators considerably. Check out, for example, the <a href="https://www.pnnl.gov/projects/ceds">Community Emissions Data System (CEDS)</a>, which has produced annual estimates of several anthropogenic emission species over the entire industrial period from 1750!</li>
+<li><strong>Measurement type</strong>: EO data can be collected through different channels. Bottom-up approaches like direct reporting of emissions based on in-situ sensors or estimations of point sources can offer high accuracy but often lack broad coverage. In contrast, top-down approaches based on remote sensing can generate global coverage at risk of accuracy issues. Many data products integrate different data sources and apply additional techniques to increase data quality through simulation studies, data fusion, or reanalysis.</li>
+<li><strong>Processing level</strong>: The processing level describes how much pre-processing of the original raw data has been involved. Levels are often classified from 0 (raw) to 4 (model output). As endusers, we are normally accessing data products at level 2 or 3, which represent derived geophysical variables mapped on uniform space-time grid scales and checked for completeness and consistency. For more information, see NASA’s description <a href="https://www.earthdata.nasa.gov/learn/earth-observation-data-basics/data-processing-levels">here</a></li>
+</ul>
 
 
 </section>
