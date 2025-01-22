@@ -18,14 +18,20 @@ website:
             text: Raster data
           - href: issp.qmd
             text: Case study ISSP
-      - href: package.qmd
-        text: Package
+      - text: Software
+        menu:
+          - href: package.qmd
+            text: gxc package
+          - href: catalogue.qmd
+            text: Indicators
       - href: courses.qmd
         text: Courses
       - href: articles.qmd
         text: Articles
       - href: about.qmd
         text: About
+      - href: mailinglist.qmd
+        text: Mailing list
       - href: imprint.qmd
         text: Imprint
 

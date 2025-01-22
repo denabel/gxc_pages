@@ -46,7 +46,8 @@ Below, you will find more information about navigation on this page.
 On top, you find the following tabs:
 
 - **Tutorials**: Check out our tutorials and learning material
-- **Package**: Documentation for the gxc-package
+- **Software**: Documentation for the gxc-package
 - **Courses**: Check out our upcoming and past courses and workshops
 - **Articles**: Lists published and ongoing research based on GxC
 - **About**: Information on GESIS, the research team and the project history
+- **Mailing list**: Sign up for the EOSS mailing list
