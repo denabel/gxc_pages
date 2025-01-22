@@ -4,6 +4,10 @@ title: "Working with raster data in R"
 
 ## What Exactly Are Raster Data?
 
+![Let's code!](images/cat_scientist.png){ width=60% align=center }
+
+## What Exactly Are Raster Data?
+
 - Hold information on (most of the time) evenly shaped grid cells
 - Basically, a simple data table
 - each cell represents one observation

@@ -7,6 +7,8 @@ title: "Case Study: Linking ISSP survey data"
 For this case study, we are working with the cumulation of the environment module
 of the ISSP survey programme.
 
+![Integrating a global survey with EO data](images/cat_measure.png){ width=60% align=center }
+
 ## Setup
 
 For loading and wrangling with the data, we need some packages. Keep in mind

@@ -4,6 +4,8 @@ title: "Introduction to Earth observation data"
 
 ## What is Earth observation data?
 
+![Journey into EO data for social scientists.](images/EO_cats.png){ width=60% align=center }
+
 Earth observation (EO) data refers to all collected information about the Earth's
 physical, chemical, and biological systems. Utilizing Earth observation data
 allows to study the Earth's atmosphere, land cover, oceans and inland waters,
@@ -101,6 +103,8 @@ the potential of EO data for the construction of new indicators. Stanford's
 [DeepSolar](https://deepsolar.web.app/), for example, maps solar PV installations.
 
 ## Relevant sources of Earth observation data
+
+![Where do we get EO data?](images/cat_api.png){ width=60% align=center }
 
 Europe's Earth Observation programme is called [Copernicus](https://www.copernicus.eu/en).
 It is funded and managed by the European Commission and partners like the 
