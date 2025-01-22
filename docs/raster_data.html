@@ -299,8 +299,8 @@ extent      : 0, 4, 0, 4  (xmin, xmax, ymin, ymax)
 coord. ref. :  
 source(s)   : memory
 name        : lyr.1 
-min value   :     5 
-max value   :    93 </code></pre>
+min value   :     1 
+max value   :   100 </code></pre>
 </div>
 </div>
 </section>
@@ -606,16 +606,16 @@ remotes::install_github('r-tmap/tmap')</code></pre>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">extract</span>(temp_6_2019_belgium, random_points, <span class="at">ID =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   SFC (Ground or water surface); 2 metre temperature [C]
-1                                                18.34414
-2                                                17.61172
-3                                                17.94180
+1                                                18.03359
+2                                                19.04922
+3                                                17.81094
 4                                                18.66055
-5                                                17.19375
-6                                                18.12148
-7                                                18.82852
-8                                                19.13711
-9                                                19.34609
-10                                               18.19375</code></pre>
+5                                                18.36953
+6                                                17.66836
+7                                                17.68398
+8                                                17.84023
+9                                                19.52969
+10                                               18.04531</code></pre>
 </div>
 </div>
 </section>
@@ -637,19 +637,19 @@ remotes::install_github('r-tmap/tmap')</code></pre>
 <pre><code>Simple feature collection with 10 features and 1 field
 Geometry type: POINT
 Dimension:     XY
-Bounding box:  xmin: 3.25 ymin: 49.75 xmax: 6.25 ymax: 51.25
+Bounding box:  xmin: 3.5 ymin: 49.75 xmax: 6 ymax: 51.25
 Geodetic CRS:  WGS 84
              geometry temp_value
-1     POINT (4.25 51)   18.34414
-2      POINT (4.5 50)   17.61172
-3   POINT (3.25 50.5)   17.94180
+1    POINT (3.5 50.5)   18.03359
+2  POINT (5.25 51.25)   19.04922
+3  POINT (4.75 50.25)   17.81094
 4  POINT (4.75 51.25)   18.66055
-5  POINT (6.25 50.25)   17.19375
-6  POINT (4.75 49.75)   18.12148
-7  POINT (5.75 50.75)   18.82852
-8     POINT (5.25 51)   19.13711
-9      POINT (5.5 51)   19.34609
-10 POINT (4.25 50.75)   18.19375</code></pre>
+5     POINT (6 49.75)   18.36953
+6   POINT (5.5 50.25)   17.66836
+7     POINT (4 50.25)   17.68398
+8  POINT (3.75 50.25)   17.84023
+9  POINT (5.75 51.25)   19.52969
+10 POINT (3.75 50.75)   18.04531</code></pre>
 </div>
 </div>
 </section>
