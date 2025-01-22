@@ -16,7 +16,7 @@ represents a black box. Social science researchers face many obstacles in applyi
 and using these data, resulting from 1) a lack of technical expertise, 
 2) a lack of knowledge of data sources and how to access them, 
 3) unfamiliarity with complex data formats, such as high-resolution, 
-longitudinal raster datacubes, and 4) lack of expertise in integrating the data 
+longitudinal raster datacubes, and 4) a lack of expertise in integrating the data 
 into existing social science datasets. GxC aims to close the gap by creating an automated 
 interface to EO data and complementary resources for social science research. 
     </p>
@@ -35,7 +35,7 @@ main target group of our tool. At the same time, Earth system science researcher
 may similarly profit from integrated social science data. This project supports 
 inter- and transdisciplinary research which is often made difficult because of 
 technical, disciplinary, and organizational barriers. The project emphasizes 
-research data management (RDM) workflows based on FAIR and Open Data principles.
+research data management (RDM) workflows based on FAIR Data and Open Science principles.
 All code is written in the open-source software R and is made available on this
 website.
       
@@ -47,5 +47,6 @@ On top, you find the following tabs:
 
 - **Tutorials**: Check out our tutorials and learning material
 - **Package**: Documentation for the gxc-package
+- **Courses**: Check out our upcoming and past courses and workshops
 - **Articles**: Lists published and ongoing research based on GxC
 - **About**: Information on GESIS, the research team and the project history
