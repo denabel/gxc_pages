@@ -10,6 +10,7 @@ The list below summarizes the most important data quality criteria for EO data:
 values of nighttime lights, GHG emissions like CO2 or CH4 from the 
 [Emission Database for Global Atmospheric Research (EDGAR)](https://edgar.jrc.ec.europa.eu/), 
 or landscape values like NDVI.
+- **Projection**: tba
 - **Spatial resolution**: The spatial resolution reports the granularity of the data.
 Finer granularity stores more detailed information on the parameter. For gridded data,
 and depending on the measurement framework, the spatial resolution is either reported in angular units

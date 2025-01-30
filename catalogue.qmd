@@ -2,3 +2,53 @@
 title: "Indicator catalogue"
 ---
 
+## Accessed datasets
+
+This page summarizes the supported catalogue of indicators. The current version
+accesses datasets from:
+
+**1. Copernicus Climate Change Service (C3S)**:  
+
+- [ERA5-Land Monthly Averaged Data (1950–Present)](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-monthly-means?tab=overview)
+- [ERA5 Monthly Averaged Data on Single Levels (1940–Present)](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-monthly-means?tab=overview)
+
+## Dataset Attributes
+
+```{r echo=FALSE, warning=FALSE}
+library(knitr)
+
+# Create dataset attributes table
+dataset_attributes <- data.frame(
+  Attribute = c("Projection", "Spatial Resolution", "Spatial Coverage (Extent)", "Temporal Resolution", "Temporal Coverage", "Update Frequency"),
+  `ERA5-Land Monthly Averaged Data` = c("WGS84 (EPSG:4326)", "~9 km (~0.1°)", "Global (-90° to 90°, -180° to 180°)", "Monthly", "1950 to present", "Monthly"),
+  `ERA5 Monthly Averaged Data on Single Levels` = c("WGS84 (EPSG:4326)", "~31 km (~0.25°)", "Global (-90° to 90°, -180° to 180°)", "Monthly", "1940 to present", "Monthly")
+)
+
+# Render as table
+kable(dataset_attributes, format = "markdown")
+```
+
+## Supported indicators
+
+```{r echo=FALSE, warning=FALSE}
+# Create variables table
+variables_table <- data.frame(
+  Variable = c("2m_temperature", "total_precipitation", "10m_u_component_of_wind", "10m_v_component_of_wind",
+               "10m_wind_speed", "total_cloud_cover", "leaf_area_index_high_vegetation", "leaf_area_index_low_vegetation", "snowfall"),
+  Description = c("Air temperature at 2 meters above the surface (°C)",
+                  "Total accumulated precipitation (m)",
+                  "Eastward component of wind speed at 10 meters (m/s)",
+                  "Northward component of wind speed at 10 meters (m/s)",
+                  "Wind speed magnitude at 10 meters (m/s)",
+                  "Fraction of sky covered by clouds (0-1)",
+                  "Leaf area index for high vegetation (m²/m²)",
+                  "Leaf area index for low vegetation (m²/m²)",
+                  "Total accumulated snowfall (m)"),
+  `ERA5-Land` = c("✔", "✔", "✔", "✔", "", "", "✔", "✔", "✔"),
+  `ERA5 Single Levels` = c("✔", "", "✔", "✔", "✔", "✔", "✔", "✔", "")
+)
+
+# Render as table
+kable(variables_table, format = "markdown")
+
+```

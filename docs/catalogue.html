@@ -161,8 +161,16 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#accessed-datasets" id="toc-accessed-datasets" class="nav-link active" data-scroll-target="#accessed-datasets">Accessed datasets</a></li>
+  <li><a href="#dataset-attributes" id="toc-dataset-attributes" class="nav-link" data-scroll-target="#dataset-attributes">Dataset Attributes</a></li>
+  <li><a href="#supported-indicators" id="toc-supported-indicators" class="nav-link" data-scroll-target="#supported-indicators">Supported indicators</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -186,8 +194,149 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="accessed-datasets" class="level2">
+<h2 class="anchored" data-anchor-id="accessed-datasets">Accessed datasets</h2>
+<p>This page summarizes the supported catalogue of indicators. The current version accesses datasets from</p>
+<p><strong>1. Copernicus Climate Change Service (C3S)</strong>:</p>
+<ul>
+<li><a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-monthly-means?tab=overview">ERA5-Land Monthly Averaged Data (1950–Present)</a></li>
+<li><a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-monthly-means?tab=overview">ERA5 Monthly Averaged Data on Single Levels (1940–Present)</a></li>
+</ul>
+</section>
+<section id="dataset-attributes" class="level2">
+<h2 class="anchored" data-anchor-id="dataset-attributes">Dataset Attributes</h2>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 33%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attribute</th>
+<th style="text-align: left;">ERA5.Land.Monthly.Averaged.Data</th>
+<th style="text-align: left;">ERA5.Monthly.Averaged.Data.on.Single.Levels</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Projection</td>
+<td style="text-align: left;">WGS84 (EPSG:4326)</td>
+<td style="text-align: left;">WGS84 (EPSG:4326)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Spatial Resolution</td>
+<td style="text-align: left;">~9 km (~0.1°)</td>
+<td style="text-align: left;">~31 km (~0.25°)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Spatial Coverage (Extent)</td>
+<td style="text-align: left;">Global (-90° to 90°, -180° to 180°)</td>
+<td style="text-align: left;">Global (-90° to 90°, -180° to 180°)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Temporal Resolution</td>
+<td style="text-align: left;">Monthly</td>
+<td style="text-align: left;">Monthly</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Temporal Coverage</td>
+<td style="text-align: left;">1950 to present</td>
+<td style="text-align: left;">1940 to present</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Update Frequency</td>
+<td style="text-align: left;">Monthly</td>
+<td style="text-align: left;">Monthly</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="supported-indicators" class="level2">
+<h2 class="anchored" data-anchor-id="supported-indicators">Supported indicators</h2>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 46%">
+<col style="width: 8%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">ERA5.Land</th>
+<th style="text-align: left;">ERA5.Single.Levels</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2m_temperature</td>
+<td style="text-align: left;">Air temperature at 2 meters above the surface (°C)</td>
+<td style="text-align: left;">✔</td>
+<td style="text-align: left;">✔</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">total_precipitation</td>
+<td style="text-align: left;">Total accumulated precipitation (m)</td>
+<td style="text-align: left;">✔</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">10m_u_component_of_wind</td>
+<td style="text-align: left;">Eastward component of wind speed at 10 meters (m/s)</td>
+<td style="text-align: left;">✔</td>
+<td style="text-align: left;">✔</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">10m_v_component_of_wind</td>
+<td style="text-align: left;">Northward component of wind speed at 10 meters (m/s)</td>
+<td style="text-align: left;">✔</td>
+<td style="text-align: left;">✔</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">10m_wind_speed</td>
+<td style="text-align: left;">Wind speed magnitude at 10 meters (m/s)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">✔</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">total_cloud_cover</td>
+<td style="text-align: left;">Fraction of sky covered by clouds (0-1)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">✔</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">leaf_area_index_high_vegetation</td>
+<td style="text-align: left;">Leaf area index for high vegetation (m²/m²)</td>
+<td style="text-align: left;">✔</td>
+<td style="text-align: left;">✔</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">leaf_area_index_low_vegetation</td>
+<td style="text-align: left;">Leaf area index for low vegetation (m²/m²)</td>
+<td style="text-align: left;">✔</td>
+<td style="text-align: left;">✔</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">snowfall</td>
+<td style="text-align: left;">Total accumulated snowfall (m)</td>
+<td style="text-align: left;">✔</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
