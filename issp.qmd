@@ -2,10 +2,31 @@
 title: "Case Study: Linking ISSP survey data"
 ---
 
+```{r echo = FALSE}
+library(emo)
+government_emo <- emo::ji("classical_building")
+money_emo <- emo::ji("moneybag")
+work_emo <- emo::ji("construction_worker")
+nature_emo <- emo::ji("national_park")
+france_emo <- emo::ji("fr")
+south_africa_emo <- emo::ji("south_africa")
+india_emo <- emo::ji("india")
+
+```
+
 ## The ISSP data
 
-For this case study, we are working with the cumulation of the environment module
-of the ISSP survey programme.
+The [**International Social Survey Programme (ISSP)**](https://issp.org/) is a cross-national programme conducting annual surveys on diverse topics like: 
+
+- **the role of government** `r government_emo`, 
+- **inequality** `r money_emo`, 
+- **work orientations** `r work_emo`, 
+- **the environment** `r nature_emo`, 
+- or **national identity** `r france_emo` `r south_africa_emo` `r india_emo`. 
+
+The survey programme was established in 1984 by the founding members Australia, Germany, Great Britain, and the US. Currently, the ISSP has 44 member countries. Since its foundation, over one million respondents have participated in the surveys of the ISSP. All datasets are publicly available and free of charge.
+
+For this case study, we are working with the [cumulation of the environment module of the ISSP](https://search.gesis.org/research_data/ZA8793), which integrates the four existing survey rounds on the environment (1993, 2000, 2010, and 2020). For this tutorial, we are interested in the role of long-term climate change patterns and how they might affect environmental attitudes on the country-level. 
 
 ![Integrating a global survey with EO data (AI generated image).](images/cat_measure.png){ width=60% align=center }
 

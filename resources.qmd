@@ -1,0 +1,7 @@
+---
+title: "Further resources"
+---
+
+## Helpful EO packages in R
+
+comming soon

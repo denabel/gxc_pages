@@ -128,14 +128,4 @@ which is jointly operated by [NASA](https://www.nasa.gov/) and the
 [US Geological Survey](https://www.usgs.gov/landsat-missions) (USGS). [Google's Earth Engine Cloud Computing Platform](https://developers.google.com/earth-engine/datasets/catalog)
 catalogs an extensive selection of additional data sets from various sources.
 
-## Data quality
 
-Data quality
-
-The German Federal Statistical Office (DESTATIS) is currently evaluating the
-usage of remote sensing data for official statistical accounts in several projects
-as part of their [experimental statistics](https://www.destatis.de/EN/Service/EXSTAT/_node.html).
-
-- [Smart business cycle statistics based on satellite data](https://www.destatis.de/EN/Service/EXSTAT/Datensaetze/satellite-data.html)
-- [Remote sensing data and artifical intelligence in the register census](https://www.destatis.de/EN/Service/EXSTAT/Datensaetze/register-census.html)
-- [Satellite-based early estimate of short-term economic development](https://www.destatis.de/EN/Service/EXSTAT/Datensaetze/satellite-based-early-estimate.html)

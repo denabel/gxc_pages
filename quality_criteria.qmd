@@ -48,6 +48,18 @@ data fusion, or reanalysis.
 the original raw data has been involved. Levels are often classified from 0 (raw)
 to 4 (model output). As endusers, we are normally accessing data products at level 2 or 3, which
 represent derived geophysical variables mapped on uniform space-time grid scales and checked
-for completeness and consistency. For more information, see NASA's description [here](https://www.earthdata.nasa.gov/learn/earth-observation-data-basics/data-processing-levels)
+for completeness and consistency. For more information, see NASA's description [here](https://www.earthdata.nasa.gov/learn/earth-observation-data-basics/data-processing-levels).
+
+## Data quality assessment
+
+Comming soon
+
+The German Federal Statistical Office (DESTATIS) is currently evaluating the
+usage of remote sensing data for official statistical accounts in several projects
+as part of their [experimental statistics](https://www.destatis.de/EN/Service/EXSTAT/_node.html).
+
+- [Smart business cycle statistics based on satellite data](https://www.destatis.de/EN/Service/EXSTAT/Datensaetze/satellite-data.html)
+- [Remote sensing data and artifical intelligence in the register census](https://www.destatis.de/EN/Service/EXSTAT/Datensaetze/register-census.html)
+- [Satellite-based early estimate of short-term economic development](https://www.destatis.de/EN/Service/EXSTAT/Datensaetze/satellite-based-early-estimate.html)
 
 

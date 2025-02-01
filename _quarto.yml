@@ -16,8 +16,14 @@ website:
             text: Quality criteria
           - href: raster_data.qmd
             text: Raster data
+          - href: datacubes.qmd
+            text: Datacubes
           - href: issp.qmd
             text: Case study ISSP
+          - href: gles_panel.qmd
+            text: Case study GLES Panel
+          - href: resources.qmd
+            text: Further resources
       - text: Software
         menu:
           - href: package.qmd
