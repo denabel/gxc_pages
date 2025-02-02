@@ -251,8 +251,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>the environment</strong> 🏞,</li>
 <li>or <strong>national identity</strong> 🇫🇷 🇿🇦 🇮🇳.</li>
 </ul>
-<p>The survey programme was established in 1984 by the founding members Australia, Germany, Great Britain, and the US. Currently, the ISSP has 44 member countries. Since its foundation, over one million respondents have participated in the surveys of the ISSP. All datasets are publicly available and free of charge.</p>
-<p>For this case study, we are working with the <a href="https://search.gesis.org/research_data/ZA8793">cumulation of the environment module of the ISSP</a>, which integrates the four existing survey rounds on the environment (1993, 2000, 2010, and 2020). For this tutorial, we are interested in the role of long-term climate change patterns and how they might affect environmental attitudes on the country-level.</p>
+<p>The survey programme was established in 1984 by the founding members Australia, Germany, Great Britain, and the US. Currently, the ISSP has 44 member states. Since its foundation, over one million respondents have participated in the surveys of the ISSP. All datasets are publicly available and free of charge.</p>
+<p>For this case study, we are working with the <a href="https://search.gesis.org/research_data/ZA8793">cumulation of the environment module of the ISSP</a>, which integrates the four existing survey rounds on the environment (1993, 2000, 2010, and 2020). Let’s assume we are interested in the role of long-term climate change patterns on how they affect environmental attitudes on the country-level.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/cat_measure.png" class="img-fluid figure-img" style="width:60.0%" data-align="center"></p>
@@ -273,7 +273,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>We are loading the SPSS-file and directly remove all labels.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>issp <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_spss</span>(<span class="st">"./data/ZA8793_v1-0-0.sav"</span>) <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>issp <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_spss</span>(<span class="st">"./data/issp/ZA8793_v1-0-0.sav"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  sjlabelled<span class="sc">::</span><span class="fu">remove_all_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s reduce and clean the dataset. We want to investigate the relationship between the experience of extreme heat and climate change concern. Let’s subset to those variables which are necessary for this analysis and rename directly.</p>
