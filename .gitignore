@@ -3,6 +3,6 @@
 .RData
 .Ruserdata
 
-data/issp/
+data/issp_env/
 
 /.quarto/
