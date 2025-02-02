@@ -24,7 +24,7 @@ The [**International Social Survey Programme (ISSP)**](https://issp.org/) is a c
 - **the environment** `r nature_emo`, 
 - or **national identity** `r france_emo` `r south_africa_emo` `r india_emo`. 
 
-The survey programme was established in 1984 by the founding members Australia, Germany, Great Britain, and the US. Currently, the ISSP has 44 member states. Since its foundation, over one million respondents have participated in the surveys of the ISSP. All datasets are publicly available and free of charge.
+The ISSP was established in 1984 by the founding members Australia, Germany, Great Britain, and the US. Currently, the ISSP has 44 member states. Since its foundation, over one million respondents have participated in the surveys of the ISSP. All datasets are publicly available and free of charge.
 
 For this case study, we are working with the [cumulation of the environment module of the ISSP](https://search.gesis.org/research_data/ZA8793), which integrates the four existing survey rounds on the environment (1993, 2000, 2010, and 2020). Let's assume we are interested in the role of long-term climate change patterns on how they affect environmental attitudes on the country-level. 
 
@@ -36,24 +36,22 @@ For loading and wrangling with the data, we need some packages. Keep in mind
 to install (`install.packages()`) those packages first before loading with the 
 library-function.
 
-```{r message=FALSE}
+```{r message=FALSE, warning=FALSE}
 library(haven) # For working with SPSS datafiles
 library(sjlabelled) # To remove labels from SPSS datafiles
 library(tidyverse) # For so much
 
 ```
 
-We are loading the SPSS-file and directly remove all labels.
+After downloading the data file from the website, place it in your project folder. We are loading the SPSS-file and directly remove all labels.
 
 ```{r}
-issp <- haven::read_spss("./data/issp/ZA8793_v1-0-0.sav") |> 
+issp <- haven::read_spss("./data/issp_env/ZA8793_v1-0-0.sav") |> 
   sjlabelled::remove_all_labels()
 
 ```
 
-Let's reduce and clean the dataset. We want to investigate the relationship
-between the experience of extreme heat and climate change concern. Let's subset
-to those variables which are necessary for this analysis and rename directly.
+Let's clean the dataset. We want to investigate the relationship between the experience of extreme heat and climate change concern. Let's subset the datafile to variables which are necessary for us and rename directly. We will keep the variables measuring the survey `year`, the `country` of residence of the respondent, and the climate change concern item (`v42`).
 
 ```{r}
 issp <- issp |> 
@@ -65,10 +63,7 @@ issp <- issp |>
 
 ```
 
-We can check out the documentation to identify the country names for the numeric
-values in the dataset. Let's label it. We will also combine responses from Northern
-Ireland and Great Britain into "United Kingdom" and store it in a
-new variable.
+You can check out the [codebook of the dataset](https://access.gesis.org/dbk/77274) to find out the country names for the numeric values in the dataset. Let's label it. We will also combine responses from Northern Ireland and Great Britain into "United Kingdom" and store it in a new variable.
 
 ```{r}
 issp <- issp |> 
@@ -86,9 +81,9 @@ issp <- issp |>
                                    "Lithuania", "Mexico", "Netherlands",
                                    "New Zealand", "Norway", "Philippines",
                                    "Portugal", "Russia", "Slovakia",
-                                   "Slovenia", "South Africa", "Spain", "Sweden",
-                                   "Switzerland", "Great Britain", 
-                                   "United States of America",
+                                   "Slovenia", "South Africa", "Spain",
+                                   "Sweden", "Switzerland", "Great Britain", 
+                                   "USA",
                                    "Northern Ireland"))
   )
 
@@ -118,15 +113,14 @@ issp <- issp |>
 
 ```
 
-The dataset is set for linking with our temperature data.
+The dataset is ready for linking with our temperature data.
 
 ```{r}
 head(issp)
 
 ```
 
-Let's explore the distribution of climate concern across countries for the
-2020 wave.
+Before we do that, let's explore the distribution of climate concern across countries for the 2020 wave.
 
 ```{r message = FALSE}
 # Define Likert-theme
@@ -150,12 +144,6 @@ likert_theme <- theme_gray() +
 issp_2020 <- issp |> 
   filter(year == "2020")
 
-# calculate averages across countries
-issp_2020_averages <- issp_2020 |>
-  group_by(country_new) |> 
-  summarise(median_concern = round(median(concern, na.rm=TRUE), digits=2),
-            mean_concern = round(mean(concern, na.rm=TRUE), digits=2))
-
 # Plot
 issp_2020 |>
   filter(!is.na(concern)) |>
@@ -175,10 +163,6 @@ issp_2020 |>
   geom_text(aes(x = country_new, y = prop_value, label = round(100*prop_value)), 
             position = position_stack(vjust = 0.5), 
             fontface = "bold") +
-  geom_text(data = issp_2020_averages, 
-            aes(x = country_new, y=1.1, label=paste("(", median_concern, "/",
-                                                    mean_concern, ")")),
-            fontface="bold", colour="black", check_overlap=TRUE) +
   scale_fill_brewer(type = "div", palette = "PRGn", direction = -1,
                     labels = c("5 - High concern", "4", "3", "2", "1 - No concern")) +
   coord_flip() +
@@ -188,6 +172,7 @@ issp_2020 |>
 
 
 ```
+
 ## EO indicators
 
 tba

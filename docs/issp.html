@@ -251,7 +251,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>the environment</strong> 🏞,</li>
 <li>or <strong>national identity</strong> 🇫🇷 🇿🇦 🇮🇳.</li>
 </ul>
-<p>The survey programme was established in 1984 by the founding members Australia, Germany, Great Britain, and the US. Currently, the ISSP has 44 member states. Since its foundation, over one million respondents have participated in the surveys of the ISSP. All datasets are publicly available and free of charge.</p>
+<p>The ISSP was established in 1984 by the founding members Australia, Germany, Great Britain, and the US. Currently, the ISSP has 44 member states. Since its foundation, over one million respondents have participated in the surveys of the ISSP. All datasets are publicly available and free of charge.</p>
 <p>For this case study, we are working with the <a href="https://search.gesis.org/research_data/ZA8793">cumulation of the environment module of the ISSP</a>, which integrates the four existing survey rounds on the environment (1993, 2000, 2010, and 2020). Let’s assume we are interested in the role of long-term climate change patterns on how they affect environmental attitudes on the country-level.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -267,71 +267,68 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven) <span class="co"># For working with SPSS datafiles</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjlabelled) <span class="co"># To remove labels from SPSS datafiles</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># For so much</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Paket 'lubridate' wurde unter R Version 4.4.2 erstellt</code></pre>
 </div>
-</div>
-<p>We are loading the SPSS-file and directly remove all labels.</p>
+<p>After downloading the data file from the website, place it in your project folder. We are loading the SPSS-file and directly remove all labels.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>issp <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_spss</span>(<span class="st">"./data/issp/ZA8793_v1-0-0.sav"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  sjlabelled<span class="sc">::</span><span class="fu">remove_all_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>issp <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_spss</span>(<span class="st">"./data/issp_env/ZA8793_v1-0-0.sav"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  sjlabelled<span class="sc">::</span><span class="fu">remove_all_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Let’s reduce and clean the dataset. We want to investigate the relationship between the experience of extreme heat and climate change concern. Let’s subset to those variables which are necessary for this analysis and rename directly.</p>
+<p>Let’s clean the dataset. We want to investigate the relationship between the experience of extreme heat and climate change concern. Let’s subset the datafile to variables which are necessary for us and rename directly. We will keep the variables measuring the survey <code>year</code>, the <code>country</code> of residence of the respondent, and the climate change concern item (<code>v42</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>issp <span class="ot">&lt;-</span> issp <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    year, </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    country, </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">concern =</span> v42</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can check out the <a href="https://access.gesis.org/dbk/77274">codebook of the dataset</a> to find out the country names for the numeric values in the dataset. Let’s label it. We will also combine responses from Northern Ireland and Great Britain into “United Kingdom” and store it in a new variable.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>issp <span class="ot">&lt;-</span> issp <span class="sc">|&gt;</span> </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    year, </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    country, </span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">concern =</span> v42</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>We can check out the documentation to identify the country names for the numeric values in the dataset. Let’s label it. We will also combine responses from Northern Ireland and Great Britain into “United Kingdom” and store it in a new variable.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>issp <span class="ot">&lt;-</span> issp <span class="sc">|&gt;</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> <span class="fu">factor</span>(country, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">36</span>, <span class="dv">40</span>, <span class="dv">100</span>, <span class="dv">124</span>, <span class="dv">152</span>, <span class="dv">158</span>, <span class="dv">191</span>, <span class="dv">203</span>, </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                                       <span class="dv">208</span>, <span class="dv">246</span>, <span class="dv">250</span>, <span class="dv">276</span>, <span class="dv">348</span>, <span class="dv">352</span>, <span class="dv">372</span>, <span class="dv">376</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                                       <span class="dv">380</span>, <span class="dv">392</span>, <span class="dv">410</span>, <span class="dv">428</span>, <span class="dv">440</span>, <span class="dv">484</span>, <span class="dv">528</span>, <span class="dv">554</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                                       <span class="dv">578</span>, <span class="dv">608</span>, <span class="dv">620</span>, <span class="dv">643</span>, <span class="dv">703</span>, <span class="dv">705</span>, <span class="dv">710</span>, <span class="dv">724</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                                       <span class="dv">752</span>, <span class="dv">756</span>, <span class="dv">826</span>, <span class="dv">840</span>, <span class="dv">82602</span>), </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                          <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Australia"</span>, <span class="st">"Austria"</span>, <span class="st">"Bulgaria"</span>, <span class="st">"Canada"</span>,</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Chile"</span>, <span class="st">"Taiwan"</span>, <span class="st">"Croatia"</span>, <span class="st">"Czechia"</span>,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Denmark"</span>, <span class="st">"Finland"</span>, <span class="st">"France"</span>, <span class="st">"Germany"</span>,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Hungary"</span>, <span class="st">"Iceland"</span>, <span class="st">"Ireland"</span>, <span class="st">"Israel"</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Italy"</span>, <span class="st">"Japan"</span>, <span class="st">"South Korea"</span>, <span class="st">"Latvia"</span>,</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Lithuania"</span>, <span class="st">"Mexico"</span>, <span class="st">"Netherlands"</span>,</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"New Zealand"</span>, <span class="st">"Norway"</span>, <span class="st">"Philippines"</span>,</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Portugal"</span>, <span class="st">"Russia"</span>, <span class="st">"Slovakia"</span>,</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Slovenia"</span>, <span class="st">"South Africa"</span>, <span class="st">"Spain"</span>, <span class="st">"Sweden"</span>,</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Switzerland"</span>, <span class="st">"Great Britain"</span>, </span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"United States of America"</span>,</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Northern Ireland"</span>))</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>issp <span class="ot">&lt;-</span> issp <span class="sc">|&gt;</span> </span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">country_new =</span> <span class="fu">case_when</span>(</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>      country <span class="sc">==</span> <span class="st">"Great Britain"</span> <span class="sc">|</span> country <span class="sc">==</span> <span class="st">"Northern Ireland"</span> <span class="sc">~</span> <span class="st">"United Kingdom"</span>,</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> country</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">.after =</span> country</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> <span class="fu">factor</span>(country, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">36</span>, <span class="dv">40</span>, <span class="dv">100</span>, <span class="dv">124</span>, <span class="dv">152</span>, <span class="dv">158</span>, <span class="dv">191</span>, <span class="dv">203</span>, </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                                       <span class="dv">208</span>, <span class="dv">246</span>, <span class="dv">250</span>, <span class="dv">276</span>, <span class="dv">348</span>, <span class="dv">352</span>, <span class="dv">372</span>, <span class="dv">376</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                                       <span class="dv">380</span>, <span class="dv">392</span>, <span class="dv">410</span>, <span class="dv">428</span>, <span class="dv">440</span>, <span class="dv">484</span>, <span class="dv">528</span>, <span class="dv">554</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                                       <span class="dv">578</span>, <span class="dv">608</span>, <span class="dv">620</span>, <span class="dv">643</span>, <span class="dv">703</span>, <span class="dv">705</span>, <span class="dv">710</span>, <span class="dv">724</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                                       <span class="dv">752</span>, <span class="dv">756</span>, <span class="dv">826</span>, <span class="dv">840</span>, <span class="dv">82602</span>), </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                          <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Australia"</span>, <span class="st">"Austria"</span>, <span class="st">"Bulgaria"</span>, <span class="st">"Canada"</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Chile"</span>, <span class="st">"Taiwan"</span>, <span class="st">"Croatia"</span>, <span class="st">"Czechia"</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Denmark"</span>, <span class="st">"Finland"</span>, <span class="st">"France"</span>, <span class="st">"Germany"</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Hungary"</span>, <span class="st">"Iceland"</span>, <span class="st">"Ireland"</span>, <span class="st">"Israel"</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Italy"</span>, <span class="st">"Japan"</span>, <span class="st">"South Korea"</span>, <span class="st">"Latvia"</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Lithuania"</span>, <span class="st">"Mexico"</span>, <span class="st">"Netherlands"</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"New Zealand"</span>, <span class="st">"Norway"</span>, <span class="st">"Philippines"</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Portugal"</span>, <span class="st">"Russia"</span>, <span class="st">"Slovakia"</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Slovenia"</span>, <span class="st">"South Africa"</span>, <span class="st">"Spain"</span>,</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Sweden"</span>, <span class="st">"Switzerland"</span>, <span class="st">"Great Britain"</span>, </span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"USA"</span>,</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Northern Ireland"</span>))</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>issp <span class="ot">&lt;-</span> issp <span class="sc">|&gt;</span> </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">country_new =</span> <span class="fu">case_when</span>(</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>      country <span class="sc">==</span> <span class="st">"Great Britain"</span> <span class="sc">|</span> country <span class="sc">==</span> <span class="st">"Northern Ireland"</span> <span class="sc">~</span> <span class="st">"United Kingdom"</span>,</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> country</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">.after =</span> country</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s also reverse the concern-scale so that higher values indicate higher concern.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>issp <span class="ot">&lt;-</span> issp <span class="sc">|&gt;</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">concern =</span> <span class="fu">case_match</span>(concern,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">1</span> <span class="sc">~</span> <span class="dv">5</span>,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">2</span> <span class="sc">~</span> <span class="dv">4</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">3</span> <span class="sc">~</span> <span class="dv">3</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">4</span> <span class="sc">~</span> <span class="dv">2</span>,</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">5</span> <span class="sc">~</span> <span class="dv">1</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>issp <span class="ot">&lt;-</span> issp <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">concern =</span> <span class="fu">case_match</span>(concern,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">1</span> <span class="sc">~</span> <span class="dv">5</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">2</span> <span class="sc">~</span> <span class="dv">4</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">3</span> <span class="sc">~</span> <span class="dv">3</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">4</span> <span class="sc">~</span> <span class="dv">2</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">5</span> <span class="sc">~</span> <span class="dv">1</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The dataset is set for linking with our temperature data.</p>
+<p>The dataset is ready for linking with our temperature data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(issp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(issp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  year   country country_new concern
 1 1993 Australia   Australia       4
@@ -342,64 +339,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 6 1993 Australia   Australia       3</code></pre>
 </div>
 </div>
-<p>Let’s explore the distribution of climate concern across countries for the 2020 wave.</p>
+<p>Before we do that, let’s explore the distribution of climate concern across countries for the 2020 wave.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define Likert-theme</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>likert_theme <span class="ot">&lt;-</span> <span class="fu">theme_gray</span>() <span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>, <span class="at">face =</span> <span class="st">"bold"</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">0</span>)), </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(.<span class="dv">4</span>,<span class="dv">0</span>,.<span class="dv">4</span>,.<span class="dv">4</span>), <span class="st">"cm"</span>),</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"italic"</span>),</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">"line"</span>),</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"grey90"</span>),</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's look at 2020 only</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>issp_2020 <span class="ot">&lt;-</span> issp <span class="sc">|&gt;</span> </span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="st">"2020"</span>)</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate averages across countries</span></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>issp_2020_averages <span class="ot">&lt;-</span> issp_2020 <span class="sc">|&gt;</span></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country_new) <span class="sc">|&gt;</span> </span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">median_concern =</span> <span class="fu">round</span>(<span class="fu">median</span>(concern, <span class="at">na.rm=</span><span class="cn">TRUE</span>), <span class="at">digits=</span><span class="dv">2</span>),</span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_concern =</span> <span class="fu">round</span>(<span class="fu">mean</span>(concern, <span class="at">na.rm=</span><span class="cn">TRUE</span>), <span class="at">digits=</span><span class="dv">2</span>))</span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>issp_2020 <span class="sc">|&gt;</span></span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(concern)) <span class="sc">|&gt;</span></span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country_new =</span> forcats<span class="sc">::</span><span class="fu">fct_reorder</span>(country_new, concern, </span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">.fun=</span>mean, <span class="at">.desc=</span><span class="cn">FALSE</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(country_new) <span class="sc">|&gt;</span></span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country_new, concern) <span class="sc">|&gt;</span></span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country_new) <span class="sc">|&gt;</span> </span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop_value =</span> count <span class="sc">/</span> <span class="fu">sum</span>(count)) <span class="sc">|&gt;</span></span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> country_new,</span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>                         <span class="at">y =</span> prop_value,</span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>                         <span class="at">fill =</span> forcats<span class="sc">::</span><span class="fu">fct_rev</span>(<span class="fu">factor</span>(concern))),</span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>           <span class="at">position =</span> <span class="st">"fill"</span>,</span>
-<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">"identity"</span>)<span class="sc">+</span></span>
-<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> country_new, <span class="at">y =</span> prop_value, <span class="at">label =</span> <span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span>prop_value)), </span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>            <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>), </span>
-<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>            <span class="at">fontface =</span> <span class="st">"bold"</span>) <span class="sc">+</span></span>
-<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> issp_2020_averages, </span>
-<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x =</span> country_new, <span class="at">y=</span><span class="fl">1.1</span>, <span class="at">label=</span><span class="fu">paste</span>(<span class="st">"("</span>, median_concern, <span class="st">"/"</span>,</span>
-<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>                                                    mean_concern, <span class="st">")"</span>)),</span>
-<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>            <span class="at">fontface=</span><span class="st">"bold"</span>, <span class="at">colour=</span><span class="st">"black"</span>, <span class="at">check_overlap=</span><span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">type =</span> <span class="st">"div"</span>, <span class="at">palette =</span> <span class="st">"PRGn"</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>,</span>
-<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"5 - High concern"</span>, <span class="st">"4"</span>, <span class="st">"3"</span>, <span class="st">"2"</span>, <span class="st">"1 - No concern"</span>)) <span class="sc">+</span></span>
-<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>  likert_theme <span class="sc">+</span></span>
-<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
-<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> <span class="cn">TRUE</span>, <span class="at">nrow =</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define Likert-theme</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>likert_theme <span class="ot">&lt;-</span> <span class="fu">theme_gray</span>() <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>, <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">0</span>)), </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(.<span class="dv">4</span>,<span class="dv">0</span>,.<span class="dv">4</span>,.<span class="dv">4</span>), <span class="st">"cm"</span>),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"italic"</span>),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">"line"</span>),</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"grey90"</span>),</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's look at 2020 only</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>issp_2020 <span class="ot">&lt;-</span> issp <span class="sc">|&gt;</span> </span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="st">"2020"</span>)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>issp_2020 <span class="sc">|&gt;</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(concern)) <span class="sc">|&gt;</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country_new =</span> forcats<span class="sc">::</span><span class="fu">fct_reorder</span>(country_new, concern, </span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">.fun=</span>mean, <span class="at">.desc=</span><span class="cn">FALSE</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(country_new) <span class="sc">|&gt;</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country_new, concern) <span class="sc">|&gt;</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country_new) <span class="sc">|&gt;</span> </span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop_value =</span> count <span class="sc">/</span> <span class="fu">sum</span>(count)) <span class="sc">|&gt;</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> country_new,</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>                         <span class="at">y =</span> prop_value,</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>                         <span class="at">fill =</span> forcats<span class="sc">::</span><span class="fu">fct_rev</span>(<span class="fu">factor</span>(concern))),</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>           <span class="at">position =</span> <span class="st">"fill"</span>,</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">"identity"</span>)<span class="sc">+</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> country_new, <span class="at">y =</span> prop_value, <span class="at">label =</span> <span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span>prop_value)), </span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>            <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>), </span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>            <span class="at">fontface =</span> <span class="st">"bold"</span>) <span class="sc">+</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">type =</span> <span class="st">"div"</span>, <span class="at">palette =</span> <span class="st">"PRGn"</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>,</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"5 - High concern"</span>, <span class="st">"4"</span>, <span class="st">"3"</span>, <span class="st">"2"</span>, <span class="st">"1 - No concern"</span>)) <span class="sc">+</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>  likert_theme <span class="sc">+</span></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> <span class="cn">TRUE</span>, <span class="at">nrow =</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
