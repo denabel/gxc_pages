@@ -26,7 +26,7 @@ The [**International Social Survey Programme (ISSP)**](https://issp.org/) is a c
 
 The ISSP was established in 1984 by the founding members Australia, Germany, Great Britain, and the US. Currently, the ISSP has 44 member states. Since its foundation, over one million respondents have participated in the surveys of the ISSP. All datasets are publicly available and free of charge.
 
-For this case study, we are working with the [cumulation of the environment module of the ISSP](https://search.gesis.org/research_data/ZA8793), which integrates the four existing survey rounds on the environment (1993, 2000, 2010, and 2020). Let's assume we are interested in the role of long-term climate change patterns on how they affect environmental attitudes on the country-level. 
+For this case study, we are working with the [cumulation of the environment module of the ISSP](https://search.gesis.org/research_data/ZA8793), which integrates the four existing survey rounds on the environment (1993, 2000, 2010, and 2020). Let's assume we are interested in the role of long-term climate change patterns on how they affect environmental attitudes on the country-level. We first show a "manual" approach of retrieving and processing the EO indicator before introducing an easy alternative with the `gxc`-package.  
 
 ![Integrating a global survey with EO data (AI generated image).](images/cat_measure.png){ width=60% align=center }
 
@@ -175,11 +175,315 @@ issp_2020 |>
 
 ## EO indicators
 
-tba
+We want to investigate whether temperature anomalies in the year of the survey, in comparison to a long running average, are associated with climate change concern. For this example, we will only focus on the 2020 survey wave but the process can be replicated for each survey round. The visualization below helps us to conceptualize our climate indicator:
+
+1. **Indicator**: Temperature - annual average
+2. **Intensity**: Anomaly (mean deviation)
+3. **Focal time period**: 2020
+4. **Baseline period**: 1961-1990
+5. **Spatial buffer**: Country
 
 ![Major attributes for indicator specification. Source: Abel and Jünger 2024](images/attribute_tree.png){ width=100% align=center }
 
+The [ERA5-Land Reanalyis from the Copernicus Climate Change Service](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-monthly-means?tab=overview) is a suitable data product for this temperature indicator. It records observations on air temperature at 2 meters above the surface from 1950 onwards, has a spatial resolution of 0.1x0.1degrees and a global spatial coverage.
 
-## Spatial linking
+In order to access the data, we need an [ECMWF](https://www.ecmwf.int/)-account. Utilizing the [ecmwfr](https://github.com/bluegreen-labs/ecmwfr)-package, we can access the data directly in R.
 
-![Steps in the spatial linking process. Source: Jünger 2019](images/linking_juenger_2019.png){ width=50% align=center }
+## Data access and preparation
+
+Given that we want to aggregate the data on country-level, we first load country shapefiles, and download the data according to the spatial extent of the countries included in the survey. The ISSP has a diverse membership from North and South America, Europe, Africa, and Asia. Thus, we can work with a global spatial extent when downloading the EO indicator.
+
+We need some packages to load and prepare the world map and process the raster files (`rnaturalearth`, `sf`, `terra`, and `tidyverse`). We also need the `keyring`-package to safely store our ECMWF-API key and the `devtools`-package to load the `gxc`-package.
+
+```{r setup}
+# Install and load required packages
+required_packages <- c("keyring", "rnaturalearth", "sf", "tidyverse", "terra", "devtools")
+new_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
+if(length(new_packages)) install.packages(new_packages)
+lapply(required_packages, library, character.only = TRUE)
+
+```
+
+We load the shapefile containing country-level polygons and subset it to the most relevant variables.
+
+```{r map}
+# Download world map data
+world <- ne_countries(scale = "medium", returnclass = "sf")
+st_geometry(world)
+
+# Subset to relevant variables
+world <- world |> 
+  select(admin, iso_a3, geometry)
+
+# Plot world map
+plot(world[1])
+```
+
+A final step before we can access the data from the Copernicus API is to store our API key. By setting it to "wf_api_key", the function automatically retrieves the key.
+
+```{r key}
+# Store as environment variable
+# Sys.setenv(WF_API_KEY = "YOUR-API-KEY")
+
+api_key <- Sys.getenv("WF_API_KEY")
+
+keyring::key_set_with_value(service = "wf_api_key", password = api_key)
+
+```
+
+Now we can access the data. We loop the download over the four years of the survey programme (1993, 2000, 2010, 2020) in order to create four separate files.
+
+```{r api-access}
+# Year vector
+years <- c("1993", "2000", "2010", "2020")
+
+# API acess looped over four years
+for (yr in years) {
+
+  # Create file names which include year
+  file_name <- paste0("era5_temperature", yr, ".grib")
+
+  # Specify API request
+  request <- list(
+    data_format = "grib",
+    variable = "2m_temperature",
+    product_type = "monthly_averaged_reanalysis",
+    time = "00:00",
+    year = yr,
+    month = c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"),
+    area = c(90, -180, -90, 180),
+    dataset_short_name = "reanalysis-era5-land-monthly-means",
+    target = file_name
+  )
+
+  # Download data from C3S
+  file_path <- ecmwfr::wf_request(
+    request = request,
+    transfer = TRUE,
+    path = "./data/C3S_data",
+    verbose = FALSE
+  )
+
+}
+
+```
+
+```{r load-data, warning = FALSE}
+temp_1993 <- terra::rast("./data/C3S_data/era5_temperature1993.grib")
+temp_2000 <- terra::rast("./data/C3S_data/era5_temperature2000.grib")
+temp_2010 <- terra::rast("./data/C3S_data/era5_temperature2010.grib")
+temp_2020 <- terra::rast("./data/C3S_data/era5_temperature2020.grib")
+```
+
+Let's inspect the datacube for 2020 and plot the first layer of the 2020 datacube (January 2020). The attributes of the file tell us information on the dimensions (number of rows, columns, and layers), the resolution, spatial extent, the coordinate reference system, units, and time points.
+
+```{r inspect-data, warning = FALSE}
+temp_2020
+
+plot(temp_2020[[1]])
+
+```
+
+Now we can aggregate the monthly values by year and country. We will check that our country polygons and the raster files have the same CRS and align, if necessary.
+
+```{r aggregate}
+for (yr in years) {
+  temp_data <- get(paste0("temp_", yr))
+
+  # Check CRS of both datasets and adjust if necessary
+  if(!identical(crs(world), terra::crs(temp_data))) {
+    world <- world |>
+      st_transform(crs=st_crs(temp_data))
+  }
+
+  # Collapse the month layers into one layer by averaging across months
+  annual_values <- terra::app(temp_data, fun = mean, na.rm = TRUE)
+
+  # Aggregate by country
+  country_values <- terra::extract(
+      annual_values,
+      world,
+      fun = mean,
+      na.rm = TRUE
+    )
+
+  # Add values to shapefile
+  world[paste0("temp_", yr)] <- country_values[, 2]
+
+}
+
+print(head(world))
+```
+
+Now that we have the focal values for all four survey years, we redo the process for the baseline period (1961-1990).
+
+```{r api-access-base}
+# Year vector
+baseline_years <- as.character(1961:1970)
+
+# Specify API request
+request <- list(
+    data_format = "grib",
+    variable = "2m_temperature",
+    product_type = "monthly_averaged_reanalysis",
+    time = "00:00",
+    year = baseline_years,
+    month = c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"),
+    area = c(90, -180, -90, 180),
+    dataset_short_name = "reanalysis-era5-land-monthly-means",
+    target = "era5_temperature1961-1990.grib"
+  )
+
+# Download data from C3S
+file_path <- ecmwfr::wf_request(
+    request = request,
+    transfer = TRUE,
+    path = "./data/C3S_data",
+    verbose = FALSE
+  )
+
+```
+
+```{r load-data-base, warning = FALSE}
+temp_base <- terra::rast("./data/C3S_data/era5_temperature1961-1990.grib")
+
+```
+
+```{r aggregate-base}
+# Check CRS of both datasets and adjust if necessary
+if(!identical(crs(world), terra::crs(temp_base))) {
+  world <- world |>
+    st_transform(crs=st_crs(temp_base))
+  }
+
+# Collapse all into one layer by averaging across months and years
+annual_values <- terra::app(temp_base, fun = mean, na.rm = TRUE)
+
+# Aggregate by country
+country_values <- terra::extract(
+  annual_values,
+  world,
+  fun = mean,
+  na.rm = TRUE
+  )
+
+# Add values to shapefile
+world$temp_base <- country_values[, 2]
+
+print(head(world))
+```
+
+Now that we have the focal and baseline values, we calculate single deviations.
+
+```{r plot-2020-diff}
+world <- world |>
+  dplyr::mutate(
+    diff_1993 = temp_1993 - temp_base,
+    diff_2000 = temp_2000 - temp_base,
+    diff_2010 = temp_2010 - temp_base,
+    diff_2020 = temp_2020 - temp_base
+  )
+
+# Plot 2020 deviation from baseline
+ggplot(data = world) +
+  geom_sf(aes(fill = diff_2020)) +
+  scale_fill_viridis_c() +
+  theme_minimal() +
+  labs(
+    title = "Absolute deviation between 2020 and baseline temperature",
+    subtitle = "Averaged across countries",
+    fill = "Temperature (K)"
+  )
+
+```
+
+## Integrate survey and EO data
+
+Turning to the survey data, we aggregate climate change concern across country-waves and link it with the shapefile.
+
+```{r concern-avg}
+mean_concern <- issp |>
+  group_by(country_new, year) |>
+  summarize(mean_concern = mean(concern, na.rm=TRUE),
+            se_concern = sd(concern, na.rm=TRUE) / sqrt(n()))
+
+ggplot(mean_concern, aes(x = year, y = mean_concern, color = country_new, group = country_new)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = mean_concern - se_concern, ymax = mean_concern + se_concern), width = .5) +
+  geom_line()+
+  labs(title = "Mean climate change concern across countries",
+       x = "Survey Wave", y = "Mean climate change concern", color = "Country") +
+  facet_wrap(~country_new, ncol=5)+
+  theme_minimal() +
+  theme(legend.position = "none")
+
+mean_concern_wide <- mean_concern |>
+  select(!se_concern) |>
+  pivot_wider(
+    names_from = year,
+    values_from = mean_concern,
+    names_glue = "{.value}_{year}",
+    names_sort = TRUE)
+
+world <- left_join(world, mean_concern_wide, by = c("admin" = "country_new"))
+
+print(head(world |> arrange(admin)))
+```
+
+The data is ready to use for any further analysis. 
+
+## Spatial linking made easy
+
+The manual approach described above is time- and code-intensive. Our `gxc`-package helps to automatize these steps. You can use the `poly_link`-function to directly link to every single observation in a dataset with the discussed EO indicator.
+
+We need `devtools` to load the `gxc`-package.
+
+```{r setup2}
+# Load gxc package
+if (!requireNamespace("gxc", quietly = TRUE)) {
+  devtools::install_github("denabel/gxc")
+}
+
+# Now load the package
+library(gxc)
+```
+
+We exemplify the process for the 2020 wave. The function requires the last month of the focal time period as variable in the dataset. We add a date-variable to the dataset which records the last month of the focal period (December 2020).
+
+```{r date-variable}
+# Create fixed date-variable
+world$date_raw <- "12-2020"
+
+```
+
+Check out vignette for `poly_link` for detailed documentation.
+
+```{r help, message=FALSE}
+# ?gxc::poly_link
+
+```
+
+Specification of `poly_link` and data access.
+
+```{r poly-link}
+# dataset_out <- gxc::poly_link(
+#   indicator = "2m_temperature",
+#   data = world,
+#   date_var = "date_raw",
+#   time_span = 11,
+#   time_lag = 0,
+#   baseline = c("1961", "1970"),
+#   order = "my",
+#   path = "./data/C3S_data",
+#   catalogue = "reanalysis-era5-land-monthly-means",
+#   by_hour = FALSE,
+#   keep_raw = FALSE)
+
+```
+
+```{r dataset-out}
+# head(dataset_out |> arrange(admin))
+
+```
+
+This was a relatively easy example where we link data on the country-level. Data with a more fine-grained georeferencing or more complex temporal resolution requires even more flexible approaches. The `gxc`-package allows these custom-made linking approaches. The next example with the GLES Panel shows how to do it for observations with varying linking dates and small spatial buffer.
