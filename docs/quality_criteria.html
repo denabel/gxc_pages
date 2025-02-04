@@ -178,7 +178,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#major-attributes-of-eo-datasets" id="toc-major-attributes-of-eo-datasets" class="nav-link active" data-scroll-target="#major-attributes-of-eo-datasets">Major attributes of EO datasets</a></li>
+  <li><a href="#data-quality-criteria" id="toc-data-quality-criteria" class="nav-link active" data-scroll-target="#data-quality-criteria">Data quality criteria</a></li>
+  <li><a href="#major-attributes-of-eo-datasets" id="toc-major-attributes-of-eo-datasets" class="nav-link" data-scroll-target="#major-attributes-of-eo-datasets">Major attributes of EO datasets</a></li>
   <li><a href="#data-quality-assessment" id="toc-data-quality-assessment" class="nav-link" data-scroll-target="#data-quality-assessment">Data quality assessment</a></li>
   </ul>
 </nav>
@@ -205,16 +206,26 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="data-quality-criteria" class="level2">
+<h2 class="anchored" data-anchor-id="data-quality-criteria">Data quality criteria</h2>
+<p>Earth observation data often comes in raster-format, sometimes in vector-format. In order to assess the quality of a specific EO product and determine wether it is suitable for our specific research purpose, we need to be aware of a few terminologies. These are explained below. For researchers who regularly work with geographical data, these should sound familiar.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/cat_quality.png" class="img-fluid figure-img" style="width:60.0%" data-align="center"></p>
+<figcaption>Creating high quality maps (AI generated image).</figcaption>
+</figure>
+</div>
+</section>
 <section id="major-attributes-of-eo-datasets" class="level2">
 <h2 class="anchored" data-anchor-id="major-attributes-of-eo-datasets">Major attributes of EO datasets</h2>
 <p>The list below summarizes the most important data quality criteria for EO data:</p>
 <ul>
-<li><strong>Parameter type</strong>: Measuring the specific indicator of interest. This could be for example values of nighttime lights, GHG emissions like CO2 or CH4 from the <a href="https://edgar.jrc.ec.europa.eu/">Emission Database for Global Atmospheric Research (EDGAR)</a>, or landscape values like NDVI.</li>
-<li><strong>Projection</strong>: tba</li>
-<li><strong>Spatial resolution</strong>: The spatial resolution reports the granularity of the data. Finer granularity stores more detailed information on the parameter. For gridded data, and depending on the measurement framework, the spatial resolution is either reported in angular units (degrees) that represent longitude and latitude in a spherical coordinate system or square (kilo-)meters projected into Cartesian coordinate systems. High-resolution airborne monitoring, for example, achieves a spatial resolution at or below 1x1m. Publicly available data products derived from satellite data are often much more coarse with values of 1x1km or larger, like the <a href="https://odiac.org/index.html">Open-source Data Inventory for Anthropogenic CO2 (ODIAC)</a>. The spatial resolution of georeferenced data which is stored in vector-format refers to the detailedness and aggregation level of data in points, lines, and polygons. For example, is pollution data stored for each individual emitting factory in point location or as regional or national averages?</li>
-<li><strong>Spatial coverage</strong>: The spatial coverage (or scope) refers to the extensiveness of data across the globe. The delineation of coverage can be based on the exact spatial extent of gridded data, or on administrative units like regions and countries.</li>
+<li><strong>Variable</strong>: Measuring the specific indicator of interest. This could be for example values of nighttime lights, GHG emissions like CO2 or CH4 from the <a href="https://edgar.jrc.ec.europa.eu/">Emission Database for Global Atmospheric Research (EDGAR)</a>, or landscape values like NDVI.</li>
+<li><strong>CRS and projection</strong>: A Coordinate Reference System (CRS) is the framework for identifying locations. It defines how the two-dimensional map refers to actual places on the Earth’s surface. A CRS typically includes a datum (which defines the coordinate axes) and either uses geographic coordinates (latitude and longitude) or projected coordinates. Projected coordinates are based on mathematical methods to transform the Earth’s three-dimensional surface into a two-dimensional plane (the “map”). Any projection inevitably distorts some properties of shape, area, distance, or direction. Different projections focus on preserving different characteristics.</li>
+<li><strong>Spatial resolution</strong>: The spatial resolution reports the granularity of the data. Finer granularity stores more detailed information. For gridded data, and depending on the measurement framework, the spatial resolution is either reported in angular units (degrees) that represent longitude and latitude in a spherical coordinate system or square (kilo-)meters projected into Cartesian coordinate systems. High-resolution airborne monitoring, for example, achieves a spatial resolution at or below 1x1m. Publicly available data products derived from satellite data are often much more coarse with values of 1x1km or larger, like the <a href="https://odiac.org/index.html">Open-source Data Inventory for Anthropogenic CO2 (ODIAC)</a>. The spatial resolution of georeferenced data which is stored in vector-format refers to the detailedness and aggregation level of data in points, lines, and polygons. For example, is pollution data stored for each individual emitting factory in point location or as regional or national averages?</li>
+<li><strong>Spatial coverage</strong>: The spatial coverage (or scope/extent) refers to the extensiveness of data across the globe. The delineation of coverage can be based on the exact spatial extent of gridded data, or on administrative units like regions and countries.</li>
 <li><strong>Temporal resolution</strong>: Similar to the spatial resolution, the temporal resolution records the intervalls at which information is stored. (Near-)real-time data from public sources have hourly or daily intervals. Many datasets also provide monthly or yearly averages.</li>
-<li><strong>Temporal coverage</strong>: The temporal coverage (scope) means the time period, which is covered by the dataset. Given that many remote sensing and satellite programs have emerged only recently, the temporal coverage of observational data is limited. Fortunately, <a href="https://climate.copernicus.eu/climate-reanalysis">reanalysis</a> programs, simulation studies, and data fusion projects have extended the historical coverage of many EO indicators considerably. Check out, for example, the <a href="https://www.pnnl.gov/projects/ceds">Community Emissions Data System (CEDS)</a>, which has produced annual estimates of several anthropogenic emission species over the entire industrial period from 1750!</li>
+<li><strong>Temporal coverage</strong>: The temporal coverage (or scope/extent) means the time period, which is covered by the dataset. Given that many remote sensing and satellite programs have emerged only recently, the temporal coverage of observational data is limited. Fortunately, <a href="https://climate.copernicus.eu/climate-reanalysis">reanalysis</a> programs, simulation studies, and data fusion projects have extended the historical coverage of many EO indicators considerably. Check out, for example, the <a href="https://www.pnnl.gov/projects/ceds">Community Emissions Data System (CEDS)</a>, which has produced annual estimates of several anthropogenic emission species over the entire industrial period from 1750!</li>
 <li><strong>Measurement type</strong>: EO data can be collected through different channels. Bottom-up approaches like direct reporting of emissions based on in-situ sensors or estimations of point sources can offer high accuracy but often lack broad coverage. In contrast, top-down approaches based on remote sensing can generate global coverage at risk of accuracy issues. Many data products integrate different data sources and apply additional techniques to increase data quality through simulation studies, data fusion, or reanalysis.</li>
 <li><strong>Processing level</strong>: The processing level describes how much pre-processing of the original raw data has been involved. Levels are often classified from 0 (raw) to 4 (model output). As endusers, we are normally accessing data products at level 2 or 3, which represent derived geophysical variables mapped on uniform space-time grid scales and checked for completeness and consistency. For more information, see NASA’s description <a href="https://www.earthdata.nasa.gov/learn/earth-observation-data-basics/data-processing-levels">here</a>.</li>
 </ul>
@@ -222,12 +233,12 @@ ul.task-list li input[type="checkbox"] {
 <section id="data-quality-assessment" class="level2">
 <h2 class="anchored" data-anchor-id="data-quality-assessment">Data quality assessment</h2>
 <p>Comming soon</p>
-<p>The German Federal Statistical Office (DESTATIS) is currently evaluating the usage of remote sensing data for official statistical accounts in several projects as part of their <a href="https://www.destatis.de/EN/Service/EXSTAT/_node.html">experimental statistics</a>.</p>
-<ul>
-<li><a href="https://www.destatis.de/EN/Service/EXSTAT/Datensaetze/satellite-data.html">Smart business cycle statistics based on satellite data</a></li>
-<li><a href="https://www.destatis.de/EN/Service/EXSTAT/Datensaetze/register-census.html">Remote sensing data and artifical intelligence in the register census</a></li>
-<li><a href="https://www.destatis.de/EN/Service/EXSTAT/Datensaetze/satellite-based-early-estimate.html">Satellite-based early estimate of short-term economic development</a></li>
-</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/resolution_comparison.png" class="img-fluid figure-img" style="width:100.0%" data-align="center"></p>
+<figcaption>Resolution of satellite images compared <a href="https://www.destatis.de/EN/Service/EXSTAT/Datensaetze/satellite-data.html">(Source: Destatis 2019)</a>.</figcaption>
+</figure>
+</div>
 
 
 </section>

@@ -237,34 +237,34 @@ Now we can access the data. We loop the download over the four years of the surv
 # Year vector
 years <- c("1993", "2000", "2010", "2020")
 
-# API acess looped over four years
-for (yr in years) {
-
-  # Create file names which include year
-  file_name <- paste0("era5_temperature", yr, ".grib")
-
-  # Specify API request
-  request <- list(
-    data_format = "grib",
-    variable = "2m_temperature",
-    product_type = "monthly_averaged_reanalysis",
-    time = "00:00",
-    year = yr,
-    month = c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"),
-    area = c(90, -180, -90, 180),
-    dataset_short_name = "reanalysis-era5-land-monthly-means",
-    target = file_name
-  )
-
-  # Download data from C3S
-  file_path <- ecmwfr::wf_request(
-    request = request,
-    transfer = TRUE,
-    path = "./data/C3S_data",
-    verbose = FALSE
-  )
-
-}
+# # API acess looped over four years
+# for (yr in years) {
+# 
+#   # Create file names which include year
+#   file_name <- paste0("era5_temperature", yr, ".grib")
+# 
+#   # Specify API request
+#   request <- list(
+#     data_format = "grib",
+#     variable = "2m_temperature",
+#     product_type = "monthly_averaged_reanalysis",
+#     time = "00:00",
+#     year = yr,
+#     month = c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"),
+#     area = c(90, -180, -90, 180),
+#     dataset_short_name = "reanalysis-era5-land-monthly-means",
+#     target = file_name
+#   )
+# 
+#   # Download data from C3S
+#   file_path <- ecmwfr::wf_request(
+#     request = request,
+#     transfer = TRUE,
+#     path = "./data/C3S_data",
+#     verbose = FALSE
+#   )
+# 
+# }
 
 ```
 
@@ -321,26 +321,26 @@ Now that we have the focal values for all four survey years, we redo the process
 # Year vector
 baseline_years <- as.character(1961:1970)
 
-# Specify API request
-request <- list(
-    data_format = "grib",
-    variable = "2m_temperature",
-    product_type = "monthly_averaged_reanalysis",
-    time = "00:00",
-    year = baseline_years,
-    month = c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"),
-    area = c(90, -180, -90, 180),
-    dataset_short_name = "reanalysis-era5-land-monthly-means",
-    target = "era5_temperature1961-1990.grib"
-  )
-
-# Download data from C3S
-file_path <- ecmwfr::wf_request(
-    request = request,
-    transfer = TRUE,
-    path = "./data/C3S_data",
-    verbose = FALSE
-  )
+# # Specify API request
+# request <- list(
+#     data_format = "grib",
+#     variable = "2m_temperature",
+#     product_type = "monthly_averaged_reanalysis",
+#     time = "00:00",
+#     year = baseline_years,
+#     month = c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"),
+#     area = c(90, -180, -90, 180),
+#     dataset_short_name = "reanalysis-era5-land-monthly-means",
+#     target = "era5_temperature1961-1990.grib"
+#   )
+# 
+# # Download data from C3S
+# file_path <- ecmwfr::wf_request(
+#     request = request,
+#     transfer = TRUE,
+#     path = "./data/C3S_data",
+#     verbose = FALSE
+#   )
 
 ```
 
@@ -427,7 +427,9 @@ mean_concern_wide <- mean_concern |>
 
 world <- left_join(world, mean_concern_wide, by = c("admin" = "country_new"))
 
-print(head(world |> arrange(admin)))
+print(head(world |> 
+  filter(!is.na(mean_concern_2020)) |> 
+  arrange(admin)))
 ```
 
 The data is ready to use for any further analysis. 
@@ -439,20 +441,20 @@ The manual approach described above is time- and code-intensive. Our `gxc`-packa
 We need `devtools` to load the `gxc`-package.
 
 ```{r setup2}
-# Load gxc package
-if (!requireNamespace("gxc", quietly = TRUE)) {
-  devtools::install_github("denabel/gxc")
-}
-
-# Now load the package
-library(gxc)
+# # Load gxc package
+# if (!requireNamespace("gxc", quietly = TRUE)) {
+#   devtools::install_github("denabel/gxc")
+# }
+# 
+# # Now load the package
+# library(gxc)
 ```
 
 We exemplify the process for the 2020 wave. The function requires the last month of the focal time period as variable in the dataset. We add a date-variable to the dataset which records the last month of the focal period (December 2020).
 
 ```{r date-variable}
 # Create fixed date-variable
-world$date_raw <- "12-2020"
+# world$date_raw <- "12-2020"
 
 ```
 
@@ -482,7 +484,9 @@ Specification of `poly_link` and data access.
 ```
 
 ```{r dataset-out}
-# head(dataset_out |> arrange(admin))
+# print(head(world |> 
+#   filter(!is.na(mean_concern_2020)) |> 
+#   arrange(admin)))
 
 ```
 

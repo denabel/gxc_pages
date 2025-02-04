@@ -560,34 +560,34 @@ First 5 geometries:</code></pre>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Year vector</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1993"</span>, <span class="st">"2000"</span>, <span class="st">"2010"</span>, <span class="st">"2020"</span>)</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># API acess looped over four years</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (yr <span class="cf">in</span> years) {</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create file names which include year</span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  file_name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"era5_temperature"</span>, yr, <span class="st">".grib"</span>)</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Specify API request</span></span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  request <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_format =</span> <span class="st">"grib"</span>,</span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">variable =</span> <span class="st">"2m_temperature"</span>,</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">product_type =</span> <span class="st">"monthly_averaged_reanalysis"</span>,</span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> <span class="st">"00:00"</span>,</span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> yr,</span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">month =</span> <span class="fu">c</span>(<span class="st">"01"</span>, <span class="st">"02"</span>, <span class="st">"03"</span>, <span class="st">"04"</span>, <span class="st">"05"</span>, <span class="st">"06"</span>, <span class="st">"07"</span>, <span class="st">"08"</span>, <span class="st">"09"</span>, <span class="st">"10"</span>, <span class="st">"11"</span>, <span class="st">"12"</span>),</span>
-<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">area =</span> <span class="fu">c</span>(<span class="dv">90</span>, <span class="sc">-</span><span class="dv">180</span>, <span class="sc">-</span><span class="dv">90</span>, <span class="dv">180</span>),</span>
-<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_short_name =</span> <span class="st">"reanalysis-era5-land-monthly-means"</span>,</span>
-<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">target =</span> file_name</span>
-<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Download data from C3S</span></span>
-<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>  file_path <span class="ot">&lt;-</span> ecmwfr<span class="sc">::</span><span class="fu">wf_request</span>(</span>
-<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">request =</span> request,</span>
-<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">transfer =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">path =</span> <span class="st">"./data/C3S_data"</span>,</span>
-<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">verbose =</span> <span class="cn">FALSE</span></span>
-<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># # API acess looped over four years</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># for (yr in years) {</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   # Create file names which include year</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   file_name &lt;- paste0("era5_temperature", yr, ".grib")</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   # Specify API request</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   request &lt;- list(</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     data_format = "grib",</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="co">#     variable = "2m_temperature",</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="co">#     product_type = "monthly_averaged_reanalysis",</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     time = "00:00",</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="co">#     year = yr,</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="co">#     month = c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"),</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="co">#     area = c(90, -180, -90, 180),</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="co">#     dataset_short_name = "reanalysis-era5-land-monthly-means",</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="co">#     target = file_name</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="co">#   )</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="co">#   # Download data from C3S</span></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="co">#   file_path &lt;- ecmwfr::wf_request(</span></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a><span class="co">#     request = request,</span></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a><span class="co">#     transfer = TRUE,</span></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a><span class="co">#     path = "./data/C3S_data",</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a><span class="co">#     verbose = FALSE</span></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a><span class="co">#   )</span></span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>temp_1993 <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(<span class="st">"./data/C3S_data/era5_temperature1993.grib"</span>)</span>
@@ -673,26 +673,26 @@ Geodetic CRS:  Coordinate System imported from GRIB file
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Year vector</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>baseline_years <span class="ot">&lt;-</span> <span class="fu">as.character</span>(<span class="dv">1961</span><span class="sc">:</span><span class="dv">1970</span>)</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify API request</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>request <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_format =</span> <span class="st">"grib"</span>,</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">variable =</span> <span class="st">"2m_temperature"</span>,</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">product_type =</span> <span class="st">"monthly_averaged_reanalysis"</span>,</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> <span class="st">"00:00"</span>,</span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> baseline_years,</span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">month =</span> <span class="fu">c</span>(<span class="st">"01"</span>, <span class="st">"02"</span>, <span class="st">"03"</span>, <span class="st">"04"</span>, <span class="st">"05"</span>, <span class="st">"06"</span>, <span class="st">"07"</span>, <span class="st">"08"</span>, <span class="st">"09"</span>, <span class="st">"10"</span>, <span class="st">"11"</span>, <span class="st">"12"</span>),</span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">area =</span> <span class="fu">c</span>(<span class="dv">90</span>, <span class="sc">-</span><span class="dv">180</span>, <span class="sc">-</span><span class="dv">90</span>, <span class="dv">180</span>),</span>
-<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_short_name =</span> <span class="st">"reanalysis-era5-land-monthly-means"</span>,</span>
-<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">target =</span> <span class="st">"era5_temperature1961-1990.grib"</span></span>
-<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Download data from C3S</span></span>
-<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>file_path <span class="ot">&lt;-</span> ecmwfr<span class="sc">::</span><span class="fu">wf_request</span>(</span>
-<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">request =</span> request,</span>
-<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">transfer =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">path =</span> <span class="st">"./data/C3S_data"</span>,</span>
-<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">verbose =</span> <span class="cn">FALSE</span></span>
-<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># # Specify API request</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="co"># request &lt;- list(</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     data_format = "grib",</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     variable = "2m_temperature",</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     product_type = "monthly_averaged_reanalysis",</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     time = "00:00",</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     year = baseline_years,</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     month = c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"),</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     area = c(90, -180, -90, 180),</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="co">#     dataset_short_name = "reanalysis-era5-land-monthly-means",</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a><span class="co">#     target = "era5_temperature1961-1990.grib"</span></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a><span class="co">#   )</span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a><span class="co"># # Download data from C3S</span></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a><span class="co"># file_path &lt;- ecmwfr::wf_request(</span></span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a><span class="co">#     request = request,</span></span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a><span class="co">#     transfer = TRUE,</span></span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a><span class="co">#     path = "./data/C3S_data",</span></span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a><span class="co">#     verbose = FALSE</span></span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a><span class="co">#   )</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>temp_base <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(<span class="st">"./data/C3S_data/era5_temperature1961-1990.grib"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -813,41 +813,36 @@ Geodetic CRS:  Coordinate System imported from GRIB file
 <span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>world <span class="ot">&lt;-</span> <span class="fu">left_join</span>(world, mean_concern_wide, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"admin"</span> <span class="ot">=</span> <span class="st">"country_new"</span>))</span>
 <span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(world <span class="sc">|&gt;</span> <span class="fu">arrange</span>(admin)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(world <span class="sc">|&gt;</span> </span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(mean_concern_2020)) <span class="sc">|&gt;</span> </span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(admin)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Simple feature collection with 6 features and 15 fields
 Geometry type: MULTIPOLYGON
 Dimension:     XY
-Bounding box:  xmin: -170.8205 ymin: -14.35977 xmax: 74.89131 ymax: 60.40581
+Bounding box:  xmin: -61.79409 ymin: -54.74922 xmax: 158.9589 ymax: 70.06484
 Geodetic CRS:  Coordinate System imported from GRIB file
-           admin iso_a3 temp_1993 temp_2000 temp_2010 temp_2020 temp_base
-1    Afghanistan    AFG  284.2885  285.3764  286.1126  284.4401  284.3856
-2          Aland    ALA  279.3112  280.5577  278.4294  282.0307  278.6927
-3        Albania    ALB  284.4867  284.9434  285.0583  285.7865  284.3130
-4        Algeria    DZA  295.5360  295.8001  297.3030  297.0276  295.2076
-5 American Samoa    ASM       NaN       NaN       NaN       NaN       NaN
-6        Andorra    AND  276.4664  276.9620  275.6586  277.7964  276.1103
-    diff_1993 diff_2000  diff_2010  diff_2020 mean_concern_1993
-1 -0.09712532 0.9907478  1.7269440 0.05448884                NA
-2  0.61849617 1.8650461 -0.2632909 3.33801466                NA
-3  0.17370664 0.6304038  0.7452682 1.47342746                NA
-4  0.32836631 0.5924664  2.0953310 1.81991848                NA
-5         NaN       NaN        NaN        NaN                NA
-6  0.35609309 0.8516960 -0.4516439 1.68614070                NA
-  mean_concern_2000 mean_concern_2010 mean_concern_2020
-1                NA                NA                NA
-2                NA                NA                NA
-3                NA                NA                NA
-4                NA                NA                NA
-5                NA                NA                NA
-6                NA                NA                NA
-                        geometry
-1 MULTIPOLYGON (((66.52227 37...
-2 MULTIPOLYGON (((19.98955 60...
-3 MULTIPOLYGON (((19.34238 41...
-4 MULTIPOLYGON (((8.576563 36...
-5 MULTIPOLYGON (((-170.7263 -...
-6 MULTIPOLYGON (((1.706055 42...</code></pre>
+      admin iso_a3 temp_1993 temp_2000 temp_2010 temp_2020 temp_base  diff_1993
+1 Australia    AUS  294.8993  294.2218  294.7285  295.7058  295.0203 -0.1210429
+2   Austria    AUT  278.7910  279.8814  278.3763  280.4286  278.1573  0.6337671
+3   Croatia    HRV  283.9717  285.6562  283.9234  285.5485  283.5202  0.4515663
+4   Denmark    DNK  280.9850  282.4755  280.1209  283.3281  280.6341  0.3508730
+5   Finland    FIN  274.8894  276.5970  274.3150  277.6573  274.4078  0.4816045
+6    France    -99  285.0149  285.6563  284.6554  286.9104  284.6791  0.3357822
+   diff_2000   diff_2010 diff_2020 mean_concern_1993 mean_concern_2000
+1 -0.7985866 -0.29184766 0.6854605           3.73951                NA
+2  1.7241737  0.21901826 2.2712879                NA          3.996714
+3  2.1360691  0.40327552 2.0283470                NA                NA
+4  1.8414213 -0.51319651 2.6940181                NA          3.402542
+5  2.1891151 -0.09287108 3.2494134                NA          3.302792
+6  0.9772204 -0.02364492 2.2312917                NA                NA
+  mean_concern_2010 mean_concern_2020                       geometry
+1          3.306898          3.833178 MULTIPOLYGON (((143.1789 -1...
+2          3.804325          4.182692 MULTIPOLYGON (((9.527539 47...
+3          4.010915          3.990964 MULTIPOLYGON (((13.57793 45...
+4          3.498276          3.642857 MULTIPOLYGON (((12.56875 55...
+5          3.511832          3.924270 MULTIPOLYGON (((24.15547 65...
+6          3.474752          3.832879 MULTIPOLYGON (((9.480371 42...</code></pre>
 </div>
 </div>
 <p>The data is ready to use for any further analysis.</p>
@@ -857,18 +852,18 @@ Geodetic CRS:  Coordinate System imported from GRIB file
 <p>The manual approach described above is time- and code-intensive. Our <code>gxc</code>-package helps to automatize these steps. You can use the <code>poly_link</code>-function to directly link to every single observation in a dataset with the discussed EO indicator.</p>
 <p>We need <code>devtools</code> to load the <code>gxc</code>-package.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load gxc package</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"gxc"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"denabel/gxc"</span>)</span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Now load the package</span></span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gxc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># # Load gxc package</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co"># if (!requireNamespace("gxc", quietly = TRUE)) {</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   devtools::install_github("denabel/gxc")</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="co"># # Now load the package</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="co"># library(gxc)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We exemplify the process for the 2020 wave. The function requires the last month of the focal time period as variable in the dataset. We add a date-variable to the dataset which records the last month of the focal period (December 2020).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create fixed date-variable</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>world<span class="sc">$</span>date_raw <span class="ot">&lt;-</span> <span class="st">"12-2020"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="co"># world$date_raw &lt;- "12-2020"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Check out vignette for <code>poly_link</code> for detailed documentation.</p>
 <div class="cell">
@@ -890,7 +885,9 @@ Geodetic CRS:  Coordinate System imported from GRIB file
 <span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   keep_raw = FALSE)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># head(dataset_out |&gt; arrange(admin))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># print(head(world |&gt; </span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(!is.na(mean_concern_2020)) |&gt; </span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   arrange(admin)))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This was a relatively easy example where we link data on the country-level. Data with a more fine-grained georeferencing or more complex temporal resolution requires even more flexible approaches. The <code>gxc</code>-package allows these custom-made linking approaches. The next example with the GLES Panel shows how to do it for observations with varying linking dates and small spatial buffer.</p>
 
