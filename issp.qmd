@@ -260,7 +260,7 @@ years <- c("1993", "2000", "2010", "2020")
 #   file_path <- ecmwfr::wf_request(
 #     request = request,
 #     transfer = TRUE,
-#     path = "./data/C3S_data",
+#     path = "./data/EO_data/C3S_data",
 #     verbose = FALSE
 #   )
 # 
@@ -269,10 +269,10 @@ years <- c("1993", "2000", "2010", "2020")
 ```
 
 ```{r load-data, warning = FALSE}
-temp_1993 <- terra::rast("./data/C3S_data/era5_temperature1993.grib")
-temp_2000 <- terra::rast("./data/C3S_data/era5_temperature2000.grib")
-temp_2010 <- terra::rast("./data/C3S_data/era5_temperature2010.grib")
-temp_2020 <- terra::rast("./data/C3S_data/era5_temperature2020.grib")
+temp_1993 <- terra::rast("./data/EO_data/C3S_data/era5_temperature1993.grib")
+temp_2000 <- terra::rast("./data/EO_data/C3S_data/era5_temperature2000.grib")
+temp_2010 <- terra::rast("./data/EO_data/C3S_data/era5_temperature2010.grib")
+temp_2020 <- terra::rast("./data/EO_data/C3S_data/era5_temperature2020.grib")
 ```
 
 Let's inspect the datacube for 2020 and plot the first layer of the 2020 datacube (January 2020). The attributes of the file tell us information on the dimensions (number of rows, columns, and layers), the resolution, spatial extent, the coordinate reference system, units, and time points.
@@ -338,14 +338,14 @@ baseline_years <- as.character(1961:1970)
 # file_path <- ecmwfr::wf_request(
 #     request = request,
 #     transfer = TRUE,
-#     path = "./data/C3S_data",
+#     path = "./data/EO_data/C3S_data",
 #     verbose = FALSE
 #   )
 
 ```
 
 ```{r load-data-base, warning = FALSE}
-temp_base <- terra::rast("./data/C3S_data/era5_temperature1961-1990.grib")
+temp_base <- terra::rast("./data/EO_data/C3S_data/era5_temperature1961-1990.grib")
 
 ```
 
@@ -476,7 +476,7 @@ Specification of `poly_link` and data access.
 #   time_lag = 0,
 #   baseline = c("1961", "1970"),
 #   order = "my",
-#   path = "./data/C3S_data",
+#   path = "./data/EO_data/C3S_data",
 #   catalogue = "reanalysis-era5-land-monthly-means",
 #   by_hour = FALSE,
 #   keep_raw = FALSE)
