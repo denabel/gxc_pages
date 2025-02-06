@@ -565,5 +565,19 @@
     "title": "EO data quality criteria",
     "section": "",
     "text": "Earth observation data often comes in raster-format, sometimes in vector-format. In order to assess the quality of a specific EO product and determine wether it is suitable for our specific research purpose, we need to be aware of a few terminologies. These are explained below. For researchers who regularly work with geographical data, these should sound familiar.\n\n\n\nCreating high quality maps (AI generated image)."
+  },
+  {
+    "objectID": "performance.html",
+    "href": "performance.html",
+    "title": "Performance",
+    "section": "",
+    "text": "comming soon!"
+  },
+  {
+    "objectID": "performance.html#simulating-linking-data-of-different-sizes",
+    "href": "performance.html#simulating-linking-data-of-different-sizes",
+    "title": "Performance",
+    "section": "",
+    "text": "comming soon!"
   }
 ]
