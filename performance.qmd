@@ -2,6 +2,613 @@
 title: "Performance"
 ---
 
-## Simulating linking data of different sizes
+## How long will the package run on an average laptop?
 
-comming soon!
+Here, you can explore performance of the `gxc`-package in terms of execution time. We have tested several specifications and varied the most important parameters which might affect the processing time and which are representative of typical specifications in previous studies: 
+
+1. **Sample size**: 10-5000 
+2. **Spatial extent**: City, national, continental, worldwide 
+3. **Focal period**: Averages for month, season, and year
+4. **Baseline period**: No baseline, 10y baseline, 30y baseline.
+
+We are accessing the `2m_temperature` indicator from the `ERA5-Land` dataset for this exercise. The code was run on an average office laptop (Intel Core i7-10510U CPU, 16GB RAM, Windows 10). Below, you find the detailed code for the sample generation and execution.
+
+```{r packages, include = FALSE}
+# Load packages
+library(sf)
+library(tidyverse)
+library(plotly)
+library(rnaturalearth)
+library(gridExtra)
+library(keyring)
+library(tictoc)
+library(gxc)
+
+```
+
+
+```{r create-grid, echo = FALSE}
+# Load shapefiles and prepare grids ---------------------------------------
+
+# Retrieve Germany's bounding box
+germany <- ne_countries(country = "Germany", 
+                        scale = "medium", 
+                        returnclass = "sf") 
+  
+# Generate the grid
+grid_national <- sf::st_make_grid(
+  st_as_sfc(st_bbox(germany)), 
+  n = c(100,100)
+  ) 
+  
+grid_national <- st_sf(geometry = grid_national)
+
+# Assign WGS84 CRS
+st_crs(grid_national) <- 4326
+
+# Define the four corner cells (by relying on the indexing of the grid cell)
+ll_index <- 1
+lr_index <- 100
+ul_index <- 9901
+ur_index <- 10000
+
+corner_indices <- c(ll_index, lr_index, ul_index, ur_index)
+
+
+# Generate sample grids ---------------------------------------------------
+
+# Sample-function (always including the four corner cells).
+sample_grid <- function(n, my_grid, extent_polygons) {
+  if(n < 4) stop("n must be at least 4 to include all corner cells.")
+  
+  # Calculate n-corner polygons
+  n_random <- n - length(extent_polygons)
+  
+  # Exclude the corner cells from the random sample
+  remaining <- my_grid[-extent_polygons, ]
+  
+  # Randomly sample from the remaining cells
+  random_sample <- remaining[sample(nrow(remaining), n_random), ]
+  
+  # Combine the corner cells with the random sample
+  sampled <- rbind(my_grid[extent_polygons, ], random_sample)
+  return(sampled)
+}
+
+# Sample grids with various n
+sample_sizes <- c(10, 20, 50, 100, 200, 500, 1000, 2000, 5000)
+
+samples_list <- list()
+
+# Loop over the sample sizes
+for (i in seq_along(sample_sizes)) {
+  n <- sample_sizes[i]
+
+  samples_list[[i]] <- sample_grid(n, grid_national, corner_indices)
+}
+
+names(samples_list) <- paste0("sample_", sample_sizes)
+
+```
+
+
+```{r grid-plot, include = FALSE}
+
+# Visualize
+plots <- lapply(seq_along(sample_sizes), function(i) {
+  n <- sample_sizes[i]
+  sampled_sf <- samples_list[[i]]
+  
+  ggplot() +
+    geom_sf(data = sampled_sf, 
+            fill = "#c994c7", 
+            color = "#dd1c77", 
+            size = 0.3) +
+    geom_sf(data = germany, fill = NA, color = "#2c7fb8", size = 0.8) +
+    ggtitle(paste("Sample size:", n)) +
+    theme_minimal()
+})
+
+gridExtra::grid.arrange(grobs = plots[-c(1:3)], ncol = 3)
+
+```
+
+```{r execute-time, include = FALSE}
+# # Loop over poly_link-function and measure elapsed time -------------------
+# 
+# # Add random time identifier in grids
+# samples_list <- lapply(samples_list, function(grid) {
+#   grid$date_raw <- "12-2020"
+#   grid
+# })
+# 
+# # Set up API access
+# api_key <- Sys.getenv("WF_API_KEY")
+# 
+# keyring::key_set_with_value(service = "wf_api_key", password = api_key)
+# 
+# # Set up new dataframe measuring elapsed time
+# results_df <- data.frame(
+#   spatial_extent = character(),
+#   sample_size = integer(),
+#   focal_period = character(),
+#   seconds = numeric(),
+#   stringsAsFactors = FALSE
+# )
+# 
+# # Loop over the list of samples using tictoc to measure execution time.
+# time_span_values <- c(0,2,11)
+# 
+# for (i in seq_along(samples_list)) {
+#   sample_size <- sample_sizes[i]
+#   sample_polygons <- samples_list[[i]]
+#   
+#   for (ts in time_span_values) {
+#   
+#   # Start timing using tic().
+#   tic()  
+#   # Run poly_link function
+#   poly_result <- poly_link(
+#     indicator = "2m_temperature",
+#     data = sample_polygons,
+#     date_var = "date_raw",
+#     time_span = ts,
+#     time_lag = 0,
+#     baseline = FALSE,
+#     order = "my",
+#     path = "./data",
+#     catalogue = "reanalysis-era5-land-monthly-means",
+#     by_hour = FALSE,
+#     keep_raw = FALSE)
+#   # Stop timing and capture the elapsed time.
+#   toc_out <- toc(quiet = TRUE)
+#   
+#   # The output toc_out is a list with the start and stop times. Compute the elapsed time.
+#   elapsed_time <- toc_out$toc - toc_out$tic
+#   
+#   focal_period <- if (ts == 0) {
+#     "Month"
+#   } else if (ts == 2) {
+#     "Season"
+#   } else if (ts == 11) {
+#     "Year"
+#   } else {
+#     NA
+#   }
+#   
+#   # Append the results to the results_df data frame.
+#   results_df <- rbind(results_df, data.frame(
+#     spatial_extent = "Germany",
+#     sample_size = sample_size,
+#     focal_period = focal_period,
+#     seconds = elapsed_time,
+#     stringsAsFactors = FALSE
+#   ))
+#   
+#   # Save as rds
+#   saveRDS(results_df, file = "./data/performance_results.rds")
+#   }
+# }
+
+```
+
+```{r time-plot, echo = FALSE, message = FALSE}
+results_df <- readRDS("./data/performance_results.rds")
+
+# split data based on groups for tabs
+df_list <- results_df %>% 
+  group_by(spatial_extent) %>% 
+  group_split()
+
+# Default ggplot
+p <- ggplot() +
+  labs(
+    title = "Execution Time vs Sample Size",
+    x = "Sample Size",
+    y = "Execution Time (minutes)",
+    color = "Focal Period"
+  ) +
+  scale_color_manual(values = c("month" = "#dd1c77",
+                                "seasonal" = "#225ea8",
+                                "yearly" = "#7fcdbb"))+
+  theme_minimal()
+
+# Looping through list of subsets
+for (d in df_list) {
+  p <- p +
+    geom_point(data = d, aes(x = sample_size, y = seconds / 60, color = focal_period)) +
+    geom_smooth(data = d, aes(x = sample_size, y = seconds / 60, color = focal_period),
+                method = "loess", se = FALSE)
+}
+
+# Convert to plotly object
+p_plotly <- ggplotly(p)
+
+# Update layout
+
+# Create buttons
+# Spatial extent
+spatial_extent_buttons <- list(
+  list(
+    method = "restyle",
+    args = list("visible", list(TRUE, TRUE)),
+    label = "Germany"
+  ),
+  list(
+    method = "restyle",
+    args = list("visible", list(FALSE, FALSE)),
+    label = "Europe"
+  )
+)
+
+# Baseline period
+baseline_buttons <- list(
+  list(
+    method = "restyle",
+    args = list("line.dash", "solid"),
+    label = "No baseline"
+  ),
+  list(
+    method = "restyle",
+    args = list("line.dash", "dot"),
+    label = "10y baseline"
+  ),
+  list(
+    method = "restyle",
+    args = list("line.dash", "dash"),
+    label = "30y baseline"
+  )
+)
+
+# Adjust layout accordingly
+p_plotly <- p_plotly %>% layout(
+  title = list(
+    text = "Execution Time vs Sample Size",
+    y = 0.85
+  ),
+  # Increase the top margin to give more space
+  margin = list(t = 150),
+  updatemenus = list(
+    list(
+      type = "dropdown",
+      active = 0,
+      buttons = spatial_extent_buttons,
+      x = 0, y = 1.12,
+      xanchor = "left",
+      yanchor = "top"
+    ),
+    list(
+      type = "dropdown",
+      active = 0,
+      buttons = baseline_buttons,
+      x = 0.2, y = 1.12,
+      xanchor = "left",
+      yanchor = "top"
+    )
+  ),
+  annotations = list(
+    list(
+      x = 0, y = 1.22,
+      xref = "paper", yref = "paper",
+      text = "Spatial extent",
+      showarrow = FALSE,
+      font = list(size = 14)
+    ),
+    list(
+      x = 0.2, y = 1.22,
+      xref = "paper", yref = "paper",
+      text = "Baseline period",
+      showarrow = FALSE,
+      font = list(size = 14)
+    )
+  )
+)
+
+# Display the interactive plot.
+p_plotly
+
+```
+
+
+## Replication code
+
+```{r packages2, warning = FALSE, message = FALSE}
+# Load packages
+library(sf)
+library(tidyverse)
+library(plotly)
+library(rnaturalearth)
+library(gridExtra)
+library(keyring)
+library(tictoc)
+library(gxc)
+
+```
+
+## Generate random sample
+
+```{r create-grid2}
+# Load shapefiles and prepare grids ---------------------------------------
+
+# Retrieve Germany's bounding box
+germany <- ne_countries(country = "Germany", 
+                        scale = "medium", 
+                        returnclass = "sf") 
+  
+# Generate the grid
+grid_national <- sf::st_make_grid(
+  st_as_sfc(st_bbox(germany)), 
+  n = c(100,100)
+  ) 
+  
+grid_national <- st_sf(geometry = grid_national)
+
+# Assign WGS84 CRS
+st_crs(grid_national) <- 4326
+
+# Define the four corner cells (by relying on the indexing of the grid cell)
+ll_index <- 1
+lr_index <- 100
+ul_index <- 9901
+ur_index <- 10000
+
+corner_indices <- c(ll_index, lr_index, ul_index, ur_index)
+
+
+# Generate sample grids ---------------------------------------------------
+
+# Sample-function (always including the four corner cells).
+sample_grid <- function(n, my_grid, extent_polygons) {
+  if(n < 4) stop("n must be at least 4 to include all corner cells.")
+  
+  # Calculate n-corner polygons
+  n_random <- n - length(extent_polygons)
+  
+  # Exclude the corner cells from the random sample
+  remaining <- my_grid[-extent_polygons, ]
+  
+  # Randomly sample from the remaining cells
+  random_sample <- remaining[sample(nrow(remaining), n_random), ]
+  
+  # Combine the corner cells with the random sample
+  sampled <- rbind(my_grid[extent_polygons, ], random_sample)
+  return(sampled)
+}
+
+# Sample grids with various n
+sample_sizes <- c(10, 20, 50, 100, 200, 500, 1000, 2000, 5000)
+
+samples_list <- list()
+
+# Loop over the sample sizes
+for (i in seq_along(sample_sizes)) {
+  n <- sample_sizes[i]
+
+  samples_list[[i]] <- sample_grid(n, grid_national, corner_indices)
+}
+
+names(samples_list) <- paste0("sample_", sample_sizes)
+
+```
+
+
+```{r grid-plot2}
+
+# Visualize
+plots <- lapply(seq_along(sample_sizes), function(i) {
+  n <- sample_sizes[i]
+  sampled_sf <- samples_list[[i]]
+  
+  ggplot() +
+    geom_sf(data = sampled_sf, 
+            fill = "#c994c7", 
+            color = "#dd1c77", 
+            size = 0.3) +
+    geom_sf(data = germany, fill = NA, color = "#2c7fb8", size = 0.8) +
+    ggtitle(paste("Sample size:", n)) +
+    theme_minimal()
+})
+
+gridExtra::grid.arrange(grobs = plots[-c(1:3)], ncol = 3)
+
+```
+
+## Calculate execution time for each specification
+
+```{r execute-time2}
+# # Loop over poly_link-function and measure elapsed time -------------------
+# 
+# # Add random time identifier in grids
+# samples_list <- lapply(samples_list, function(grid) {
+#   grid$date_raw <- "12-2020"
+#   grid
+# })
+# 
+# # Set up API access
+# api_key <- Sys.getenv("WF_API_KEY")
+# 
+# keyring::key_set_with_value(service = "wf_api_key", password = api_key)
+# 
+# # Set up new dataframe measuring elapsed time
+# results_df <- data.frame(
+#   spatial_extent = character(),
+#   sample_size = integer(),
+#   focal_period = character(),
+#   seconds = numeric(),
+#   stringsAsFactors = FALSE
+# )
+# 
+# # Loop over the list of samples using tictoc to measure execution time.
+# time_span_values <- c(0,2,11)
+# 
+# for (i in seq_along(samples_list)) {
+#   sample_size <- sample_sizes[i]
+#   sample_polygons <- samples_list[[i]]
+#   
+#   for (ts in time_span_values) {
+#   
+#   # Start timing using tic().
+#   tic()  
+#   # Run poly_link function
+#   poly_result <- poly_link(
+#     indicator = "2m_temperature",
+#     data = sample_polygons,
+#     date_var = "date_raw",
+#     time_span = ts,
+#     time_lag = 0,
+#     baseline = FALSE,
+#     order = "my",
+#     path = "./data",
+#     catalogue = "reanalysis-era5-land-monthly-means",
+#     by_hour = FALSE,
+#     keep_raw = FALSE)
+#   # Stop timing and capture the elapsed time.
+#   toc_out <- toc(quiet = TRUE)
+#   
+#   # The output toc_out is a list with the start and stop times. Compute the elapsed time.
+#   elapsed_time <- toc_out$toc - toc_out$tic
+#   
+#   focal_period <- if (ts == 0) {
+#     "Month"
+#   } else if (ts == 2) {
+#     "Season"
+#   } else if (ts == 11) {
+#     "Year"
+#   } else {
+#     NA
+#   }
+#   
+#   # Append the results to the results_df data frame.
+#   results_df <- rbind(results_df, data.frame(
+#     spatial_extent = "Germany",
+#     sample_size = sample_size,
+#     focal_period = focal_period,
+#     seconds = elapsed_time,
+#     stringsAsFactors = FALSE
+#   ))
+#   
+#   # Save as rds
+#   saveRDS(results_df, file = "./data/performance_results.rds")
+#   }
+# }
+
+```
+
+## Visualize
+
+```{r time-plot2}
+results_df <- readRDS("./data/performance_results.rds")
+
+# split data based on groups for tabs
+df_list <- results_df %>% 
+  group_by(spatial_extent) %>% 
+  group_split()
+
+# Default ggplot
+p <- ggplot() +
+  labs(
+    title = "Execution Time vs Sample Size",
+    x = "Sample Size",
+    y = "Execution Time (minutes)",
+    color = "Focal Period"
+  ) +
+  scale_color_manual(values = c("month" = "#dd1c77",
+                                "seasonal" = "#225ea8",
+                                "yearly" = "#7fcdbb"))+
+  theme_minimal()
+
+# Looping through list of subsets
+for (d in df_list) {
+  p <- p +
+    geom_point(data = d, aes(x = sample_size, y = seconds / 60, color = focal_period)) +
+    geom_smooth(data = d, aes(x = sample_size, y = seconds / 60, color = focal_period),
+                method = "loess", se = FALSE)
+}
+
+# Convert to plotly object
+p_plotly <- ggplotly(p)
+
+# Update layout
+
+# Create buttons
+# Spatial extent
+spatial_extent_buttons <- list(
+  list(
+    method = "restyle",
+    args = list("visible", list(TRUE, TRUE)),
+    label = "Germany"
+  ),
+  list(
+    method = "restyle",
+    args = list("visible", list(FALSE, FALSE)),
+    label = "Europe"
+  )
+)
+
+# Baseline period
+baseline_buttons <- list(
+  list(
+    method = "restyle",
+    args = list("line.dash", "solid"),
+    label = "No baseline"
+  ),
+  list(
+    method = "restyle",
+    args = list("line.dash", "dot"),
+    label = "10y baseline"
+  ),
+  list(
+    method = "restyle",
+    args = list("line.dash", "dash"),
+    label = "30y baseline"
+  )
+)
+
+# Adjust layout accordingly
+p_plotly <- p_plotly %>% layout(
+  title = list(
+    text = "Execution Time vs Sample Size",
+    y = 0.85
+  ),
+  # Increase the top margin to give more space
+  margin = list(t = 150),
+  updatemenus = list(
+    list(
+      type = "dropdown",
+      active = 0,
+      buttons = spatial_extent_buttons,
+      x = 0, y = 1.12,
+      xanchor = "left",
+      yanchor = "top"
+    ),
+    list(
+      type = "dropdown",
+      active = 0,
+      buttons = baseline_buttons,
+      x = 0.2, y = 1.12,
+      xanchor = "left",
+      yanchor = "top"
+    )
+  ),
+  annotations = list(
+    list(
+      x = 0, y = 1.22,
+      xref = "paper", yref = "paper",
+      text = "Spatial extent",
+      showarrow = FALSE,
+      font = list(size = 14)
+    ),
+    list(
+      x = 0.2, y = 1.22,
+      xref = "paper", yref = "paper",
+      text = "Baseline period",
+      showarrow = FALSE,
+      font = list(size = 14)
+    )
+  )
+)
+
+# Display the interactive plot.
+# p_plotly
+
+```

@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -66,6 +100,24 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="site_libs/plotly-binding-4.10.4/plotly.js"></script>
+
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+
+<script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
+
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
+<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+
+<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
 
 
 <link rel="stylesheet" href="styles.css">
@@ -137,12 +189,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">gxc package</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./catalogue.html">
- <span class="dropdown-text">Indicators</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="./performance.html">
  <span class="dropdown-text">Performance</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./catalogue.html">
+ <span class="dropdown-text">Indicators</span></a>
   </li>  
     </ul>
   </li>
@@ -182,7 +234,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#simulating-linking-data-of-different-sizes" id="toc-simulating-linking-data-of-different-sizes" class="nav-link active" data-scroll-target="#simulating-linking-data-of-different-sizes">Simulating linking data of different sizes</a></li>
+  <li><a href="#how-long-will-the-package-run-on-an-average-laptop" id="toc-how-long-will-the-package-run-on-an-average-laptop" class="nav-link active" data-scroll-target="#how-long-will-the-package-run-on-an-average-laptop">How long will the package run on an average laptop?</a></li>
+  <li><a href="#replication-code" id="toc-replication-code" class="nav-link" data-scroll-target="#replication-code">Replication code</a></li>
+  <li><a href="#generate-random-sample" id="toc-generate-random-sample" class="nav-link" data-scroll-target="#generate-random-sample">Generate random sample</a></li>
+  <li><a href="#calculate-execution-time-for-each-specification" id="toc-calculate-execution-time-for-each-specification" class="nav-link" data-scroll-target="#calculate-execution-time-for-each-specification">Calculate execution time for each specification</a></li>
+  <li><a href="#visualize" id="toc-visualize" class="nav-link" data-scroll-target="#visualize">Visualize</a></li>
   </ul>
 </nav>
     </div>
@@ -208,9 +264,326 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="simulating-linking-data-of-different-sizes" class="level2">
-<h2 class="anchored" data-anchor-id="simulating-linking-data-of-different-sizes">Simulating linking data of different sizes</h2>
-<p>comming soon!</p>
+<section id="how-long-will-the-package-run-on-an-average-laptop" class="level2">
+<h2 class="anchored" data-anchor-id="how-long-will-the-package-run-on-an-average-laptop">How long will the package run on an average laptop?</h2>
+<p>Here, you can explore performance of the <code>gxc</code>-package in terms of execution time. We have tested several specifications and varied the most important parameters which might affect the processing time and which are representative of typical specifications in previous studies:</p>
+<ol type="1">
+<li><strong>Sample size</strong>: 10-5000</li>
+<li><strong>Spatial extent</strong>: City, national, continental, worldwide</li>
+<li><strong>Focal period</strong>: Averages for month, season, and year</li>
+<li><strong>Baseline period</strong>: No baseline, 10y baseline, 30y baseline.</li>
+</ol>
+<p>We are accessing the <code>2m_temperature</code> indicator from the <code>ERA5-Land</code> dataset for this exercise. The code was run on an average office laptop (Intel Core i7-10510U CPU, 16GB RAM, Windows 10). Below, you find the detailed code for the sample generation and execution.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-15f0f76f6a72d76966ee" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-15f0f76f6a72d76966ee">{"x":{"data":[{"x":[10,20,50,100,200,500,1000,2000,5000],"y":[0.60699999999999743,0.52266666666666883,0.52233333333333576,0.5419999999999997,0.54666666666666208,0.5599999999999985,0.5971666666666654,0.66216666666666701,0.91233333333332967],"text":["sample_size:   10<br />seconds/60: 0.6070000<br />focal_period: month","sample_size:   20<br />seconds/60: 0.5226667<br />focal_period: month","sample_size:   50<br />seconds/60: 0.5223333<br />focal_period: month","sample_size:  100<br />seconds/60: 0.5420000<br />focal_period: month","sample_size:  200<br />seconds/60: 0.5466667<br />focal_period: month","sample_size:  500<br />seconds/60: 0.5600000<br />focal_period: month","sample_size: 1000<br />seconds/60: 0.5971667<br />focal_period: month","sample_size: 2000<br />seconds/60: 0.6621667<br />focal_period: month","sample_size: 5000<br />seconds/60: 0.9123333<br />focal_period: month"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(221,28,119,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(221,28,119,1)"}},"hoveron":"points","name":"month","legendgroup":"month","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[10,20,50,100,200,500,1000,2000,5000],"y":[0.52400000000000091,0.52633333333333587,0.54100000000000059,0.56183333333333396,0.60816666666667063,0.72333333333333483,0.93650000000000089,1.3179999999999987,2.6631666666666662],"text":["sample_size:   10<br />seconds/60: 0.5240000<br />focal_period: seasonal","sample_size:   20<br />seconds/60: 0.5263333<br />focal_period: seasonal","sample_size:   50<br />seconds/60: 0.5410000<br />focal_period: seasonal","sample_size:  100<br />seconds/60: 0.5618333<br />focal_period: seasonal","sample_size:  200<br />seconds/60: 0.6081667<br />focal_period: seasonal","sample_size:  500<br />seconds/60: 0.7233333<br />focal_period: seasonal","sample_size: 1000<br />seconds/60: 0.9365000<br />focal_period: seasonal","sample_size: 2000<br />seconds/60: 1.3180000<br />focal_period: seasonal","sample_size: 5000<br />seconds/60: 2.6631667<br />focal_period: seasonal"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(34,94,168,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(34,94,168,1)"}},"hoveron":"points","name":"seasonal","legendgroup":"seasonal","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[10,20,50,100,200,500,1000,2000,5000],"y":[0.52516666666666656,0.53233333333332666,0.54583333333333328,0.56783333333333608,0.62666666666666515,0.77216666666666545,1.0370000000000041,1.6009999999999991,3.2175000000000029],"text":["sample_size:   10<br />seconds/60: 0.5251667<br />focal_period: yearly","sample_size:   20<br />seconds/60: 0.5323333<br />focal_period: yearly","sample_size:   50<br />seconds/60: 0.5458333<br />focal_period: yearly","sample_size:  100<br />seconds/60: 0.5678333<br />focal_period: yearly","sample_size:  200<br />seconds/60: 0.6266667<br />focal_period: yearly","sample_size:  500<br />seconds/60: 0.7721667<br />focal_period: yearly","sample_size: 1000<br />seconds/60: 1.0370000<br />focal_period: yearly","sample_size: 2000<br />seconds/60: 1.6010000<br />focal_period: yearly","sample_size: 5000<br />seconds/60: 3.2175000<br />focal_period: yearly"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(127,205,187,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(127,205,187,1)"}},"hoveron":"points","name":"yearly","legendgroup":"yearly","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[10,73.164556962025316,136.32911392405063,199.49367088607596,262.65822784810126,325.82278481012656,388.98734177215192,452.15189873417722,515.31645569620252,578.48101265822788,641.64556962025313,704.81012658227849,767.97468354430384,831.13924050632909,894.30379746835445,957.46835443037969,1020.632911392405,1083.7974683544303,1146.9620253164558,1210.126582278481,1273.2911392405063,1336.4556962025317,1399.620253164557,1462.7848101265822,1525.9493670886077,1589.1139240506329,1652.2784810126582,1715.4430379746834,1778.6075949367089,1841.7721518987341,1904.9367088607594,1968.1012658227849,2031.2658227848101,2094.4303797468356,2157.5949367088606,2220.7594936708861,2283.9240506329115,2347.0886075949365,2410.253164556962,2473.4177215189875,2536.5822784810125,2599.746835443038,2662.9113924050635,2726.0759493670885,2789.2405063291139,2852.4050632911394,2915.5696202531644,2978.7341772151899,3041.8987341772154,3105.0632911392404,3168.2278481012659,3231.3924050632909,3294.5569620253164,3357.7215189873418,3420.8860759493668,3484.0506329113923,3547.2151898734178,3610.3797468354428,3673.5443037974683,3736.7088607594937,3799.8734177215188,3863.0379746835442,3926.2025316455697,3989.3670886075947,4052.5316455696202,4115.6962025316452,4178.8607594936711,4242.0253164556962,4305.1898734177212,4368.3544303797471,4431.5189873417721,4494.6835443037971,4557.8481012658231,4621.0126582278481,4684.1772151898731,4747.341772151899,4810.506329113924,4873.6708860759491,4936.835443037975,5000],"y":[0.56814858296692039,0.52953528395543648,0.52475694718347898,0.54841622085779873,0.56894712718324336,0.5731418700686064,0.56829272905604455,0.56169295548429021,0.56033555555754777,0.56259742385193889,0.56604337033579966,0.57044941375383251,0.57559157285073947,0.58124586637122266,0.58718831305998409,0.59319493166172632,0.59903878739126337,0.60453171936582828,0.60967568949254514,0.61450470484316011,0.61905277248941959,0.62335389950306941,0.62744209295585618,0.63135135991952551,0.63511570746582413,0.63876914266649798,0.64234567259329334,0.64587930431795615,0.64940404491223269,0.65295390144786936,0.6565628809966122,0.66026499063020716,0.66408647585509006,0.66800054261562336,0.67199896824885863,0.67608009302315686,0.68024225720687825,0.68448380106838314,0.68880306487603238,0.69319838889818619,0.69766811340320534,0.70221057865945047,0.70682412493528157,0.71150709249905941,0.71625782161914464,0.7210746525638978,0.72595592560167888,0.73089998100084919,0.7359051590297685,0.74096979995679779,0.74609224405029728,0.75127083157862784,0.75650390281014956,0.76178979801322344,0.76712685745620923,0.77251342140746848,0.77794783013536062,0.78342842390824685,0.7889535429944875,0.79452152766244322,0.80013071818047432,0.80577945481694124,0.81146607784020464,0.81718892751862515,0.82294634412056311,0.82873666791437894,0.8345582391684333,0.84040939815108684,0.84628848513069976,0.85219384037563284,0.85812380415424638,0.86407671673490083,0.87005091838595694,0.87604474937577526,0.8820565499727161,0.88808466044514012,0.89412742106140763,0.90018317208987908,0.90625025379891544,0.91232700645687681],"text":["sample_size:   10.00000<br />seconds/60: 0.5681486<br />focal_period: month","sample_size:   73.16456<br />seconds/60: 0.5295353<br />focal_period: month","sample_size:  136.32911<br />seconds/60: 0.5247569<br />focal_period: month","sample_size:  199.49367<br />seconds/60: 0.5484162<br />focal_period: month","sample_size:  262.65823<br />seconds/60: 0.5689471<br />focal_period: month","sample_size:  325.82278<br />seconds/60: 0.5731419<br />focal_period: month","sample_size:  388.98734<br />seconds/60: 0.5682927<br />focal_period: month","sample_size:  452.15190<br />seconds/60: 0.5616930<br />focal_period: month","sample_size:  515.31646<br />seconds/60: 0.5603356<br />focal_period: month","sample_size:  578.48101<br />seconds/60: 0.5625974<br />focal_period: month","sample_size:  641.64557<br />seconds/60: 0.5660434<br />focal_period: month","sample_size:  704.81013<br />seconds/60: 0.5704494<br />focal_period: month","sample_size:  767.97468<br />seconds/60: 0.5755916<br />focal_period: month","sample_size:  831.13924<br />seconds/60: 0.5812459<br />focal_period: month","sample_size:  894.30380<br />seconds/60: 0.5871883<br />focal_period: month","sample_size:  957.46835<br />seconds/60: 0.5931949<br />focal_period: month","sample_size: 1020.63291<br />seconds/60: 0.5990388<br />focal_period: month","sample_size: 1083.79747<br />seconds/60: 0.6045317<br />focal_period: month","sample_size: 1146.96203<br />seconds/60: 0.6096757<br />focal_period: month","sample_size: 1210.12658<br />seconds/60: 0.6145047<br />focal_period: month","sample_size: 1273.29114<br />seconds/60: 0.6190528<br />focal_period: month","sample_size: 1336.45570<br />seconds/60: 0.6233539<br />focal_period: month","sample_size: 1399.62025<br />seconds/60: 0.6274421<br />focal_period: month","sample_size: 1462.78481<br />seconds/60: 0.6313514<br />focal_period: month","sample_size: 1525.94937<br />seconds/60: 0.6351157<br />focal_period: month","sample_size: 1589.11392<br />seconds/60: 0.6387691<br />focal_period: month","sample_size: 1652.27848<br />seconds/60: 0.6423457<br />focal_period: month","sample_size: 1715.44304<br />seconds/60: 0.6458793<br />focal_period: month","sample_size: 1778.60759<br />seconds/60: 0.6494040<br />focal_period: month","sample_size: 1841.77215<br />seconds/60: 0.6529539<br />focal_period: month","sample_size: 1904.93671<br />seconds/60: 0.6565629<br />focal_period: month","sample_size: 1968.10127<br />seconds/60: 0.6602650<br />focal_period: month","sample_size: 2031.26582<br />seconds/60: 0.6640865<br />focal_period: month","sample_size: 2094.43038<br />seconds/60: 0.6680005<br />focal_period: month","sample_size: 2157.59494<br />seconds/60: 0.6719990<br />focal_period: month","sample_size: 2220.75949<br />seconds/60: 0.6760801<br />focal_period: month","sample_size: 2283.92405<br />seconds/60: 0.6802423<br />focal_period: month","sample_size: 2347.08861<br />seconds/60: 0.6844838<br />focal_period: month","sample_size: 2410.25316<br />seconds/60: 0.6888031<br />focal_period: month","sample_size: 2473.41772<br />seconds/60: 0.6931984<br />focal_period: month","sample_size: 2536.58228<br />seconds/60: 0.6976681<br />focal_period: month","sample_size: 2599.74684<br />seconds/60: 0.7022106<br />focal_period: month","sample_size: 2662.91139<br />seconds/60: 0.7068241<br />focal_period: month","sample_size: 2726.07595<br />seconds/60: 0.7115071<br />focal_period: month","sample_size: 2789.24051<br />seconds/60: 0.7162578<br />focal_period: month","sample_size: 2852.40506<br />seconds/60: 0.7210747<br />focal_period: month","sample_size: 2915.56962<br />seconds/60: 0.7259559<br />focal_period: month","sample_size: 2978.73418<br />seconds/60: 0.7309000<br />focal_period: month","sample_size: 3041.89873<br />seconds/60: 0.7359052<br />focal_period: month","sample_size: 3105.06329<br />seconds/60: 0.7409698<br />focal_period: month","sample_size: 3168.22785<br />seconds/60: 0.7460922<br />focal_period: month","sample_size: 3231.39241<br />seconds/60: 0.7512708<br />focal_period: month","sample_size: 3294.55696<br />seconds/60: 0.7565039<br />focal_period: month","sample_size: 3357.72152<br />seconds/60: 0.7617898<br />focal_period: month","sample_size: 3420.88608<br />seconds/60: 0.7671269<br />focal_period: month","sample_size: 3484.05063<br />seconds/60: 0.7725134<br />focal_period: month","sample_size: 3547.21519<br />seconds/60: 0.7779478<br />focal_period: month","sample_size: 3610.37975<br />seconds/60: 0.7834284<br />focal_period: month","sample_size: 3673.54430<br />seconds/60: 0.7889535<br />focal_period: month","sample_size: 3736.70886<br />seconds/60: 0.7945215<br />focal_period: month","sample_size: 3799.87342<br />seconds/60: 0.8001307<br />focal_period: month","sample_size: 3863.03797<br />seconds/60: 0.8057795<br />focal_period: month","sample_size: 3926.20253<br />seconds/60: 0.8114661<br />focal_period: month","sample_size: 3989.36709<br />seconds/60: 0.8171889<br />focal_period: month","sample_size: 4052.53165<br />seconds/60: 0.8229463<br />focal_period: month","sample_size: 4115.69620<br />seconds/60: 0.8287367<br />focal_period: month","sample_size: 4178.86076<br />seconds/60: 0.8345582<br />focal_period: month","sample_size: 4242.02532<br />seconds/60: 0.8404094<br />focal_period: month","sample_size: 4305.18987<br />seconds/60: 0.8462885<br />focal_period: month","sample_size: 4368.35443<br />seconds/60: 0.8521938<br />focal_period: month","sample_size: 4431.51899<br />seconds/60: 0.8581238<br />focal_period: month","sample_size: 4494.68354<br />seconds/60: 0.8640767<br />focal_period: month","sample_size: 4557.84810<br />seconds/60: 0.8700509<br />focal_period: month","sample_size: 4621.01266<br />seconds/60: 0.8760447<br />focal_period: month","sample_size: 4684.17722<br />seconds/60: 0.8820565<br />focal_period: month","sample_size: 4747.34177<br />seconds/60: 0.8880847<br />focal_period: month","sample_size: 4810.50633<br />seconds/60: 0.8941274<br />focal_period: month","sample_size: 4873.67089<br />seconds/60: 0.9001832<br />focal_period: month","sample_size: 4936.83544<br />seconds/60: 0.9062503<br />focal_period: month","sample_size: 5000.00000<br />seconds/60: 0.9123270<br />focal_period: month"],"type":"scatter","mode":"lines","name":"month","line":{"width":3.7795275590551185,"color":"rgba(221,28,119,1)","dash":"solid"},"hoveron":"points","legendgroup":"month","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[10,73.164556962025316,136.32911392405063,199.49367088607596,262.65822784810126,325.82278481012656,388.98734177215192,452.15189873417722,515.31645569620252,578.48101265822788,641.64556962025313,704.81012658227849,767.97468354430384,831.13924050632909,894.30379746835445,957.46835443037969,1020.632911392405,1083.7974683544303,1146.9620253164558,1210.126582278481,1273.2911392405063,1336.4556962025317,1399.620253164557,1462.7848101265822,1525.9493670886077,1589.1139240506329,1652.2784810126582,1715.4430379746834,1778.6075949367089,1841.7721518987341,1904.9367088607594,1968.1012658227849,2031.2658227848101,2094.4303797468356,2157.5949367088606,2220.7594936708861,2283.9240506329115,2347.0886075949365,2410.253164556962,2473.4177215189875,2536.5822784810125,2599.746835443038,2662.9113924050635,2726.0759493670885,2789.2405063291139,2852.4050632911394,2915.5696202531644,2978.7341772151899,3041.8987341772154,3105.0632911392404,3168.2278481012659,3231.3924050632909,3294.5569620253164,3357.7215189873418,3420.8860759493668,3484.0506329113923,3547.2151898734178,3610.3797468354428,3673.5443037974683,3736.7088607594937,3799.8734177215188,3863.0379746835442,3926.2025316455697,3989.3670886075947,4052.5316455696202,4115.6962025316452,4178.8607594936711,4242.0253164556962,4305.1898734177212,4368.3544303797471,4431.5189873417721,4494.6835443037971,4557.8481012658231,4621.0126582278481,4684.1772151898731,4747.341772151899,4810.506329113924,4873.6708860759491,4936.835443037975,5000],"y":[0.52333240424779848,0.55027558377701025,0.57845889832676733,0.60789677225040817,0.63639341792653226,0.66205058148983031,0.68550665351992845,0.70740017911166864,0.72846026153045829,0.75115185573085153,0.77601478529162349,0.80260120044246885,0.8304632514130813,0.85915308843315519,0.88822286173238429,0.91722472154046297,0.94571110381390222,0.97338761881374913,1.000279103286331,1.0264477194225472,1.0519556294132988,1.0768649954494853,1.1012379797220082,1.1251367444217664,1.1486234517396612,1.1717602638665923,1.1946093429934603,1.2172328513111654,1.2396929510106081,1.2620518042826883,1.2843715733183065,1.3067144203083629,1.3291725491394868,1.3519659326213145,1.3751209125298016,1.3986295820280126,1.4224840342790102,1.4466763624458585,1.4711986596916213,1.4960430191793619,1.5212015340721441,1.5466662975330321,1.5724294027250889,1.5984829428113783,1.6248190109549638,1.6514297003189102,1.6783071040662794,1.7054433153601367,1.7328304273635444,1.7604605332395673,1.7883257261512677,1.8164180992617109,1.8447297457339598,1.8732527587310781,1.9019792314161286,1.9309012569521771,1.9600109285022849,1.989300339229517,2.0187615822969365,2.0483867508676084,2.0781679381045941,2.1080972371709588,2.1381667412297665,2.1683685434440791,2.1986947369769623,2.2291374149914782,2.2596886706506925,2.2903405971176656,2.3210852875554644,2.3519148351271504,2.3828213329957886,2.4137968743244418,2.4448335522761742,2.4759234600140494,2.5070586907011307,2.5382313375004828,2.5694334935751675,2.6006572520882498,2.6318947062027935,2.6631379490818614],"text":["sample_size:   10.00000<br />seconds/60: 0.5233324<br />focal_period: seasonal","sample_size:   73.16456<br />seconds/60: 0.5502756<br />focal_period: seasonal","sample_size:  136.32911<br />seconds/60: 0.5784589<br />focal_period: seasonal","sample_size:  199.49367<br />seconds/60: 0.6078968<br />focal_period: seasonal","sample_size:  262.65823<br />seconds/60: 0.6363934<br />focal_period: seasonal","sample_size:  325.82278<br />seconds/60: 0.6620506<br />focal_period: seasonal","sample_size:  388.98734<br />seconds/60: 0.6855067<br />focal_period: seasonal","sample_size:  452.15190<br />seconds/60: 0.7074002<br />focal_period: seasonal","sample_size:  515.31646<br />seconds/60: 0.7284603<br />focal_period: seasonal","sample_size:  578.48101<br />seconds/60: 0.7511519<br />focal_period: seasonal","sample_size:  641.64557<br />seconds/60: 0.7760148<br />focal_period: seasonal","sample_size:  704.81013<br />seconds/60: 0.8026012<br />focal_period: seasonal","sample_size:  767.97468<br />seconds/60: 0.8304633<br />focal_period: seasonal","sample_size:  831.13924<br />seconds/60: 0.8591531<br />focal_period: seasonal","sample_size:  894.30380<br />seconds/60: 0.8882229<br />focal_period: seasonal","sample_size:  957.46835<br />seconds/60: 0.9172247<br />focal_period: seasonal","sample_size: 1020.63291<br />seconds/60: 0.9457111<br />focal_period: seasonal","sample_size: 1083.79747<br />seconds/60: 0.9733876<br />focal_period: seasonal","sample_size: 1146.96203<br />seconds/60: 1.0002791<br />focal_period: seasonal","sample_size: 1210.12658<br />seconds/60: 1.0264477<br />focal_period: seasonal","sample_size: 1273.29114<br />seconds/60: 1.0519556<br />focal_period: seasonal","sample_size: 1336.45570<br />seconds/60: 1.0768650<br />focal_period: seasonal","sample_size: 1399.62025<br />seconds/60: 1.1012380<br />focal_period: seasonal","sample_size: 1462.78481<br />seconds/60: 1.1251367<br />focal_period: seasonal","sample_size: 1525.94937<br />seconds/60: 1.1486235<br />focal_period: seasonal","sample_size: 1589.11392<br />seconds/60: 1.1717603<br />focal_period: seasonal","sample_size: 1652.27848<br />seconds/60: 1.1946093<br />focal_period: seasonal","sample_size: 1715.44304<br />seconds/60: 1.2172329<br />focal_period: seasonal","sample_size: 1778.60759<br />seconds/60: 1.2396930<br />focal_period: seasonal","sample_size: 1841.77215<br />seconds/60: 1.2620518<br />focal_period: seasonal","sample_size: 1904.93671<br />seconds/60: 1.2843716<br />focal_period: seasonal","sample_size: 1968.10127<br />seconds/60: 1.3067144<br />focal_period: seasonal","sample_size: 2031.26582<br />seconds/60: 1.3291725<br />focal_period: seasonal","sample_size: 2094.43038<br />seconds/60: 1.3519659<br />focal_period: seasonal","sample_size: 2157.59494<br />seconds/60: 1.3751209<br />focal_period: seasonal","sample_size: 2220.75949<br />seconds/60: 1.3986296<br />focal_period: seasonal","sample_size: 2283.92405<br />seconds/60: 1.4224840<br />focal_period: seasonal","sample_size: 2347.08861<br />seconds/60: 1.4466764<br />focal_period: seasonal","sample_size: 2410.25316<br />seconds/60: 1.4711987<br />focal_period: seasonal","sample_size: 2473.41772<br />seconds/60: 1.4960430<br />focal_period: seasonal","sample_size: 2536.58228<br />seconds/60: 1.5212015<br />focal_period: seasonal","sample_size: 2599.74684<br />seconds/60: 1.5466663<br />focal_period: seasonal","sample_size: 2662.91139<br />seconds/60: 1.5724294<br />focal_period: seasonal","sample_size: 2726.07595<br />seconds/60: 1.5984829<br />focal_period: seasonal","sample_size: 2789.24051<br />seconds/60: 1.6248190<br />focal_period: seasonal","sample_size: 2852.40506<br />seconds/60: 1.6514297<br />focal_period: seasonal","sample_size: 2915.56962<br />seconds/60: 1.6783071<br />focal_period: seasonal","sample_size: 2978.73418<br />seconds/60: 1.7054433<br />focal_period: seasonal","sample_size: 3041.89873<br />seconds/60: 1.7328304<br />focal_period: seasonal","sample_size: 3105.06329<br />seconds/60: 1.7604605<br />focal_period: seasonal","sample_size: 3168.22785<br />seconds/60: 1.7883257<br />focal_period: seasonal","sample_size: 3231.39241<br />seconds/60: 1.8164181<br />focal_period: seasonal","sample_size: 3294.55696<br />seconds/60: 1.8447297<br />focal_period: seasonal","sample_size: 3357.72152<br />seconds/60: 1.8732528<br />focal_period: seasonal","sample_size: 3420.88608<br />seconds/60: 1.9019792<br />focal_period: seasonal","sample_size: 3484.05063<br />seconds/60: 1.9309013<br />focal_period: seasonal","sample_size: 3547.21519<br />seconds/60: 1.9600109<br />focal_period: seasonal","sample_size: 3610.37975<br />seconds/60: 1.9893003<br />focal_period: seasonal","sample_size: 3673.54430<br />seconds/60: 2.0187616<br />focal_period: seasonal","sample_size: 3736.70886<br />seconds/60: 2.0483868<br />focal_period: seasonal","sample_size: 3799.87342<br />seconds/60: 2.0781679<br />focal_period: seasonal","sample_size: 3863.03797<br />seconds/60: 2.1080972<br />focal_period: seasonal","sample_size: 3926.20253<br />seconds/60: 2.1381667<br />focal_period: seasonal","sample_size: 3989.36709<br />seconds/60: 2.1683685<br />focal_period: seasonal","sample_size: 4052.53165<br />seconds/60: 2.1986947<br />focal_period: seasonal","sample_size: 4115.69620<br />seconds/60: 2.2291374<br />focal_period: seasonal","sample_size: 4178.86076<br />seconds/60: 2.2596887<br />focal_period: seasonal","sample_size: 4242.02532<br />seconds/60: 2.2903406<br />focal_period: seasonal","sample_size: 4305.18987<br />seconds/60: 2.3210853<br />focal_period: seasonal","sample_size: 4368.35443<br />seconds/60: 2.3519148<br />focal_period: seasonal","sample_size: 4431.51899<br />seconds/60: 2.3828213<br />focal_period: seasonal","sample_size: 4494.68354<br />seconds/60: 2.4137969<br />focal_period: seasonal","sample_size: 4557.84810<br />seconds/60: 2.4448336<br />focal_period: seasonal","sample_size: 4621.01266<br />seconds/60: 2.4759235<br />focal_period: seasonal","sample_size: 4684.17722<br />seconds/60: 2.5070587<br />focal_period: seasonal","sample_size: 4747.34177<br />seconds/60: 2.5382313<br />focal_period: seasonal","sample_size: 4810.50633<br />seconds/60: 2.5694335<br />focal_period: seasonal","sample_size: 4873.67089<br />seconds/60: 2.6006573<br />focal_period: seasonal","sample_size: 4936.83544<br />seconds/60: 2.6318947<br />focal_period: seasonal","sample_size: 5000.00000<br />seconds/60: 2.6631379<br />focal_period: seasonal"],"type":"scatter","mode":"lines","name":"seasonal","line":{"width":3.7795275590551185,"color":"rgba(34,94,168,1)","dash":"solid"},"hoveron":"points","legendgroup":"seasonal","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[10,73.164556962025316,136.32911392405063,199.49367088607596,262.65822784810126,325.82278481012656,388.98734177215192,452.15189873417722,515.31645569620252,578.48101265822788,641.64556962025313,704.81012658227849,767.97468354430384,831.13924050632909,894.30379746835445,957.46835443037969,1020.632911392405,1083.7974683544303,1146.9620253164558,1210.126582278481,1273.2911392405063,1336.4556962025317,1399.620253164557,1462.7848101265822,1525.9493670886077,1589.1139240506329,1652.2784810126582,1715.4430379746834,1778.6075949367089,1841.7721518987341,1904.9367088607594,1968.1012658227849,2031.2658227848101,2094.4303797468356,2157.5949367088606,2220.7594936708861,2283.9240506329115,2347.0886075949365,2410.253164556962,2473.4177215189875,2536.5822784810125,2599.746835443038,2662.9113924050635,2726.0759493670885,2789.2405063291139,2852.4050632911394,2915.5696202531644,2978.7341772151899,3041.8987341772154,3105.0632911392404,3168.2278481012659,3231.3924050632909,3294.5569620253164,3357.7215189873418,3420.8860759493668,3484.0506329113923,3547.2151898734178,3610.3797468354428,3673.5443037974683,3736.7088607594937,3799.8734177215188,3863.0379746835442,3926.2025316455697,3989.3670886075947,4052.5316455696202,4115.6962025316452,4178.8607594936711,4242.0253164556962,4305.1898734177212,4368.3544303797471,4431.5189873417721,4494.6835443037971,4557.8481012658231,4621.0126582278481,4684.1772151898731,4747.341772151899,4810.506329113924,4873.6708860759491,4936.835443037975,5000],"y":[0.5268272068612635,0.55547926769529476,0.58851183667168006,0.62621948220612145,0.66372989909019686,0.69621156644177995,0.72517899425234034,0.75214709131598589,0.77869814073739096,0.80739020830642882,0.83855520267637607,0.87167287658564141,0.90622298277263325,0.94168527397576018,0.97753950293343084,1.0132654223840538,1.0483982654000958,1.0833249247265879,1.1182602702665578,1.1532242471201051,1.1882368003873307,1.2233178751683345,1.2584874165632176,1.2937653696720794,1.3291716795950212,1.3647262914321432,1.4004491502835459,1.4363602012493291,1.4724793894295936,1.5088266599244398,1.5454219578339685,1.5822852282582793,1.6193728132744218,1.6563099196895599,1.6930364876256778,1.7295580486525493,1.7658801343399473,1.8020082762576441,1.8379480059754145,1.8737048550630302,1.9092843550902645,1.9446920376268912,1.9799334342426822,2.0150140765074114,2.0499394959908517,2.0847152242627769,2.1193467928929577,2.1538397334511705,2.1881995775071861,2.2224318566307786,2.25654210239172,2.2905358463597847,2.324418620104745,2.3581959551963751,2.3918733832044454,2.4254564356987327,2.4589506442490063,2.4923615404250419,2.5256946557966122,2.5589555219334899,2.5921496704054476,2.6252826327822585,2.6583599406336966,2.6913871255295345,2.7243697190395451,2.7573132527335016,2.7902232581811774,2.8231052669523446,2.8559648106167774,2.8888074207442482,2.9216386289045309,2.9544639666673973,2.9872889656026214,3.0201191572799759,3.0529600732692344,3.08581724514017,3.1186962044625544,3.1516024828061622,3.1845416117407668,3.2175191228361388],"text":["sample_size:   10.00000<br />seconds/60: 0.5268272<br />focal_period: yearly","sample_size:   73.16456<br />seconds/60: 0.5554793<br />focal_period: yearly","sample_size:  136.32911<br />seconds/60: 0.5885118<br />focal_period: yearly","sample_size:  199.49367<br />seconds/60: 0.6262195<br />focal_period: yearly","sample_size:  262.65823<br />seconds/60: 0.6637299<br />focal_period: yearly","sample_size:  325.82278<br />seconds/60: 0.6962116<br />focal_period: yearly","sample_size:  388.98734<br />seconds/60: 0.7251790<br />focal_period: yearly","sample_size:  452.15190<br />seconds/60: 0.7521471<br />focal_period: yearly","sample_size:  515.31646<br />seconds/60: 0.7786981<br />focal_period: yearly","sample_size:  578.48101<br />seconds/60: 0.8073902<br />focal_period: yearly","sample_size:  641.64557<br />seconds/60: 0.8385552<br />focal_period: yearly","sample_size:  704.81013<br />seconds/60: 0.8716729<br />focal_period: yearly","sample_size:  767.97468<br />seconds/60: 0.9062230<br />focal_period: yearly","sample_size:  831.13924<br />seconds/60: 0.9416853<br />focal_period: yearly","sample_size:  894.30380<br />seconds/60: 0.9775395<br />focal_period: yearly","sample_size:  957.46835<br />seconds/60: 1.0132654<br />focal_period: yearly","sample_size: 1020.63291<br />seconds/60: 1.0483983<br />focal_period: yearly","sample_size: 1083.79747<br />seconds/60: 1.0833249<br />focal_period: yearly","sample_size: 1146.96203<br />seconds/60: 1.1182603<br />focal_period: yearly","sample_size: 1210.12658<br />seconds/60: 1.1532242<br />focal_period: yearly","sample_size: 1273.29114<br />seconds/60: 1.1882368<br />focal_period: yearly","sample_size: 1336.45570<br />seconds/60: 1.2233179<br />focal_period: yearly","sample_size: 1399.62025<br />seconds/60: 1.2584874<br />focal_period: yearly","sample_size: 1462.78481<br />seconds/60: 1.2937654<br />focal_period: yearly","sample_size: 1525.94937<br />seconds/60: 1.3291717<br />focal_period: yearly","sample_size: 1589.11392<br />seconds/60: 1.3647263<br />focal_period: yearly","sample_size: 1652.27848<br />seconds/60: 1.4004492<br />focal_period: yearly","sample_size: 1715.44304<br />seconds/60: 1.4363602<br />focal_period: yearly","sample_size: 1778.60759<br />seconds/60: 1.4724794<br />focal_period: yearly","sample_size: 1841.77215<br />seconds/60: 1.5088267<br />focal_period: yearly","sample_size: 1904.93671<br />seconds/60: 1.5454220<br />focal_period: yearly","sample_size: 1968.10127<br />seconds/60: 1.5822852<br />focal_period: yearly","sample_size: 2031.26582<br />seconds/60: 1.6193728<br />focal_period: yearly","sample_size: 2094.43038<br />seconds/60: 1.6563099<br />focal_period: yearly","sample_size: 2157.59494<br />seconds/60: 1.6930365<br />focal_period: yearly","sample_size: 2220.75949<br />seconds/60: 1.7295580<br />focal_period: yearly","sample_size: 2283.92405<br />seconds/60: 1.7658801<br />focal_period: yearly","sample_size: 2347.08861<br />seconds/60: 1.8020083<br />focal_period: yearly","sample_size: 2410.25316<br />seconds/60: 1.8379480<br />focal_period: yearly","sample_size: 2473.41772<br />seconds/60: 1.8737049<br />focal_period: yearly","sample_size: 2536.58228<br />seconds/60: 1.9092844<br />focal_period: yearly","sample_size: 2599.74684<br />seconds/60: 1.9446920<br />focal_period: yearly","sample_size: 2662.91139<br />seconds/60: 1.9799334<br />focal_period: yearly","sample_size: 2726.07595<br />seconds/60: 2.0150141<br />focal_period: yearly","sample_size: 2789.24051<br />seconds/60: 2.0499395<br />focal_period: yearly","sample_size: 2852.40506<br />seconds/60: 2.0847152<br />focal_period: yearly","sample_size: 2915.56962<br />seconds/60: 2.1193468<br />focal_period: yearly","sample_size: 2978.73418<br />seconds/60: 2.1538397<br />focal_period: yearly","sample_size: 3041.89873<br />seconds/60: 2.1881996<br />focal_period: yearly","sample_size: 3105.06329<br />seconds/60: 2.2224319<br />focal_period: yearly","sample_size: 3168.22785<br />seconds/60: 2.2565421<br />focal_period: yearly","sample_size: 3231.39241<br />seconds/60: 2.2905358<br />focal_period: yearly","sample_size: 3294.55696<br />seconds/60: 2.3244186<br />focal_period: yearly","sample_size: 3357.72152<br />seconds/60: 2.3581960<br />focal_period: yearly","sample_size: 3420.88608<br />seconds/60: 2.3918734<br />focal_period: yearly","sample_size: 3484.05063<br />seconds/60: 2.4254564<br />focal_period: yearly","sample_size: 3547.21519<br />seconds/60: 2.4589506<br />focal_period: yearly","sample_size: 3610.37975<br />seconds/60: 2.4923615<br />focal_period: yearly","sample_size: 3673.54430<br />seconds/60: 2.5256947<br />focal_period: yearly","sample_size: 3736.70886<br />seconds/60: 2.5589555<br />focal_period: yearly","sample_size: 3799.87342<br />seconds/60: 2.5921497<br />focal_period: yearly","sample_size: 3863.03797<br />seconds/60: 2.6252826<br />focal_period: yearly","sample_size: 3926.20253<br />seconds/60: 2.6583599<br />focal_period: yearly","sample_size: 3989.36709<br />seconds/60: 2.6913871<br />focal_period: yearly","sample_size: 4052.53165<br />seconds/60: 2.7243697<br />focal_period: yearly","sample_size: 4115.69620<br />seconds/60: 2.7573133<br />focal_period: yearly","sample_size: 4178.86076<br />seconds/60: 2.7902233<br />focal_period: yearly","sample_size: 4242.02532<br />seconds/60: 2.8231053<br />focal_period: yearly","sample_size: 4305.18987<br />seconds/60: 2.8559648<br />focal_period: yearly","sample_size: 4368.35443<br />seconds/60: 2.8888074<br />focal_period: yearly","sample_size: 4431.51899<br />seconds/60: 2.9216386<br />focal_period: yearly","sample_size: 4494.68354<br />seconds/60: 2.9544640<br />focal_period: yearly","sample_size: 4557.84810<br />seconds/60: 2.9872890<br />focal_period: yearly","sample_size: 4621.01266<br />seconds/60: 3.0201192<br />focal_period: yearly","sample_size: 4684.17722<br />seconds/60: 3.0529601<br />focal_period: yearly","sample_size: 4747.34177<br />seconds/60: 3.0858172<br />focal_period: yearly","sample_size: 4810.50633<br />seconds/60: 3.1186962<br />focal_period: yearly","sample_size: 4873.67089<br />seconds/60: 3.1516025<br />focal_period: yearly","sample_size: 4936.83544<br />seconds/60: 3.1845416<br />focal_period: yearly","sample_size: 5000.00000<br />seconds/60: 3.2175191<br />focal_period: yearly"],"type":"scatter","mode":"lines","name":"yearly","line":{"width":3.7795275590551185,"color":"rgba(127,205,187,1)","dash":"solid"},"hoveron":"points","legendgroup":"yearly","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":150,"r":7.3059360730593621,"b":40.182648401826491,"l":31.415525114155255},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Execution Time vs Sample Size","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper","y":0.84999999999999998},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-239.5,5249.5],"tickmode":"array","ticktext":["0","1000","2000","3000","4000","5000"],"tickvals":[0,1000,2000,3000,4000,5000],"categoryorder":"array","categoryarray":["0","1000","2000","3000","4000","5000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Sample Size","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.3875740438581956,3.352278412311279],"tickmode":"array","ticktext":["1","2","3"],"tickvals":[1,2,3],"categoryorder":"array","categoryarray":["1","2","3"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Execution Time (minutes)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Focal Period","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative","updatemenus":[{"type":"dropdown","active":0,"buttons":[{"method":"restyle","args":["visible",[true,true]],"label":"Germany"},{"method":"restyle","args":["visible",[false,false]],"label":"Europe"}],"x":0,"y":1.1200000000000001,"xanchor":"left","yanchor":"top"},{"type":"dropdown","active":0,"buttons":[{"method":"restyle","args":["line.dash","solid"],"label":"No baseline"},{"method":"restyle","args":["line.dash","dot"],"label":"10y baseline"},{"method":"restyle","args":["line.dash","dash"],"label":"30y baseline"}],"x":0.20000000000000001,"y":1.1200000000000001,"xanchor":"left","yanchor":"top"}],"annotations":[{"x":0,"y":1.22,"xref":"paper","yref":"paper","text":"Spatial extent","showarrow":false,"font":{"size":14}},{"x":0.20000000000000001,"y":1.22,"xref":"paper","yref":"paper","text":"Baseline period","showarrow":false,"font":{"size":14}}]},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"22281e7e2622":{"x":{},"y":{},"colour":{},"type":"scatter"},"222858be4ac5":{"x":{},"y":{},"colour":{}}},"cur_data":"22281e7e2622","visdat":{"22281e7e2622":["function (y) ","x"],"222858be4ac5":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="replication-code" class="level2">
+<h2 class="anchored" data-anchor-id="replication-code">Replication code</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rnaturalearth)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(keyring)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tictoc)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gxc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="generate-random-sample" class="level2">
+<h2 class="anchored" data-anchor-id="generate-random-sample">Generate random sample</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load shapefiles and prepare grids ---------------------------------------</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieve Germany's bounding box</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>germany <span class="ot">&lt;-</span> <span class="fu">ne_countries</span>(<span class="at">country =</span> <span class="st">"Germany"</span>, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">scale =</span> <span class="st">"medium"</span>, </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">returnclass =</span> <span class="st">"sf"</span>) </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the grid</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>grid_national <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_make_grid</span>(</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sfc</span>(<span class="fu">st_bbox</span>(germany)), </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">100</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>grid_national <span class="ot">&lt;-</span> <span class="fu">st_sf</span>(<span class="at">geometry =</span> grid_national)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign WGS84 CRS</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(grid_national) <span class="ot">&lt;-</span> <span class="dv">4326</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the four corner cells (by relying on the indexing of the grid cell)</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>ll_index <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>lr_index <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>ul_index <span class="ot">&lt;-</span> <span class="dv">9901</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>ur_index <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>corner_indices <span class="ot">&lt;-</span> <span class="fu">c</span>(ll_index, lr_index, ul_index, ur_index)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate sample grids ---------------------------------------------------</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample-function (always including the four corner cells).</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>sample_grid <span class="ot">&lt;-</span> <span class="cf">function</span>(n, my_grid, extent_polygons) {</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(n <span class="sc">&lt;</span> <span class="dv">4</span>) <span class="fu">stop</span>(<span class="st">"n must be at least 4 to include all corner cells."</span>)</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate n-corner polygons</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  n_random <span class="ot">&lt;-</span> n <span class="sc">-</span> <span class="fu">length</span>(extent_polygons)</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Exclude the corner cells from the random sample</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  remaining <span class="ot">&lt;-</span> my_grid[<span class="sc">-</span>extent_polygons, ]</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Randomly sample from the remaining cells</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  random_sample <span class="ot">&lt;-</span> remaining[<span class="fu">sample</span>(<span class="fu">nrow</span>(remaining), n_random), ]</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Combine the corner cells with the random sample</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  sampled <span class="ot">&lt;-</span> <span class="fu">rbind</span>(my_grid[extent_polygons, ], random_sample)</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(sampled)</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample grids with various n</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>sample_sizes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">500</span>, <span class="dv">1000</span>, <span class="dv">2000</span>, <span class="dv">5000</span>)</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>samples_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop over the sample sizes</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(sample_sizes)) {</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> sample_sizes[i]</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>  samples_list[[i]] <span class="ot">&lt;-</span> <span class="fu">sample_grid</span>(n, grid_national, corner_indices)</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(samples_list) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"sample_"</span>, sample_sizes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">seq_along</span>(sample_sizes), <span class="cf">function</span>(i) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> sample_sizes[i]</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  sampled_sf <span class="ot">&lt;-</span> samples_list[[i]]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> sampled_sf, </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">fill =</span> <span class="st">"#c994c7"</span>, </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">"#dd1c77"</span>, </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> germany, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">color =</span> <span class="st">"#2c7fb8"</span>, <span class="at">size =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="fu">paste</span>(<span class="st">"Sample size:"</span>, n)) <span class="sc">+</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(<span class="at">grobs =</span> plots[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)], <span class="at">ncol =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="performance_files/figure-html/grid-plot2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="calculate-execution-time-for-each-specification" class="level2">
+<h2 class="anchored" data-anchor-id="calculate-execution-time-for-each-specification">Calculate execution time for each specification</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># # Loop over poly_link-function and measure elapsed time -------------------</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># # Add random time identifier in grids</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># samples_list &lt;- lapply(samples_list, function(grid) {</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   grid$date_raw &lt;- "12-2020"</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   grid</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># })</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># # Set up API access</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># api_key &lt;- Sys.getenv("WF_API_KEY")</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># keyring::key_set_with_value(service = "wf_api_key", password = api_key)</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># # Set up new dataframe measuring elapsed time</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># results_df &lt;- data.frame(</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   spatial_extent = character(),</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#   sample_size = integer(),</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#   focal_period = character(),</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#   seconds = numeric(),</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">#   stringsAsFactors = FALSE</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># # Loop over the list of samples using tictoc to measure execution time.</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co"># time_span_values &lt;- c(0,2,11)</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co"># for (i in seq_along(samples_list)) {</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">#   sample_size &lt;- sample_sizes[i]</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">#   sample_polygons &lt;- samples_list[[i]]</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">#   </span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">#   for (ts in time_span_values) {</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">#   </span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co">#   # Start timing using tic().</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co">#   tic()  </span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="co">#   # Run poly_link function</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="co">#   poly_result &lt;- poly_link(</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="co">#     indicator = "2m_temperature",</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="co">#     data = sample_polygons,</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co">#     date_var = "date_raw",</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co">#     time_span = ts,</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="co">#     time_lag = 0,</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="co">#     baseline = FALSE,</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="co">#     order = "my",</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="co">#     path = "./data",</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="co">#     catalogue = "reanalysis-era5-land-monthly-means",</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co">#     by_hour = FALSE,</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="co">#     keep_raw = FALSE)</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="co">#   # Stop timing and capture the elapsed time.</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="co">#   toc_out &lt;- toc(quiet = TRUE)</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="co">#   </span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="co">#   # The output toc_out is a list with the start and stop times. Compute the elapsed time.</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="co">#   elapsed_time &lt;- toc_out$toc - toc_out$tic</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="co">#   </span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="co">#   focal_period &lt;- if (ts == 0) {</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="co">#     "Month"</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="co">#   } else if (ts == 2) {</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="co">#     "Season"</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a><span class="co">#   } else if (ts == 11) {</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a><span class="co">#     "Year"</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="co">#   } else {</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="co">#     NA</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="co">#   }</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="co">#   </span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="co">#   # Append the results to the results_df data frame.</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="co">#   results_df &lt;- rbind(results_df, data.frame(</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="co">#     spatial_extent = "Germany",</span></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a><span class="co">#     sample_size = sample_size,</span></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a><span class="co">#     focal_period = focal_period,</span></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a><span class="co">#     seconds = elapsed_time,</span></span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a><span class="co">#     stringsAsFactors = FALSE</span></span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a><span class="co">#   ))</span></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a><span class="co">#   </span></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a><span class="co">#   # Save as rds</span></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a><span class="co">#   saveRDS(results_df, file = "./data/performance_results.rds")</span></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a><span class="co">#   }</span></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="visualize" class="level2">
+<h2 class="anchored" data-anchor-id="visualize">Visualize</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>results_df <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"./data/performance_results.rds"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># split data based on groups for tabs</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>df_list <span class="ot">&lt;-</span> results_df <span class="sc">%&gt;%</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(spatial_extent) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_split</span>()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Default ggplot</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Execution Time vs Sample Size"</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Sample Size"</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Execution Time (minutes)"</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Focal Period"</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"month"</span> <span class="ot">=</span> <span class="st">"#dd1c77"</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"seasonal"</span> <span class="ot">=</span> <span class="st">"#225ea8"</span>,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"yearly"</span> <span class="ot">=</span> <span class="st">"#7fcdbb"</span>))<span class="sc">+</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Looping through list of subsets</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (d <span class="cf">in</span> df_list) {</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> p <span class="sc">+</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> d, <span class="fu">aes</span>(<span class="at">x =</span> sample_size, <span class="at">y =</span> seconds <span class="sc">/</span> <span class="dv">60</span>, <span class="at">color =</span> focal_period)) <span class="sc">+</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">data =</span> d, <span class="fu">aes</span>(<span class="at">x =</span> sample_size, <span class="at">y =</span> seconds <span class="sc">/</span> <span class="dv">60</span>, <span class="at">color =</span> focal_period),</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>                <span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to plotly object</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>p_plotly <span class="ot">&lt;-</span> <span class="fu">ggplotly</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Update layout</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create buttons</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Spatial extent</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>spatial_extent_buttons <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"restyle"</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">list</span>(<span class="st">"visible"</span>, <span class="fu">list</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>)),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"Germany"</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"restyle"</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">list</span>(<span class="st">"visible"</span>, <span class="fu">list</span>(<span class="cn">FALSE</span>, <span class="cn">FALSE</span>)),</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"Europe"</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Baseline period</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>baseline_buttons <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"restyle"</span>,</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">list</span>(<span class="st">"line.dash"</span>, <span class="st">"solid"</span>),</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"No baseline"</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"restyle"</span>,</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">list</span>(<span class="st">"line.dash"</span>, <span class="st">"dot"</span>),</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"10y baseline"</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"restyle"</span>,</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">list</span>(<span class="st">"line.dash"</span>, <span class="st">"dash"</span>),</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"30y baseline"</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust layout accordingly</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>p_plotly <span class="ot">&lt;-</span> p_plotly <span class="sc">%&gt;%</span> <span class="fu">layout</span>(</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="fu">list</span>(</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="st">"Execution Time vs Sample Size"</span>,</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fl">0.85</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Increase the top margin to give more space</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>  <span class="at">margin =</span> <span class="fu">list</span>(<span class="at">t =</span> <span class="dv">150</span>),</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">updatemenus =</span> <span class="fu">list</span>(</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>      <span class="at">type =</span> <span class="st">"dropdown"</span>,</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>      <span class="at">active =</span> <span class="dv">0</span>,</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>      <span class="at">buttons =</span> spatial_extent_buttons,</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="fl">1.12</span>,</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>      <span class="at">xanchor =</span> <span class="st">"left"</span>,</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>      <span class="at">yanchor =</span> <span class="st">"top"</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(</span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>      <span class="at">type =</span> <span class="st">"dropdown"</span>,</span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>      <span class="at">active =</span> <span class="dv">0</span>,</span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>      <span class="at">buttons =</span> baseline_buttons,</span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="fl">0.2</span>, <span class="at">y =</span> <span class="fl">1.12</span>,</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>      <span class="at">xanchor =</span> <span class="st">"left"</span>,</span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>      <span class="at">yanchor =</span> <span class="st">"top"</span></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotations =</span> <span class="fu">list</span>(</span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(</span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="fl">1.22</span>,</span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>      <span class="at">xref =</span> <span class="st">"paper"</span>, <span class="at">yref =</span> <span class="st">"paper"</span>,</span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>      <span class="at">text =</span> <span class="st">"Spatial extent"</span>,</span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>      <span class="at">showarrow =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>      <span class="at">font =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">14</span>)</span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(</span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="fl">0.2</span>, <span class="at">y =</span> <span class="fl">1.22</span>,</span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>      <span class="at">xref =</span> <span class="st">"paper"</span>, <span class="at">yref =</span> <span class="st">"paper"</span>,</span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>      <span class="at">text =</span> <span class="st">"Baseline period"</span>,</span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>      <span class="at">showarrow =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>      <span class="at">font =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">14</span>)</span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the interactive plot.</span></span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a><span class="co"># p_plotly</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 </section>
