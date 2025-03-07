@@ -4,14 +4,14 @@ title: "Courses and workshops"
 
 ## Upcoming
 
-- GESIS Workshop "**Advanced Geospatial Data Processing for Social Scientists**", April 28/29 2024
+- GESIS Workshop "**Advanced Geospatial Data Processing for Social Scientists**", April 28/29 2025
 
-- GESIS Workshop "**Introduction to Geospatial Techniques for Social Scientists in R**", April 09/10 2024
+- GESIS Workshop "**Introduction to Geospatial Techniques for Social Scientists in R**", April 09/10 2025
 
 ## Past events
 
 - International Expert Workshop on "**Earth Observation Data in the Social Sciences**",
-27-29 November 2023 at GESIS - Leibniz Institute for Social Sciences.
+27-29 November 2024 at GESIS - Leibniz Institute for Social Sciences.
 
 - Methods Primer on "**Working with Earth Observation data in R**", 31 October 2024, MethodsNET Launch Conference at UCLouvain, Belgium. The slides are accessible [here](slides/primer.html){target="_blank"}.
 
