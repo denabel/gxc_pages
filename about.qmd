@@ -11,3 +11,13 @@ GESIS is one of the world's leading infrastructure institutions for the social s
 - [Dr. Dennis Abel](https://www.gesis.org/en/institute/about-us/staff/person/Dennis.Abel)
 
 - [Dr. Stefan Jünger](https://www.gesis.org/en/institute/about-us/staff/person/stefan.juenger)
+
+## Hexsticker Gallery
+
+### Version 2 (2025-)
+
+![Designed by Dennis Abel](images/gxc_v2.png){ width=30% align=left }
+
+### Version 1 (2023-2024)
+
+![Designed by Dennis Abel](images/gxclogo_v1_bright.png){ width=30% align=left }

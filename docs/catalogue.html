@@ -140,6 +140,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="./catalogue.html">
  <span class="dropdown-text">Indicators</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./performance.html">
+ <span class="dropdown-text">Performance</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -178,9 +182,18 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#accessed-datasets" id="toc-accessed-datasets" class="nav-link active" data-scroll-target="#accessed-datasets">Accessed datasets</a></li>
+  <li><a href="#accessed-datasets" id="toc-accessed-datasets" class="nav-link active" data-scroll-target="#accessed-datasets">Accessed datasets</a>
+  <ul class="collapse">
+  <li><a href="#monthly-resolution" id="toc-monthly-resolution" class="nav-link" data-scroll-target="#monthly-resolution">Monthly Resolution</a></li>
+  <li><a href="#daily-resolution" id="toc-daily-resolution" class="nav-link" data-scroll-target="#daily-resolution">Daily Resolution</a></li>
+  <li><a href="#future-datasets-include" id="toc-future-datasets-include" class="nav-link" data-scroll-target="#future-datasets-include">Future datasets include:</a></li>
+  </ul></li>
   <li><a href="#dataset-attributes" id="toc-dataset-attributes" class="nav-link" data-scroll-target="#dataset-attributes">Dataset Attributes</a></li>
-  <li><a href="#supported-indicators" id="toc-supported-indicators" class="nav-link" data-scroll-target="#supported-indicators">Supported indicators</a></li>
+  <li><a href="#supported-indicators" id="toc-supported-indicators" class="nav-link" data-scroll-target="#supported-indicators">Supported indicators</a>
+  <ul class="collapse">
+  <li><a href="#monthly-resolution-indicators" id="toc-monthly-resolution-indicators" class="nav-link" data-scroll-target="#monthly-resolution-indicators">Monthly resolution indicators</a></li>
+  <li><a href="#daily-resolution-indicators" id="toc-daily-resolution-indicators" class="nav-link" data-scroll-target="#daily-resolution-indicators">Daily resolution indicators</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -209,11 +222,32 @@ ul.task-list li input[type="checkbox"] {
 <section id="accessed-datasets" class="level2">
 <h2 class="anchored" data-anchor-id="accessed-datasets">Accessed datasets</h2>
 <p>This page summarizes the supported catalogue of indicators. The current version accesses datasets from:</p>
+<section id="monthly-resolution" class="level3">
+<h3 class="anchored" data-anchor-id="monthly-resolution">Monthly Resolution</h3>
 <p><strong>1. Copernicus Climate Change Service (C3S)</strong>:</p>
 <ul>
 <li><a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-monthly-means?tab=overview">ERA5-Land Monthly Averaged Data (1950–Present)</a></li>
 <li><a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-monthly-means?tab=overview">ERA5 Monthly Averaged Data on Single Levels (1940–Present)</a></li>
 </ul>
+</section>
+<section id="daily-resolution" class="level3">
+<h3 class="anchored" data-anchor-id="daily-resolution">Daily Resolution</h3>
+<ul>
+<li><a href="https://cds.climate.copernicus.eu/datasets/derived-era5-land-daily-statistics?tab=overview">ERA5-Land post-processed daily statistics from 1950 to present</a></li>
+<li><a href="https://cds.climate.copernicus.eu/datasets/derived-era5-single-levels-daily-statistics?tab=overview">ERA5 post-processed daily statistics on single levels from 1940 to present</a></li>
+</ul>
+</section>
+<section id="future-datasets-include" class="level3">
+<h3 class="anchored" data-anchor-id="future-datasets-include">Future datasets include:</h3>
+<ul>
+<li><a href="https://cds.climate.copernicus.eu/datasets/derived-utci-historical?tab=overview">Thermal comfort indices derived from ERA5 reanalysis</a></li>
+<li><a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview">ERA5 hourly data on single levels from 1940 to present</a></li>
+<li><a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=overview">ERA5-Land hourly data from 1950 to present</a></li>
+<li><a href="https://cds.climate.copernicus.eu/datasets/satellite-fire-burned-area?tab=overview">Fire burned area from 2001 to present derived from satellite observations</a></li>
+<li><a href="https://edgar.jrc.ec.europa.eu/">Emission Database for Global Atmospheric Research (EDGAR)</a></li>
+<li><a href="https://ads.atmosphere.copernicus.eu/datasets/cams-global-ghg-reanalysis-egg4?tab=overview">CAMS global greenhouse gas reanalysis (EGG4)</a></li>
+</ul>
+</section>
 </section>
 <section id="dataset-attributes" class="level2">
 <h2 class="anchored" data-anchor-id="dataset-attributes">Dataset Attributes</h2>
@@ -267,9 +301,61 @@ ul.task-list li input[type="checkbox"] {
 </table>
 </div>
 </div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 33%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attribute</th>
+<th style="text-align: left;">Derived.ERA5.Land.Daily.Statistics</th>
+<th style="text-align: left;">Derived.ERA5.Single.Levels.Daily.Statistics</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Projection</td>
+<td style="text-align: left;">WGS84 (EPSG:4326)</td>
+<td style="text-align: left;">WGS84 (EPSG:4326)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Spatial Resolution</td>
+<td style="text-align: left;">~9 km (~0.1°)</td>
+<td style="text-align: left;">~31 km (~0.25°)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Spatial Coverage (Extent)</td>
+<td style="text-align: left;">Global (-90° to 90°, -180° to 180°)</td>
+<td style="text-align: left;">Global (-90° to 90°, -180° to 180°)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Temporal Resolution</td>
+<td style="text-align: left;">Daily</td>
+<td style="text-align: left;">Daily</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Temporal Coverage</td>
+<td style="text-align: left;">As available</td>
+<td style="text-align: left;">As available</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Update Frequency</td>
+<td style="text-align: left;">Daily</td>
+<td style="text-align: left;">Daily</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </section>
 <section id="supported-indicators" class="level2">
 <h2 class="anchored" data-anchor-id="supported-indicators">Supported indicators</h2>
+<section id="monthly-resolution-indicators" class="level3">
+<h3 class="anchored" data-anchor-id="monthly-resolution-indicators">Monthly resolution indicators</h3>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -346,8 +432,40 @@ ul.task-list li input[type="checkbox"] {
 </table>
 </div>
 </div>
+</section>
+<section id="daily-resolution-indicators" class="level3">
+<h3 class="anchored" data-anchor-id="daily-resolution-indicators">Daily resolution indicators</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 32%">
+<col style="width: 25%">
+<col style="width: 31%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Derived.ERA5.Land.Daily.Statistics</th>
+<th style="text-align: left;">Derived.ERA5.Single.Levels.Daily.Statistics</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2m_temperature</td>
+<td style="text-align: left;">Air temperature at 2 m above the surface (°C)</td>
+<td style="text-align: left;">✔</td>
+<td style="text-align: left;">✔</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

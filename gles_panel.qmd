@@ -4,4 +4,6 @@ title: "Case Study: Linking GLES Panel survey"
 
 ## The GLES Panel
 
+In this case study, we will work with the GLES Panel. The tutorial will be based on our methods paper "The uncertain geographic context problem and the unknown effect of extreme weather on climate change attitudes". The entire code is accessible at [https://osf.io/98wj6](https://osf.io/98wj6).
+
 comming soon

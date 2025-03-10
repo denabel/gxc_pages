@@ -22,7 +22,7 @@ interface to EO data and complementary resources for social science research.
     </p>
     </td>
     <td style="width:30%; vertical-align:top;">
-      <img src="images/gxclogo_v1_bright.png" alt="GxC Hex-Sticker" style="width:200px; display:block; margin:auto;">
+      <img src="images/gxc_v2.png" alt="GxC Hex-Sticker" style="width:200px; display:block; margin:auto;">
     </td>
   </tr>
 </table>

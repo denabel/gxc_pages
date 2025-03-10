@@ -195,7 +195,7 @@ Given that we want to aggregate the data on country-level, we first load country
 
 We need some packages to load and prepare the world map and process the raster files (`rnaturalearth`, `sf`, `terra`, and `tidyverse`). We also need the `keyring`-package to safely store our ECMWF-API key and the `devtools`-package to load the `gxc`-package.
 
-```{r setup}
+```{r setup, message=FALSE, warning=FALSE, results ='hide'}
 # Install and load required packages
 required_packages <- c("keyring", "rnaturalearth", "sf", "tidyverse", "terra", "devtools")
 new_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
@@ -436,14 +436,20 @@ The data is ready to use for any further analysis.
 
 ## Spatial linking made easy
 
-The manual approach described above is time- and code-intensive. Our `gxc`-package helps to automatize these steps. You can use the `poly_link`-function to directly link to every single observation in a dataset with the discussed EO indicator.
+The manual approach described above is time- and code-intensive. Our `gxc`-package helps to automatize these steps. You can select from various functions for polygons, points or grids from our `gxc`-package. For this case study, we use the `poly_link_monthly`-function to directly link to every single observation in a dataset with the discussed EO indicator.
 
 We need `devtools` to load the `gxc`-package.
 
 ```{r setup2}
+# # Install and load required packages
+# required_packages <- c("devtools", "keyring", "rnaturalearth", "sf", "tidyverse")
+# new_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
+# if(length(new_packages)) install.packages(new_packages)
+# lapply(required_packages, library, character.only = TRUE)
+# 
 # # Load gxc package
 # if (!requireNamespace("gxc", quietly = TRUE)) {
-#   devtools::install_github("denabel/gxc")
+#   remotes::install_github("denabel/gxc")
 # }
 # 
 # # Now load the package
@@ -453,22 +459,30 @@ We need `devtools` to load the `gxc`-package.
 We exemplify the process for the 2020 wave. The function requires the last month of the focal time period as variable in the dataset. We add a date-variable to the dataset which records the last month of the focal period (December 2020).
 
 ```{r date-variable}
-# Create fixed date-variable
+# # Download world map data
+# world <- ne_countries(scale = "medium", returnclass = "sf")
+# st_geometry(world)
+# 
+# # Subset to relevant variables
+# world <- world |> 
+#   select(admin, iso_a3, geometry)
+# 
+# # Create fixed date-variable
 # world$date_raw <- "12-2020"
 
 ```
 
-Check out vignette for `poly_link` for detailed documentation.
+Check out vignette for `poly_link_monthly` for detailed documentation.
 
 ```{r help, message=FALSE}
-# ?gxc::poly_link
+# ?gxc::poly_link_monthly
 
 ```
 
-Specification of `poly_link` and data access.
+Specification of `poly_link_monthly` and data access.
 
 ```{r poly-link}
-# dataset_out <- gxc::poly_link(
+# dataset_out <- gxc::poly_link_monthly(
 #   indicator = "2m_temperature",
 #   data = world,
 #   date_var = "date_raw",
@@ -479,13 +493,16 @@ Specification of `poly_link` and data access.
 #   path = "./data/EO_data/C3S_data",
 #   catalogue = "reanalysis-era5-land-monthly-means",
 #   by_hour = FALSE,
-#   keep_raw = FALSE)
+#   keep_raw = FALSE,
+#   parallel = FALSE,
+#   chunk_size = 50
+#   )
 
 ```
 
 ```{r dataset-out}
-# print(head(world |> 
-#   filter(!is.na(mean_concern_2020)) |> 
+# print(head(world |>
+#   filter(!is.na(mean_concern_2020)) |>
 #   arrange(admin)))
 
 ```

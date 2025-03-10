@@ -7,17 +7,33 @@ title: "Indicator catalogue"
 This page summarizes the supported catalogue of indicators. The current version
 accesses datasets from:
 
+### Monthly Resolution
+
 **1. Copernicus Climate Change Service (C3S)**:  
 
 - [ERA5-Land Monthly Averaged Data (1950–Present)](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-monthly-means?tab=overview)
 - [ERA5 Monthly Averaged Data on Single Levels (1940–Present)](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-monthly-means?tab=overview)
 
+### Daily Resolution
+
+- [ERA5-Land post-processed daily statistics from 1950 to present](https://cds.climate.copernicus.eu/datasets/derived-era5-land-daily-statistics?tab=overview)
+- [ERA5 post-processed daily statistics on single levels from 1940 to present](https://cds.climate.copernicus.eu/datasets/derived-era5-single-levels-daily-statistics?tab=overview)
+
+### Future datasets include:
+
+- [Thermal comfort indices derived from ERA5 reanalysis](https://cds.climate.copernicus.eu/datasets/derived-utci-historical?tab=overview)
+- [ERA5 hourly data on single levels from 1940 to present](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview)
+- [ERA5-Land hourly data from 1950 to present](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=overview)
+- [Fire burned area from 2001 to present derived from satellite observations](https://cds.climate.copernicus.eu/datasets/satellite-fire-burned-area?tab=overview)
+- [Emission Database for Global Atmospheric Research (EDGAR)](https://edgar.jrc.ec.europa.eu/)
+- [CAMS global greenhouse gas reanalysis (EGG4)](https://ads.atmosphere.copernicus.eu/datasets/cams-global-ghg-reanalysis-egg4?tab=overview)
+
 ## Dataset Attributes
 
-```{r echo=FALSE, warning=FALSE}
+```{r ERA5-monthly, echo=FALSE, warning=FALSE}
 library(knitr)
 
-# Create dataset attributes table
+# Create dataset attributes table for monthly resolution
 dataset_attributes <- data.frame(
   Attribute = c("Projection", "Spatial Resolution", "Spatial Coverage (Extent)", "Temporal Resolution", "Temporal Coverage", "Update Frequency"),
   `ERA5-Land Monthly Averaged Data` = c("WGS84 (EPSG:4326)", "~9 km (~0.1°)", "Global (-90° to 90°, -180° to 180°)", "Monthly", "1950 to present", "Monthly"),
@@ -28,7 +44,22 @@ dataset_attributes <- data.frame(
 kable(dataset_attributes, format = "markdown")
 ```
 
+```{r ERA5-daily, echo=FALSE, warning=FALSE}
+library(knitr)
+
+# Create dataset attributes table for daily resolution
+dataset_attributes_daily <- data.frame(
+  Attribute = c("Projection", "Spatial Resolution", "Spatial Coverage (Extent)", "Temporal Resolution", "Temporal Coverage", "Update Frequency"),
+  `Derived ERA5 Land Daily Statistics` = c("WGS84 (EPSG:4326)", "~9 km (~0.1°)", "Global (-90° to 90°, -180° to 180°)", "Daily", "As available", "Daily"),
+  `Derived ERA5 Single Levels Daily Statistics` = c("WGS84 (EPSG:4326)", "~31 km (~0.25°)", "Global (-90° to 90°, -180° to 180°)", "Daily", "As available", "Daily")
+)
+
+kable(dataset_attributes_daily, format = "markdown")
+```
+
 ## Supported indicators
+
+### Monthly resolution indicators
 
 ```{r echo=FALSE, warning=FALSE}
 # Create variables table
@@ -50,5 +81,20 @@ variables_table <- data.frame(
 
 # Render as table
 kable(variables_table, format = "markdown")
+
+```
+
+### Daily resolution indicators
+
+```{r echo=FALSE, warning=FALSE}
+# Create variables table for daily resolution
+daily_variables_table <- data.frame(
+  Variable = c("2m_temperature"),
+  Description = c("Air temperature at 2 m above the surface (°C)"),
+  `Derived ERA5 Land Daily Statistics` = c("✔"),
+  `Derived ERA5 Single Levels Daily Statistics` = c("✔")
+)
+
+kable(daily_variables_table, format = "markdown")
 
 ```

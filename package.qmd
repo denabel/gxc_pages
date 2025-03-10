@@ -20,7 +20,7 @@ other georeferenced data (e.g., surveys, digital behavioral data).
     </p>
     </td>
     <td style="width:30%; vertical-align:top;">
-      <img src="images/gxclogo_v1_bright.png" alt="GxC Hex-Sticker" style="width:200px; display:block; margin:auto;">
+      <img src="images/gxc_v2.png" alt="GxC Hex-Sticker" style="width:200px; display:block; margin:auto;">
     </td>
   </tr>
 </table>
@@ -44,4 +44,4 @@ reproducibility of all research steps.
 
 ## Documentation
 
-tba
+Please check out the extensive documentation of the package at [https://github.com/denabel/gxc](https://github.com/denabel/gxc).
