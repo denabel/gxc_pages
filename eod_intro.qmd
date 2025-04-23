@@ -33,7 +33,7 @@ law <- emo::ji("scroll")
 
 ![Journey into EO data for social scientists (AI generated image).](images/EO_cats.png){ width=60% align=center }
 
-Earth observation (EO) data refers to all collected information about the Earth's physical, chemical, and biological systems. Utilizing Earth observation data allows to study the Earth's atmosphere, land cover, oceans and inland waters, as well as biological diversity and ecosystems. Applications of EO data in academia, industry, and policy-making are extensive. It is crucial for the operation of activities in environmental protection, energy management, urban planning, agriculture and fisheries, forestry, public health, transport and mobility, civil protection, or tourism.
+Earth observation (EO) data refers to all collected information about the Earth's physical, chemical, and biological systems. Utilizing Earth observation data allows to study the Earth's atmosphere, land cover, near subsurface, oceans and inland waters, as well as biological diversity and ecosystems. Applications of EO data in academia, industry, and policy-making are extensive. It is crucial for the operation of activities in environmental protection, energy management, urban planning, agriculture and fisheries, forestry, public health, risk and hazard management, transport and mobility, civil protection, or tourism.
 
 <details>
   <summary>Additional information on Earth system indicators</summary>
@@ -47,8 +47,20 @@ remote sensing, or satellite data. Let's disentangle these different concepts.
 
 - **Earth observation data** `r earth`: Information collected about the Earth's system
 - **Geospatial data** `r map`: Data that is georeferenced (includes information on the location)
-- **Remote sensing data** `r antenna`: Information that is acquired by sensors "from a distance"
+- **Remote sensing data** `r antenna`: Information that is acquired by sensors "from a distance". Remote sensing uses electromagnetic radiation from a source (natural, e.g. solar radiation, or artificial, e.g. radar) that interacts with targets on the Earth's surface in a unique way (spectral signatures).
 - **Satellite data** `r satellite`: Information that is acquired by sensors via satellites
+
+<details>
+  <summary>Background on Remote Sensing</summary>
+  **electromagnetic radiation**: is the transfer of energy from a target through space via waves that vary in wavelength, frequency, amplitude, and speed. It can be captured by sensors for analysis.
+  **radiance**: Is the amount of electromagnetic radiation emitted or reflected by an object in a specific direction. (In contrast, irradiance refers to the radiation that strikes the surface of the object.)
+  **Reflectance**: Refers to how much light or electromagnetic radiation a surface bounces back compared to how much it receives. Different materials reflect and absorb light in unique ways, which helps us identify them using their _spectral signature_—a kind of "fingerprint" based on reflectance at different wavelengths.
+  - **Vegetation**: Healthy plants reflect a lot of green light (why they look green) and near-infrared (NIR) light, but they absorb red and blue light for photosynthesis.
+  - **Water**: Water reflects very little light overall. Most radiation is absorbed or transmitted into the water. However, shorter wavelengths like blue and green are more likely to be reflected—this is why water can appear blue.
+  - **Soil**: Reflectance depends on factors like moisture. Wetter soil reflects less light, while dry soil reflects more.
+  Have a look at [this paper](https://www.preventionweb.net/files/1682_9970.pdf) to learn more about the basics of remote sensing. 
+  
+</details>
 
 As you can see, these four terminologies address different aspects of the data.
 While "EO data" refers to the data content (the Earth system), "geospatial data" addresses the location, and "remote sensing" and "satellite data" address the way of obtaining the data.
