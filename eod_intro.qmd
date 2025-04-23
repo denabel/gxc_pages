@@ -59,7 +59,6 @@ remote sensing, or satellite data. Let's disentangle these different concepts.
   - **Water**: Water reflects very little light overall. Most radiation is absorbed or transmitted into the water. However, shorter wavelengths like blue and green are more likely to be reflected—this is why water can appear blue.
   - **Soil**: Reflectance depends on factors like moisture. Wetter soil reflects less light, while dry soil reflects more.
   Have a look at [this paper](https://www.preventionweb.net/files/1682_9970.pdf) to learn more about the basics of remote sensing. 
-  
 </details>
 
 As you can see, these four terminologies address different aspects of the data.
