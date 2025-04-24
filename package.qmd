@@ -42,8 +42,6 @@ development and shareability, as well as quality control via online repositories
 Publishing the R scripts for data management and analysis ensures the 
 reproducibility of all research steps. 
 
-## Documentation
-
 <details>
  <summary>Resampling and why it is useful</summary>
  
@@ -60,5 +58,7 @@ Key features:
  
  In [this](https://www.preventionweb.net/files/1682_9970.pdf) paper you can learn more about rectification and resampling. 
  </details>
+
+## Documentation
 
 Please check out the extensive documentation of the package at [https://github.com/denabel/gxc](https://github.com/denabel/gxc).
