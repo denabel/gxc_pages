@@ -226,7 +226,16 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><strong>Variable</strong>: Measuring the specific indicator of interest. This could be for example values of nighttime lights, GHG emissions like CO2 or CH4 from the <a href="https://edgar.jrc.ec.europa.eu/">Emission Database for Global Atmospheric Research (EDGAR)</a>, or landscape values like NDVI.</li>
 <li><strong>CRS and projection</strong>: A Coordinate Reference System (CRS) is the framework for identifying locations. It defines how the two-dimensional map refers to actual places on the Earth’s surface. A CRS typically includes a datum (which defines the coordinate axes) and either uses geographic coordinates (latitude and longitude) or projected coordinates. Projected coordinates are based on mathematical methods to transform the Earth’s three-dimensional surface into a two-dimensional plane (the “map”). Any projection inevitably distorts some properties of shape, area, distance, or direction. Different projections focus on preserving different characteristics.</li>
-<li><strong>Spatial resolution</strong>: The spatial resolution reports the granularity of the data. Finer granularity stores more detailed information. For gridded data, and depending on the measurement framework, the spatial resolution is either reported in angular units (degrees) that represent longitude and latitude in a spherical coordinate system or square (kilo-)meters projected into Cartesian coordinate systems. High-resolution airborne monitoring, for example, achieves a spatial resolution at or below 1x1m. Publicly available data products derived from satellite data are often much more coarse with values of 1x1km or larger, like the <a href="https://odiac.org/index.html">Open-source Data Inventory for Anthropogenic CO2 (ODIAC)</a>. The spatial resolution of georeferenced data which is stored in vector-format refers to the detailedness and aggregation level of data in points, lines, and polygons. For example, is pollution data stored for each individual emitting factory in point location or as regional or national averages?</li>
+<li><strong>Spatial resolution</strong>: The spatial resolution reports the granularity of the data. Finer granularity stores more detailed information. For gridded data, and depending on the measurement framework, the spatial resolution is either reported in angular units (degrees) that represent longitude and latitude in a spherical coordinate system or square (kilo-)meters projected into Cartesian coordinate systems. High-resolution airborne monitoring, for example, achieves a spatial resolution at or below 1x1m. Publicly available data products derived from satellite data are often much more coarse with values of 1x1km or larger, like the <a href="https://odiac.org/index.html">Open-source Data Inventory for Anthropogenic CO2 (ODIAC)</a>.
+<ul>
+<li><strong>High spatial resolution</strong> means small pixels that show fine details, like trees or buildings.</li>
+<li><strong>Low spatial resolution</strong> means bigger pixels that show larger areas, like whole forests or cities. The spatial resolution of georeferenced data which is stored in vector-format refers to the detailedness and aggregation level of data in points, lines, and polygons. For example, is pollution data stored for each individual emitting factory in point location or as regional or national averages?</li>
+</ul></li>
+<li><strong>Spatial extent</strong>: The total geographic area that is covered by an image or dataset. It describes the size or range of the area the data spans (e.g., a region, a country, or the entire planet).
+<ul>
+<li><strong>Larger spatial extent</strong> (covers more area) usually comes with lower spectral resolution—fewer details about materials, but good for broad views like land cover maps.</li>
+<li><strong>Smaller spatial extent</strong> (covers less area) often has higher spectral resolution (e.g.&nbsp;hyperspectral imaging)—shows more detail about what’s there, like identifying minerals, but over a smaller area.</li>
+</ul></li>
 <li><strong>Spatial coverage</strong>: The spatial coverage (or scope/extent) refers to the extensiveness of data across the globe. The delineation of coverage can be based on the exact spatial extent of gridded data, or on administrative units like regions and countries.</li>
 <li><strong>Temporal resolution</strong>: Similar to the spatial resolution, the temporal resolution records the intervalls at which information is stored. (Near-)real-time data from public sources have hourly or daily intervals. Many datasets also provide monthly or yearly averages.</li>
 <li><strong>Temporal coverage</strong>: The temporal coverage (or scope/extent) means the time period, which is covered by the dataset. Given that many remote sensing and satellite programs have emerged only recently, the temporal coverage of observational data is limited. Fortunately, <a href="https://climate.copernicus.eu/climate-reanalysis">reanalysis</a> programs, simulation studies, and data fusion projects have extended the historical coverage of many EO indicators considerably. Check out, for example, the <a href="https://www.pnnl.gov/projects/ceds">Community Emissions Data System (CEDS)</a>, which has produced annual estimates of several anthropogenic emission species over the entire industrial period from 1750!</li>
@@ -237,6 +246,18 @@ ul.task-list li input[type="checkbox"] {
 <section id="data-quality-assessment" class="level2">
 <h2 class="anchored" data-anchor-id="data-quality-assessment">Data quality assessment</h2>
 <p>Earth observation and remote sensing data have emerged as critical tools for applications ranging from environmental monitoring to the analysis of economic activities. However, the effective use of satellite imagery hinges on overcoming several data quality challenges. First, for many longitudinal research designs or official statistics, obtaining a continuous and reliable time series of images is essential. Yet, factors like persistent cloud cover, unfavorable shadow casting, and diffuse lighting conditions often lead to significant gaps in data. These gaps undermine the consistency and validity of temporal coverage.</p>
+<details>
+<summary>
+Additions to atmospheric effects
+</summary>
+<p><strong>Atmospheirc effects</strong>: Influence how electromagnetic radiation (EMR) travels through the atmosphere. Key effects are:</p>
+<ul>
+<li><p><strong>Scattering</strong>: Redirection of EMR by particles like gases or dust reducing image contrast and alters spectral signatures. <em>Rayleigh scattering</em> affects shorter wavelengths (e.g.&nbsp;blue sky and red sunset). <em>Mie Scattering</em> is caused by larger particles like in those in smog. <em>Non-selective scattering</em> by larger particles like water droplets, making clouds appear white.</p></li>
+<li><p><strong>Absorption</strong>: Gases like ozone, carbon dioxide, and water vapor absorbs EMR, reducing the amount that reaches the sensor and causing image blurring.</p></li>
+<li><p><strong>Refraction</strong>: Bending of light as it passes between media of different densities-seen in mirage-like effect on hot days.</p></li>
+</ul>
+<a href="https://www.preventionweb.net/files/1682_9970.pdf">Here</a> you can find out more about atmospheric effects as well as image enhancement methods and radiometric corrections.
+<details>
 <p>Moreover, the spatial resolution of satellite imagery plays a pivotal role in determining the utility of the data. While larger, easily identifiable objects like container ships can be detected at moderate resolutions (e.g., 10m per pixel), the identification of smaller, more closely packed objects such as cars and shipping containers demands super high resolution below 1m. The figure below, from the <a href="https://www.destatis.de/EN/Service/EXSTAT/Datensaetze/satellite-data.html">Destatis evaluation project of satellite data for business cycles</a>, visualizes these distinctions quite intuitively. The Destatis evaluation project showed that free data from Sentinel-2 were only partly suitable for detection activities. The images were too coarse to be utilized for automated detection of objects like cars and containers.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -250,7 +271,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- Nochmal genau anschauen [Satellite-based early estimate of short-term economic development](https://www.destatis.de/EN/Service/EXSTAT/Datensaetze/satellite-based-early-estimate.html) -->
 
 
-</section>
+</details></details></section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
