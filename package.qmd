@@ -44,4 +44,21 @@ reproducibility of all research steps.
 
 ## Documentation
 
+<details>
+ <summary>Resampling and why it is useful</summary>
+ 
+Resampling is a key step in correcting and aligning satellite or aerial images to real-world coordinates. It's part of a broader process called geometric rectification, which transforms a distorted image (e.g., from 3D terrain or sensor angles) into a flat, properly aligned 2D map.
+After applying a mapping transformation—often based on ground control points (GCPs) with known geographic locations—resampling adjusts the pixel values to fit the new coordinate system. This creates a corrected version of the image where each pixel aligns with its real-world location.
+
+Key features: 
+
+ - Combining different Earth Observation (EO) datasets
+ 
+ - Integrating EO data with sociodemographic data (e.g., census, surveys)
+ 
+ - Ensuring spatial accuracy for analysis (e.g., land cover with population data)
+ 
+ In [this](https://www.preventionweb.net/files/1682_9970.pdf) paper you can learn more about rectification and resampling. 
+ </details>
+
 Please check out the extensive documentation of the package at [https://github.com/denabel/gxc](https://github.com/denabel/gxc).
