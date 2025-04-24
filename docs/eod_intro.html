@@ -238,7 +238,7 @@ div.csl-indent {
 <figcaption>Journey into EO data for social scientists (AI generated image).</figcaption>
 </figure>
 </div>
-<p>Earth observation (EO) data refers to all collected information about the Earth’s physical, chemical, and biological systems. Utilizing Earth observation data allows to study the Earth’s atmosphere, land cover, oceans and inland waters, as well as biological diversity and ecosystems. Applications of EO data in academia, industry, and policy-making are extensive. It is crucial for the operation of activities in environmental protection, energy management, urban planning, agriculture and fisheries, forestry, public health, transport and mobility, civil protection, or tourism.</p>
+<p>Earth observation (EO) data refers to all collected information about the Earth’s physical, chemical, and biological systems. Utilizing Earth observation data allows to study the Earth’s atmosphere, land cover, near subsurface, oceans and inland waters, as well as biological diversity and ecosystems. Applications of EO data in academia, industry, and policy-making are extensive. It is crucial for the operation of activities in environmental protection, energy management, urban planning, agriculture and fisheries, forestry, public health, risk and hazard management, transport and mobility, civil protection, or tourism.</p>
 <details>
 <summary>
 Additional information on Earth system indicators
@@ -253,11 +253,25 @@ Additional information on Earth system indicators
 </details>
 <p>There is often confusion about terms such as Earth observation data, geodata, remote sensing, or satellite data. Let’s disentangle these different concepts.</p>
 <ul>
-<li><strong>Earth observation data</strong> 🌎: Information collected about the Earth’s system</li>
+<li><strong>Earth observation data</strong> 🌍: Information collected about the Earth’s system</li>
 <li><strong>Geospatial data</strong> 🗺: Data that is georeferenced (includes information on the location)</li>
-<li><strong>Remote sensing data</strong> 📡: Information that is acquired by sensors “from a distance”</li>
+<li><strong>Remote sensing data</strong> 📡: Information that is acquired by sensors “from a distance”. Remote sensing uses electromagnetic radiation from a source (natural, e.g.&nbsp;solar radiation, or artificial, e.g.&nbsp;radar) that interacts with targets on the Earth’s surface in a unique way (spectral signatures).</li>
 <li><strong>Satellite data</strong> 🛰: Information that is acquired by sensors via satellites</li>
 </ul>
+<details>
+<summary>
+Background on Remote Sensing
+</summary>
+<p><strong>Electromagnetic radiation</strong>: is the transfer of energy from a target through space via waves that vary in wavelength, frequency, amplitude, and speed. It can be captured by sensors for analysis.</p>
+<p><strong>Radiance</strong>: Is the amount of electromagnetic radiation emitted or reflected by an object in a specific direction. (In contrast, irradiance refers to the radiation that strikes the surface of the object.)</p>
+<p><strong>Reflectance</strong>: Refers to how much light or electromagnetic radiation a surface bounces back compared to how much it receives. Different materials reflect and absorb light in unique ways, which helps us identify them using their <em>spectral signature</em>—a kind of “fingerprint” based on reflectance at different wavelengths.</p>
+<ul>
+<li><p><strong>Vegetation</strong>: Healthy plants reflect a lot of green light (why they look green) and near-infrared (NIR) light, but they absorb red and blue light for photosynthesis.</p></li>
+<li><p><strong>Water</strong>: Water reflects very little light overall. Most radiation is absorbed or transmitted into the water. However, shorter wavelengths like blue and green are more likely to be reflected—this is why water can appear blue.</p></li>
+<li><p><strong>Soil</strong>: Reflectance depends on factors like moisture. Wetter soil reflects less light, while dry soil reflects more.</p></li>
+</ul>
+Have a look at <a href="https://www.preventionweb.net/files/1682_9970.pdf">this paper</a> to learn more about the basics of remote sensing.
+</details>
 <p>As you can see, these four terminologies address different aspects of the data. While “EO data” refers to the data content (the Earth system), “geospatial data” addresses the location, and “remote sensing” and “satellite data” address the way of obtaining the data.</p>
 <p>The Venn diagram below visualizes these definitions and shows overlaps and gaps between these concepts. Except for satellite data, which can be seen as a subset of remote sensing data, all other concepts have overlaps and gaps with each other.</p>
 <div class="quarto-figure quarto-figure-center">
