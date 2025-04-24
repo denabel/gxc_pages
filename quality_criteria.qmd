@@ -18,8 +18,8 @@ or landscape values like NDVI.
 - **CRS and projection**: A Coordinate Reference System (CRS) is the framework for identifying locations. It defines how the two-dimensional map refers to actual places on the Earth's surface. A CRS typically includes a datum (which defines the coordinate axes) and either uses geographic coordinates (latitude and longitude) or projected coordinates. Projected coordinates are based on mathematical methods to transform the Earth's three-dimensional surface into a two-dimensional plane (the "map"). Any projection inevitably distorts some properties of shape, area, distance, or direction. Different projections focus on preserving different characteristics.
 - **Spatial resolution**: The spatial resolution reports the granularity of the data. Finer granularity stores more detailed information. For gridded data, and depending on the measurement framework, the spatial resolution is either reported in angular units (degrees) that represent longitude and latitude in a spherical coordinate system or square (kilo-)meters projected into Cartesian coordinate systems. High-resolution airborne monitoring, for example, achieves a spatial resolution at or below 1x1m. Publicly available data products derived from satellite data are often much more coarse with values of 1x1km or larger, like the 
 [Open-source Data Inventory for Anthropogenic CO2 (ODIAC)](https://odiac.org/index.html).
- - **High spatial resolution** means small pixels that show fine details, like trees or buildings.
- - **Low spatial resolution** means bigger pixels that show larger areas, like whole forests or cities.
+  - **High spatial resolution** means small pixels that show fine details, like trees or buildings.
+  - **Low spatial resolution** means bigger pixels that show larger areas, like whole forests or cities.
 The spatial resolution of georeferenced data which is stored in vector-format refers to the detailedness and aggregation level of data in points, lines, and polygons. For example, is pollution data stored for each individual emitting factory in point location or as regional or national averages?
 - **Spatial extent**: The total geographic area that is covered by an image or dataset. It describes the size or range of the area the data spans (e.g., a region, a country, or the entire planet). 
   - **Larger spatial extent** (covers more area) usually comes with lower spectral resolution—fewer details about materials, but good for broad views like land cover maps.
@@ -67,6 +67,7 @@ _Non-selective scattering_ by larger particles like water droplets, making cloud
 - **Absorption**: Gases like ozone, carbon dioxide, and water vapor absorbs EMR, reducing the amount that reaches the sensor and causing image blurring. 
 
 - **Refraction**: Bending of light as it passes between media of different densities-seen in mirage-like effect on hot days. 
+
 [Here](https://www.preventionweb.net/files/1682_9970.pdf) you can find out more about atmospheric effects as well as image enhancement methods and radiometric corrections.
 <details>
 
