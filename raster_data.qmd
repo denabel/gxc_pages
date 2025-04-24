@@ -17,14 +17,14 @@ library(tmap)
 Raster data consists of a grid of evenly shaped cells, where each cell represents a single observation. Essentially, raster data functions like a simple data table, storing information in a structured format. This data type efficiently represents spatial information such as elevation, temperature, or land cover. The uniform grid structure allows for easy analysis and manipulation, making raster data an essential tool in GIS work.
 
 <details>
- <summary>Raster data and image classification in remote sensing<summary>
+ <summary>Raster data and image classification in remote sensing</summary>
  In remote sensing, this raster grid is often referred to as a digital image. Each pixel contains a Digital Number (DN) or Brightness Value (BV) that represents the average radiance from a small area on the Earth's surface. When images have multiple bands (multi-/ hyperspectral sensors), each band captures a different part of the electromagnetic spectrum. This lets us explore surface features like vegetation, water, or buildings in much greater detail—making digital images a powerful form of raster data in geospatial analysis.
  **Image classification** is the process of automatically grouping all pixels in a raster image into meaningful classes—such as land cover types—based on their **spectral signatures** (the way surfaces reflect or emit energy across different bands).
   - **Unsupervised classification**: The software first groups pixels based on similarities (e.g., using clustering or spatial autocorrelation), then analysts interpret and label these groups. This method is helpful in complex or unfamiliar terrain.
   - **Supervised classification**: Analysts define known training areas for each land cover type. The algorithm uses these as references to classify the rest of the image. This approach is more targeted but can be more subjective, depending on how training data is chosen.
   
   [Here](https://www.preventionweb.net/files/1682_9970.pdf) you can learn more about digital images and color composition of digital images. 
- <details>
+ </details>
 
 ![](./images/table_to_raster.png)
 
