@@ -52,13 +52,20 @@ remote sensing, or satellite data. Let's disentangle these different concepts.
 
 <details>
   <summary>Background on Remote Sensing</summary>
-  **electromagnetic radiation**: is the transfer of energy from a target through space via waves that vary in wavelength, frequency, amplitude, and speed. It can be captured by sensors for analysis.
+  
+  **Electromagnetic radiation**: is the transfer of energy from a target through space via waves that vary in wavelength, frequency, amplitude, and speed. It can be captured by sensors for analysis.
+  
   **radiance**: Is the amount of electromagnetic radiation emitted or reflected by an object in a specific direction. (In contrast, irradiance refers to the radiation that strikes the surface of the object.)
+  
   **Reflectance**: Refers to how much light or electromagnetic radiation a surface bounces back compared to how much it receives. Different materials reflect and absorb light in unique ways, which helps us identify them using their _spectral signature_—a kind of "fingerprint" based on reflectance at different wavelengths.
+  
   - **Vegetation**: Healthy plants reflect a lot of green light (why they look green) and near-infrared (NIR) light, but they absorb red and blue light for photosynthesis.
+  
   - **Water**: Water reflects very little light overall. Most radiation is absorbed or transmitted into the water. However, shorter wavelengths like blue and green are more likely to be reflected—this is why water can appear blue.
+  
   - **Soil**: Reflectance depends on factors like moisture. Wetter soil reflects less light, while dry soil reflects more.
-  Have a look at [this paper](https://www.preventionweb.net/files/1682_9970.pdf) to learn more about the basics of remote sensing. 
+
+Have a look at [this paper](https://www.preventionweb.net/files/1682_9970.pdf) to learn more about the basics of remote sensing. 
 </details>
 
 As you can see, these four terminologies address different aspects of the data.
