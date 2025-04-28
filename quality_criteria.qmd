@@ -71,6 +71,7 @@ _Non-selective scattering_ by larger particles like water droplets, making cloud
 [Here](https://www.preventionweb.net/files/1682_9970.pdf) you can find out more about atmospheric effects as well as image enhancement methods and radiometric corrections.
 </details>
 
+
 Moreover, the spatial resolution of satellite imagery plays a pivotal role in determining the utility of the data. While larger, easily identifiable objects like container ships can be detected at moderate resolutions (e.g., 10m per pixel), the identification of smaller, more closely packed objects such as cars and shipping containers demands super high resolution below 1m. The figure below, from the [Destatis evaluation project of satellite data for business cycles](https://www.destatis.de/EN/Service/EXSTAT/Datensaetze/satellite-data.html), visualizes these distinctions quite intuitively. The Destatis evaluation project showed that free data from Sentinel-2 were only partly suitable for detection activities. The images were too coarse to be utilized for automated detection of objects like cars and containers.
 
 ![Resolution of satellite images compared [(Source: Destatis 2019)](https://www.destatis.de/EN/Service/EXSTAT/Datensaetze/satellite-data.html).](images/resolution_comparison.png){ width=100% align=center }
