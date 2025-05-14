@@ -1,0 +1,17 @@
+---
+title: "Case study: Nighttime lights"
+---
+
+```{r packages}
+#| include: false
+library(sf)
+library(terra)
+library(tmap)
+```
+
+
+![Let's code (AI generated image)!](images/cat_scientist.png){ width=60% align=center }
+
+## Introduction to Nighttime Light Data
+
+
