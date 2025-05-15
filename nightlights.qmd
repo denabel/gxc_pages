@@ -1,6 +1,11 @@
 ---
 title: "Case study: Nighttime lights"
 ---
+format:
+  html:
+    include: 
+      - mermaid
+---
 
 ```{r packages}
 #| include: false
@@ -20,7 +25,7 @@ library(tidyterra)
 
 
 
-
+ 
 
 # Acquisition of Nighttime Light (NL) Data :satellite:
 
@@ -42,53 +47,48 @@ Photos from ISS: Digital photos taken from the ISS only have moderate spatial re
 
 ```{mermaid}
 flowchart TD
-    A[Start] --> B[Data: GEOCON dataset & nighttime data DMSP-OLS or VIIRS]
+    A[Start] --> B[Data: GEOCON dataset & nighttime data (DMSP-OLS or VIIRS)]
     B --> C[Pre-Processing: thresholding illumination (DN values), removing noise]
-    C --> D[Disaggregation: matching GEOCON and NLs reoslution]
+    C --> D[Disaggregation: matching GEOCON and NLs resolution]
     D --> E[Further Analysis]
-    E --> F[End]
-    
+    E --> F[End] 
 ```
 ([Chen, 2016](https://doi.org/10.1007/978-3-319-22810-5_15))
 
 ```{mermaid}
 flowchart TD
-    A[Start] --> B[Data: cquisition of geo-coded Demographic and health Surveys from African counties]
-    B --> C[Pre-Processing: buffering/ spatial analysis of data]
-    C --> D[Data Integration: linking, integration of nighttime lights data from National Oceanic and Atmospheric Administration (DMSP-OLS sensors)]
-    D --> E[Statistical Analysis]
-    E --> F[End]
-    
+A[Start] --> B[Data: acquisition of geo-coded Demographic and health Surveys from African countries]
+B --> C[Pre-Processing: buffering / spatial analysis of data]
+C --> D[Data Integration: linking, integration of nighttime lights data from National Oceanic and Atmospheric Administration (DMSP-OLS sensors)]
+D --> E[Statistical Analysis]
+E --> F[End] 
 ```
 
 ([Bruderle, 2018](https://doi.org/10.1371/journal.pone.0202231))
 
 ```{mermaid}
 flowchart TD
-    A[Start] --> B[Data: India Lights Project API, DMSP-OLS NL data from the National Oceanic and Atmospheric Administration (NOAA), 2011 Census of India, village shapefiles from InfoMap]
-    B --> C[Pre-Processing: “stable light” to reduce noise, define centroids of villages]
-    C --> D[Data Integration: bilinear interpolation linking NLs data and centroids, calculating DN values in 2, 3, 5 km buffer around centroid]
-    D --> E[Correlation analysis: correlation coefficient (Pearson’s r) between NL and Census data]
-    E --> F[Regression & Evaluation: multivariate regression accuracy of modelling ground data, testing for non-linearity]
-    F --> G[End]
-    
+A[Start] --> B[Data Acquisition: API, DMSP-OLS, Census, Shapefiles]
+B --> C[Pre-Processing: stable lights, centroids]
+C --> D[Integration: bilinear interpolation, DN values in buffers]
+D --> E[Correlation Analysis: Pearson’s r]
+E --> F[Regression & Evaluation: multivariate analysis]
+F --> G[End]
 ```
 ([Dugoua, 2018](https://doi.org/10.1080/01431161.2017.1420936))
 
 ```{mermaid}
-flowchart TD
-    A[Start] --> B[Data: annual composites of nighttime light data, Thematic World Borders Dataset for administrative boundaries (e.g., nation-states, territories), Socio-economic data sourced from World Bank (GDP, poverty headcount), UN, Eurostat, and national censuses (population), energy consumption (EIA) and emissions (CDIAC, EDGAR)]
-    B --> C[Pre-Processing: thresholding (calculation of different light metrics, including “area lit”, “sum of lights,” “lights index,” and raw DN values), distinguish significance]
-    C --> D[Data Integration: bilinear interpolation linking NLs data and centroids, calculating DN values in 2, 3, 5 km buffer around centroid]
-    D --> E[Correlation analysis: Pearsons's R for correlation of NLss and socio-economic variables, regression models to analyse spatial patterns ]
-    E --> F[Interpretation & Application: NLs as a proxy for socio-economic data in countries with poor statistical coverage, spatial variability in night-time lights]
+ A[Start] --> B[Data Acquisition: annual composites of nighttime light data, Thematic World Borders Dataset for administrative boundaries, socio-economic data (GDP, poverty, population, energy consumption, emissions)]
+    B --> C[Pre-Processing: thresholding (e.g., "area lit", "sum of lights", "lights index", raw DN values), distinguishing significance]
+    C --> D[Data Integration: bilinear interpolation, linking NLs data and centroids, calculating DN values in 2, 3, 5 km buffer around centroid]
+    D --> E[Correlation Analysis: Pearson's R for correlation of NLs and socio-economic variables, regression models to analyse spatial patterns]
+    E --> F[Interpretation & Application: using NLs as a proxy for socio-economic data, addressing spatial variability in night-time lights]
     F --> G[End]
-    
 ```
 ([Proville, 2017](https://doi.org/10.1371/journal.pone.0174610))
 </details> 
 
-## NASA's Blackmarble
+## NASA's Blackmarble :full_moon:
 
 [NASA's Blackmarble](https://blackmarble.gsfc.nasa.gov/) uses VIIRS DNB sensors onboard of the Suomi NPP and NOAA-20 satellites. The VIIRS DNB has a high spatial resolution of 500 m and is calibrated and corrected for atmospheric, terrain, lunar BRDF, thermal, and straylight effects. This is resulting in faster retrieval time and less noise, facilitating research based on daily, seasonal and annual changes in NLs. [Levin, 2020](https://doi.org/10.1016/j.rse.2019.111443)
 
@@ -192,9 +192,9 @@ ggplot() +
 ```
 
 
-# Subsetting
+# Subsetting 
 
-In order to define our AOI to Los Angeles County we first need to: 
+In order to define our AOI to Los Angeles County :city_sunset: we first need to: 
 
 ```{r}
 # Load LA County file
@@ -346,7 +346,7 @@ names(LA_stack) <- c("population", "nightlights")
 terra::plot(LA_stack)
 ```
 
-# Model Training with Imputation Logics
+# Model Training with Imputation Logics :weight_lifting_woman:
  
 Previous examples follow the idea of interpolating existing data across the spatial domain. Imputation fills in missing values based on a prediction model. Let's consider our two variables to make up a stylized example:
 
@@ -401,7 +401,7 @@ names(pop_500m) <- "population_predicted"
 LA_stack <- c(LA_stack, pop_500m)
 ```
 
-# Statistic analysis
+# Statistic analysis :1234:
 
 Now we have a million options to analyse our raster stack. 
 
@@ -413,7 +413,7 @@ global(LA_stack, fun = mean, na.rm=TRUE)
 layerCor(LA_stack, fun = "cor", use = "complete.obs")
 ```
 
-## Possible indications for social sciences
+# Possible indications for social sciences :family_man_woman_girl_boy:
 
 Nighttime Lights (NL) data offer a versatile and increasingly important perspective for a wide range of social research topics. At the most basic level, NL data can be used to assess electrification rates, map urban extent, and estimate population density, urbanization, and economic activity. These applications are foundational but can also extend into more complex spatial analyses, such as defining administrative boundaries, monitoring infrastructure development, and analyzing spatial inequalities.
 
@@ -425,12 +425,15 @@ Moreover, nighttime lights can reflect cultural and social behaviors, such as re
 
 All these indicators have multiple causes, so it is important not to make quick assumptions. This is why we would like to clarify the accuracy and reliability of the NL data.
 
-# Accuracy of Nighttime Light Data 
+# Accuracy of Nighttime Light Data :bar_chart:
 
-NL data's accuracy is especially dependent on a stable electricity supply since there are difficulties with distinguishing the reason of variation in electricity supply. Also, bare in mind non-electrified villages are not detected ([Dugoua, 2018](https://doi.org/10.1080/01431161.2017.1420936)). 
-Obviously, a higher spatial resolutions leads to higher accuracy in capturing variations in NLs ([Bruederle, 2018](https://doi.org/10.1371/journal.pone.0202231)). 
-Since NL data isn't a super accurate indicator for a lot of socioeconomic topics it can thus help formulate estimation especially in under-researched areas with poor statistical inventories ([Proville, 2017](https://doi.org/10.1371/journal.pone.0174610)) or difficult data access ([Chen, 2016](https://doi.org/10.1007/978-3-319-22810-5_15)).  Talking about statistical inventories NL data has the strength of detecting possibly informal activities and their spatial patterns, disclosing regional governance differences ([Proville, 2017](https://doi.org/10.1371/journal.pone.0174610)).
-Most commonly NL are interpreted as a sign of modernization, urbanization, security, economic development and technological innovation, however it is necessary to regard the downsides of out light emissions. Artificial light pollution is altering species circadian rhythm, as well as the human one. _Artificial light is used in modern societies to extend activity hours  i.e. working hours. Thus, NL could also indicate regional labor protection measurements._ Also it raises costs for astronomical observations due a reduction in night-time sky quality by more "skyglow". 
+The accuracy of nighttime light (NL) data largely depends on a stable electricity supply, as fluctuations in power availability can obscure the true signal of human activity. Additionally, areas without electrification are not captured, leading to significant blind spots in the data ([Dugoua, 2018](https://doi.org/10.1080/01431161.2017.1420936)). 
+Higher spatial resolutions improve the ability to capture fine-scale variations in light emissions, enhancing accuracy and interpretability ([Bruederle, 2018](https://doi.org/10.1371/journal.pone.0202231)). 
+Despite this, NL data remains an imperfect proxy for many socioeconomic indicators. It is particularly useful for estimations in regions with limited statistical coverage or where reliable data is difficult to obtain ([Proville, 2017](https://doi.org/10.1371/journal.pone.0174610)) ([Chen, 2016](https://doi.org/10.1007/978-3-319-22810-5_15)).  Talking about statistical inventories NL data has the strength of detecting possibly informal activities and their spatial patterns, disclosing regional governance differences ([Proville, 2017](https://doi.org/10.1371/journal.pone.0174610)).
+However, interpreting these data requires caution, as they can also reflect unintended side effects like artificial light pollution. This "skyglow" not only disrupts human circadian rhythms and wildlife behavior but also complicates astronomical observations by reducing nighttime sky quality.
+
+Finally, while NLs are often interpreted as indicators of modernization, urbanization, economic development, and technological innovation, they can also signify longer working hours and potentially weaker labor protections, reflecting broader social conditions.
+
 You can find a really elaborate documentation of NL data indication but also impacts on ecosystems [here](https://doi.org/10.1016/j.rse.2019.111443). 
 
 _"[...] usefulness of nighttime lights as proxy depends on optimal weight of proxy measure [...]"_ ([Chen, 2016](https://doi.org/10.1007/978-3-319-22810-5_15))

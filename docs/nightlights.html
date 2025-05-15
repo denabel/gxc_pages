@@ -226,7 +226,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#introduction-to-nighttime-light-data" id="toc-introduction-to-nighttime-light-data" class="nav-link active" data-scroll-target="#introduction-to-nighttime-light-data">Introduction to Nighttime Light Data</a></li>
   <li><a href="#acquisition-of-nighttime-light-nl-data-satellite" id="toc-acquisition-of-nighttime-light-nl-data-satellite" class="nav-link" data-scroll-target="#acquisition-of-nighttime-light-nl-data-satellite">Acquisition of Nighttime Light (NL) Data :satellite:</a>
   <ul class="collapse">
-  <li><a href="#nasas-blackmarble" id="toc-nasas-blackmarble" class="nav-link" data-scroll-target="#nasas-blackmarble">NASA’s Blackmarble</a></li>
+  <li><a href="#nasas-blackmarble-full_moon" id="toc-nasas-blackmarble-full_moon" class="nav-link" data-scroll-target="#nasas-blackmarble-full_moon">NASA’s Blackmarble :full_moon:</a></li>
   </ul></li>
   <li><a href="#introduction-case-study" id="toc-introduction-case-study" class="nav-link" data-scroll-target="#introduction-case-study">Introduction case study</a></li>
   <li><a href="#r-package-blackmarbler" id="toc-r-package-blackmarbler" class="nav-link" data-scroll-target="#r-package-blackmarbler">R package <code>blackmarbler</code></a></li>
@@ -235,12 +235,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#subsetting" id="toc-subsetting" class="nav-link" data-scroll-target="#subsetting">Subsetting</a></li>
   <li><a href="#disaggregation" id="toc-disaggregation" class="nav-link" data-scroll-target="#disaggregation">Disaggregation</a></li>
   <li><a href="#stacking-layers" id="toc-stacking-layers" class="nav-link" data-scroll-target="#stacking-layers">Stacking layers</a></li>
-  <li><a href="#model-training-with-imputation-logics" id="toc-model-training-with-imputation-logics" class="nav-link" data-scroll-target="#model-training-with-imputation-logics">Model Training with Imputation Logics</a></li>
-  <li><a href="#statistic-analysis" id="toc-statistic-analysis" class="nav-link" data-scroll-target="#statistic-analysis">Statistic analysis</a>
-  <ul class="collapse">
-  <li><a href="#possible-indications-for-social-sciences" id="toc-possible-indications-for-social-sciences" class="nav-link" data-scroll-target="#possible-indications-for-social-sciences">Possible indications for social sciences</a></li>
-  </ul></li>
-  <li><a href="#accuracy-of-nighttime-light-data" id="toc-accuracy-of-nighttime-light-data" class="nav-link" data-scroll-target="#accuracy-of-nighttime-light-data">Accuracy of Nighttime Light Data</a></li>
+  <li><a href="#model-training-with-imputation-logics-weight_lifting_woman" id="toc-model-training-with-imputation-logics-weight_lifting_woman" class="nav-link" data-scroll-target="#model-training-with-imputation-logics-weight_lifting_woman">Model Training with Imputation Logics :weight_lifting_woman:</a></li>
+  <li><a href="#statistic-analysis-1234" id="toc-statistic-analysis-1234" class="nav-link" data-scroll-target="#statistic-analysis-1234">Statistic analysis :1234:</a></li>
+  <li><a href="#possible-indications-for-social-sciences-family_man_woman_girl_boy" id="toc-possible-indications-for-social-sciences-family_man_woman_girl_boy" class="nav-link" data-scroll-target="#possible-indications-for-social-sciences-family_man_woman_girl_boy">Possible indications for social sciences :family_man_woman_girl_boy:</a></li>
+  <li><a href="#accuracy-of-nighttime-light-data-bar_chart" id="toc-accuracy-of-nighttime-light-data-bar_chart" class="nav-link" data-scroll-target="#accuracy-of-nighttime-light-data-bar_chart">Accuracy of Nighttime Light Data :bar_chart:</a></li>
   </ul>
 </nav>
     </div>
@@ -266,6 +264,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<p>format: html: include: - mermaid</p>
+<hr>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/cat_scientist.png" class="img-fluid figure-img" style="width:60.0%" data-align="center"></p>
@@ -288,9 +288,9 @@ Useful Case Studies and example workflows
 </summary>
 <div class="cell" data-layout-align="default">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>flowchart TD</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    A[Start] --&gt; B[Data: GEOCON dataset &amp; nighttime data DMSP-OLS or VIIRS]</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    A[Start] --&gt; B[Data: GEOCON dataset &amp; nighttime data (DMSP-OLS or VIIRS)]</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    B --&gt; C[Pre-Processing: thresholding illumination (DN values), removing noise]</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    C --&gt; D[Disaggregation: matching GEOCON and NLs reoslution]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    C --&gt; D[Disaggregation: matching GEOCON and NLs resolution]</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    D --&gt; E[Further Analysis]</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    E --&gt; F[End]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -298,12 +298,11 @@ Useful Case Studies and example workflows
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart TD
-    A[Start] --&gt; B[Data: GEOCON dataset &amp; nighttime data DMSP-OLS or VIIRS]
+    A[Start] --&gt; B[Data: GEOCON dataset &amp; nighttime data (DMSP-OLS or VIIRS)]
     B --&gt; C[Pre-Processing: thresholding illumination (DN values), removing noise]
-    C --&gt; D[Disaggregation: matching GEOCON and NLs reoslution]
+    C --&gt; D[Disaggregation: matching GEOCON and NLs resolution]
     D --&gt; E[Further Analysis]
-    E --&gt; F[End]
-    
+    E --&gt; F[End] 
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -313,22 +312,21 @@ Useful Case Studies and example workflows
 <p>(<a href="https://doi.org/10.1007/978-3-319-22810-5_15">Chen, 2016</a>)</p>
 <div class="cell" data-layout-align="default">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>flowchart TD</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    A[Start] --&gt; B[Data: cquisition of geo-coded Demographic and health Surveys from African counties]</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    B --&gt; C[Pre-Processing: buffering/ spatial analysis of data]</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    C --&gt; D[Data Integration: linking, integration of nighttime lights data from National Oceanic and Atmospheric Administration (DMSP-OLS sensors)]</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    D --&gt; E[Statistical Analysis]</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    E --&gt; F[End]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>A[Start] --&gt; B[Data: acquisition of geo-coded Demographic and health Surveys from African countries]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>B --&gt; C[Pre-Processing: buffering / spatial analysis of data]</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>C --&gt; D[Data Integration: linking, integration of nighttime lights data from National Oceanic and Atmospheric Administration (DMSP-OLS sensors)]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>D --&gt; E[Statistical Analysis]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>E --&gt; F[End]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart TD
-    A[Start] --&gt; B[Data: cquisition of geo-coded Demographic and health Surveys from African counties]
-    B --&gt; C[Pre-Processing: buffering/ spatial analysis of data]
-    C --&gt; D[Data Integration: linking, integration of nighttime lights data from National Oceanic and Atmospheric Administration (DMSP-OLS sensors)]
-    D --&gt; E[Statistical Analysis]
-    E --&gt; F[End]
-    
+A[Start] --&gt; B[Data: acquisition of geo-coded Demographic and health Surveys from African countries]
+B --&gt; C[Pre-Processing: buffering / spatial analysis of data]
+C --&gt; D[Data Integration: linking, integration of nighttime lights data from National Oceanic and Atmospheric Administration (DMSP-OLS sensors)]
+D --&gt; E[Statistical Analysis]
+E --&gt; F[End] 
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -338,24 +336,23 @@ Useful Case Studies and example workflows
 <p>(<a href="https://doi.org/10.1371/journal.pone.0202231">Bruderle, 2018</a>)</p>
 <div class="cell" data-layout-align="default">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>flowchart TD</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    A[Start] --&gt; B[Data: India Lights Project API, DMSP-OLS NL data from the National Oceanic and Atmospheric Administration (NOAA), 2011 Census of India, village shapefiles from InfoMap]</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    B --&gt; C[Pre-Processing: “stable light” to reduce noise, define centroids of villages]</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    C --&gt; D[Data Integration: bilinear interpolation linking NLs data and centroids, calculating DN values in 2, 3, 5 km buffer around centroid]</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    D --&gt; E[Correlation analysis: correlation coefficient (Pearson’s r) between NL and Census data]</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    E --&gt; F[Regression &amp; Evaluation: multivariate regression accuracy of modelling ground data, testing for non-linearity]</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    F --&gt; G[End]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>A[Start] --&gt; B[Data Acquisition: API, DMSP-OLS, Census, Shapefiles]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>B --&gt; C[Pre-Processing: stable lights, centroids]</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>C --&gt; D[Integration: bilinear interpolation, DN values in buffers]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>D --&gt; E[Correlation Analysis: Pearson’s r]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>E --&gt; F[Regression &amp; Evaluation: multivariate analysis]</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>F --&gt; G[End]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart TD
-    A[Start] --&gt; B[Data: India Lights Project API, DMSP-OLS NL data from the National Oceanic and Atmospheric Administration (NOAA), 2011 Census of India, village shapefiles from InfoMap]
-    B --&gt; C[Pre-Processing: “stable light” to reduce noise, define centroids of villages]
-    C --&gt; D[Data Integration: bilinear interpolation linking NLs data and centroids, calculating DN values in 2, 3, 5 km buffer around centroid]
-    D --&gt; E[Correlation analysis: correlation coefficient (Pearson’s r) between NL and Census data]
-    E --&gt; F[Regression &amp; Evaluation: multivariate regression accuracy of modelling ground data, testing for non-linearity]
-    F --&gt; G[End]
-    
+A[Start] --&gt; B[Data Acquisition: API, DMSP-OLS, Census, Shapefiles]
+B --&gt; C[Pre-Processing: stable lights, centroids]
+C --&gt; D[Integration: bilinear interpolation, DN values in buffers]
+D --&gt; E[Correlation Analysis: Pearson’s r]
+E --&gt; F[Regression &amp; Evaluation: multivariate analysis]
+F --&gt; G[End]
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -364,25 +361,22 @@ Useful Case Studies and example workflows
 </div>
 <p>(<a href="https://doi.org/10.1080/01431161.2017.1420936">Dugoua, 2018</a>)</p>
 <div class="cell" data-layout-align="default">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>flowchart TD</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    A[Start] --&gt; B[Data: annual composites of nighttime light data, Thematic World Borders Dataset for administrative boundaries (e.g., nation-states, territories), Socio-economic data sourced from World Bank (GDP, poverty headcount), UN, Eurostat, and national censuses (population), energy consumption (EIA) and emissions (CDIAC, EDGAR)]</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    B --&gt; C[Pre-Processing: thresholding (calculation of different light metrics, including “area lit”, “sum of lights,” “lights index,” and raw DN values), distinguish significance]</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    C --&gt; D[Data Integration: bilinear interpolation linking NLs data and centroids, calculating DN values in 2, 3, 5 km buffer around centroid]</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    D --&gt; E[Correlation analysis: Pearsons's R for correlation of NLss and socio-economic variables, regression models to analyse spatial patterns ]</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    E --&gt; F[Interpretation &amp; Application: NLs as a proxy for socio-economic data in countries with poor statistical coverage, spatial variability in night-time lights]</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    F --&gt; G[End]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>A[Start] --&gt; B[Data Acquisition: annual composites of nighttime light data, Thematic World Borders Dataset for administrative boundaries, socio-economic data (GDP, poverty, population, energy consumption, emissions)]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    B --&gt; C[Pre-Processing: thresholding (e.g., "area lit", "sum of lights", "lights index", raw DN values), distinguishing significance]</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    C --&gt; D[Data Integration: bilinear interpolation, linking NLs data and centroids, calculating DN values in 2, 3, 5 km buffer around centroid]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    D --&gt; E[Correlation Analysis: Pearson's R for correlation of NLs and socio-economic variables, regression models to analyse spatial patterns]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    E --&gt; F[Interpretation &amp; Application: using NLs as a proxy for socio-economic data, addressing spatial variability in night-time lights]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    F --&gt; G[End]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
-<pre class="mermaid mermaid-js">flowchart TD
-    A[Start] --&gt; B[Data: annual composites of nighttime light data, Thematic World Borders Dataset for administrative boundaries (e.g., nation-states, territories), Socio-economic data sourced from World Bank (GDP, poverty headcount), UN, Eurostat, and national censuses (population), energy consumption (EIA) and emissions (CDIAC, EDGAR)]
-    B --&gt; C[Pre-Processing: thresholding (calculation of different light metrics, including “area lit”, “sum of lights,” “lights index,” and raw DN values), distinguish significance]
-    C --&gt; D[Data Integration: bilinear interpolation linking NLs data and centroids, calculating DN values in 2, 3, 5 km buffer around centroid]
-    D --&gt; E[Correlation analysis: Pearsons's R for correlation of NLss and socio-economic variables, regression models to analyse spatial patterns ]
-    E --&gt; F[Interpretation &amp; Application: NLs as a proxy for socio-economic data in countries with poor statistical coverage, spatial variability in night-time lights]
+<pre class="mermaid mermaid-js"> A[Start] --&gt; B[Data Acquisition: annual composites of nighttime light data, Thematic World Borders Dataset for administrative boundaries, socio-economic data (GDP, poverty, population, energy consumption, emissions)]
+    B --&gt; C[Pre-Processing: thresholding (e.g., "area lit", "sum of lights", "lights index", raw DN values), distinguishing significance]
+    C --&gt; D[Data Integration: bilinear interpolation, linking NLs data and centroids, calculating DN values in 2, 3, 5 km buffer around centroid]
+    D --&gt; E[Correlation Analysis: Pearson's R for correlation of NLs and socio-economic variables, regression models to analyse spatial patterns]
+    E --&gt; F[Interpretation &amp; Application: using NLs as a proxy for socio-economic data, addressing spatial variability in night-time lights]
     F --&gt; G[End]
-    
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -391,8 +385,8 @@ Useful Case Studies and example workflows
 </div>
 (<a href="https://doi.org/10.1371/journal.pone.0174610">Proville, 2017</a>)
 </details>
-<section id="nasas-blackmarble" class="level2">
-<h2 class="anchored" data-anchor-id="nasas-blackmarble">NASA’s Blackmarble</h2>
+<section id="nasas-blackmarble-full_moon" class="level2">
+<h2 class="anchored" data-anchor-id="nasas-blackmarble-full_moon">NASA’s Blackmarble :full_moon:</h2>
 <p><a href="https://blackmarble.gsfc.nasa.gov/">NASA’s Blackmarble</a> uses VIIRS DNB sensors onboard of the Suomi NPP and NOAA-20 satellites. The VIIRS DNB has a high spatial resolution of 500 m and is calibrated and corrected for atmospheric, terrain, lunar BRDF, thermal, and straylight effects. This is resulting in faster retrieval time and less noise, facilitating research based on daily, seasonal and annual changes in NLs. <a href="https://doi.org/10.1016/j.rse.2019.111443">Levin, 2020</a></p>
 </section>
 </section>
@@ -523,7 +517,7 @@ max value   : 269.2 </code></pre>
 </section>
 <section id="subsetting" class="level1">
 <h1>Subsetting</h1>
-<p>In order to define our AOI to Los Angeles County we first need to:</p>
+<p>In order to define our AOI to Los Angeles County :city_sunset: we first need to:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load LA County file</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>LA_county <span class="ot">&lt;-</span> tigris<span class="sc">::</span><span class="fu">counties</span>(<span class="st">"CA"</span>, </span>
@@ -764,8 +758,8 @@ max values  :           9.733816, 4.400603 </code></pre>
 </div>
 </div>
 </section>
-<section id="model-training-with-imputation-logics" class="level1">
-<h1>Model Training with Imputation Logics</h1>
+<section id="model-training-with-imputation-logics-weight_lifting_woman" class="level1">
+<h1>Model Training with Imputation Logics :weight_lifting_woman:</h1>
 <p>Previous examples follow the idea of interpolating existing data across the spatial domain. Imputation fills in missing values based on a prediction model. Let’s consider our two variables to make up a stylized example:</p>
 <p>We know that population density and nightlights is correlated. We could try to predict the missing values for population based on the values of nightlights to generate the higher resolution population data. In order to do that, we train a RandomForest model on the low resolution data of population and nightlights.</p>
 <div class="cell">
@@ -834,8 +828,8 @@ Attache Paket: 'randomForest'</code></pre>
 <span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>LA_stack <span class="ot">&lt;-</span> <span class="fu">c</span>(LA_stack, pop_500m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="statistic-analysis" class="level1">
-<h1>Statistic analysis</h1>
+<section id="statistic-analysis-1234" class="level1">
+<h1>Statistic analysis :1234:</h1>
 <p>Now we have a million options to analyse our raster stack.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Global univariate means</span></span>
@@ -844,22 +838,22 @@ Attache Paket: 'randomForest'</code></pre>
 <pre><code>                          mean
 population           2.9236307
 nightlights          0.5277355
-population_predicted 2.7939264</code></pre>
+population_predicted 2.7939022</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bivariate correlations</span></span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="fu">layerCor</span>(LA_stack, <span class="at">fun =</span> <span class="st">"cor"</span>, <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$correlation
                      population nightlights population_predicted
-population            1.0000000   0.8245851            0.8757649
-nightlights           0.8245851   1.0000000            0.8724686
-population_predicted  0.8757649   0.8724686            1.0000000
+population            1.0000000   0.8245851            0.8760079
+nightlights           0.8245851   1.0000000            0.8733186
+population_predicted  0.8760079   0.8733186            1.0000000
 
 $mean
                      population nightlights population_predicted
 population                  NaN    2.923631            2.9236307
 nightlights           0.5277355         NaN            0.5277355
-population_predicted  2.7939264    2.793926                  NaN
+population_predicted  2.7939022    2.793902                  NaN
 
 $n
                      population nightlights population_predicted
@@ -868,18 +862,20 @@ nightlights               59256         NaN                59256
 population_predicted      59256       59256                  NaN</code></pre>
 </div>
 </div>
-<section id="possible-indications-for-social-sciences" class="level2">
-<h2 class="anchored" data-anchor-id="possible-indications-for-social-sciences">Possible indications for social sciences</h2>
+</section>
+<section id="possible-indications-for-social-sciences-family_man_woman_girl_boy" class="level1">
+<h1>Possible indications for social sciences :family_man_woman_girl_boy:</h1>
 <p>Nighttime Lights (NL) data offer a versatile and increasingly important perspective for a wide range of social research topics. At the most basic level, NL data can be used to assess electrification rates, map urban extent, and estimate population density, urbanization, and economic activity. These applications are foundational but can also extend into more complex spatial analyses, such as defining administrative boundaries, monitoring infrastructure development, and analyzing spatial inequalities.</p>
 <p>NL data also provide insights into more dynamic and often critical processes, including conflict detection, disaster impact assessment, population displacement, and refugee movements. Additionally, they have been used to capture economic trends, energy consumption patterns, and the evolution of urban growth over time.</p>
 <p>Beyond physical and economic indicators, NL data can also be linked to various socio-economic measures, such as regional GDP, poverty rates, public health, wealth distribution, and even progress toward Sustainable Development Goals (SDGs). However, these correlations often require careful interpretation to avoid oversimplification, as the brightness of a location is not always a straightforward proxy for economic well-being.</p>
 <p>Moreover, nighttime lights can reflect cultural and social behaviors, such as religious celebrations, tourism, or even the decorative nature of public lighting, providing unique insights into the social importance of specific objects. Finally, NL data can capture natural NIR emitters, including wildfires, volcanic activity, and gas flaring, adding further depth to its environmental monitoring capabilities.</p>
 <p>All these indicators have multiple causes, so it is important not to make quick assumptions. This is why we would like to clarify the accuracy and reliability of the NL data.</p>
 </section>
-</section>
-<section id="accuracy-of-nighttime-light-data" class="level1">
-<h1>Accuracy of Nighttime Light Data</h1>
-<p>NL data’s accuracy is especially dependent on a stable electricity supply since there are difficulties with distinguishing the reason of variation in electricity supply. Also, bare in mind non-electrified villages are not detected (<a href="https://doi.org/10.1080/01431161.2017.1420936">Dugoua, 2018</a>). Obviously, a higher spatial resolutions leads to higher accuracy in capturing variations in NLs (<a href="https://doi.org/10.1371/journal.pone.0202231">Bruederle, 2018</a>). Since NL data isn’t a super accurate indicator for a lot of socioeconomic topics it can thus help formulate estimation especially in under-researched areas with poor statistical inventories (<a href="https://doi.org/10.1371/journal.pone.0174610">Proville, 2017</a>) or difficult data access (<a href="https://doi.org/10.1007/978-3-319-22810-5_15">Chen, 2016</a>). Talking about statistical inventories NL data has the strength of detecting possibly informal activities and their spatial patterns, disclosing regional governance differences (<a href="https://doi.org/10.1371/journal.pone.0174610">Proville, 2017</a>). Most commonly NL are interpreted as a sign of modernization, urbanization, security, economic development and technological innovation, however it is necessary to regard the downsides of out light emissions. Artificial light pollution is altering species circadian rhythm, as well as the human one. <em>Artificial light is used in modern societies to extend activity hours i.e.&nbsp;working hours. Thus, NL could also indicate regional labor protection measurements.</em> Also it raises costs for astronomical observations due a reduction in night-time sky quality by more “skyglow”. You can find a really elaborate documentation of NL data indication but also impacts on ecosystems <a href="https://doi.org/10.1016/j.rse.2019.111443">here</a>.</p>
+<section id="accuracy-of-nighttime-light-data-bar_chart" class="level1">
+<h1>Accuracy of Nighttime Light Data :bar_chart:</h1>
+<p>The accuracy of nighttime light (NL) data largely depends on a stable electricity supply, as fluctuations in power availability can obscure the true signal of human activity. Additionally, areas without electrification are not captured, leading to significant blind spots in the data (<a href="https://doi.org/10.1080/01431161.2017.1420936">Dugoua, 2018</a>). Higher spatial resolutions improve the ability to capture fine-scale variations in light emissions, enhancing accuracy and interpretability (<a href="https://doi.org/10.1371/journal.pone.0202231">Bruederle, 2018</a>). Despite this, NL data remains an imperfect proxy for many socioeconomic indicators. It is particularly useful for estimations in regions with limited statistical coverage or where reliable data is difficult to obtain (<a href="https://doi.org/10.1371/journal.pone.0174610">Proville, 2017</a>) (<a href="https://doi.org/10.1007/978-3-319-22810-5_15">Chen, 2016</a>). Talking about statistical inventories NL data has the strength of detecting possibly informal activities and their spatial patterns, disclosing regional governance differences (<a href="https://doi.org/10.1371/journal.pone.0174610">Proville, 2017</a>). However, interpreting these data requires caution, as they can also reflect unintended side effects like artificial light pollution. This “skyglow” not only disrupts human circadian rhythms and wildlife behavior but also complicates astronomical observations by reducing nighttime sky quality.</p>
+<p>Finally, while NLs are often interpreted as indicators of modernization, urbanization, economic development, and technological innovation, they can also signify longer working hours and potentially weaker labor protections, reflecting broader social conditions.</p>
+<p>You can find a really elaborate documentation of NL data indication but also impacts on ecosystems <a href="https://doi.org/10.1016/j.rse.2019.111443">here</a>.</p>
 <p><em>“[…] usefulness of nighttime lights as proxy depends on optimal weight of proxy measure […]”</em> (<a href="https://doi.org/10.1007/978-3-319-22810-5_15">Chen, 2016</a>)</p>
 <details>
 <summary>
