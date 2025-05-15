@@ -399,13 +399,19 @@ Nighttime Lights (NL) data offer a versatile and increasingly important perspect
 
 NL data also provide insights into more dynamic and often critical processes, including conflict detection, disaster impact assessment, population displacement, and refugee movements. Additionally, they have been used to capture economic trends, energy consumption patterns, and the evolution of urban growth over time.
 
-Beyond physical and economic indicators, NL data can also be linked to various socio-economic measures, such as regional GDP, poverty rates, wealth distribution, and even progress toward Sustainable Development Goals (SDGs). However, these correlations often require careful interpretation to avoid oversimplification, as the brightness of a location is not always a straightforward proxy for economic well-being.
+Beyond physical and economic indicators, NL data can also be linked to various socio-economic measures, such as regional GDP, poverty rates, public health, wealth distribution, and even progress toward Sustainable Development Goals (SDGs). However, these correlations often require careful interpretation to avoid oversimplification, as the brightness of a location is not always a straightforward proxy for economic well-being.
 
 Moreover, nighttime lights can reflect cultural and social behaviors, such as religious celebrations, tourism, or even the decorative nature of public lighting, providing unique insights into the social importance of specific objects. Finally, NL data can capture natural NIR emitters, including wildfires, volcanic activity, and gas flaring, adding further depth to its environmental monitoring capabilities.
 
 All these indicators have multiple causes, so it is important not to make quick assumptions. This is why we would like to clarify the accuracy and reliability of the NL data.
 
 # Accuracy/ reliability
+
+NL data's accuracy is especially dependent on a stable electricity supply since there are difficulties with distinguishing the reason of variation in electricity supply. Also, bare in mind non-electrified villages are not detected (Dugoua, 2018). 
+Obviously, a higher spatial resolutions leads to higher accuracy in capturing variations in NLs (Bruederle, 2018). 
+Since NL data isn't a super accurate indicator for a lot of socioeconomic topics it can thus help formulate estimation especially in under-researched areas with poor statistical inventories (Proville, 2017) or difficult data access (Chen, 2016).  Talking about statistical inventories NL data has the strength of detecting possibly informal activities and their spatial patterns, disclosing regional governance differences (Proville, 2017).
+Most commonly NL are interpreted as a sign of modernization, urbanization, security, economic development and technological innovation, however it is necessary to regard the downsides of out light emissions. Artificial light pollution is altering species circadian rhythm, as well as the human one. _Artificial light is used in modern societies to extend activity hours  i.e. working hours. Thus, NL could also indicate regional labor protection measurements._ Also it raises costs for 
+
 "[...] usefulness of nighttime lights as proxy depends on optimal weight of proxy measure [...]" ([Chen, 2016](https://doi.org/10.1007/978-3-319-22810-5_15))
 
 <details>
