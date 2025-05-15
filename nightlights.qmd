@@ -1,11 +1,7 @@
 ---
 title: "Case study: Nighttime lights"
 ---
-format:
-  html:
-    include: 
-      - mermaid
----
+
 
 ```{r packages}
 #| include: false

@@ -264,8 +264,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>format: html: include: - mermaid</p>
-<hr>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/cat_scientist.png" class="img-fluid figure-img" style="width:60.0%" data-align="center"></p>
@@ -838,22 +836,22 @@ Attache Paket: 'randomForest'</code></pre>
 <pre><code>                          mean
 population           2.9236307
 nightlights          0.5277355
-population_predicted 2.7939022</code></pre>
+population_predicted 2.7895300</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bivariate correlations</span></span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="fu">layerCor</span>(LA_stack, <span class="at">fun =</span> <span class="st">"cor"</span>, <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$correlation
                      population nightlights population_predicted
-population            1.0000000   0.8245851            0.8760079
-nightlights           0.8245851   1.0000000            0.8733186
-population_predicted  0.8760079   0.8733186            1.0000000
+population            1.0000000   0.8245851            0.8756778
+nightlights           0.8245851   1.0000000            0.8731115
+population_predicted  0.8756778   0.8731115            1.0000000
 
 $mean
                      population nightlights population_predicted
 population                  NaN    2.923631            2.9236307
 nightlights           0.5277355         NaN            0.5277355
-population_predicted  2.7939022    2.793902                  NaN
+population_predicted  2.7895300    2.789530                  NaN
 
 $n
                      population nightlights population_predicted
