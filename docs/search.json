@@ -670,5 +670,47 @@
     "title": "Working with raster data in R",
     "section": "Summary",
     "text": "Summary\nIn geospatial analysis, raster data represents continuous spatial phenomena like temperature, elevation, and land cover. Raster datasets are structured as grids of cells, where each cell holds a value corresponding to a specific location on the earth’s surface. These datasets can be easily visualized and manipulated using packages like terra in R, which provides efficient tools for plotting, extracting, and calculating statistics on raster data. Operations like cropping and masking allow for focused analysis by isolating specific areas of interest, while more advanced techniques like spatial buffering let us account for the context of surrounding areas. Such procedures make raster data particularly valuable when working with large spatial datasets or conducting analyses that require a broader understanding of spatial patterns and relationships.\nHowever, as with all data, there’s much more to explore beyond the basics. Raster data can be stacked to form raster stacks, where multiple data layers, such as temperature readings over time, can be analyzed together. Going further, we can organize this data into cubes, three-dimensional structures that store vast amounts of spatiotemporal information, making them ideal for remote sensing or large-scale environmental analysis. With raster data, we can extract and analyze information at individual points and explore complex spatiotemporal relationships across multiple dimensions. As we continue to combine raster data with other geospatial datasets and apply more sophisticated methods, the possibilities for deeper insights into our world are limitless."
+  },
+  {
+    "objectID": "nightlights.html",
+    "href": "nightlights.html",
+    "title": "Case study: Nighttime lights",
+    "section": "",
+    "text": "Let’s code (AI generated image)!"
+  },
+  {
+    "objectID": "nightlights.html#introduction-to-nighttime-light-nl-data",
+    "href": "nightlights.html#introduction-to-nighttime-light-nl-data",
+    "title": "Case study: Nighttime lights",
+    "section": "Introduction to Nighttime Light (NL) Data",
+    "text": "Introduction to Nighttime Light (NL) Data"
+  },
+  {
+    "objectID": "nightlights.html#nasas-blackmarble",
+    "href": "nightlights.html#nasas-blackmarble",
+    "title": "Case study: Nighttime lights",
+    "section": "NASA’s Blackmarble 🌑",
+    "text": "NASA’s Blackmarble 🌑\nNASA’s Blackmarble uses VIIRS DNB sensors onboard of the Suomi NPP and NOAA-20 satellites. The VIIRS DNB has a high spatial resolution of 500 m and is calibrated and corrected for atmospheric, terrain, lunar BRDF, thermal, and straylight effects. This is resulting in faster retrieval time and less noise, facilitating research based on daily, seasonal and annual changes in NLs. Levin, 2020"
+  },
+  {
+    "objectID": "nightlights.html#possible-indications-for-social-sciences",
+    "href": "nightlights.html#possible-indications-for-social-sciences",
+    "title": "Case study: Nighttime lights",
+    "section": "Possible indications for social sciences",
+    "text": "Possible indications for social sciences\nNighttime Lights (NL) data offer a versatile and increasingly important perspective for a wide range of social research topics. At the most basic level, NL data can be used to assess electrification rates, map urban extent, and estimate population density, urbanization, and economic activity. These applications are foundational but can also extend into more complex spatial analyses, such as defining administrative boundaries, monitoring infrastructure development, and analyzing spatial inequalities.\nNL data also provide insights into more dynamic and often critical processes, including conflict detection, disaster impact assessment, population displacement, and refugee movements. Additionally, they have been used to capture economic trends, energy consumption patterns, and the evolution of urban growth over time.\nBeyond physical and economic indicators, NL data can also be linked to various socio-economic measures, such as regional GDP, poverty rates, public health, wealth distribution, and even progress toward Sustainable Development Goals (SDGs). However, these correlations often require careful interpretation to avoid oversimplification, as the brightness of a location is not always a straightforward proxy for economic well-being.\nMoreover, nighttime lights can reflect cultural and social behaviors, such as religious celebrations, tourism, or even the decorative nature of public lighting, providing unique insights into the social importance of specific objects. Finally, NL data can capture natural NIR emitters, including wildfires, volcanic activity, and gas flaring, adding further depth to its environmental monitoring capabilities.\nAll these indicators have multiple causes, so it is important not to make quick assumptions. This is why we would like to clarify the accuracy and reliability of the NL data."
+  },
+  {
+    "objectID": "nightlights.html#introduction-to-nighttime-light-data",
+    "href": "nightlights.html#introduction-to-nighttime-light-data",
+    "title": "Case study: Nighttime lights",
+    "section": "Introduction to Nighttime Light Data",
+    "text": "Introduction to Nighttime Light Data"
+  },
+  {
+    "objectID": "nightlights.html#nasas-blackmarble-full_moon",
+    "href": "nightlights.html#nasas-blackmarble-full_moon",
+    "title": "Case study: Nighttime lights",
+    "section": "NASA’s Blackmarble :full_moon:",
+    "text": "NASA’s Blackmarble :full_moon:\nNASA’s Blackmarble uses VIIRS DNB sensors onboard of the Suomi NPP and NOAA-20 satellites. The VIIRS DNB has a high spatial resolution of 500 m and is calibrated and corrected for atmospheric, terrain, lunar BRDF, thermal, and straylight effects. This is resulting in faster retrieval time and less noise, facilitating research based on daily, seasonal and annual changes in NLs. Levin, 2020"
   }
 ]

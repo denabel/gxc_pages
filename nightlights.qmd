@@ -11,6 +11,7 @@ library(tmap)
 library(ggplot2)
 library(ggspatial)
 library(tidyterra)
+library(DiagrammeR)
 ```
 
 
@@ -23,7 +24,8 @@ library(tidyterra)
 
  
 
-# Acquisition of Nighttime Light (NL) Data :satellite:
+
+# Acquisition of Nighttime Light (NL) Data &#128225;
 
 Opposed to daytime satellite image acquisition NL are detected by passive sensors detecting thermal or microwave spectral regions (heat related radiation).
 
@@ -41,50 +43,80 @@ Photos from ISS: Digital photos taken from the ISS only have moderate spatial re
  <summary>Useful Case Studies and example workflows</summary>
 
 
-```{mermaid}
-flowchart TD
-    A[Start] --> B[Data: GEOCON dataset & nighttime data (DMSP-OLS or VIIRS)]
-    B --> C[Pre-Processing: thresholding illumination (DN values), removing noise]
-    C --> D[Disaggregation: matching GEOCON and NLs resolution]
-    D --> E[Further Analysis]
-    E --> F[End] 
+```{r, echo=FALSE}
+
+grViz("
+digraph {
+  node [shape=ellipse, fontname=Helvetica, penwidth=2, style=filled, color=lightblue, fillcolor=lightblue, fontcolor=black]
+  
+ A [label='Data: GEOCON dataset & nighttime data (DMSP-OLS or VIIRS)']
+ B [label='Pre-Processing: thresholding illumination (DN values), removing noise']
+ C [label='Disaggregation: matching GEOCON and NLs resolution']
+
+ A -> B -> C 
+}")
 ```
+
 ([Chen, 2016](https://doi.org/10.1007/978-3-319-22810-5_15))
 
-```{mermaid}
-flowchart TD
-A[Start] --> B[Data: acquisition of geo-coded Demographic and health Surveys from African countries]
-B --> C[Pre-Processing: buffering / spatial analysis of data]
-C --> D[Data Integration: linking, integration of nighttime lights data from National Oceanic and Atmospheric Administration (DMSP-OLS sensors)]
-D --> E[Statistical Analysis]
-E --> F[End] 
+```{r, echo=FALSE}
+
+grViz("
+digraph {
+  node [shape=ellipse, fontname=Helvetica, penwidth=2, style=filled, color=lightblue, fillcolor=lightblue, fontcolor=black]
+  
+ A[label='Data: acquisition of geo-coded Demographic and health Surveys from African countries']
+ B[label='Pre-Processing: buffering / spatial analysis of data']
+ C[label='Data Integration: linking, integration of nighttime lights data from National Oceanic and Atmospheric Administration (DMSP-OLS sensors)']
+ D[label='Statistical Analysis']
+ 
+ A -> B -> C -> D
+}")
+
 ```
 
 ([Bruderle, 2018](https://doi.org/10.1371/journal.pone.0202231))
 
-```{mermaid}
-flowchart TD
-A[Start] --> B[Data Acquisition: API, DMSP-OLS, Census, Shapefiles]
-B --> C[Pre-Processing: stable lights, centroids]
-C --> D[Integration: bilinear interpolation, DN values in buffers]
-D --> E[Correlation Analysis: Pearson’s r]
-E --> F[Regression & Evaluation: multivariate analysis]
-F --> G[End]
+```{r, echo=FALSE}
+
+grViz("
+digraph {
+  node [shape=ellipse, fontname=Helvetica, penwidth=2, style=filled, color=lightblue, fillcolor=lightblue, fontcolor=black]
+  
+  A[label='Data Acquisition: API, DMSP-OLS, Census, Shapefiles']
+  B[label='Pre-Processing: stable lights, centroids']
+  C[label='Pre-Processing: stable lights, centroids']
+  D[label='Integration: bilinear interpolation, DN values in buffers']
+  E[label='Correlation Analysis: Pearson’s r']
+  F[label='Regression & Evaluation: multivariate analysis']
+
+ A -> B -> C -> D -> E -> F
+}")
+
 ```
 ([Dugoua, 2018](https://doi.org/10.1080/01431161.2017.1420936))
 
-```{mermaid}
- A[Start] --> B[Data Acquisition: annual composites of nighttime light data, Thematic World Borders Dataset for administrative boundaries, socio-economic data (GDP, poverty, population, energy consumption, emissions)]
-    B --> C[Pre-Processing: thresholding (e.g., "area lit", "sum of lights", "lights index", raw DN values), distinguishing significance]
-    C --> D[Data Integration: bilinear interpolation, linking NLs data and centroids, calculating DN values in 2, 3, 5 km buffer around centroid]
-    D --> E[Correlation Analysis: Pearson's R for correlation of NLs and socio-economic variables, regression models to analyse spatial patterns]
-    E --> F[Interpretation & Application: using NLs as a proxy for socio-economic data, addressing spatial variability in night-time lights]
-    F --> G[End]
+
+```{r, echo=FALSE}
+
+grViz("
+digraph {
+  node [shape=ellipse, fontname=Helvetica, penwidth=2, style=filled, color=lightblue, fillcolor=lightblue, fontcolor=black]
+  
+  A[label='ata Acquisition: annual composites of nighttime light data, Thematic World Borders Dataset for administrative boundaries, socio-economic data (GDP, poverty, population, energy consumption, emissions)']
+  B[label='Pre-Processing: thresholding (e.g., area lit, sum of lights, lights index, raw DN values), distinguishing significance']
+  C[label='Data Integration: bilinear interpolation, linking NLs data and centroids, calculating DN values in 2, 3, 5 km buffer around centroid']
+  D[label='Correlation Analysis: Pearson's R for correlation of NLs and socio-economic variables, regression models to analyse spatial patterns']
+  E[label='Interpretation & Application: using NLs as a proxy for socio-economic data, addressing spatial variability in night-time lights']
+  
+  A -> B -> C -> D -> E
+}")
+  
 ```
 ([Proville, 2017](https://doi.org/10.1371/journal.pone.0174610))
 </details> 
 
-## NASA's Blackmarble :full_moon:
+## NASA's Blackmarble &#127761;
 
 [NASA's Blackmarble](https://blackmarble.gsfc.nasa.gov/) uses VIIRS DNB sensors onboard of the Suomi NPP and NOAA-20 satellites. The VIIRS DNB has a high spatial resolution of 500 m and is calibrated and corrected for atmospheric, terrain, lunar BRDF, thermal, and straylight effects. This is resulting in faster retrieval time and less noise, facilitating research based on daily, seasonal and annual changes in NLs. [Levin, 2020](https://doi.org/10.1016/j.rse.2019.111443)
 
@@ -190,7 +222,7 @@ ggplot() +
 
 # Subsetting 
 
-In order to define our AOI to Los Angeles County :city_sunset: we first need to: 
+In order to define our AOI to Los Angeles County &#127747; we first need to: 
 
 ```{r}
 # Load LA County file
@@ -342,7 +374,8 @@ names(LA_stack) <- c("population", "nightlights")
 terra::plot(LA_stack)
 ```
 
-# Model Training with Imputation Logics :weight_lifting_woman:
+# Model Training with Imputation Logics &#x1F3CB;&#xFE0F;&#x200D;&#x2640;&#xFE0F;
+
  
 Previous examples follow the idea of interpolating existing data across the spatial domain. Imputation fills in missing values based on a prediction model. Let's consider our two variables to make up a stylized example:
 
@@ -397,7 +430,7 @@ names(pop_500m) <- "population_predicted"
 LA_stack <- c(LA_stack, pop_500m)
 ```
 
-# Statistic analysis :1234:
+# Statistic analysis &#x1FA4CA;
 
 Now we have a million options to analyse our raster stack. 
 
@@ -409,7 +442,8 @@ global(LA_stack, fun = mean, na.rm=TRUE)
 layerCor(LA_stack, fun = "cor", use = "complete.obs")
 ```
 
-# Possible indications for social sciences :family_man_woman_girl_boy:
+# Possible indications for social sciences &#x1F469;&#x200D;&#x1F4BB;
+
 
 Nighttime Lights (NL) data offer a versatile and increasingly important perspective for a wide range of social research topics. At the most basic level, NL data can be used to assess electrification rates, map urban extent, and estimate population density, urbanization, and economic activity. These applications are foundational but can also extend into more complex spatial analyses, such as defining administrative boundaries, monitoring infrastructure development, and analyzing spatial inequalities.
 
