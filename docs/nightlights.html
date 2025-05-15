@@ -740,22 +740,22 @@ Attache Paket: 'randomForest'</code></pre>
 <pre><code>                          mean
 population           2.9236307
 nightlights          0.5277355
-population_predicted 2.7932998</code></pre>
+population_predicted 2.7932507</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bivariate correlations</span></span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">layerCor</span>(LA_stack, <span class="at">fun =</span> <span class="st">"cor"</span>, <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$correlation
                      population nightlights population_predicted
-population            1.0000000   0.8245851            0.8760079
-nightlights           0.8245851   1.0000000            0.8730737
-population_predicted  0.8760079   0.8730737            1.0000000
+population            1.0000000   0.8245851            0.8761763
+nightlights           0.8245851   1.0000000            0.8732836
+population_predicted  0.8761763   0.8732836            1.0000000
 
 $mean
                      population nightlights population_predicted
 population                  NaN    2.923631            2.9236307
 nightlights           0.5277355         NaN            0.5277355
-population_predicted  2.7932998    2.793300                  NaN
+population_predicted  2.7932507    2.793251                  NaN
 
 $n
                      population nightlights population_predicted
@@ -768,13 +768,14 @@ population_predicted      59256       59256                  NaN</code></pre>
 <h2 class="anchored" data-anchor-id="possible-indications-for-social-sciences">Possible indications for social sciences</h2>
 <p>Nighttime Lights (NL) data offer a versatile and increasingly important perspective for a wide range of social research topics. At the most basic level, NL data can be used to assess electrification rates, map urban extent, and estimate population density, urbanization, and economic activity. These applications are foundational but can also extend into more complex spatial analyses, such as defining administrative boundaries, monitoring infrastructure development, and analyzing spatial inequalities.</p>
 <p>NL data also provide insights into more dynamic and often critical processes, including conflict detection, disaster impact assessment, population displacement, and refugee movements. Additionally, they have been used to capture economic trends, energy consumption patterns, and the evolution of urban growth over time.</p>
-<p>Beyond physical and economic indicators, NL data can also be linked to various socio-economic measures, such as regional GDP, poverty rates, wealth distribution, and even progress toward Sustainable Development Goals (SDGs). However, these correlations often require careful interpretation to avoid oversimplification, as the brightness of a location is not always a straightforward proxy for economic well-being.</p>
+<p>Beyond physical and economic indicators, NL data can also be linked to various socio-economic measures, such as regional GDP, poverty rates, public health, wealth distribution, and even progress toward Sustainable Development Goals (SDGs). However, these correlations often require careful interpretation to avoid oversimplification, as the brightness of a location is not always a straightforward proxy for economic well-being.</p>
 <p>Moreover, nighttime lights can reflect cultural and social behaviors, such as religious celebrations, tourism, or even the decorative nature of public lighting, providing unique insights into the social importance of specific objects. Finally, NL data can capture natural NIR emitters, including wildfires, volcanic activity, and gas flaring, adding further depth to its environmental monitoring capabilities.</p>
 <p>All these indicators have multiple causes, so it is important not to make quick assumptions. This is why we would like to clarify the accuracy and reliability of the NL data.</p>
 </section>
 </section>
 <section id="accuracy-reliability" class="level1">
 <h1>Accuracy/ reliability</h1>
+<p>NL data’s accuracy is especially dependent on a stable electricity supply since there are difficulties with distinguishing the reason of variation in electricity supply. Also, bare in mind non-electrified villages are not detected (Dugoua, 2018). Obviously, a higher spatial resolutions leads to higher accuracy in capturing variations in NLs (Bruederle, 2018). Since NL data isn’t a super accurate indicator for a lot of socioeconomic topics it can thus help formulate estimation especially in under-researched areas with poor statistical inventories (Proville, 2017) or difficult data access (Chen, 2016). Talking about statistical inventories NL data has the strength of detecting possibly informal activities and their spatial patterns, disclosing regional governance differences (Proville, 2017). Most commonly NL are interpreted as a sign of modernization, urbanization, security, economic development and technological innovation, however it is necessary to regard the downsides of out light emissions. Artificial light pollution is altering species circadian rhythm, as well as the human one. <em>Artificial light is used in modern societies to extend activity hours i.e.&nbsp;working hours. Thus, NL could also indicate regional labor protection measurements.</em> Also it raises costs for</p>
 <p>“[…] usefulness of nighttime lights as proxy depends on optimal weight of proxy measure […]” (<a href="https://doi.org/10.1007/978-3-319-22810-5_15">Chen, 2016</a>)</p>
 <details>
 <summary>
