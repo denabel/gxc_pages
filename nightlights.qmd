@@ -7,11 +7,419 @@ title: "Case study: Nighttime lights"
 library(sf)
 library(terra)
 library(tmap)
+library(ggplot2)
+library(ggspatial)
+library(tidyterra)
 ```
 
 
 ![Let's code (AI generated image)!](images/cat_scientist.png){ width=60% align=center }
 
-## Introduction to Nighttime Light Data
+## Introduction to Nighttime Light (NL) Data
 
+
+
+
+
+
+_acquisition/ history of acquisition_
+
+Opposed to daytime satellite image acquisition NL are detected by passive sensors detecting thermal or microwave spectral regions (heat related radiation).
+
+DMSP/OLS (Defense Meteorological Satellite Program’s Operational Line-scan System): Nighttime satellite imagery obtained to detect clouds at night with low light imaging (the moon). This was helpful in the first studies of light pollution in the 70s. However, DMSP/OLS is not very high in quality, blurring an "overglowing" is caused by intense scattering. 
+
+VIIRS/DNB: Is an improved version of DMSP/OLS consisting of 2 MODIS sensors, 36 spectral bands and Visible Infrared Imaging Radiometer Suite (VIIRS). The sensors are especially sensitive to lower nighttime light levels due to panchromatic DNB (Day/Night Band) that detects visible and near-infrared wavelength. Compared to DMSP the "overglow" is reduced and spatial resolution increased. Due to its high resolution and sensitivity VIIRS can effectively detect seasonal changes in intensity of NLs.
+
+Landsat: Detecting thermal night-time information though only detecting really bright nighttime lights. 
+Photos from ISS: Digital photos taken from the ISS only have moderate spatial resolution. However, they have been helpful in environmental impact and ecological studies, among others.
+
+Citizen Science: "Cities at Night" project works with in 3-steps: classification, allocation and georeferencing. The project resulted in 190,000 night images tagged, 3000 images located (1 GCP), 700 images geo-referenced (enough GCP). 
+
+[Levin, 2020](https://doi.org/10.1016/j.rse.2019.111443)
+
+<details>
+ <summary>Useful case studies and workflows</summary>
+
+Data: GEOCON dataset & nighttime data DMSP-OLS or better VIIRS
+pre-processing: thresholding illumination (DN values), removing noise
+disaggregation: matching GEOCON and NLs reoslution)
+Further analysis
+([Chen, 2016](https://doi.org/10.1007/978-3-319-22810-5_15))
+
+Data: acquisition of geo-coded Demographic and health Surveys from African counties
+Pre-processing: buffering/ spatial analysis of data
+data integration: linking/ integration of nighttime lights data from National Oceanic and Atmospheric Administration (DMSP-OLS sensors)
+Statistical analysis 
+([Bruderle, 2018](https://doi.org/10.1371/journal.pone.0202231))
+
+Data: data from the India Lights Project API, including DMSP-OLS NL data from the National Oceanic and Atmospheric Administration (NOAA) and the 2011 Census of India, spatial framework is based on a shapefile of 2011 village boundaries and point data (village centroids) from ML InfoMap
+Pre-processing: (“stable light” to reduce noise), shapefile of 2011 villages (ISO 9001-2015 actual village size and shape), define village centroids
+Data integration: bilinear interpolation linking NLs data and centroids, calculating DN values in 2, 3, 5 km buffer around centroid
+Correlation analysis: correlation coefficient (Pearson’s r) between NL ground truth data (i.e. Census)
+Regression & Evaluation: multivariate regression accuracy of modelling ground data, testing for non-linearity 
+([Dugoua, 2018](https://doi.org/10.1080/01431161.2017.1420936))
+
+Data: annual composites of nighttime light data, Thematic World Borders Dataset for administrative boundaries (e.g., nation-states, territories), Socio-economic data sourced from World Bank (GDP, poverty headcount), UN, Eurostat, and national censuses (population), energy consumption (EIA) and emissions (CDIAC, EDGAR)
+Pre-processing: thresholding (calculation of different light metrics, including “area lit”, “sum of lights,” “lights index,” and raw DN values), distinguish significance
+Correlation & regression analysis: Pearsons's R for correlation of NLss and socio-economic variables, regression models to analyse spatial patterns
+Interpretation & Application: NLs as a proxy for socio-economic data in countries with poor statistical coverage, spatial variability in night-time lights 
+([Proville, 2017](https://doi.org/10.1371/journal.pone.0174610))
+</details> 
+
+## NASA's Blackmarble
+
+[NASA's Blackmarble](https://blackmarble.gsfc.nasa.gov/) uses VIIRS DNB sensors onboard of the Suomi NPP and NOAA-20 satellites. The VIIRS DNB has a high spatial resolution of 500 m and is calibrated and corrected for atmospheric, terrain, lunar BRDF, thermal, and straylight effects. This is resulting in faster retrieval time and less noise, facilitating research based on daily, seasonal and annual changes in NLs. [Levin, 2020](https://doi.org/10.1016/j.rse.2019.111443)
+
+_introduction case study_ 
+Working with NL data can give insights to natural and human activity, as well as *socioeconomic phenomenons*. In this case study we will focus on the relation between NL and population in Los Angeles County. We will try to visualize correlations and test the accuracy of NL as indicator for sociodemographic phenomenons. The workflow we will follow looks like this: data retrieval using an API, pre-processing (log-transformation), subsetting (masking & cropping) the AOI, disaggregation (matching resolution), stacking layers, data preparation & model training (randomForest, imputation logics), descriptive statistics. 
+
+In case you are not all upt to date in working with raster layers and [data cubes](https://denabel.github.io/gxc_pages/datacubes.html), please have a look at that topic again. 
+
+_R package `blackmarbler`_
+
+`blackmarbleR` by Robert Marty and Gabriel Stefanini Vicente (2025) supports easy access to NASA's Black Marble API. Let's check out their [vignette](https://worldbank.github.io/blackmarbler/) to set up an account and the data retrieval.
+
+```{r}
+library(blackmarbler)
+```
+
+_data retrieval_
+
+The function `bm_raster()` to retrieve the nighttime lights requires as input an `sf`object to determine the spatial extent of the downloaded data. The object must be in **WGS84**. 
+
+We will focus on California. Let's load US states shapefiles with the `tigris` package and subset to California.
+
+```{r}
+#| fig.asp: 1
+CA_sf <- tigris::states(progress_bar=FALSE) |> 
+  dplyr::filter(STUSPS == "CA") |> 
+  sf::st_transform(crs = "EPSG:4326")
+
+print(CA_sf)
+
+plot(sf::st_geometry(CA_sf))
+```
+
+
+Once you have set up your profile at [NASA's Earth Data Portal](https://urs.earthdata.nasa.gov/) and generated your API token, you can assign it to an object in `R` for the data retrieval. 
+
+```{r}
+bearer <- Sys.getenv("NASA-token")
+
+# If you work locally, directly assign it
+# bearer <- "YOUR_TOKEN"
+```
+
+Now we can download the data from NASA's API. 
+
+```{r}
+#| eval: false
+CA_nl_stack <- bm_raster(roi_sf = CA_sf,
+                         product_id = "VNP46A4", # for yearly data
+                         date = 2017:2020, # same four years like our population data
+                         bearer = bearer, # your API token
+                         output_location_type = "file", # we want to store geotiff on disk
+                         file_dir = "./data/", # where to store geotiff
+                         file_return_null = FALSE # also create SpatRaster file
+)
+
+
+```
+
+<details>
+ <summary>How to store as GeoTIFFs</summary>
+ 
+ By default, the function writes the data to the `R` environment (`output_location_type = "memory"`). If you want to store it as single GeoTIFFs, specify `output_location_type = "file` and the file path with `file_dir=`. `file_return_null=` further specifies whether the data is additionally loaded to the `R` environment.
+ </details>
+ 
+ _inspecting data_
+ 
+```{r}
+CA_nl_2020 <- terra::rast("./data/VNP46A4_NearNadir_Composite_Snow_Free_qflag_t2020.tif")
+
+print(CA_nl_2020)
+
+```
+
+ 
+ _Pre-processing_
+ 
+ The data is right-skewed. We perform a log-transformation to account for that. Let's have a look at our data now. 
+
+```{r}
+#| fig.asp: 1
+CA_nl_2020[] <- log(CA_nl_2020[] + 1)
+
+ggplot() +
+  geom_spatraster(data = CA_nl_2020) +
+  geom_sf(data = CA_sf,
+          fill = "transparent",
+          color = "white",
+          size = 4) +
+  scale_fill_gradient2(low = "black",
+                       mid = "yellow",
+                       high = "red",
+                       midpoint = 3,
+                       na.value = "transparent") +
+  labs(title = "Nighttime Lights in California 2020") +
+  coord_sf() +
+  theme_void() +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5),
+        legend.position = "none")
+```
+
+
+_subsetting_
+
+In order to define our AOI to Los Angeles County we first need to: 
+
+```{r}
+# Load LA County file
+LA_county <- tigris::counties("CA", 
+                              progress_bar = FALSE
+                              ) |> 
+  filter(NAME == "Los Angeles") |> 
+  st_transform(crs = "EPSG:4326")
+
+# Subset to "mainland" California and 
+# exclude the two islands Santa Catalina and San Clemente
+LA_county <- LA_county %>%
+  st_cast("POLYGON") %>% 
+  mutate(area = st_area(.)) %>%
+  slice_max(area, n = 1)
+```
+
+```{r}
+print(LA_county)
+plot(st_geometry(LA_county))
+```
+
+Now that we have an `sf` file of our AOI, we can prepare our two raster files. 
+
+```{r}
+# Create LA raster files for population and night lights in 2020
+LA_pop_2020 <- terra::rast("./data/US-CA_ppp_2020_1km.tif") |> 
+  terra::mask(terra::vect(LA_county)) |> 
+  terra::crop(LA_county)
+
+LA_pop_2020[] <- log(LA_pop_2020[] + 1)
+
+LA_nl_2020 <- terra::mask(CA_nl_2020,
+                          terra::vect(LA_county)) |>
+  terra::crop(LA_county)
+```
+
+
+~~visual correlation of layers~~
+
+_disaggregation_
+
+Our two raster files have the same CRS and (almost same) spatial extent. Unfortunately,
+the resolution (cell size) differs. Our population data is on an approx. 1km grid and our night lights data on an approx. 500m grid.
+
+<details>
+ <summary>Checking cell size</summary>
+ 
+```{r}
+print(LA_pop_2020)
+```
+
+```{r}
+print(LA_nl_2020)
+```
+</details>
+
+So how can we align two layers? There are multiple ways, like always in R. 
+Firstly we will try out `terra::disagg()` / `terra::aggregate()` . By splitting each cell into smaller parts we can increase the resolution of a grid to adjust it to another. It is the simplest and fastest way to harmonize multiple cell sizes and increase their resolution without altering original values.
+
+<details>
+<summary>First option: Increase resolution for population data</summary>
+
+```{r}
+# Increase resolution for population data
+LA_pop_2020_high <- terra::disagg(LA_pop_2020,
+                                 fact = c(2, 2),
+                                 method = "bilinear")
+
+# There is still a slight mismatch due to rounding errors (one more ncol)
+# Let's crop to the spatial extent of the nightlights data
+LA_pop_2020_high <- crop(
+  LA_pop_2020_high, 
+  terra::ext(LA_nl_2020)
+)
+
+```
+
+```{r}
+# Cross-check
+res(LA_pop_2020_high)
+res(LA_nl_2020)
+ext(LA_pop_2020_high)
+ext(LA_nl_2020)
+
+# A small rounding error in extent will prohibit to concatenate 
+# into a stack. We now force the extent
+ext(LA_pop_2020_high) <- ext(LA_nl_2020)
+```
+</details>
+
+<details>
+<summary>Second option: Decrease resolution for nightlights data</summary>
+
+```{r}
+# Decrease resolution for nightlights data
+LA_nl_2020_low <- terra::aggregate(LA_nl_2020,
+                                     fact = c(2, 2),
+                                     method = "bilinear")
+
+# There is still a slight mismatch due to rounding errors (one more ncol)
+# Let's crop to the spatial extent of the population data
+LA_nl_2020_low <- crop(
+  LA_nl_2020_low, 
+  terra::ext(LA_pop_2020)
+)
+
+```
+
+```{r}
+# Cross-check
+res(LA_pop_2020)
+res(LA_nl_2020_low)
+ext(LA_pop_2020)
+ext(LA_nl_2020_low)
+
+ext(LA_nl_2020_low) <- ext(LA_pop_2020)
+```
+</details>
+
+Another way to match different grids is `terra::resample()`. By interpolating the resolution of one layer is adjusted to another one. The advantage: this method accounts more for the real spatial pattern. 
+
+```{r}
+# Cross-check
+LA_pop_2020_resampled <- resample(
+  x      = LA_pop_2020,
+  y      = LA_nl_2020,
+  method = "bilinear"
+)
+
+res(LA_pop_2020_resampled)
+res(LA_nl_2020)
+ext(LA_pop_2020_resampled)
+ext(LA_nl_2020)
+```
+
+_stacking layers_
+
+Only when all grids and resolutions of our layers match we can start combining layers into a raster stack. 
+
+```{r}
+LA_stack <- c(LA_pop_2020_resampled, LA_nl_2020)
+
+print(LA_stack)
+```
+
+```{r}
+varnames(LA_stack) <- c("population", "nightlights")
+names(LA_stack) <- c("population", "nightlights")
+
+terra::plot(LA_stack)
+```
+
+_model training with imputation logics_
+ 
+Previous examples follow the idea of interpolating existing data across the spatial domain. Imputation fills in missing values based on a prediction model. Let's consider our two variables to make up a stylized example:
+
+We know that population density and nightlights is correlated. We could try to predict the missing values for population based on the values of nightlights to generate the higher resolution population data. In order to do that, we train a RandomForest model on the low resolution data of population and nightlights.
+
+```{r}
+library(randomForest)
+```
+
+```{r}
+# Covariates need to be in same size as outcome variable = 1km
+LA_nl_2020_resampled <- resample(
+  x      = LA_nl_2020,
+  y      = LA_pop_2020,
+  method = "bilinear"
+)
+
+# Create training data - one row per cell
+train_data <- as.data.frame(LA_nl_2020_resampled, 
+                            xy = TRUE, 
+                            cells = TRUE,
+                            na.rm = FALSE) |> 
+  left_join(as.data.frame(LA_pop_2020, 
+                          xy=FALSE, 
+                          cells=TRUE, 
+                          na.rm=FALSE),
+            by = "cell") |> 
+  rename(nightlights = t2020,
+         population = `US-CA_ppp_2020_1km`)
+
+train_data <- na.omit(train_data)
+```
+
+Ready to fit the model and predict population data on 500m grid.
+
+```{r}
+# Fit model
+out <- randomForest(
+  population ~ nightlights,
+  data = train_data,
+  ntree = 500
+)
+
+# Predict on the 500m grid
+# Covariate names need to match
+names(LA_stack)
+
+pop_500m <- predict(LA_stack, out)
+
+names(pop_500m) <- "population_predicted"
+
+LA_stack <- c(LA_stack, pop_500m)
+```
+
+_statistic analysis_
+
+Now we have a million options to analyse our raster stack. 
+
+```{r}
+# Global univariate means
+global(LA_stack, fun = mean, na.rm=TRUE)
+
+# Bivariate correlations
+layerCor(LA_stack, fun = "cor", use = "complete.obs")
+```
+
+## possible indications for social sciences
+
+Nighttime Lights (NL) data offer a versatile and increasingly important perspective for a wide range of social research topics. At the most basic level, NL data can be used to assess electrification rates, map urban extent, and estimate population density, urbanization, and economic activity. These applications are foundational but can also extend into more complex spatial analyses, such as defining administrative boundaries, monitoring infrastructure development, and analyzing spatial inequalities.
+
+NL data also provide insights into more dynamic and often critical processes, including conflict detection, disaster impact assessment, population displacement, and refugee movements. Additionally, they have been used to capture economic trends, energy consumption patterns, and the evolution of urban growth over time.
+
+Beyond physical and economic indicators, NL data can also be linked to various socio-economic measures, such as regional GDP, poverty rates, wealth distribution, and even progress toward Sustainable Development Goals (SDGs). However, these correlations often require careful interpretation to avoid oversimplification, as the brightness of a location is not always a straightforward proxy for economic well-being.
+
+Moreover, nighttime lights can reflect cultural and social behaviors, such as religious celebrations, tourism, or even the decorative nature of public lighting, providing unique insights into the social importance of specific objects. Finally, NL data can capture natural NIR emitters, including wildfires, volcanic activity, and gas flaring, adding further depth to its environmental monitoring capabilities.
+
+All these indicators have multiple causes, so it is important not to make quick assumptions. This is why we would like to clarify the accuracy and reliability of the NL data.
+
+_accuracy/ reliability_
+"[...] usefulness of nighttime lights as proxy depends on optimal weight of proxy measure [...]" ([Chen, 2016](https://doi.org/10.1007/978-3-319-22810-5_15))
+
+<details>
+ <summary>Literature</summary>
+
+Bruederle A, Hodler R (2018) Nighttime lights as a proxy for human development at the local level. PLOS ONE 13(9): e0202231. https://doi.org/10.1371/journal.pone.0202231
+
+Chen, X. (2016). Using Nighttime Lights Data as a Proxy in Social Scientific Research. In: Howell, F., Porter, J., Matthews, S. (eds) Recapturing Space: New Middle-Range Theory in Spatial Demography. Spatial Demography Book Series, vol 1. Springer, Cham. https://doi.org/10.1007/978-3-319-22810-5_15
+
+Dugoua, E., Kennedy, R., & Urpelainen, J. (2018). Satellite data for the social sciences: measuring rural electrification with night-time lights. International Journal of Remote Sensing, 39(9), 2690–2701. https://doi.org/10.1080/01431161.2017.1420936
+
+Levin, N., Kyba, C. C., Zhang, Q., de Miguel, A. S., Román, M. O., Li, X., ... & Elvidge, C. D. (2020). Remote sensing of night lights: A review and an outlook for the future. Remote Sensing of Environment, 237, 111443. https://doi.org/10.1016/j.rse.2019.111443
+
+NASA Goddard Space Flight Center. (n.d.). NASA Black Marble. NASA. Retrieved May 14, 2025, from https://blackmarble.gsfc.nasa.gov/
+
+Proville, J., Zavala-Araiza, D., & Wagner, G. (2017). Night-time lights: A global, long term look at links to socio-economic trends. PloS one, 12(3), e0174610. https://doi.org/10.1371/journal.pone.0174610
+</details>
 
