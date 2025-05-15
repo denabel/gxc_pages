@@ -22,47 +22,47 @@ library(tidyterra)
 
 
 
-_acquisition/ history of acquisition_
+# acquisition/ history of acquisition
 
 Opposed to daytime satellite image acquisition NL are detected by passive sensors detecting thermal or microwave spectral regions (heat related radiation).
 
-DMSP/OLS (Defense Meteorological Satellite Program’s Operational Line-scan System): Nighttime satellite imagery obtained to detect clouds at night with low light imaging (the moon). This was helpful in the first studies of light pollution in the 70s. However, DMSP/OLS is not very high in quality, blurring an "overglowing" is caused by intense scattering. 
+*DMSP/OLS* (Defense Meteorological Satellite Program’s Operational Line-scan System): Nighttime satellite imagery obtained to detect clouds at night with low light imaging (the moon). This was helpful in the first studies of light pollution in the 70s. However, DMSP/OLS is not very high in quality, blurring an "overglowing" is caused by intense scattering. 
 
-VIIRS/DNB: Is an improved version of DMSP/OLS consisting of 2 MODIS sensors, 36 spectral bands and Visible Infrared Imaging Radiometer Suite (VIIRS). The sensors are especially sensitive to lower nighttime light levels due to panchromatic DNB (Day/Night Band) that detects visible and near-infrared wavelength. Compared to DMSP the "overglow" is reduced and spatial resolution increased. Due to its high resolution and sensitivity VIIRS can effectively detect seasonal changes in intensity of NLs.
+*VIIRS*: Is an improved version of DMSP/OLS consisting of 2 MODIS sensors, 36 spectral bands and Visible Infrared Imaging Radiometer Suite (VIIRS). The sensors are especially sensitive to lower nighttime light levels due to panchromatic DNB (Day/Night Band) that detects visible and near-infrared wavelength. Compared to DMSP the "overglow" is reduced and spatial resolution increased. Due to its high resolution and sensitivity VIIRS can effectively detect seasonal changes in intensity of NLs.
 
-Landsat: Detecting thermal night-time information though only detecting really bright nighttime lights. 
+*Landsat*: Detecting thermal night-time information though only detecting really bright nighttime lights. 
 Photos from ISS: Digital photos taken from the ISS only have moderate spatial resolution. However, they have been helpful in environmental impact and ecological studies, among others.
 
-Citizen Science: "Cities at Night" project works with in 3-steps: classification, allocation and georeferencing. The project resulted in 190,000 night images tagged, 3000 images located (1 GCP), 700 images geo-referenced (enough GCP). 
+*Citizen Science*: "Cities at Night" project works with in 3-steps: classification, allocation and georeferencing. The project resulted in 190,000 night images tagged, 3000 images located (1 GCP), 700 images geo-referenced (enough GCP). 
 
 [Levin, 2020](https://doi.org/10.1016/j.rse.2019.111443)
 
 <details>
  <summary>Useful case studies and workflows</summary>
 
-Data: GEOCON dataset & nighttime data DMSP-OLS or better VIIRS
-pre-processing: thresholding illumination (DN values), removing noise
-disaggregation: matching GEOCON and NLs reoslution)
-Further analysis
+*Data*: GEOCON dataset & nighttime data DMSP-OLS or better VIIRS
+*Pre-processing*: thresholding illumination (DN values), removing noise
+*Disaggregation*: matching GEOCON and NLs reoslution)
+_Further analysis_
 ([Chen, 2016](https://doi.org/10.1007/978-3-319-22810-5_15))
 
-Data: acquisition of geo-coded Demographic and health Surveys from African counties
-Pre-processing: buffering/ spatial analysis of data
-data integration: linking/ integration of nighttime lights data from National Oceanic and Atmospheric Administration (DMSP-OLS sensors)
-Statistical analysis 
+*Data*: acquisition of geo-coded Demographic and health Surveys from African counties
+*Pre-processing*: buffering/ spatial analysis of data
+*Data integration*: linking/ integration of nighttime lights data from National Oceanic and Atmospheric Administration (DMSP-OLS sensors)
+_Statistical analysis_
 ([Bruderle, 2018](https://doi.org/10.1371/journal.pone.0202231))
 
-Data: data from the India Lights Project API, including DMSP-OLS NL data from the National Oceanic and Atmospheric Administration (NOAA) and the 2011 Census of India, spatial framework is based on a shapefile of 2011 village boundaries and point data (village centroids) from ML InfoMap
-Pre-processing: (“stable light” to reduce noise), shapefile of 2011 villages (ISO 9001-2015 actual village size and shape), define village centroids
-Data integration: bilinear interpolation linking NLs data and centroids, calculating DN values in 2, 3, 5 km buffer around centroid
-Correlation analysis: correlation coefficient (Pearson’s r) between NL ground truth data (i.e. Census)
-Regression & Evaluation: multivariate regression accuracy of modelling ground data, testing for non-linearity 
+*Data*: data from the India Lights Project API, including DMSP-OLS NL data from the National Oceanic and Atmospheric Administration (NOAA) and the 2011 Census of India, spatial framework is based on a shapefile of 2011 village boundaries and point data (village centroids) from ML InfoMap
+*Pre-processing*: (“stable light” to reduce noise), shapefile of 2011 villages (ISO 9001-2015 actual village size and shape), define village centroids
+*Data integration*: bilinear interpolation linking NLs data and centroids, calculating DN values in 2, 3, 5 km buffer around centroid
+*Correlation analysis*: correlation coefficient (Pearson’s r) between NL ground truth data (i.e. Census)
+*Regression & Evaluation*: multivariate regression accuracy of modelling ground data, testing for non-linearity 
 ([Dugoua, 2018](https://doi.org/10.1080/01431161.2017.1420936))
 
-Data: annual composites of nighttime light data, Thematic World Borders Dataset for administrative boundaries (e.g., nation-states, territories), Socio-economic data sourced from World Bank (GDP, poverty headcount), UN, Eurostat, and national censuses (population), energy consumption (EIA) and emissions (CDIAC, EDGAR)
-Pre-processing: thresholding (calculation of different light metrics, including “area lit”, “sum of lights,” “lights index,” and raw DN values), distinguish significance
-Correlation & regression analysis: Pearsons's R for correlation of NLss and socio-economic variables, regression models to analyse spatial patterns
-Interpretation & Application: NLs as a proxy for socio-economic data in countries with poor statistical coverage, spatial variability in night-time lights 
+*Data*: annual composites of nighttime light data, Thematic World Borders Dataset for administrative boundaries (e.g., nation-states, territories), Socio-economic data sourced from World Bank (GDP, poverty headcount), UN, Eurostat, and national censuses (population), energy consumption (EIA) and emissions (CDIAC, EDGAR)
+*Pre-processing*: thresholding (calculation of different light metrics, including “area lit”, “sum of lights,” “lights index,” and raw DN values), distinguish significance
+*Correlation & regression analysis*: Pearsons's R for correlation of NLss and socio-economic variables, regression models to analyse spatial patterns
+*Interpretation & Application*: NLs as a proxy for socio-economic data in countries with poor statistical coverage, spatial variability in night-time lights 
 ([Proville, 2017](https://doi.org/10.1371/journal.pone.0174610))
 </details> 
 
@@ -70,12 +70,13 @@ Interpretation & Application: NLs as a proxy for socio-economic data in countrie
 
 [NASA's Blackmarble](https://blackmarble.gsfc.nasa.gov/) uses VIIRS DNB sensors onboard of the Suomi NPP and NOAA-20 satellites. The VIIRS DNB has a high spatial resolution of 500 m and is calibrated and corrected for atmospheric, terrain, lunar BRDF, thermal, and straylight effects. This is resulting in faster retrieval time and less noise, facilitating research based on daily, seasonal and annual changes in NLs. [Levin, 2020](https://doi.org/10.1016/j.rse.2019.111443)
 
-_introduction case study_ 
+# Introduction case study
+
 Working with NL data can give insights to natural and human activity, as well as *socioeconomic phenomenons*. In this case study we will focus on the relation between NL and population in Los Angeles County. We will try to visualize correlations and test the accuracy of NL as indicator for sociodemographic phenomenons. The workflow we will follow looks like this: data retrieval using an API, pre-processing (log-transformation), subsetting (masking & cropping) the AOI, disaggregation (matching resolution), stacking layers, data preparation & model training (randomForest, imputation logics), descriptive statistics. 
 
 In case you are not all upt to date in working with raster layers and [data cubes](https://denabel.github.io/gxc_pages/datacubes.html), please have a look at that topic again. 
 
-_R package `blackmarbler`_
+# R package `blackmarbler`
 
 `blackmarbleR` by Robert Marty and Gabriel Stefanini Vicente (2025) supports easy access to NASA's Black Marble API. Let's check out their [vignette](https://worldbank.github.io/blackmarbler/) to set up an account and the data retrieval.
 
@@ -83,7 +84,7 @@ _R package `blackmarbler`_
 library(blackmarbler)
 ```
 
-_data retrieval_
+# Data retrieval
 
 The function `bm_raster()` to retrieve the nighttime lights requires as input an `sf`object to determine the spatial extent of the downloaded data. The object must be in **WGS84**. 
 
@@ -142,7 +143,7 @@ print(CA_nl_2020)
 ```
 
  
- _Pre-processing_
+# Pre-processing
  
  The data is right-skewed. We perform a log-transformation to account for that. Let's have a look at our data now. 
 
@@ -169,7 +170,7 @@ ggplot() +
 ```
 
 
-_subsetting_
+# Subsetting
 
 In order to define our AOI to Los Angeles County we first need to: 
 
@@ -212,7 +213,7 @@ LA_nl_2020 <- terra::mask(CA_nl_2020,
 
 ~~visual correlation of layers~~
 
-_disaggregation_
+# Disaggregation
 
 Our two raster files have the same CRS and (almost same) spatial extent. Unfortunately,
 the resolution (cell size) differs. Our population data is on an approx. 1km grid and our night lights data on an approx. 500m grid.
@@ -308,7 +309,7 @@ ext(LA_pop_2020_resampled)
 ext(LA_nl_2020)
 ```
 
-_stacking layers_
+# Stacking layers
 
 Only when all grids and resolutions of our layers match we can start combining layers into a raster stack. 
 
@@ -380,7 +381,7 @@ names(pop_500m) <- "population_predicted"
 LA_stack <- c(LA_stack, pop_500m)
 ```
 
-_statistic analysis_
+# Statistic analysis
 
 Now we have a million options to analyse our raster stack. 
 
@@ -392,7 +393,7 @@ global(LA_stack, fun = mean, na.rm=TRUE)
 layerCor(LA_stack, fun = "cor", use = "complete.obs")
 ```
 
-## possible indications for social sciences
+## Possible indications for social sciences
 
 Nighttime Lights (NL) data offer a versatile and increasingly important perspective for a wide range of social research topics. At the most basic level, NL data can be used to assess electrification rates, map urban extent, and estimate population density, urbanization, and economic activity. These applications are foundational but can also extend into more complex spatial analyses, such as defining administrative boundaries, monitoring infrastructure development, and analyzing spatial inequalities.
 
@@ -404,7 +405,7 @@ Moreover, nighttime lights can reflect cultural and social behaviors, such as re
 
 All these indicators have multiple causes, so it is important not to make quick assumptions. This is why we would like to clarify the accuracy and reliability of the NL data.
 
-_accuracy/ reliability_
+# Accuracy/ reliability
 "[...] usefulness of nighttime lights as proxy depends on optimal weight of proxy measure [...]" ([Chen, 2016](https://doi.org/10.1007/978-3-319-22810-5_15))
 
 <details>
