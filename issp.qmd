@@ -434,6 +434,216 @@ print(head(world |>
 
 The data is ready to use for any further analysis. 
 
+## Subnational data
+
+The ISSP data stores information on subnational data. We are zooming into Canada and its 10 provinces to further analyse climate change concern and changes in temperature.
+
+```{r message=FALSE, warning=FALSE}
+library(haven)
+library(sjlabelled)
+library(tidyverse)
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(terra)
+
+issp <- haven::read_spss("./data/issp_env/ZA8793_v1-0-0.sav") |> 
+  sjlabelled::remove_all_labels()
+
+provinces <- ne_states(country = "Canada", returnclass = "sf") |> 
+  select(
+    name,
+    postal,
+    geometry
+  )
+
+```
+
+In a first step, we aggregate the temperature data for the three survey waves in 1993, 2000, and 2010 across the Canadian provinces.
+
+```{r message=FALSE, warning=FALSE}
+years <- c("1993", "2000", "2010")
+
+temp_1993 <- terra::rast("./data/EO_data/C3S_data/era5_temperature1993.grib")
+temp_2000 <- terra::rast("./data/EO_data/C3S_data/era5_temperature2000.grib")
+temp_2010 <- terra::rast("./data/EO_data/C3S_data/era5_temperature2010.grib")
+temp_base <- terra::rast("./data/EO_data/C3S_data/era5_temperature1961-1990.grib")
+
+for (yr in years) {
+  temp_data <- get(paste0("temp_", yr))
+  
+  # Check CRS of both datasets and adjust if necessary
+  if(!identical(crs(provinces), terra::crs(temp_data))) {
+    provinces <- provinces |>
+      st_transform(crs=st_crs(temp_data))
+  }
+  
+  # Collapse the month layers into one layer by averaging across months
+  annual_values <- terra::app(temp_data, fun = mean, na.rm = TRUE)
+  
+  # Aggregate by province
+  province_values <- terra::extract(
+    annual_values,
+    provinces,
+    fun = mean,
+    na.rm = TRUE
+  )
+  
+  # Add values to shapefile
+  provinces[paste0("temp_", yr)] <- province_values[, 2]
+  
+}
+
+# Check CRS of both datasets and adjust if necessary
+if(!identical(crs(provinces), terra::crs(temp_base))) {
+  provinces <- provinces |>
+    st_transform(crs=st_crs(temp_base))
+}
+
+# Collapse all into one layer by averaging across months and years
+annual_values <- terra::app(temp_base, fun = mean, na.rm = TRUE)
+
+# Aggregate by country
+province_values <- terra::extract(
+  annual_values,
+  provinces,
+  fun = mean,
+  na.rm = TRUE
+)
+
+# Add values to shapefile
+provinces$temp_base <- province_values[, 2]
+
+provinces <- provinces |>
+  dplyr::mutate(
+    diff_1993 = temp_1993 - temp_base,
+    diff_2000 = temp_2000 - temp_base,
+    diff_2010 = temp_2010 - temp_base
+  )
+
+provinces <- provinces |> 
+  st_transform(3347)
+
+```
+
+Let's also prepare the ISSP data on Canada.
+
+```{r message=FALSE, warning=FALSE}
+canada <- issp |> 
+  filter(country == 124) |> 
+  filter(!is.na(CA_REG)) |> 
+  select(
+    year, 
+    CA_REG,
+    concern = v42
+  )
+
+canada <- canada |> 
+  mutate(
+    CA_REG = factor(CA_REG, levels=c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), 
+                     labels=c("Newfoundland and Labrador", "Nova Scotia",
+                              "Prince Edward Island", "New Brunswick",
+                              "Québec", "Ontario", "Manitoba", "Saskatchewan",
+                              "Alberta", "British Columbia"))
+  )
+
+
+canada <- canada |> 
+  mutate(
+    concern = case_match(concern,
+                         1 ~ 5,
+                         2 ~ 4,
+                         3 ~ 3,
+                         4 ~ 2,
+                         5 ~ 1)
+  )
+
+
+canada <- canada |> 
+  group_by(CA_REG, year) |> 
+  summarize(mean_concern = mean(concern, na.rm=TRUE),
+            se_concern = sd(concern, na.rm=TRUE) / sqrt(n()))
+
+ggplot(canada, aes(x = year, y = mean_concern, color = CA_REG, group = CA_REG)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = mean_concern - se_concern, ymax = mean_concern + se_concern), width = .5) +
+  geom_line()+
+  labs(title = "Mean climate change concern across Canadian provinces",
+       x = "Survey Wave", y = "Mean climate change concern", color = "Province") +
+  facet_wrap(~CA_REG, ncol=5)+
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+We can now join both datasets to integrate the survey data with the temperature data.
+
+```{r message=FALSE, warning=FALSE}
+canada_wide <- canada |> 
+  select(!se_concern) |> 
+  pivot_wider(
+    names_from = year, 
+    values_from = mean_concern,
+    names_glue = "{.value}_{year}",
+    names_sort = TRUE)
+
+canada_sf <- left_join(provinces, canada_wide, by = c("name" = "CA_REG"))
+
+canada_sf <- canada_sf |> 
+  select(-temp_base) |> 
+  pivot_longer(
+    cols = c(temp_1993:mean_concern_2010),
+    names_to = c("variable", "year"),
+    names_pattern = "^(.*)_(\\d{4})$",
+    values_to = "value"
+  ) |> 
+  pivot_wider(
+    names_from = variable,
+    values_from = value
+  ) |> 
+  mutate(year = as.integer(year))
+
+```
+
+Let's visualize both variables in one plot.
+
+```{r message=FALSE, warning=FALSE}
+CA_plot_1 <- ggplot(canada_sf) +
+  geom_sf(aes(fill = mean_concern)) +
+  facet_wrap(~ year) +
+  scale_fill_viridis_c() +
+  geom_sf_text(aes(label = postal), size = 3, color = "black") +
+  labs(fill = "Mean concern") +
+  theme_minimal()
+
+CA_plot_2 <- ggplot(canada_sf) +
+  geom_sf(aes(fill = diff)) +
+  facet_wrap(~ year) +
+  scale_fill_viridis_c() +
+  geom_sf_text(aes(label = postal), size = 3, color = "black") +
+  labs(fill = "Mean\ntemperature\ndeviation (K)") +
+  theme_minimal()
+
+library(patchwork)
+
+CA_plot_1 / CA_plot_2
+
+```
+
+We further investigate the relationship between both variables with a scatterplot.
+
+```{r message=FALSE, warning=FALSE}
+ggplot(canada_sf, aes(x = diff, y = mean_concern, color = as.factor(year))) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    x = "Mean temperature deviation",
+    y = "Mean concern",
+    color = "Year"
+  ) +
+  theme_minimal()
+```
+
 ## Spatial linking made easy
 
 The manual approach described above is time- and code-intensive. Our `gxc`-package helps to automatize these steps. You can select from various functions for polygons, points or grids from our `gxc`-package. For this case study, we use the `poly_link_monthly`-function to directly link to every single observation in a dataset with the discussed EO indicator.
