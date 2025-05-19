@@ -100,16 +100,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
-
-<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
-
-<script src="site_libs/viz-1.8.2/viz.js"></script>
-
-<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
-
-<script src="site_libs/grViz-binding-1.0.11/grViz.js"></script>
-
 
 
 <link rel="stylesheet" href="styles.css">
@@ -231,7 +221,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#introduction-to-nighttime-light-data" id="toc-introduction-to-nighttime-light-data" class="nav-link active" data-scroll-target="#introduction-to-nighttime-light-data">Introduction to Nighttime Light Data</a></li>
-  <li><a href="#acquisition-of-nighttime-light-nl-data" id="toc-acquisition-of-nighttime-light-nl-data" class="nav-link" data-scroll-target="#acquisition-of-nighttime-light-nl-data">Acquisition of Nighttime Light (NL) Data 📡</a>
+  <li><a href="#indications-for-social-sciences" id="toc-indications-for-social-sciences" class="nav-link" data-scroll-target="#indications-for-social-sciences">Indications for social sciences 👩‍💻</a>
+  <ul class="collapse">
+  <li><a href="#accuracy-of-nighttime-light-data" id="toc-accuracy-of-nighttime-light-data" class="nav-link" data-scroll-target="#accuracy-of-nighttime-light-data">Accuracy of Nighttime Light Data 📈</a></li>
+  </ul></li>
+  <li><a href="#acquisition-of-nighttime-light-data" id="toc-acquisition-of-nighttime-light-data" class="nav-link" data-scroll-target="#acquisition-of-nighttime-light-data">Acquisition of Nighttime Light Data 📡</a>
   <ul class="collapse">
   <li><a href="#nasas-blackmarble" id="toc-nasas-blackmarble" class="nav-link" data-scroll-target="#nasas-blackmarble">NASA’s Blackmarble 🌑</a></li>
   </ul></li>
@@ -239,13 +233,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#r-package-blackmarbler" id="toc-r-package-blackmarbler" class="nav-link" data-scroll-target="#r-package-blackmarbler">R package <code>blackmarbler</code></a></li>
   <li><a href="#data-retrieval" id="toc-data-retrieval" class="nav-link" data-scroll-target="#data-retrieval">Data retrieval</a></li>
   <li><a href="#pre-processing" id="toc-pre-processing" class="nav-link" data-scroll-target="#pre-processing">Pre-processing</a></li>
-  <li><a href="#subsetting" id="toc-subsetting" class="nav-link" data-scroll-target="#subsetting">Subsetting</a></li>
+  <li><a href="#sub-setting" id="toc-sub-setting" class="nav-link" data-scroll-target="#sub-setting">Sub-setting</a></li>
   <li><a href="#disaggregation" id="toc-disaggregation" class="nav-link" data-scroll-target="#disaggregation">Disaggregation</a></li>
   <li><a href="#stacking-layers" id="toc-stacking-layers" class="nav-link" data-scroll-target="#stacking-layers">Stacking layers</a></li>
   <li><a href="#model-training-with-imputation-logics" id="toc-model-training-with-imputation-logics" class="nav-link" data-scroll-target="#model-training-with-imputation-logics">Model Training with Imputation Logics 🏋️‍♀️</a></li>
-  <li><a href="#statistic-analysis" id="toc-statistic-analysis" class="nav-link" data-scroll-target="#statistic-analysis">Statistic analysis �</a></li>
-  <li><a href="#possible-indications-for-social-sciences" id="toc-possible-indications-for-social-sciences" class="nav-link" data-scroll-target="#possible-indications-for-social-sciences">Possible indications for social sciences 👩‍💻</a></li>
-  <li><a href="#accuracy-of-nighttime-light-data-bar_chart" id="toc-accuracy-of-nighttime-light-data-bar_chart" class="nav-link" data-scroll-target="#accuracy-of-nighttime-light-data-bar_chart">Accuracy of Nighttime Light Data :bar_chart:</a></li>
+  <li><a href="#statistic-analysis" id="toc-statistic-analysis" class="nav-link" data-scroll-target="#statistic-analysis">Statistic analysis 🧮</a></li>
   </ul>
 </nav>
     </div>
@@ -277,58 +269,103 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Let’s code (AI generated image)!</figcaption>
 </figure>
 </div>
-<section id="introduction-to-nighttime-light-data" class="level2">
-<h2 class="anchored" data-anchor-id="introduction-to-nighttime-light-data">Introduction to Nighttime Light Data</h2>
+<section id="introduction-to-nighttime-light-data" class="level1">
+<h1>Introduction to Nighttime Light Data</h1>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://media.springernature.com/full/springer-static/image/chp%3A10.1007%2F978-3-319-22810-5_15/MediaObjects/317977_1_En_15_Fig1_HTML.gif?as=webp" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>The global image of nighttime lights (stable lights for year 2006)</figcaption>
+</figure>
+</div>
 </section>
-<section id="acquisition-of-nighttime-light-nl-data" class="level1">
-<h1>Acquisition of Nighttime Light (NL) Data 📡</h1>
-<p>Opposed to daytime satellite image acquisition NL are detected by passive sensors detecting thermal or microwave spectral regions (heat related radiation).</p>
+<section id="indications-for-social-sciences" class="level1">
+<h1>Indications for social sciences 👩‍💻</h1>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://ars.els-cdn.com/content/image/1-s2.0-S0034425719304626-gr11.jpg" class="img-fluid figure-img"></p>
+<figcaption>False color composites of DMSP stable lights version 4, showing: (a) decrease in lights following the war in Syria; (b) expansion of roads in the United Arab Emirates (UAE); (c) the lit border between India and Pakistan; (d) urbanization in China; (e) economic decline in Ukraine and Moldova following the collapse of the Soviet Union; (f) temporal changes of gas flares from oil wells in Nigeria.</figcaption>
+</figure>
+</div>
+<p>Nighttime Lights (NL) data offer a versatile and increasingly important perspective for a wide range of social research topics. At the most basic level, NL data can be used to assess electrification rates, map urban extent, and estimate population density, urbanization, and economic activity. These applications are foundational but can also extend into more complex spatial analyses, such as defining administrative boundaries, monitoring infrastructure development, and analyzing spatial inequalities.</p>
+<p>In a case study of Indian <strong>rural electrification</strong> rates <a href="https://doi.org/10.1080/01431161.2017.1420936">Dugoua (2018)</a> proves that NL data accurately assess rural electrification rates when compared to Census data. However, this study questions the accuracy of NL data for the assessment of socio-economic indicators like financial inclusion or poverty indexes. Also <a href="https://doi.org/10.1080/01431161.2017.1420936">Dugoua (2018)</a> suggests possible improvements of accuracy by using better GIS maps, basic geo-processing tools, and particular aggregations of night-time luminosity.</p>
+<p>NL data also provide insights into more dynamic and often critical processes, including conflict detection, disaster impact assessment, population displacement, and refugee movements. Additionally, they have been used to capture economic trends, energy consumption patterns, and the evolution of urban growth over time.</p>
+<p><a href="https://doi.org/10.1007/978-3-319-22810-5_15">Chen (2016)</a> explores how economic statistics can be accurately assessed using NL data. Additionally, it reveals the possibility of sub-national analysis of <strong>urbanization</strong> and its <strong>implications for poverty rates</strong>.</p>
+<p>Beyond physical and economic indicators, NL data can also be linked to various socio-economic measures, such as regional GDP, poverty rates, public health, wealth distribution and even progress toward Sustainable Development Goals (SDGs). However, these correlations often require careful interpretation to avoid oversimplification, as the brightness of a location is not always a straightforward proxy for economic well-being.</p>
+<p>In a study of African countries for which little statistical information is available, <a href="https://doi.org/10.1371/journal.pone.0202231">Bruederle (2018)</a> assesses <strong>economic activity and development</strong> statistics by using NL data. This study shows a positive relationship between NL data and location-specific <strong>human development</strong> indicators. Changes in NL data can also be used to detect variation in these indicators.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://journals.plos.org/plosone/article/figure/image?size=inline&amp;id=10.1371/journal.pone.0202231.g001" class="img-fluid figure-img"></p>
+<figcaption>Illustration of DHS clusters, nighttime lights and our spatial units for Western Kenya. Dots represent reported DHS cluster center points from Kenya DHS 2008. Circular zones around these center points (in red) have a 2 km radius for urban clusters and a 5 km radius for rural clusters. The grid cells of 0.5 × 0.5 decimal degrees (in green) are aligned to the PRIO-GRID. Nighttime lights underlay the map, with brighter tones of grey implying more intense nighttime lights.</figcaption>
+</figure>
+</div>
+<p><a href="https://doi.org/10.1371/journal.pone.0174610">Proville (2017)</a> broadens the scope of NL data applications to a global scale, revealing a significant correlation between NL data and various socio-economic indicators. Additionally, <a href="https://doi.org/10.1371/journal.pone.0174610">Proville (2017)</a> points out the relationship between NL and multiple <strong>greenhouse gas (GHG) emissions</strong>, such as CO2, CH4, N2O and F-gas. The study highlights the accuracy of NL data on a local level and in areas with poor statistical inventories.</p>
+<p>Moreover, nighttime lights can reflect cultural and social behaviors, such as religious celebrations, tourism, or even the decorative nature of public lighting, providing unique insights into the social importance of specific objects. Finally, NL data can capture natural NIR emitters, including wildfires, volcanic activity, and gas flaring, adding further depth to its environmental monitoring capabilities.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://ars.els-cdn.com/content/image/1-s2.0-S0034425719304626-gr20.jpg" class="img-fluid figure-img"></p>
+<figcaption>Temporal changes in monthly VIIRS night-time brightness, demonstrating various patterns (each of the sites was normalized between its own minimum and maximum values). Aleppo, Syria: dramatic decrease in night-time lights due to the war in Syria. El Zaatari refugee camp, Jordan: influx of refugees from Syria makes this refugee camp one of the largest cities in Jordan. Dubai, UAE: A global city and a business hub in the Middle East, with a growing economy. San Juan, Puerto Rico: Hurricane Maria (September 20th, 2017) led to power outages throughout Puerto Rico. Caracas, Venezuela: In 2014 Venezuela entered an economic recession, with a decrease in its GDP, evident in a decrease of night lights in its capital city. Juliaca, Peru: A seasonal pattern is evident in night-time lights, commonly attributed to seasonal changes in albedo related to vegetation and snow cover.</figcaption>
+</figure>
+</div>
+<p><a href="https://doi.org/10.1016/j.rse.2019.111443">Levin (2020)</a> provides a thorough explanation of NL for most of the named indicators. Regarding the topic of <strong>“Holiday and ornamental lights, and political, historical, and cultural differences in lighting”</strong>, <a href="https://doi.org/10.1016/j.rse.2019.111443">Levin (2020)</a> discusses temporal, small-scale and individual variations in lightning behaviors during holidays and cultural events. During the Christmas and New Year holidays, the “[…] patterns of total lighting electricity usage (units of Watt · hr) derived from nighttime radiance were shown to uniformly increase across US cities with diverse ethnicity and religious backgrounds […]”. This indicated holiday lighting behaviour can also be detected by NL, which can also detect religious and cultural lighting patterns. For example, “[…] cities with Muslim-majority population exhibit lighting peaks during and slightly after the 30 days of Ramadan compared to non-arab cities in Israel […]”. Moreover, the <strong>tourist season</strong> in Greece can be detected by a seasonal changes of lighting patterns. <a href="https://doi.org/10.1016/j.rse.2019.111443">Levin (2020)</a> also points out the difference between celebratory/ decorative lights, which are usually brighter than functional lights, such as street lights.</p>
+<p><strong>Here is a visualization of a possible workflow:</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://pplx-res.cloudinary.com/image/upload/v1747663138/gpt4o_images/g6zncfsymhkblmykzroy.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>Exemplary workflow (AI generated image)</figcaption>
+</figure>
+</div>
+<p>All these indicators have multiple causes, so it is important not to make quick assumptions. This is why we would like to clarify the accuracy and reliability of the NL data.</p>
+<section id="accuracy-of-nighttime-light-data" class="level2">
+<h2 class="anchored" data-anchor-id="accuracy-of-nighttime-light-data">Accuracy of Nighttime Light Data 📈</h2>
+<p>The accuracy of nighttime light (NL) data largely depends on a stable electricity supply, as fluctuations in power availability can obscure the true signal of human activity. Additionally, areas without electrification are not captured, leading to significant blind spots in the data (<a href="https://doi.org/10.1080/01431161.2017.1420936">Dugoua, 2018</a>). Higher spatial resolutions improve the ability to capture fine-scale variations in light emissions, enhancing accuracy and interpretability (<a href="https://doi.org/10.1371/journal.pone.0202231">Bruederle, 2018</a>). Despite this, NL data remains an imperfect proxy for many socioeconomic indicators. It is particularly useful for estimations in regions with limited statistical coverage or where reliable data is difficult to obtain (<a href="https://doi.org/10.1371/journal.pone.0174610">Proville, 2017</a>) (<a href="https://doi.org/10.1007/978-3-319-22810-5_15">Chen, 2016</a>). Talking about statistical inventories NL data has the strength of detecting possibly informal activities and their spatial patterns, disclosing regional governance differences (<a href="https://doi.org/10.1371/journal.pone.0174610">Proville, 2017</a>). However, interpreting these data requires caution, as they can also reflect unintended side effects like artificial light pollution. This “skyglow” not only disrupts human circadian rhythms and wildlife behavior but also complicates astronomical observations by reducing nighttime sky quality.</p>
+<p>Finally, while NLs are often interpreted as indicators of modernization, urbanization, economic development, and technological innovation, they can also signify longer working hours and potentially weaker labor protections, reflecting broader social conditions.</p>
+<p><em>“[…] usefulness of nighttime lights as proxy depends on optimal weight of proxy measure […]”</em> (<a href="https://doi.org/10.1007/978-3-319-22810-5_15">Chen, 2016</a>)</p>
+<p>You can find a really elaborate documentation of NL data indication also discussing impacts on ecosystems and health <a href="https://doi.org/10.1016/j.rse.2019.111443">here</a>.</p>
+</section>
+</section>
+<section id="acquisition-of-nighttime-light-data" class="level1">
+<h1>Acquisition of Nighttime Light Data 📡</h1>
+<p>Remote sensing normally relies on the <a href="https://denabel.github.io/gxc_pages/eod_intro.html">reflection</a> of <a href="https://denabel.github.io/gxc_pages/eod_intro.html">electromagnetic radiation</a> derived from the Sun on the Earth’s surface. This technique is called passive remote sensing, since the sensor does not <em>actively</em> emit electromagnetic radiation to explore the Earth’s surface. But what happens at night?</p>
+<p>One could, of course one could apply active remote sensing such as RADAR (Radio Detection and Ranging), LiDAR (Light Detection and Ranging) or SAR (Synthetic Aperture RADAR) but these sensors present many difficulties in interpretation and require more pre-processing. However, there is still electromagnetic radiation that can be detected at night. Nevertheless, electromagnetic radiation can still be detected at night. At night, it is not the reflection of electromagnetic radiation that is assessed, but solely emissions from the Earth’s surface, e.g.&nbsp;thermal infrared detecting heat or microwave radiation. Artificial lights e.g.&nbsp;street lights are detected since they are situated in the visible infrared and near-infrared part of the radiometric spectrum.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://www.researchgate.net/profile/Filsa-Bioresita/publication/336603560/figure/fig4/AS:814879791382529@1571293890991/Remote-sensing-system-active-and-passive-modified-from-Janssen-and-Huurneman-2001.png" class="img-fluid figure-img"></p>
+<figcaption>Passive remote sensing at day and night and active remote sensing.</figcaption>
+</figure>
+</div>
 <p><strong>DMSP/OLS</strong> (Defense Meteorological Satellite Program’s Operational Line-scan System): Nighttime satellite imagery obtained to detect clouds at night with low light imaging (the moon). This was helpful in the first studies of light pollution in the 70s. However, DMSP/OLS is not very high in quality, blurring an “overglowing” is caused by intense scattering.</p>
-<p><strong>VIIRS</strong>: Is an improved version of DMSP/OLS consisting of 2 MODIS sensors, 36 spectral bands and Visible Infrared Imaging Radiometer Suite (VIIRS). The sensors are especially sensitive to lower nighttime light levels due to panchromatic DNB (Day/Night Band) that detects visible and near-infrared wavelength. Compared to DMSP the “overglow” is reduced and spatial resolution increased. Due to its high resolution and sensitivity VIIRS can effectively detect seasonal changes in intensity of NLs.</p>
-<p><strong>Landsat</strong>: Detecting thermal night-time information though only detecting really bright nighttime lights. Photos from ISS: Digital photos taken from the ISS only have moderate spatial resolution. However, they have been helpful in environmental impact and ecological studies, among others.</p>
-<p><strong>Citizen Science</strong>: “Cities at Night” project works with in 3-steps: classification, allocation and georeferencing. The project resulted in 190,000 night images tagged, 3000 images located (1 GCP), 700 images geo-referenced (enough GCP). (<a href="https://doi.org/10.1016/j.rse.2019.111443">Levin, 2020</a>)</p>
-<details>
-<summary>
-Useful Case Studies and example workflows
-</summary>
-<div class="cell">
-<div class="cell-output-display">
-<div class="grViz html-widget html-fill-item" id="htmlwidget-fcba59c6dd599311e6b8" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-fcba59c6dd599311e6b8">{"x":{"diagram":"\ndigraph {\n  node [shape=ellipse, fontname=Helvetica, penwidth=2, style=filled, color=lightblue, fillcolor=lightblue, fontcolor=black]\n  \n A [label=\"Data: GEOCON dataset & nighttime data (DMSP-OLS or VIIRS)\"]\n B [label=\"Pre-Processing: thresholding illumination (DN values), removing noise\"]\n C [label=\"Disaggregation: matching GEOCON and NLs resolution\"]\n\n A -> B -> C \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://ars.els-cdn.com/content/image/1-s2.0-S0034425719304626-gr6.jpg" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>DMSP colorized night lights. The white represents lights generated from electricity, the red shading shows fires, the pink shading indicates light from squid fishing boats, and the blue spots are gas flares from oil rigs. This dataset was compiled from DMSP data between October 1994 and March 1995. The differentiation of fires, boats, electric lights and gas flares was all done by temporal analysis (do the lights stay constant and do they move). The instrument itself is not able to distinguish between them. Zoomed in areas are shown for northern Europe (b), Japan and Korea (c), western Africa (d), and northern South America (e).</figcaption>
+</figure>
 </div>
+<p><strong>VIIRS</strong> (Visible Infrared Imaging Radiometer Suite): Is an improved version of DMSP/OLS consisting of 2 MODIS sensors, 36 spectral bands and VIIRS. The sensors are especially sensitive to lower nighttime light levels due to panchromatic DNB (Day/Night Band) that detects visible and near-infrared wavelength. Compared to DMSP the “overglow” is reduced and spatial resolution increased. Due to its high resolution and sensitivity VIIRS can effectively detect seasonal changes in intensity of NLs.</p>
+<p><strong>Landsat</strong>: Detecting thermal night-time information though only detecting really bright nighttime lights.</p>
+<p><strong>Photos from ISS</strong>: Digital photos taken from the ISS only have moderate spatial resolution. However, they have been helpful in environmental impact and ecological studies, among others.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://ars.els-cdn.com/content/image/1-s2.0-S0034425719304626-gr12.jpg" class="img-fluid figure-img"></p>
+<figcaption>Night lights of the Levant, Astronaut photograph ISS053-E−50422, taken on 28/9/2017, 00:10:11 GMT. At the bottom of the image the densely populated Delta of the Nile can be seen, while the center of the image covers Israel, the West Bank, Jordan and Lebanon. The consequences of the conflict in Syria are hinted in this photo, where Syria is mostly dark, in contrast with lit towns and cities in Turkey to the north.</figcaption>
+</figure>
 </div>
-<p>(<a href="https://doi.org/10.1007/978-3-319-22810-5_15">Chen, 2016</a>)</p>
-<div class="cell">
-<div class="cell-output-display">
-<div class="grViz html-widget html-fill-item" id="htmlwidget-1fdd4e34f24c03f7eacc" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-1fdd4e34f24c03f7eacc">{"x":{"diagram":"\ndigraph {\n  node [shape=ellipse, fontname=Helvetica, penwidth=2, style=filled, color=lightblue, fillcolor=lightblue, fontcolor=black]\n  \n A[label=\"Data: acquisition of geo-coded Demographic and health Surveys from African countries\"]\n B[label=\"Pre-Processing: buffering / spatial analysis of data\"]\n C[label=\"Data Integration: linking, integration of nighttime lights data from National Oceanic and Atmospheric Administration (DMSP-OLS sensors)\"]\n D[label=\"Statistical Analysis\"]\n \n A -> B -> C -> D\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
-</div>
-</div>
-<p>(<a href="https://doi.org/10.1371/journal.pone.0202231">Bruderle, 2018</a>)</p>
-<div class="cell">
-<div class="cell-output-display">
-<div class="grViz html-widget html-fill-item" id="htmlwidget-12c1109f93f749f10592" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-12c1109f93f749f10592">{"x":{"diagram":"\ndigraph {\n  node [shape=ellipse, fontname=Helvetica, penwidth=2, style=filled, color=lightblue, fillcolor=lightblue, fontcolor=black]\n  \n  A[label=\"Data Acquisition: API, DMSP-OLS, Census, Shapefiles\"]\n  B[label=\"Pre-Processing: stable lights, centroids\"]\n  C[label=\"Pre-Processing: stable lights, centroids\"]\n  D[label=\"Integration: bilinear interpolation, DN values in buffers\"]\n  E[label=\"Correlation Analysis: Pearson’s r\"]\n  F[label=\"Regression & Evaluation: multivariate analysis\"]\n\n A -> B -> C -> D -> E -> F\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
-</div>
-</div>
-<p>(<a href="https://doi.org/10.1080/01431161.2017.1420936">Dugoua, 2018</a>)</p>
-<div class="cell">
-<div class="cell-output-display">
-<div class="grViz html-widget html-fill-item" id="htmlwidget-cce34920d4714a8d2fda" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-cce34920d4714a8d2fda">{"x":{"diagram":"\ndigraph {\n  node [shape=ellipse, fontname=Helvetica, penwidth=2, style=filled, color=lightblue, fillcolor=lightblue, fontcolor=black]\n  \n  A[label=\"ata Acquisition: annual composites of nighttime light data, Thematic World Borders Dataset for administrative boundaries, socio-economic data (GDP, poverty, population, energy consumption, emissions)\"]\n  B[label=\"Pre-Processing: thresholding (e.g., area lit, sum of lights, lights index, raw DN values), distinguishing significance\"]\n  C[label=\"Data Integration: bilinear interpolation, linking NLs data and centroids, calculating DN values in 2, 3, 5 km buffer around centroid\"]\n  D[label=\"Correlation Analysis: Pearson\"s R for correlation of NLs and socio-economic variables, regression models to analyse spatial patterns\"]\n  E[label=\"Interpretation & Application: using NLs as a proxy for socio-economic data, addressing spatial variability in night-time lights\"]\n  \n  A -> B -> C -> D -> E\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
-</div>
-</div>
-(<a href="https://doi.org/10.1371/journal.pone.0174610">Proville, 2017</a>)
-</details>
+<p><strong>Citizen Science</strong>: “Cities at Night” project works with in 3-steps: classification, allocation and georeferencing. The project resulted in 190,000 night images tagged, 3000 images located (1 GCP), 700 images geo-referenced (enough GCP).</p>
+<p>(<a href="https://doi.org/10.1016/j.rse.2019.111443">Levin, 2020</a>)</p>
 <section id="nasas-blackmarble" class="level2">
 <h2 class="anchored" data-anchor-id="nasas-blackmarble">NASA’s Blackmarble 🌑</h2>
-<p><a href="https://blackmarble.gsfc.nasa.gov/">NASA’s Blackmarble</a> uses VIIRS DNB sensors onboard of the Suomi NPP and NOAA-20 satellites. The VIIRS DNB has a high spatial resolution of 500 m and is calibrated and corrected for atmospheric, terrain, lunar BRDF, thermal, and straylight effects. This is resulting in faster retrieval time and less noise, facilitating research based on daily, seasonal and annual changes in NLs. <a href="https://doi.org/10.1016/j.rse.2019.111443">Levin, 2020</a></p>
+<p><a href="https://blackmarble.gsfc.nasa.gov/">NASA’s Blackmarble</a> uses VIIRS DNB sensors on board of the Suomi NPP and NOAA-20 satellites. The VIIRS DNB has a high spatial resolution of 500 m and is calibrated and corrected for atmospheric, terrain, lunar BRDF, thermal, and stray light effects. This is resulting in faster retrieval time and less noise, facilitating research based on daily, seasonal and annual changes in NLs (<a href="https://doi.org/10.1016/j.rse.2019.111443">Levin, 2020</a>). Therefore, NASA’s Blackmarble is the most commonly used NL data set in recent studies.</p>
 </section>
 </section>
 <section id="introduction-case-study" class="level1">
 <h1>Introduction case study</h1>
-<p>Working with NL data can give insights to natural and human activity, as well as <em>socioeconomic phenomenons</em>. In this case study we will focus on the relation between NL and population in Los Angeles County. We will try to visualize correlations and test the accuracy of NL as indicator for sociodemographic phenomenons. The workflow we will follow looks like this: data retrieval using an API, pre-processing (log-transformation), subsetting (masking &amp; cropping) the AOI, disaggregation (matching resolution), stacking layers, data preparation &amp; model training (randomForest, imputation logics), descriptive statistics.</p>
-<p>In case you are not all upt to date in working with raster layers and <a href="https://denabel.github.io/gxc_pages/datacubes.html">data cubes</a>, please have a look at that topic again.</p>
+<p>Working with NL data can give insights to natural and human activity, as well as complex socioeconomic phenomenons. In this case study we will focus on the relation between NL and population in Los Angeles County. We will try to visualize correlations and test the accuracy of NL as indicator for socio demographic statistics. The workflow we will follow looks like this: data retrieval using an API, pre-processing (log-transformation), sub-setting (masking &amp; cropping) the AOI, disaggregation (matching resolution), stacking layers, data preparation &amp; model training (randomForest, imputation logics), descriptive statistics.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://pplx-res.cloudinary.com/image/upload/v1747662050/gpt4o_images/x5vypuitcejjnmhjtiad.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>Our workflow (AI generated image)</figcaption>
+</figure>
+</div>
+<p>In case you are not all up to date in working with raster layers and <a href="https://denabel.github.io/gxc_pages/datacubes.html">data cubes</a>, please have a look at that topic again.</p>
 </section>
 <section id="r-package-blackmarbler" class="level1">
 <h1>R package <code>blackmarbler</code></h1>
@@ -369,7 +406,7 @@ Geodetic CRS:  WGS 84
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="nightlights_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="nightlights_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -444,14 +481,14 @@ max value   : 269.2 </code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="nightlights_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="nightlights_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="subsetting" class="level1">
-<h1>Subsetting</h1>
+<section id="sub-setting" class="level1">
+<h1>Sub-setting</h1>
 <p>In order to define our AOI to Los Angeles County 🌃 we first need to:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load LA County file</span></span>
@@ -495,7 +532,7 @@ Geodetic CRS:  WGS 84
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="nightlights_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="nightlights_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -687,7 +724,7 @@ max values  :           9.733816, 4.400603 </code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="nightlights_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="nightlights_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -764,7 +801,7 @@ Attache Paket: 'randomForest'</code></pre>
 </div>
 </section>
 <section id="statistic-analysis" class="level1">
-<h1>Statistic analysis �</h1>
+<h1>Statistic analysis 🧮</h1>
 <p>Now we have a million options to analyse our raster stack.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Global univariate means</span></span>
@@ -773,22 +810,22 @@ Attache Paket: 'randomForest'</code></pre>
 <pre><code>                          mean
 population           2.9236307
 nightlights          0.5277355
-population_predicted 2.7927388</code></pre>
+population_predicted 2.7921782</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bivariate correlations</span></span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">layerCor</span>(LA_stack, <span class="at">fun =</span> <span class="st">"cor"</span>, <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$correlation
                      population nightlights population_predicted
-population            1.0000000   0.8245851            0.8754623
-nightlights           0.8245851   1.0000000            0.8725864
-population_predicted  0.8754623   0.8725864            1.0000000
+population            1.0000000   0.8245851            0.8761891
+nightlights           0.8245851   1.0000000            0.8735944
+population_predicted  0.8761891   0.8735944            1.0000000
 
 $mean
                      population nightlights population_predicted
 population                  NaN    2.923631            2.9236307
 nightlights           0.5277355         NaN            0.5277355
-population_predicted  2.7927388    2.792739                  NaN
+population_predicted  2.7921782    2.792178                  NaN
 
 $n
                      population nightlights population_predicted
@@ -797,21 +834,6 @@ nightlights               59256         NaN                59256
 population_predicted      59256       59256                  NaN</code></pre>
 </div>
 </div>
-</section>
-<section id="possible-indications-for-social-sciences" class="level1">
-<h1>Possible indications for social sciences 👩‍💻</h1>
-<p>Nighttime Lights (NL) data offer a versatile and increasingly important perspective for a wide range of social research topics. At the most basic level, NL data can be used to assess electrification rates, map urban extent, and estimate population density, urbanization, and economic activity. These applications are foundational but can also extend into more complex spatial analyses, such as defining administrative boundaries, monitoring infrastructure development, and analyzing spatial inequalities.</p>
-<p>NL data also provide insights into more dynamic and often critical processes, including conflict detection, disaster impact assessment, population displacement, and refugee movements. Additionally, they have been used to capture economic trends, energy consumption patterns, and the evolution of urban growth over time.</p>
-<p>Beyond physical and economic indicators, NL data can also be linked to various socio-economic measures, such as regional GDP, poverty rates, public health, wealth distribution, and even progress toward Sustainable Development Goals (SDGs). However, these correlations often require careful interpretation to avoid oversimplification, as the brightness of a location is not always a straightforward proxy for economic well-being.</p>
-<p>Moreover, nighttime lights can reflect cultural and social behaviors, such as religious celebrations, tourism, or even the decorative nature of public lighting, providing unique insights into the social importance of specific objects. Finally, NL data can capture natural NIR emitters, including wildfires, volcanic activity, and gas flaring, adding further depth to its environmental monitoring capabilities.</p>
-<p>All these indicators have multiple causes, so it is important not to make quick assumptions. This is why we would like to clarify the accuracy and reliability of the NL data.</p>
-</section>
-<section id="accuracy-of-nighttime-light-data-bar_chart" class="level1">
-<h1>Accuracy of Nighttime Light Data :bar_chart:</h1>
-<p>The accuracy of nighttime light (NL) data largely depends on a stable electricity supply, as fluctuations in power availability can obscure the true signal of human activity. Additionally, areas without electrification are not captured, leading to significant blind spots in the data (<a href="https://doi.org/10.1080/01431161.2017.1420936">Dugoua, 2018</a>). Higher spatial resolutions improve the ability to capture fine-scale variations in light emissions, enhancing accuracy and interpretability (<a href="https://doi.org/10.1371/journal.pone.0202231">Bruederle, 2018</a>). Despite this, NL data remains an imperfect proxy for many socioeconomic indicators. It is particularly useful for estimations in regions with limited statistical coverage or where reliable data is difficult to obtain (<a href="https://doi.org/10.1371/journal.pone.0174610">Proville, 2017</a>) (<a href="https://doi.org/10.1007/978-3-319-22810-5_15">Chen, 2016</a>). Talking about statistical inventories NL data has the strength of detecting possibly informal activities and their spatial patterns, disclosing regional governance differences (<a href="https://doi.org/10.1371/journal.pone.0174610">Proville, 2017</a>). However, interpreting these data requires caution, as they can also reflect unintended side effects like artificial light pollution. This “skyglow” not only disrupts human circadian rhythms and wildlife behavior but also complicates astronomical observations by reducing nighttime sky quality.</p>
-<p>Finally, while NLs are often interpreted as indicators of modernization, urbanization, economic development, and technological innovation, they can also signify longer working hours and potentially weaker labor protections, reflecting broader social conditions.</p>
-<p>You can find a really elaborate documentation of NL data indication but also impacts on ecosystems <a href="https://doi.org/10.1016/j.rse.2019.111443">here</a>.</p>
-<p><em>“[…] usefulness of nighttime lights as proxy depends on optimal weight of proxy measure […]”</em> (<a href="https://doi.org/10.1007/978-3-319-22810-5_15">Chen, 2016</a>)</p>
 <details>
 <summary>
 Literature
@@ -819,6 +841,7 @@ Literature
 <p>Bruederle A, Hodler R (2018) Nighttime lights as a proxy for human development at the local level. PLOS ONE 13(9): e0202231. https://doi.org/10.1371/journal.pone.0202231</p>
 <p>Chen, X. (2016). Using Nighttime Lights Data as a Proxy in Social Scientific Research. In: Howell, F., Porter, J., Matthews, S. (eds) Recapturing Space: New Middle-Range Theory in Spatial Demography. Spatial Demography Book Series, vol 1. Springer, Cham. https://doi.org/10.1007/978-3-319-22810-5_15</p>
 <p>Dugoua, E., Kennedy, R., &amp; Urpelainen, J. (2018). Satellite data for the social sciences: measuring rural electrification with night-time lights. International Journal of Remote Sensing, 39(9), 2690–2701. https://doi.org/10.1080/01431161.2017.1420936</p>
+<p>Freie Universität Berlin. (n.d.). Sensor basics - Remote sensing data [Blog post]. Freie Universität Berlin. Retrieved May 19, 2025, from https://blogs.fu-berlin.de/reseda/sensor-basics/</p>
 <p>Levin, N., Kyba, C. C., Zhang, Q., de Miguel, A. S., Román, M. O., Li, X., … &amp; Elvidge, C. D. (2020). Remote sensing of night lights: A review and an outlook for the future. Remote Sensing of Environment, 237, 111443. https://doi.org/10.1016/j.rse.2019.111443</p>
 <p>NASA Goddard Space Flight Center. (n.d.). NASA Black Marble. NASA. Retrieved May 14, 2025, from https://blackmarble.gsfc.nasa.gov/</p>
 Proville, J., Zavala-Araiza, D., &amp; Wagner, G. (2017). Night-time lights: A global, long term look at links to socio-economic trends. PloS one, 12(3), e0174610. https://doi.org/10.1371/journal.pone.0174610
