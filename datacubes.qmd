@@ -2,6 +2,17 @@
 title: "Datacubes"
 ---
 
+
+```{r packages}
+#| include: false
+library(sf)
+library(terra)
+library(tmap)
+library(ggplot2)
+library(ggspatial)
+library(tidyterra)
+```
+
 ## What are datacubes?
 
 *Data cubes*: Building on the concept of raster stacks, data cubes take this idea further by organizing raster data into a three-dimensional structure. A data cube represents multiple raster layers across spatial and temporal dimensions (and sometimes additional dimensions, such as different environmental variables). This format allows for efficient storage, processing, and analysis of large volumes of spatiotemporal data. Data cubes are particularly useful in remote sensing applications, where you may have large datasets consisting of multiple bands (e.g., satellite imagery) or data captured over time.
@@ -10,4 +21,351 @@ title: "Datacubes"
 
 https://raw.githubusercontent.com/r-spatial/stars/master/images/cube2.png
 
-comming soon
+## How do we create and work with data cubes?
+
+`stars` and `terra` both are packages we can use to create and work with raster stacks/cubes. Nevertheless, they have some striking differences we need to consider to choose the most appropriate one for our research. 
+`terra` is most commonly used for raster data since it includes methods such as local, focal, global, zonal and geometric operations.  focal, global, zonal and geometric operations. The predict and interpolate methods facilitate the use of regression type (interpolation, machine learning) models for spatial prediction. `terra`creates 3-dimensional stacks of **raster layers**, without a coherent logic for what this third dimension constitutes - as long as the single layers fit to each other. 
+The authors have produced a very extensive [tutorial](https://rspatial.org/) which is basically a textbook for spatial data science in R.
+
+`stars` on the other hand provides useful features for handling spatiotemporal arrays (datacubes). For example, reading, manipulating, plotting, and writing such **raster/data cubes**, to the extent that there are proper formats for doing so. `stars` can create multiple dimensions and variables along the three dimensions: x, y and time. 
+One advantage to `terra`: the time dimension requires less manual handling and includes a more automated logic for temporal dimensions. 
+Edzer Pebesma's and Roger Bivand's [Spatial Data Science](https://r-spatial.org/book/) textbook is THE go-to resource for learning the `sf` and `stars` syntax.
+
+**workflow:** 
+- Combination of separate layers into one object
+- Adjustments to metadata and global attributes like:
+ - Time dimension
+ - CRS
+- Further Processing/ Analysis
+
+# Raster stacks with `terra`
+
+## Loading data 
+
+We assume we want to work with population data from the US, specifically California: 
+
+```{r}
+CA_pop_2017 <- terra::rast("./data/US-CA_ppp_2017_1km.tif")
+CA_pop_2018 <- terra::rast("./data/US-CA_ppp_2018_1km.tif")
+CA_pop_2019 <- terra::rast("./data/US-CA_ppp_2019_1km.tif")
+CA_pop_2020 <- terra::rast("./data/US-CA_ppp_2020_1km.tif")
+
+class(CA_pop_2017)
+
+CA_pop_2017
+```
+
+We can simply concatenate (`c()`) the layers to create a raster stack.
+
+```{r}
+CA_pop_stack <- c(CA_pop_2017, CA_pop_2018, CA_pop_2019, CA_pop_2020)
+
+class(CA_pop_stack)
+
+CA_pop_stack
+```
+
+## `terra::rast()`
+
+Integrating the first two steps into one with the `terra::rast()` command makes it much faster: 
+
+```{r}
+# Stacking more automated
+files <- list.files("./data", pattern = "US-CA_ppp_20(17|18|19|20)_1km\\.tif$", full.names = TRUE)
+CA_pop_stack <- terra::rast(files)
+
+CA_pop_stack
+```
+
+## Creating a time dimension 
+
+As mentioned adding dates in `terra` is not that intuitive. Dates can be assigned to layers, this will create a new attribute in the object as well as an additional name of the variable. 
+
+```{r}
+layer_dates <- as.Date(paste0(2017:2020, "-01-01"))
+time(CA_pop_stack) <- layer_dates
+
+CA_pop_stack
+
+time(CA_pop_stack)
+
+timeInfo(CA_pop_stack)
+```
+
+```{r}
+# Have a first glance at the data
+terra::plot(CA_pop_stack)
+```
+
+When defining the time dimension, we can also store the time zone of the date. This might be crucial for further analysis and interpretation!
+
+```{r}
+layer_posix <- as.POSIXct(layer_dates, tz = "UTC")
+
+time(CA_pop_stack) <- layer_posix
+
+time(CA_pop_stack)
+
+timeInfo(CA_pop_stack)
+```
+
+In order to reduce possible confusion it is the best way to only assign the year when working with a yearly resolution. You can do that by adjusting the `tstep=` argument in the `terra::time`-function.
+
+```{r}
+layer_years <- c(2017:2020)
+time(CA_pop_stack, tstep = "years") <- layer_years
+
+CA_pop_stack
+
+time(CA_pop_stack)
+
+timeInfo(CA_pop_stack)
+```
+
+```{r}
+# Have a first glance at the data
+terra::plot(CA_pop_stack)
+```
+
+## Wrangling raster stacks
+
+Adapting the data to your research needs!
+
+### Changing variable names 
+
+By default, the variable name is derived from the file-name. We can replace it with a e.g. simpler version ;).
+
+```{r}
+# Adjust variable name
+names(CA_pop_stack) <- paste0("pop_", layer_years)
+
+print(CA_pop_stack)
+```
+
+Eventually, you want to adapt to short or long names ... 
+
+```{r}
+# Optional - setting variable names
+varnames(CA_pop_stack) <- "population"
+
+longnames(CA_pop_stack) <- "California population estimate (1 km grid)"
+
+print(CA_pop_stack)
+```
+
+<details>
+ <summary>Defining value unit</summary>
+
+Normally, this is not needed but this is how we can alter the value unit: 
+
+```{r}
+# Setting units
+units(CA_pop_stack)
+
+units(CA_pop_stack) <- "count"
+
+units(CA_pop_stack)
+```
+</details>
+
+### Defining minimum and maximum values 
+
+To have a first impression of what your data looks like it is recommendable to add minimum and maximum values to the metadata. 
+
+```{r}
+setMinMax(CA_pop_stack, force=TRUE)
+
+print(CA_pop_stack)
+```
+
+### CRS 
+
+For checking the CRS or assigning a label to it you can use: 
+
+```{r}
+crs(CA_pop_stack)
+
+# crs(CA_pop_stack) <- "EPSG:4326"
+```
+
+For an alteration i.e. an reprojection of the CRS we will apply `terra::project()`. 
+
+```{r}
+CA_pop_stack <- terra::project(CA_pop_stack, 
+                               y = "EPSG:3310",
+                               method = "bilinear"
+                               )
+
+print(CA_pop_stack)
+```
+
+```{r}
+# Have a first glance at the data
+terra::plot(CA_pop_stack)
+```
+
+**Important note**
+
+Reprojecting raster data is fundamentally different from reprojecting vector data:
+
+- Vector data can be transformed and back-transformed **without loss of precision**. The coordinates of points, lines, or polygons are recalculated exactly, and attribute values remain unchanged.
+- Raster data, in contrast, requires **resampling**: when reprojected, the original pixel values must be interpolated or aggregated to fit a new grid.
+- As a result, every **reprojection** of a raster involves **estimation** and may lead to **changes or smoothing** of the original cell values.
+- **Practical advice**: When aligning raster and vector data, **it is usually better to reproject the vector data** onto the raster’s coordinate system — to avoid unnecessary loss or distortion in the raster values.
+
+## Indexing
+
+We will definitely need to access single layers or specific cell values when further analyzing our data. So these are ways of indexing in raster stacks: 
+
+- `[[i]]` is used for accessing layers based on names and index
+- `[i]` generally used for accessing cell values 
+- **Exception to the rule**: `[i]` also works on layer names and time provided as strings
+
+This generally leads to:
+
+- `your_raster[[layer]]`
+- `your_raster[cell]`
+- `your_raster[[layer]][cell]`
+
+<details>
+ <summary>Some examples</summary>
+
+**Layers**
+
+```{r}
+# Indexing by layer index number
+# Returns SpatRaster
+CA_pop_stack[[1]]
+
+# Give me layers 1 to 3
+CA_pop_stack[[1:3]]
+
+# Give me layers 1 and 3 
+CA_pop_stack[[c(1,3)]]
+
+# Indexing by layer name
+# Returns SpatRaster
+CA_pop_stack[["pop_2018"]]
+
+# Indexing by time point 
+# !only single brackets work!
+# Returns SpatRaster
+CA_pop_stack["2019"]
+```
+
+**Cells**
+
+```{r}
+# Give me all values
+# Returns data.frame
+CA_pop_stack[]
+
+# Give me values for cell numbers 700,000 for all layers
+# Returns data.frame
+CA_pop_stack[700000]
+
+# Give me values for cell numbers 700,000-700,010 for all layers
+# Returns data.frame
+CA_pop_stack[700000:700010]
+
+# Give me values for cell numbers 700,000 and 700,010 for all layers
+CA_pop_stack[c(700000,700010)]
+```
+
+**Combination**
+
+```{r}
+# Give me value for cell index 700,000 for layer 4
+# Returns data.frame
+class(CA_pop_stack[[4]][700000])
+             
+# Give me all values for layer with time "2019"
+# Returns data.frame / array
+CA_pop_stack[[1]][]
+```
+
+Alternatively, you can use **array slicing syntax** on `SpatRaster` objects:
+
+```{r}
+#| eval: false
+your_raster[i, # rows
+            i, # columns
+            i, # layers
+            drop = FALSE/TRUE # whether to keep `SpatRaster`geometry
+            ]
+```
+
+```{r}
+CA_pop_stack[500:1000,
+             500:1000, 
+             1,
+             drop = FALSE
+             ]
+```
+
+```{r}
+CA_pop_stack[500:1000,
+             500:1000, 
+             1,
+             drop = TRUE # default
+             ]
+```
+
+```{r}
+# Plot a single layer
+terra::plot(CA_pop_stack[0:500,
+                         0:500, 
+                         1,
+                         drop = FALSE])
+```
+
+</details>
+
+## Export of raster stacks
+
+Exporting raster stacks is really nor hurdle: 
+
+```{r}
+# Export
+writeRaster(
+  CA_pop_stack,
+  "./data/CA_pop_stack.tif",
+  overwrite=TRUE,
+  gdal=c("COMPRESS=LZW","BIGTIFF=YES")
+)
+```
+
+# Manual raster stack with `stars`
+
+## Loading data 
+## `list.files()`
+## Creating a time dimension (`tstep = "years"`)
+## `split()` and `merge()`
+## Manipulate dimension information
+## Editing/ wrangling raster stack 
+### Changing variable names
+### rather no changing unit in `stars`
+### CRS & `st_transform()` or `st_warp()`
+## Indexing
+## Export
+
+# Converting between `stars` and `terra`
+
+
+# Graphic Display of Raster Data 
+
+## Intro: Reason's/ Concept's of Data Visualization
+
+## Visualization w/ggplot2
+### layers & aesthetics 
+### ggspatial
+### ggspatial x tidyterra 
+
+# Visualizing Population Dynamics 
+
+## Graphic Display of Data Cubes 
+
+## `terra`: `facet_wrap()` and `lyr`
+## `ggplot2` x `stars`
+
+_basics similar to visualization of raster data_ 
