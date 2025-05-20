@@ -17,19 +17,13 @@ library(DiagrammeR)
 
 ![Let's code (AI generated image)!](images/cat_scientist.png){ width=60% align=center }
 
-# Introduction to Nighttime Light Data
+# Introducing Nighttime Lights in Social Sciences 
 
-
-
-
- 
-
-
-![The global image of nighttime lights (stable lights for year 2006)](https://media.springernature.com/full/springer-static/image/chp%3A10.1007%2F978-3-319-22810-5_15/MediaObjects/317977_1_En_15_Fig1_HTML.gif?as=webp){width="50%"} 
+![The global image of nighttime lights (stable lights for year 2006), Source: [Levin (2020)](https://doi.org/10.1016/j.rse.2019.111443)](https://ars.els-cdn.com/content/image/1-s2.0-S0034425719304626-gr11.jpg)(https://media.springernature.com/full/springer-static/image/chp%3A10.1007%2F978-3-319-22810-5_15/MediaObjects/317977_1_En_15_Fig1_HTML.gif?as=webp){width="50%"}
 
 # Indications for social sciences &#x1F469;&#x200D;&#x1F4BB;
 
-![False color composites of DMSP stable lights version 4, showing: (a) decrease in lights following the war in Syria; (b) expansion of roads in the United Arab Emirates (UAE); (c) the lit border between India and Pakistan; (d) urbanization in China; (e) economic decline in Ukraine and Moldova following the collapse of the Soviet Union; (f) temporal changes of gas flares from oil wells in Nigeria.](https://ars.els-cdn.com/content/image/1-s2.0-S0034425719304626-gr11.jpg) 
+![False color composites of DMSP stable lights version 4, showing: (a) decrease in lights following the war in Syria; (b) expansion of roads in the United Arab Emirates (UAE); (c) the lit border between India and Pakistan; (d) urbanization in China; (e) economic decline in Ukraine and Moldova following the collapse of the Soviet Union; (f) temporal changes of gas flares from oil wells in Nigeria. Source: [Levin (2020)](https://doi.org/10.1016/j.rse.2019.111443)](https://ars.els-cdn.com/content/image/1-s2.0-S0034425719304626-gr11.jpg)
 
 Nighttime Lights (NL) data offer a versatile and increasingly important perspective for a wide range of social research topics. At the most basic level, NL data can be used to assess electrification rates, map urban extent, and estimate population density, urbanization, and economic activity. These applications are foundational but can also extend into more complex spatial analyses, such as defining administrative boundaries, monitoring infrastructure development, and analyzing spatial inequalities.
 
@@ -43,13 +37,13 @@ Beyond physical and economic indicators, NL data can also be linked to various s
 
 In a study of African countries for which little statistical information is available, [Bruederle (2018)](https://doi.org/10.1371/journal.pone.0202231) assesses **economic activity and development** statistics by using NL data. This study shows a positive relationship between NL data and location-specific **human development** indicators. Changes in NL data can also be used to detect variation in these indicators.
 
-![Illustration of DHS clusters, nighttime lights and our spatial units for Western Kenya. Dots represent reported DHS cluster center points from Kenya DHS 2008. Circular zones around these center points (in red) have a 2 km radius for urban clusters and a 5 km radius for rural clusters. The grid cells of 0.5 × 0.5 decimal degrees (in green) are aligned to the PRIO-GRID. Nighttime lights underlay the map, with brighter tones of grey implying more intense nighttime lights.](https://journals.plos.org/plosone/article/figure/image?size=inline&id=10.1371/journal.pone.0202231.g001) 
+![Illustration of DHS clusters, nighttime lights and our spatial units for Western Kenya. Dots represent reported DHS cluster center points from Kenya DHS 2008. Circular zones around these center points (in red) have a 2 km radius for urban clusters and a 5 km radius for rural clusters. The grid cells of 0.5 × 0.5 decimal degrees (in green) are aligned to the PRIO-GRID. Nighttime lights underlay the map, with brighter tones of grey implying more intense nighttime lights. Source: [Bruederle (2018)](https://doi.org/10.1371/journal.pone.0202231)](https://journals.plos.org/plosone/article/figure/image?size=inline&id=10.1371/journal.pone.0202231.g001)
 
 [Proville (2017)](https://doi.org/10.1371/journal.pone.0174610) broadens the scope of NL data applications to a global scale, revealing a significant correlation between NL data and various socio-economic indicators. Additionally, [Proville (2017)](https://doi.org/10.1371/journal.pone.0174610) points out the relationship between NL and multiple **greenhouse gas (GHG) emissions**, such as CO2, CH4, N2O and F-gas. The study highlights the accuracy of NL data on a local level and in areas with poor statistical inventories. 
 
 Moreover, nighttime lights can reflect cultural and social behaviors, such as religious celebrations, tourism, or even the decorative nature of public lighting, providing unique insights into the social importance of specific objects. Finally, NL data can capture natural NIR emitters, including wildfires, volcanic activity, and gas flaring, adding further depth to its environmental monitoring capabilities.
 
-![Temporal changes in monthly VIIRS night-time brightness, demonstrating various patterns (each of the sites was normalized between its own minimum and maximum values). Aleppo, Syria: dramatic decrease in night-time lights due to the war in Syria. El Zaatari refugee camp, Jordan: influx of refugees from Syria makes this refugee camp one of the largest cities in Jordan. Dubai, UAE: A global city and a business hub in the Middle East, with a growing economy. San Juan, Puerto Rico: Hurricane Maria (September 20th, 2017) led to power outages throughout Puerto Rico. Caracas, Venezuela: In 2014 Venezuela entered an economic recession, with a decrease in its GDP, evident in a decrease of night lights in its capital city. Juliaca, Peru: A seasonal pattern is evident in night-time lights, commonly attributed to seasonal changes in albedo related to vegetation and snow cover.](https://ars.els-cdn.com/content/image/1-s2.0-S0034425719304626-gr20.jpg) 
+![Temporal changes in monthly VIIRS night-time brightness, demonstrating various patterns (each of the sites was normalized between its own minimum and maximum values). Aleppo, Syria: dramatic decrease in night-time lights due to the war in Syria. El Zaatari refugee camp, Jordan: influx of refugees from Syria makes this refugee camp one of the largest cities in Jordan. Dubai, UAE: A global city and a business hub in the Middle East, with a growing economy. San Juan, Puerto Rico: Hurricane Maria (September 20th, 2017) led to power outages throughout Puerto Rico. Caracas, Venezuela: In 2014 Venezuela entered an economic recession, with a decrease in its GDP, evident in a decrease of night lights in its capital city. Juliaca, Peru: A seasonal pattern is evident in night-time lights, commonly attributed to seasonal changes in albedo related to vegetation and snow cover. Source: [Levin (2020)](https://doi.org/10.1016/j.rse.2019.111443)](https://ars.els-cdn.com/content/image/1-s2.0-S0034425719304626-gr20.jpg)
 
 [Levin (2020)](https://doi.org/10.1016/j.rse.2019.111443) provides a thorough explanation of NL for most of the named indicators. Regarding the topic of **"Holiday and ornamental lights, and political, historical, and cultural differences in lighting"**, [Levin (2020)](https://doi.org/10.1016/j.rse.2019.111443) discusses temporal, small-scale and individual variations in lightning behaviors during holidays and cultural events. During the Christmas and New Year holidays, the "[...] patterns of total lighting electricity usage (units of Watt · hr) derived from nighttime radiance were shown to uniformly increase across US cities with diverse ethnicity and religious backgrounds [...]". This indicated holiday lighting behaviour can also be detected by NL, which can also detect religious and cultural lighting patterns. For example, "[...] cities with Muslim-majority population exhibit lighting peaks during and slightly after the 30 days of Ramadan compared to non-arab cities in Israel [...]". Moreover, the **tourist season** in Greece can be detected by a seasonal changes of lighting patterns. [Levin (2020)](https://doi.org/10.1016/j.rse.2019.111443) also points out the difference between celebratory/ decorative lights, which are usually brighter than functional lights, such as street lights. 
 
@@ -80,11 +74,11 @@ Remote sensing normally relies on the [reflection](https://denabel.github.io/gxc
 
 One could, of course one could apply active remote sensing such as RADAR (Radio Detection and Ranging), LiDAR (Light Detection and Ranging) or SAR (Synthetic Aperture RADAR) but these sensors present many difficulties in interpretation and require more pre-processing. However, there is still electromagnetic radiation that can be detected at night. Nevertheless, electromagnetic radiation can still be detected at night. At night, it is not the reflection of electromagnetic radiation that is assessed, but solely emissions from the Earth's surface, e.g. thermal infrared detecting heat or microwave radiation. Artificial lights e.g. street lights are detected since they are situated in the visible infrared and near-infrared part of the radiometric spectrum. 
 
-![Passive remote sensing at day and night and active remote sensing.](https://www.researchgate.net/profile/Filsa-Bioresita/publication/336603560/figure/fig4/AS:814879791382529@1571293890991/Remote-sensing-system-active-and-passive-modified-from-Janssen-and-Huurneman-2001.png)
+![Passive remote sensing at day and night and active remote sensing. Source:[Image](https://www.researchgate.net/profile/Filsa-Bioresita/publication/336603560/figure/fig4/AS:814879791382529@1571293890991/Remote-sensing-system-active-and-passive-modified-from-Janssen-and-Huurneman-2001.png)](https://www.researchgate.net/profile/Filsa-Bioresita/publication/336603560/figure/fig4/AS:814879791382529@1571293890991/Remote-sensing-system-active-and-passive-modified-from-Janssen-and-Huurneman-2001.png)
 
 **DMSP/OLS** (Defense Meteorological Satellite Program’s Operational Line-scan System): Nighttime satellite imagery obtained to detect clouds at night with low light imaging (the moon). This was helpful in the first studies of light pollution in the 70s. However, DMSP/OLS is not very high in quality, blurring an "overglowing" is caused by intense scattering. 
 
-![DMSP colorized night lights. The white represents lights generated from electricity, the red shading shows fires, the pink shading indicates light from squid fishing boats, and the blue spots are gas flares from oil rigs. This dataset was compiled from DMSP data between October 1994 and March 1995. The differentiation of fires, boats, electric lights and gas flares was all done by temporal analysis (do the lights stay constant and do they move). The instrument itself is not able to distinguish between them. Zoomed in areas are shown for northern Europe (b), Japan and Korea (c), western Africa (d), and northern South America (e).](https://ars.els-cdn.com/content/image/1-s2.0-S0034425719304626-gr6.jpg){width="60%"}
+![DMSP colorized night lights. The white represents lights generated from electricity, the red shading shows fires, the pink shading indicates light from squid fishing boats, and the blue spots are gas flares from oil rigs. This dataset was compiled from DMSP data between October 1994 and March 1995. The differentiation of fires, boats, electric lights and gas flares was all done by temporal analysis (do the lights stay constant and do they move). The instrument itself is not able to distinguish between them. Zoomed in areas are shown for northern Europe (b), Japan and Korea (c), western Africa (d), and northern South America (e). Source: [Levin (2020)](https://doi.org/10.1016/j.rse.2019.111443)](https://ars.els-cdn.com/content/image/1-s2.0-S0034425719304626-gr6.jpg){width="60%"}
 
 **VIIRS** (Visible Infrared Imaging Radiometer Suite): Is an improved version of DMSP/OLS consisting of 2 MODIS sensors, 36 spectral bands and VIIRS. The sensors are especially sensitive to lower nighttime light levels due to panchromatic DNB (Day/Night Band) that detects visible and near-infrared wavelength. Compared to DMSP the "overglow" is reduced and spatial resolution increased. Due to its high resolution and sensitivity VIIRS can effectively detect seasonal changes in intensity of NLs.
 
@@ -92,9 +86,9 @@ One could, of course one could apply active remote sensing such as RADAR (Radio 
 
 **Photos from ISS**: Digital photos taken from the ISS only have moderate spatial resolution. However, they have been helpful in environmental impact and ecological studies, among others.
 
-![Night lights of the Levant, Astronaut photograph ISS053-E−50422, taken on 28/9/2017, 00:10:11 GMT. At the bottom of the image the densely populated Delta of the Nile can be seen, while the center of the image covers Israel, the West Bank, Jordan and Lebanon. The consequences of the conflict in Syria are hinted in this photo, where Syria is mostly dark, in contrast with lit towns and cities in Turkey to the north.](https://ars.els-cdn.com/content/image/1-s2.0-S0034425719304626-gr12.jpg) 
+![Night lights of the Levant, Astronaut photograph ISS053-E−50422, taken on 28/9/2017, 00:10:11 GMT. At the bottom of the image the densely populated Delta of the Nile can be seen, while the center of the image covers Israel, the West Bank, Jordan and Lebanon. The consequences of the conflict in Syria are hinted in this photo, where Syria is mostly dark, in contrast with lit towns and cities in Turkey to the north. Source: [Levin (2020)](https://doi.org/10.1016/j.rse.2019.111443)](https://ars.els-cdn.com/content/image/1-s2.0-S0034425719304626-gr12.jpg)
 
-**Citizen Science**: "Cities at Night" project works with in 3-steps: classification, allocation and georeferencing. The project resulted in 190,000 night images tagged, 3000 images located (1 GCP), 700 images geo-referenced (enough GCP). 
+**Citizen Science**: The "Cities at Night" project aimes to allocate and geo-reference nighttime photos from ISS. It works with in 3-steps: classification, allocation and geo-referencing. The broad participation of 20,000 volunteers in project resulted in 190,000 night images tagged, 3000 images located (1 GCP), 700 images geo-referenced (multiple GCP). The resulting photos were used in various studies concerning light pollution monitoring, epidemiological studies and ecological studies. 
 
 ([Levin, 2020](https://doi.org/10.1016/j.rse.2019.111443))
 
@@ -107,11 +101,10 @@ One could, of course one could apply active remote sensing such as RADAR (Radio 
 
 Working with NL data can give insights to natural and human activity, as well as complex socioeconomic phenomenons. In this case study we will focus on the relation between NL and population in Los Angeles County. We will try to visualize correlations and test the accuracy of NL as indicator for socio demographic statistics. The workflow we will follow looks like this: data retrieval using an API, pre-processing (log-transformation), sub-setting (masking & cropping) the AOI, disaggregation (matching resolution), stacking layers, data preparation & model training (randomForest, imputation logics), descriptive statistics. 
 
-![Our workflow (AI generated image)](https://pplx-res.cloudinary.com/image/upload/v1747662050/gpt4o_images/x5vypuitcejjnmhjtiad.png){width="50%"}
 
 In case you are not all up to date in working with raster layers and [data cubes](https://denabel.github.io/gxc_pages/datacubes.html), please have a look at that topic again. 
 
-# R package `blackmarbler`
+## R package `blackmarbler`
 
 `blackmarbleR` by Robert Marty and Gabriel Stefanini Vicente (2025) supports easy access to NASA's Black Marble API. Let's check out their [vignette](https://worldbank.github.io/blackmarbler/) to set up an account and the data retrieval.
 
@@ -119,7 +112,7 @@ In case you are not all up to date in working with raster layers and [data cubes
 library(blackmarbler)
 ```
 
-# Data retrieval
+## Data retrieval
 
 The function `bm_raster()` to retrieve the nighttime lights requires as input an `sf`object to determine the spatial extent of the downloaded data. The object must be in **WGS84**. 
 
@@ -178,7 +171,7 @@ print(CA_nl_2020)
 ```
 
  
-# Pre-processing
+## Pre-processing
  
  The data is right-skewed. We perform a log-transformation to account for that. Let's have a look at our data now. 
 
@@ -205,7 +198,7 @@ ggplot() +
 ```
 
 
-# Sub-setting 
+## Sub-setting 
 
 In order to define our AOI to Los Angeles County &#127747; we first need to: 
 
@@ -246,7 +239,7 @@ LA_nl_2020 <- terra::mask(CA_nl_2020,
 ```
 
 
-# Disaggregation
+## Disaggregation
 
 Our two raster files have the same CRS and (almost same) spatial extent. Unfortunately,
 the resolution (cell size) differs. Our population data is on an approx. 1km grid and our night lights data on an approx. 500m grid.
@@ -342,7 +335,7 @@ ext(LA_pop_2020_resampled)
 ext(LA_nl_2020)
 ```
 
-# Stacking layers
+## Stacking layers
 
 Only when all grids and resolutions of our layers match we can start combining layers into a raster stack. 
 
@@ -359,7 +352,7 @@ names(LA_stack) <- c("population", "nightlights")
 terra::plot(LA_stack)
 ```
 
-# Model Training with Imputation Logics &#x1F3CB;&#xFE0F;&#x200D;&#x2640;&#xFE0F;
+## Model Training with Imputation Logics &#x1F3CB;&#xFE0F;&#x200D;&#x2640;&#xFE0F;
 
  
 Previous examples follow the idea of interpolating existing data across the spatial domain. Imputation fills in missing values based on a prediction model. Let's consider our two variables to make up a stylized example:
@@ -415,7 +408,7 @@ names(pop_500m) <- "population_predicted"
 LA_stack <- c(LA_stack, pop_500m)
 ```
 
-# Statistic analysis &#129518;
+## Statistic analysis &#129518;
 
 Now we have a million options to analyse our raster stack. 
 
