@@ -32,17 +32,22 @@ One advantage to `terra`: the time dimension requires less manual handling and i
 Edzer Pebesma's and Roger Bivand's [Spatial Data Science](https://r-spatial.org/book/) textbook is THE go-to resource for learning the `sf` and `stars` syntax.
 
 **workflow:** 
+
 - Combination of separate layers into one object
+
 - Adjustments to metadata and global attributes like:
+
  - Time dimension
+
  - CRS
+
 - Further Processing/ Analysis
 
 # Raster stacks with `terra`
 
 ## Loading data 
 
-We assume we want to work with population data from the US, specifically California: 
+Let's assume we want to work with population data from the US, specifically California: 
 
 ```{r}
 CA_pop_2017 <- terra::rast("./data/US-CA_ppp_2017_1km.tif")
@@ -97,7 +102,7 @@ timeInfo(CA_pop_stack)
 terra::plot(CA_pop_stack)
 ```
 
-When defining the time dimension, we can also store the time zone of the date. This might be crucial for further analysis and interpretation!
+When defining the time dimension, we can also store the **time zone** of the date. This might be crucial for further analysis and interpretation!
 
 ```{r}
 layer_posix <- as.POSIXct(layer_dates, tz = "UTC")
@@ -109,7 +114,7 @@ time(CA_pop_stack)
 timeInfo(CA_pop_stack)
 ```
 
-In order to reduce possible confusion it is the best way to only assign the year when working with a yearly resolution. You can do that by adjusting the `tstep=` argument in the `terra::time`-function.
+In order to reduce possible confusion it is the best way to only assign the year when working with a yearly resolution. You can do that by adjusting the `tstep =` argument in the `terra::time`-function.
 
 ```{r}
 layer_years <- c(2017:2020)
