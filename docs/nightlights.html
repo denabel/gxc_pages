@@ -273,7 +273,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="introducing-nighttime-lights-in-social-sciences" class="level1">
 <h1>Introducing Nighttime Lights in Social Sciences</h1>
-<p><img src="https://ars.els-cdn.com/content/image/1-s2.0-S0034425719304626-gr11.jpg" class="img-fluid" alt="The global image of nighttime lights (stable lights for year 2006), Source: Levin (2020)">(https://media.springernature.com/full/springer-static/image/chp%3A10.1007%2F978-3-319-22810-5_15/MediaObjects/317977_1_En_15_Fig1_HTML.gif?as=webp){width=“50%”}</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://media.springernature.com/full/springer-static/image/chp%3A10.1007%2F978-3-319-22810-5_15/MediaObjects/317977_1_En_15_Fig1_HTML.gif?as=webp" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>The global image of nighttime lights (stable lights for year 2006), Source: <a href="https://doi.org/10.1016/j.rse.2019.111443">Levin (2020)</a></figcaption>
+</figure>
+</div>
 </section>
 <section id="indications-for-social-sciences" class="level1">
 <h1>Indications for social sciences 👩‍💻</h1>
@@ -800,22 +805,22 @@ Attache Paket: 'randomForest'</code></pre>
 <pre><code>                          mean
 population           2.9236307
 nightlights          0.5277355
-population_predicted 2.7906848</code></pre>
+population_predicted 2.7929295</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bivariate correlations</span></span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">layerCor</span>(LA_stack, <span class="at">fun =</span> <span class="st">"cor"</span>, <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$correlation
                      population nightlights population_predicted
-population            1.0000000   0.8245851            0.8757499
-nightlights           0.8245851   1.0000000            0.8733057
-population_predicted  0.8757499   0.8733057            1.0000000
+population            1.0000000   0.8245851            0.8759981
+nightlights           0.8245851   1.0000000            0.8731157
+population_predicted  0.8759981   0.8731157            1.0000000
 
 $mean
                      population nightlights population_predicted
 population                  NaN    2.923631            2.9236307
 nightlights           0.5277355         NaN            0.5277355
-population_predicted  2.7906848    2.790685                  NaN
+population_predicted  2.7929295    2.792929                  NaN
 
 $n
                      population nightlights population_predicted

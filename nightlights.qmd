@@ -19,7 +19,7 @@ library(DiagrammeR)
 
 # Introducing Nighttime Lights in Social Sciences 
 
-![The global image of nighttime lights (stable lights for year 2006), Source: [Levin (2020)](https://doi.org/10.1016/j.rse.2019.111443)](https://ars.els-cdn.com/content/image/1-s2.0-S0034425719304626-gr11.jpg)(https://media.springernature.com/full/springer-static/image/chp%3A10.1007%2F978-3-319-22810-5_15/MediaObjects/317977_1_En_15_Fig1_HTML.gif?as=webp){width="50%"}
+![The global image of nighttime lights (stable lights for year 2006), Source: [Levin (2020)](https://doi.org/10.1016/j.rse.2019.111443)](https://media.springernature.com/full/springer-static/image/chp%3A10.1007%2F978-3-319-22810-5_15/MediaObjects/317977_1_En_15_Fig1_HTML.gif?as=webp){width="50%"}
 
 # Indications for social sciences &#x1F469;&#x200D;&#x1F4BB;
 
