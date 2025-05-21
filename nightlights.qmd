@@ -66,8 +66,8 @@ _"[...] usefulness of nighttime lights as proxy depends on optimal weight of pro
 
 You can find a really elaborate documentation of NL data indication also discussing impacts on ecosystems and health [here](https://doi.org/10.1016/j.rse.2019.111443). 
 
-
-# Acquisition of Nighttime Light Data &#128225;
+<details>
+ <summary>Acquisition of Nighttime Light Data &#128225;</summary>
 
 Remote sensing normally relies on the [reflection](https://denabel.github.io/gxc_pages/eod_intro.html) of [electromagnetic radiation](https://denabel.github.io/gxc_pages/eod_intro.html) derived from the Sun on the Earth's surface. This technique is called passive remote sensing, since the sensor does not _actively_ emit electromagnetic radiation to explore the Earth's surface. But what happens at night?   
 
@@ -90,9 +90,9 @@ One could, of course one could apply active remote sensing such as RADAR (Radio 
 **Citizen Science**: The "Cities at Night" project aimes to allocate and geo-reference nighttime photos from ISS. It works with in 3-steps: classification, allocation and geo-referencing. The broad participation of 20,000 volunteers in project resulted in 190,000 night images tagged, 3000 images located (1 GCP), 700 images geo-referenced (multiple GCP). The resulting photos were used in various studies concerning light pollution monitoring, epidemiological studies and ecological studies. 
 
 ([Levin, 2020](https://doi.org/10.1016/j.rse.2019.111443))
+</details>
 
-
-## NASA's Blackmarble &#127761;
+# NASA's Blackmarble &#127761;
 
 [NASA's Blackmarble](https://blackmarble.gsfc.nasa.gov/) uses VIIRS DNB sensors on board of the Suomi NPP and NOAA-20 satellites. The VIIRS DNB has a high spatial resolution of 500 m and is calibrated and corrected for atmospheric, terrain, lunar BRDF, thermal, and stray light effects. This is resulting in faster retrieval time and less noise, facilitating research based on daily, seasonal and annual changes in NLs ([Levin, 2020](https://doi.org/10.1016/j.rse.2019.111443)). Therefore, NASA's Blackmarble is the most commonly used NL data set in recent studies.  
 

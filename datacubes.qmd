@@ -11,6 +11,9 @@ library(tmap)
 library(ggplot2)
 library(ggspatial)
 library(tidyterra)
+library(stars)
+library(units)
+library(dplyr)
 ```
 
 ## What are datacubes?
@@ -31,17 +34,20 @@ The authors have produced a very extensive [tutorial](https://rspatial.org/) whi
 One advantage to `terra`: the time dimension requires less manual handling and includes a more automated logic for temporal dimensions. 
 Edzer Pebesma's and Roger Bivand's [Spatial Data Science](https://r-spatial.org/book/) textbook is THE go-to resource for learning the `sf` and `stars` syntax.
 
-**workflow:** 
+**Workflow:** 
 
-- Combination of separate layers into one object
-
-- Adjustments to metadata and global attributes like:
-
- - Time dimension
-
- - CRS
-
+- Layer Combination 
+   - integrating multiple raster layers (e.g. bands, attributes, time lines)
+   - ensuring consistent resolution, extent, alignment across layers 
+ 
+- Metadata and Attribute Adjustment 
+   - Coordinate Reference System (CRS)
+   - Time dimensions
+   - Band names
+ 
 - Further Processing/ Analysis
+   - perform e.g. temporal aggregation, spatial statistics, pixel-wise operations
+   - use the raster stack/ cube for models, classification, or visualization
 
 # Raster stacks with `terra`
 
@@ -134,7 +140,7 @@ terra::plot(CA_pop_stack)
 
 ## Wrangling raster stacks
 
-Adapting the data to your research needs!
+Adjusting the layers to each other, editing variable names and adding a time dimension!
 
 ### Changing variable names 
 
@@ -159,7 +165,7 @@ print(CA_pop_stack)
 ```
 
 <details>
- <summary>Defining value unit</summary>
+ <summary>Defining value units</summary>
 
 Normally, this is not needed but this is how we can alter the value unit: 
 
@@ -340,33 +346,551 @@ writeRaster(
 )
 ```
 
-# Manual raster stack with `stars`
+# Raster cubes with `stars`
+
+Now we will do the same, introducing `stars`!
 
 ## Loading data 
+
+```{r}
+CA_pop_2017 <- read_stars("./data/US-CA_ppp_2017_1km.tif")
+CA_pop_2018 <- read_stars("./data/US-CA_ppp_2018_1km.tif")
+CA_pop_2019 <- read_stars("./data/US-CA_ppp_2019_1km.tif")
+CA_pop_2020 <- read_stars("./data/US-CA_ppp_2020_1km.tif")
+
+class(CA_pop_2017)
+
+print(CA_pop_2017)
+```
+
+Concatenating (`c()`) `stars` layers also works.
+
+```{r}
+CA_pop_cube <- c(CA_pop_2017, CA_pop_2018, CA_pop_2019, CA_pop_2020)
+
+class(CA_pop_cube)
+
+print(CA_pop_cube)
+```
+
+Again, integrating these steps sounds great. But hold on! This generates four separate attributes. **This is not what we want!**
+
+```{r}
+files <- list.files("./data",
+                    pattern = "US-CA_ppp_20(17|18|19|20)_1km\\.tif$",
+                    full.names = TRUE)
+CA_pop_cube <- read_stars(files)
+
+print(CA_pop_cube)
+```
+
+To solve this problem, we need to introduce a time dimension, which will combine the values into a single attribute.
+
+```{r}
+dates <- as.Date(paste0(2017:2020, "-01-01"))
+```
+
+The `split()` and `merge()` functions allow us to switch dimensions to attributes and the other way round. We can apply the `merge()`-function on our existing datacube to integrate the four attributes into one by supplying the dates:
+
+```{r}
+cube_merged <- merge(CA_pop_cube, f = dates, name = "time")
+
+print(cube_merged)
+```
+
 ## `list.files()`
-## Creating a time dimension (`tstep = "years"`)
-## `split()` and `merge()`
-## Manipulate dimension information
-## Editing/ wrangling raster stack 
+
+OK, so this was kind of complex and could lead to mistakes. A simpler approach would be to read the layers directly into one object based on the supplied date variable.
+
+```{r}
+files <- list.files("./data",
+                    pattern = "US-CA_ppp_20(17|18|19|20)_1km\\.tif$",
+                    full.names = TRUE)
+
+# Read layers along time dimension
+CA_pop_cube <- read_stars(files, along = list(time = dates))
+
+print(CA_pop_cube)
+```
+
+
+## Wrangling raster cubes 
+
+### Manipulate dimension information
+
+The `st_dimensions()`and `st_set_dimensions()` functions are super helpful to access and manipulate dimension information. For example, if we want to transform the date into POSIX and assign a timezone, we can do it like this:
+
+```{r}
+layer_posix <- as.POSIXct(dates, tz = "UTC")
+CA_pop_cube <- st_set_dimensions(CA_pop_cube,
+                                 which = "time",
+                                 values = layer_posix)
+
+st_dimensions(CA_pop_cube)$time
+```
+
+We can also simplify the dimension by assigning years as numeric values.
+
+```{r}
+CA_pop_cube <- st_set_dimensions(CA_pop_cube,
+                          which = "time",
+                          values = 2017:2020)
+
+st_dimensions(CA_pop_cube)$time
+```
+
+
 ### Changing variable names
-### rather no changing unit in `stars`
-### CRS & `st_transform()` or `st_warp()`
+
+In `stars` lingo, our variable is called "attribute". We can relabel this name as well.
+
+```{r}
+names(CA_pop_cube)
+
+names(CA_pop_cube) <- "population"
+
+print(CA_pop_cube)
+```
+
+<details>
+ <summary>Changing units in `stars`</summary>
+
+Setting units in `stars` is not that straightforward and requires a "manual" and quite complicated workaround. Normally, we wouldn't recommend that.
+
+```{r}
+pop_array <- CA_pop_cube[["population"]]
+
+valid_units <- valid_udunits()
+
+pop_array <- set_units(pop_array, "count")
+
+CA_pop_cube[["population"]] <- pop_array
+
+print(CA_pop_cube)
+``` 
+</details> 
+ 
+### CRS
+
+Access to the CRS is easy with `st_crs`. The EPSG code is not supplied as string ("EPSG:XXXX") but as numeric values.
+
+```{r}
+# CRS
+st_crs(CA_pop_cube)
+
+# to label if CRS missing - not to reproject
+# st_crs(CA_pop_cube) <- 4326
+```
+
+We can reproject the data with `st_transform()`. This will create a curvilinear grid cell with the advantage that no information is lost - cell values remain identical. This is the case because `st_transform()` reprojects without resampling. 
+
+```{r}
+CA_pop_cube_curv <- sf::st_transform(CA_pop_cube, 
+                                     crs = 3310
+                                     )
+
+print(CA_pop_cube_curv)
+```
+
+Alternative to obtain a regular grid is to create a workaround with  `st_warp()`. We first specify the target grid with same number of rows and colums and "warp" into that grid.
+
+```{r}
+grid <- st_bbox(CA_pop_cube) |>
+  st_as_sfc() |>
+  st_transform(crs = 3310) |>
+  st_bbox() |>
+  st_as_stars(nx = dim(CA_pop_cube)["x"], 
+              ny = dim(CA_pop_cube)["y"])
+
+CA_pop_cube <- st_warp(CA_pop_cube, grid)
+
+print(CA_pop_cube)
+```
+
 ## Indexing
+
+Indexing `stars` objects differs a bit compared to `SpatRaster`. Given that `stars` objects can store more than one attribute (variable), we need to consider four levels:
+
+```{r}
+# Return stars object and drop all attributes except "population"
+class(CA_pop_cube["population"])
+
+# Drop stars metadata and just pull out array of attribute "population
+str(CA_pop_cube[["population"]])
+
+# Same
+str(CA_pop_cube$population)
+
+# Spatial slicing on four levels
+CA_pop_cube[1, # which attribute
+            , # x
+            , # y
+            ] # which time
+# Here we select attribute 1 across all dimensions
+
+# All data for first time-slice
+CA_pop_cube[ , , , 1]
+
+# Specifying x and y window
+CA_pop_cube[ ,1:100 ,1:100 , ]
+```
+
 ## Export
+
+There is also a native export function for `stars` objects.
+
+```{r}
+write_stars(CA_pop_cube,
+            "./data/CA_pop_cube.tif",
+            driver = "GTiff",
+            options = c("COMPRESS=LZW", "BIGTIFF=YES")
+            )
+```
+
+The **GeoTIFF** format will store the most important data on cell values, x, y, and "bands" and the associated CRS. However, it will discard our coding of the time metadata. If we want to export the `stars` object for `R` usage only, we can simply store it as `.rds`-file to preserve the entire dataset. Exporting for external usage which preserves the extra dimensions can be done in **NetCDF** format.
+
+```{r}
+saveRDS(CA_pop_cube, "./data/CA_pop_cube.rds")
+
+write_stars(CA_pop_cube, 
+            "./data/CA_pop_cube.nc",
+            driver = "netCDF")
+```
 
 # Converting between `stars` and `terra`
 
+In theory, converting between `terra` and `stars` objects is simple. This will preserve most crucial information on cell values, spatial extent, and CRS. It can, however, mess around with your neatly prepared metadata.
+
+```{r}
+# Tranform terra SpatRaster into stars object
+CA_pop_stack_stars <- stars::st_as_stars(CA_pop_stack)
+
+class(CA_pop_stack_stars)
+
+print(CA_pop_stack_stars)
+```
+
+```{r}
+# Tranform stars object into terra SpatRaster
+# Terra has problems with handling stars time-dimension -> transform into attribute
+cube_prepped <- split(CA_pop_cube, "time")
+CA_pop_cube_terra <- terra::rast(cube_prepped)
+
+class(CA_pop_cube_terra)
+
+print(CA_pop_cube_terra)
+```
 
 # Graphic Display of Raster Data 
 
-## Intro: Reason's/ Concept's of Data Visualization
+## Why and how should we use data visualization?
+
+**Enhancing Understanding and Interpretation**
+
+- Facilitates interpretation of complex data and statistics. 
+
+- Offers alternative perspectives or additional information. 
+
+- Helps diagnose strengths and weaknesses of complex models (e.g. multidimensional geospatial data)
+
+**Core Tool in Data Exploration**
+
+- Crucial for exploratory data analysis and data mining. 
+
+- Useful in uncovering structures statistical models might miss: 
+  
+  - Outliers, clusters, unusual groups, trends, local patterns, boundaries, missing values etc.
+   
+- Aids in data cleaning and pre-processing, especially in mulit-band raster data and temporal stacks (e.g., data cubes)
+
+**Stimulating Insight and Scientific Discovery**
+
+- Raises new questions and hypotheses
+
+- Encourages critical thinking and deeper research. 
+
+'A graphic is _not_ worth a thousand words!'
+
+**Encouraging Critical Reflection**
+
+- Do not jump to conclusions and avoid overinterpretation
+
+- Graphics must be interpreted in context: 
+  
+  - data source, collection methods, display choices.
+
+- Effective visualization purposeful: 
+   
+   - Attracting attention, focus on key features, synergize with supporting text, minimize non-data ink. 
+   
+([Unwin, 2020](https://hdsr.mitpress.mit.edu/pub/zok97i7p/release/4))
+   
+Reduce data-ink example:
+
+Check out [Edward Tufte's](https://www.edwardtufte.com/tufte/) work on data visualization to achieve **graphical excellence**. It is a *minimalist* approach to visualization which **maximizes the proportion of data-ink** to total ink in a plot. [Tufte in R](http://motioninsocial.com/tufte/) offers many examples how to translate Tufte's perspective into graphs in R.
+
 
 ## Visualization w/ggplot2
-### layers & aesthetics 
-### ggspatial
-### ggspatial x tidyterra 
 
-# Visualizing Population Dynamics 
+Why using ggplot2 for programming graphics?
+
+- Programmability opposed to user interface facilitates "good science" in terms of reproducibility, automation, and communication. [(Wickham, 2011)](https://doi.org/10.1002/wics.147)
+
+In general, `ggplot2` is well-suited for **multi-dimensional data** that can be displayed in layered plots. 
+
+**What are layered plots?**
+
+Layered plots are made by stacking different parts of a chart on top of each other. Each "layer" adds something to the visual.
+
+The main parts of a layered plot are:
+
+- Data: The numbers or values you want to show.
+
+- Aesthetics: How data is shown (like color, size, position).
+
+Geoms (Shapes): The type of plot (points, bars, lines).
+
+- Stats: Any calculations or summaries (like averages or counts).
+
+- Position: How things are adjusted (like dodging bars).
+
+- Scales: Control how data maps to visuals (like color gradients).
+
+- Coordinates: The space the data is drawn in (like cartesian or polar).
+
+- Facets: Small multiples (splitting the plot into panels by category).
+
+([Wickham, 2012](https://doi.org/10.1198/jcgs.2009.07098))
+
+In `ggplot2` these components of the plot are added as layers.
+
+
+```{r eval=FALSE}
+plot_call +
+  layer_1 +
+  layer_2 +
+  ... +
+  layer_n
+```
+
+### Adding aesthetics & layers
+
+Firstly, we will add a geom to a blank canvas.
+
+```{r}
+# load district shapefile
+german_districts <- sf::read_sf("./data/VG250_KRS.shp")
+
+# load district attributes
+attributes_districts <- 
+  readr::read_csv2("./data/attributes_districts.csv") |> 
+  dplyr::mutate(ecar_share = as.numeric(ecar_share))
+
+# join data
+german_districts_enhanced <- 
+  german_districts |>  
+  dplyr::left_join(attributes_districts, by = "AGS")
+
+# load states shapefile
+german_states <- sf::read_sf("./data/VG250_LAN.shp")
+```
+
+```{r}
+# a simple first map 
+ggplot(data = german_districts_enhanced)
+```
+
+```{r}
+# a simple first map 
+ggplot() +
+  geom_sf(data = german_districts_enhanced)
+```
+
+Now we can dive into the aesthetics of our map. When choosing a color scheme it is important to respect that: 
+
+- Certain colors and color contrast can make interpretation hard.
+
+- The spatial arrangement of colors can facilitate or impede the identification of features.
+
+- Respecting how colors are perceived by different people (e.g. also people with visual impairment, general color connoation dependent on cultural background).
+
+([Bunch, 2013](https://doi.org/10.1559/152304000783548046))
+
+Are you having trouble choosing the right color? Some excellent tutorials exist, f.e, by [Michael Toth](https://michaeltoth.me/a-detailed-guide-to-ggplot-colors.html).
+
+```{r}
+# change color palette
+ggplot() +
+  geom_sf(
+    data = german_districts_enhanced, 
+    aes(fill = ecar_share)
+  ) + 
+  # readable with color vision deficiencies
+  scale_fill_viridis_c(option = "plasma", direction = -1) 
+```
+
+Now, we want to proceed adding more layers. 
+
+```{r}
+# the shapefile includes polygons of oceans and lakes
+# easy fix on the fly when you know your data
+german_states <-
+  german_states |>  
+  dplyr::filter(GF == 4)
+
+# add layer with German states
+ggplot() +
+  geom_sf(
+    data = german_districts_enhanced, 
+    aes(fill = ecar_share), 
+    color = NA
+  ) + 
+  scale_fill_viridis_c(
+    option = "plasma", 
+    direction = -1
+  ) +
+  # add another layer
+  geom_sf(
+    data = german_states, 
+    # filling transparent
+    fill = "transparent",
+    # color of borders
+    color = "black", 
+    # size of borders
+    size = 1
+  )  
+```
+
+## Save and reuse 
+
+Maps produced with `ggplot2` are standard objects like any other object in `R` (they are lists). We can assign them to reuse, plot later, and add map layers.
+
+Furthermore, you can save them just as any `ggplot2` graph. The `ggsave()` function automatically detects the file format. You can also define the height, width, and dpi, which is particularly useful to produce high-class graphics for publications.
+
+```{r}
+# assign to object
+ecar_map <- 
+  ggplot() +
+  geom_sf(
+    data = german_districts_enhanced, 
+    aes(fill = ecar_share), 
+    color = NA
+  ) + 
+  scale_fill_viridis_c(
+    option = "plasma",
+    direction = -1,
+    name = "E-Car Share",
+    guide = guide_legend(
+      direction= "horizontal",
+      label.position = "bottom"
+    )
+  ) + 
+  geom_sf(
+    data = german_states, 
+    fill = "transparent", 
+    color = "black"
+  ) 
+
+# save as png-file
+# ggsave("ecar_map.png", ecar_map, dpi = 300)
+```
+
+### Extras in `ggspatial`
+
+In some specific circumstances, we might realize that `ggplot2` is super powerful but not originally designed to build maps. Typical features of maps are not in the package, like a compass or scale bars.
+
+This is where other packages might need to be installed. The good thing:
+Elements of the package `ggspatial` can be included as `ggplot2` layer.
+Check out [Github](https://paleolimbot.github.io/ggspatial/).
+
+One can see `ggspatial` as an spatial add-on to the `ggplot2` back end. It supports sf, sp and raster package objects. `ggspatial` is much more efficient in managing and reprojecting coordinate reference systems, thus reducing errors and data preparation. It includes advanced map elements such as scale bars and north arrows. The `ggplot2` layer syntax remains. ([Dunnington, 2023](https://cran.r-project.org/package=ggspatial) and [Dunnington, 2023](https://paleolimbot.github.io/ggspatial/articles/ggspatial.html))
+
+Here is how you can add a north arrow: 
+
+```{r}
+# add scalebar and north arrow
+ecar_map +
+  ggspatial::annotation_scale(
+    location = "br"
+  ) +
+  ggspatial::annotation_north_arrow(
+    location = "tr", 
+    style = ggspatial::north_arrow_minimal()
+  )
+```
+
+### Visualizing Population Dynamics with `tidyterra`
+
+Let's explore the suitability of `ggplot2` in combination with `tidyterra` with a case study on population dynamics in Germany. We are utilizing the population grids from the [WorldPop Open Population Repository (WOPR)](https://www.worldpop.org/).
+
+```{r}
+# Example with worldpop data for Germany 2020
+ger_pop_2020 <- terra::rast("./data/deu_ppp_2020_1km_Aggregated.tif")
+
+ger_pop_2020
+```
+
+Let's create a simple plot. 
+
+```{r}
+terra::plot(ger_pop_2020)
+```
+
+Let's transform it into ETRS89/UTM 32N (EPSG: 25832). You will detect a slight adjustment to the visualization.
+
+```{r}
+ger_pop_2020 <- terra::project(ger_pop_2020, 
+                               "EPSG:25832"
+                               )
+
+terra::plot(ger_pop_2020)
+```
+
+Now we will turn to `ggplot2` to add layers. 
+
+```{r}
+ggplot()+
+  geom_spatraster(data = ger_pop_2020)
+```
+
+Of course we will also work on the color scheme and adjust it to our research objectif. 
+
+```{r}
+ggplot()+
+  geom_spatraster(data = ger_pop_2020)+
+  scale_fill_whitebox_c(
+    palette = "muted",
+    n.breaks = 12,
+    guide = guide_legend(reverse = TRUE)
+  )
+```
+
+```{r}
+ggplot()+
+  geom_spatraster(data = ger_pop_2020)+
+  scale_fill_viridis_c(
+    n.breaks = 12,
+    guide = guide_legend(reverse = TRUE)
+  )
+```
+
+For better readability and interpretation let's also add labels. 
+
+```{r}
+#| eval: false
+#| fig.asp: 1
+ggplot()+
+  geom_spatraster(data = ger_pop_2020)+
+  scale_fill_viridis_c(
+    n.breaks = 12,
+    guide = guide_legend(reverse = TRUE)
+  )+
+  labs(
+    fill = "Population\ncount",
+    title = "Estimated population of Germany in 2020",
+    subtitle = "Approx. 1km grid"
+  )
+```
 
 ## Graphic Display of Data Cubes 
 
@@ -374,3 +898,19 @@ writeRaster(
 ## `ggplot2` x `stars`
 
 _basics similar to visualization of raster data_ 
+<details>
+ <summary>Literature</summary>
+
+Bunch, R., & Lloyd, R. (2000). The Search for Boundaries on Maps: Color Processing and Map Pattern Effects. Cartography and Geographic Information Science, 27(1), 15–30. https://doi.org/10.1559/152304000783548046
+
+Dunnington, D. (2023). Spatial objects using ggspatial and ggplot2 [Vignette]. https://paleolimbot.github.io/ggspatial/articles/ggspatial.html
+
+Dunnington, D., Thorne, B., & Hernangómez, D. (2023). ggspatial: Spatial Data Framework for ggplot2 (Version 1.1.9) [Computer software]. Comprehensive R Archive Network (CRAN). https://CRAN.R-project.org/package=ggspatial
+
+Unwin, A. (2020, January 31). Why is data visualization important? What is important in data visualization? Harvard Data Science Review. https://hdsr.mitpress.mit.edu/pub/zok97i7p/release/4
+
+Wickham, H. (2010). A Layered Grammar of Graphics. Journal of Computational and Graphical Statistics, 19(1), 3–28. https://doi.org/10.1198/jcgs.2009.07098
+
+Wickham, H. (2011). ggplot2. Wiley interdisciplinary reviews: computational statistics, 3(2), 180-185. https://doi.org/10.1002/wics.147
+
+</details>
