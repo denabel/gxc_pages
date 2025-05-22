@@ -892,12 +892,197 @@ ggplot()+
   )
 ```
 
-## Graphic Display of Data Cubes 
 
-## `terra`: `facet_wrap()` and `lyr`
-## `ggplot2` x `stars`
+## Visualizing raster stacks 
 
-_basics similar to visualization of raster data_ 
+### `ggplot` x `terra`
+
+We will start with our `terra` `SpatRaster` and load the raster stack created in the previous session.
+
+```{r}
+CA_pop_stack <- terra::rast("./data/CA_pop_stack.tif")
+
+CA_pop_stack
+```
+
+We already saw in the previous exercise that `ggplot()` initializes a blank canvas which we will fill with geoms. `tidyterra's` `geom_spatraster()` is used for plotting `SpatRaster`objects. Since we already learnt about indexing we can create a single layer plot by accessing single layers. 
+
+```{r}
+library(tidyterra)
+library(scales)
+
+ggplot()+
+  geom_spatraster(data = CA_pop_stack[[1]])+
+  scale_fill_viridis_c(na.value = "transparent",
+                       name = "Pop count",
+                       limits = c(0, 2000),
+                       oob = scales::squish)+
+  theme_minimal()
+```
+
+Single layers can also be accessed with the layer name supplied to the `aes(fill=)` argument in `geom_spatraster()`. 
+
+```{r}
+library(tidyterra)
+library(scales)
+
+ggplot()+
+  geom_spatraster(data = CA_pop_stack, 
+                  aes(fill = pop_2017)
+                  )+
+  scale_fill_viridis_c(na.value = "transparent",
+                       name = "Pop count",
+                       limits = c(0, 2000),
+                       oob = scales::squish)+
+  theme_minimal()
+```
+
+For visualizing all four layers simultaneously, we can utilize the `facet_wrap()` command. Instead of providing the name of a third variable to command, we call `lyr`, which `geom_spatraster()`recognizes as the third dimension. 
+
+```{r}
+ggplot()+
+  geom_spatraster(data = CA_pop_stack)+
+  scale_fill_viridis_c(na.value = "transparent",
+                       name = "Pop count",
+                       limits = c(0, 2000),
+                       oob = scales::squish)+
+  facet_wrap(~ lyr)+
+  theme_minimal()
+```
+
+Creating custom labels for your facets can generally be quite painful (not just for geodata). By default, it uses the values from the `names` of the `SpatRaster` attribute. If you want to change labels, you either change the `names` values (which we often don't want to) or create a workaround. For example, here we would like to use the `time` values. 
+
+```{r}
+facet_labels <- function(label) {
+  years <- as.character(terra::time(CA_pop_stack))
+  names(years) <- names(CA_pop_stack)
+  new_label <- unname(years[label])
+  new_label
+}
+
+ggplot()+
+  geom_spatraster(data = CA_pop_stack)+
+  scale_fill_viridis_c(na.value = "transparent",
+                       name = "Pop count",
+                       limits = c(0, 2000),
+                       oob = scales::squish)+
+  facet_wrap(~ lyr,
+             labeller = labeller(
+               lyr = facet_labels
+             )
+  )+
+  theme_minimal()
+```
+
+Now let's do a final polish of our graphic. 
+
+```{r}
+library(ggspatial)
+
+facet_labels <- function(label) {
+  years <- as.character(terra::time(CA_pop_stack))
+  names(years) <- names(CA_pop_stack)
+  new_label <- unname(years[label])
+  new_label
+}
+
+ggplot()+
+  geom_spatraster(data = CA_pop_stack)+
+  scale_fill_viridis_c(na.value = "transparent",
+                       name = "Pop count",
+                       limits = c(0, 2000),
+                       oob = scales::squish)+
+  facet_wrap(~ lyr,
+             labeller = labeller(
+               lyr = facet_labels
+             )
+  )+
+  theme_minimal()+
+  labs(
+    title = "Population in California",
+    subtitle = "In absolute numbers on 1x1km grid",
+    caption = "Source: WorldPop (2018)"
+  ) +
+  annotation_scale(
+    location = "bl",
+    width_hint = 0.3
+  ) +
+  annotation_north_arrow(
+    location = "tr",
+    which_north = "true",
+    style = north_arrow_fancy_orienteering
+  )
+```
+
+## Visualizing raster cubes 
+
+### `ggplot2` x `stars`
+
+Now we turn towards our `stars` datacubes and explore the visualization options. First, we load the raster cube created in the previous session.
+
+```{r}
+CA_pop_cube <- readRDS("./data/CA_pop_cube.rds")
+
+CA_pop_cube
+```
+
+Base `R` plotting of `stars` objects is possible. However, the default color-scheme is limited and often results in plots like this one which are relatively uninformative. It would require manual workarounds on breaks to adjust this. We prefer to directly move on to `ggplot`.
+
+```{r}
+plot(CA_pop_cube[,,,1])
+```
+
+Setting up your visualization with `ggplot` is very similar to the approach before for `SpatRaster` data. `geom_stars` allows us to directly input a stars object.
+
+```{r}
+#| eval: false
+#| fig.asp: 1
+ggplot() +
+  geom_stars(data = CA_pop_cube[,,,1], 
+             aes(fill = population)
+             ) +
+  scale_fill_viridis_c(na.value = "transparent",
+                       name = "Pop count",
+                       limits = c(0, 2000),
+                       oob = scales::squish)+
+  coord_equal() +
+  theme_minimal()
+```
+
+
+With `facet_wrap`, we can create a combination of several layers into one plot. Given that `stars` objects can have *>1* bands, we specify it with the exact name. Here it is "time". Facet labels are directly derived from that band. We do not need to wrangle with labeling further.
+
+```{r}
+#| eval: false
+#| fig.asp: 1
+ggplot() +
+  geom_stars(data = CA_pop_cube, 
+             aes(fill = population)
+             ) +
+  scale_fill_viridis_c(na.value = "transparent",
+                       name = "Pop count",
+                       limits = c(0, 2000),
+                       oob = scales::squish)+
+  coord_equal() +
+  facet_wrap(~ time)+
+  theme_minimal()+
+  labs(
+    title = "Population in California",
+    subtitle = "In absolute numbers on 1x1km grid",
+    caption = "Source: WorldPop (2018)"
+  ) +
+  annotation_scale(
+    location = "bl",
+    width_hint = 0.3
+  ) +
+  annotation_north_arrow(
+    location = "tr",
+    which_north = "true",
+    style = north_arrow_fancy_orienteering
+  )
+```
+
+
 <details>
  <summary>Literature</summary>
 
