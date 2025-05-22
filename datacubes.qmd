@@ -795,7 +795,7 @@ ecar_map <-
 # ggsave("ecar_map.png", ecar_map, dpi = 300)
 ```
 
-### Extras in `ggspatial`
+## Extras in `ggspatial`
 
 In some specific circumstances, we might realize that `ggplot2` is super powerful but not originally designed to build maps. Typical features of maps are not in the package, like a compass or scale bars.
 
@@ -819,7 +819,7 @@ ecar_map +
   )
 ```
 
-### Visualizing Population Dynamics with `tidyterra`
+## Visualizing Population Dynamics with `tidyterra`
 
 Let's explore the suitability of `ggplot2` in combination with `tidyterra` with a case study on population dynamics in Germany. We are utilizing the population grids from the [WorldPop Open Population Repository (WOPR)](https://www.worldpop.org/).
 
