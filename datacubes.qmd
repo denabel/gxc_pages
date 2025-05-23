@@ -199,7 +199,7 @@ crs(CA_pop_stack)
 # crs(CA_pop_stack) <- "EPSG:4326"
 ```
 
-For an alteration i.e. an reprojection of the CRS we will apply `terra::project()`. 
+For an alteration i.e. an reprojection of the CRS we will apply `terra::project()`. This will create a new cell grid based in the target CRS. The original values are then interpolated using methods such as nearest-neighbor, bilinear, or cubic interpolation. This resampling of the original cell values means they are lost in the new cell grid. [Here](https://rspatial.github.io/terra/reference/project.html) you can gain more insights into reprojection with terra. 
 
 ```{r}
 CA_pop_stack <- terra::project(CA_pop_stack, 
@@ -334,7 +334,7 @@ terra::plot(CA_pop_stack[0:500,
 
 ## Export of raster stacks
 
-Exporting raster stacks is really nor hurdle: 
+Exporting raster stacks is really nor hurdle. GDAL help us converting raster data into different formats, additionally many output formats support optional creation options that control particulars about the file created (e.g. compression). [Here](https://gdal.org/en/stable/programs/index.html#gdal-application) you can find more about the application of GDAL. 
 
 ```{r}
 # Export
@@ -373,6 +373,8 @@ class(CA_pop_cube)
 print(CA_pop_cube)
 ```
 
+## `list.files()`
+
 Again, integrating these steps sounds great. But hold on! This generates four separate attributes. **This is not what we want!**
 
 ```{r}
@@ -398,7 +400,6 @@ cube_merged <- merge(CA_pop_cube, f = dates, name = "time")
 print(cube_merged)
 ```
 
-## `list.files()`
 
 OK, so this was kind of complex and could lead to mistakes. A simpler approach would be to read the layers directly into one object based on the supplied date variable.
 
@@ -482,7 +483,7 @@ st_crs(CA_pop_cube)
 # st_crs(CA_pop_cube) <- 4326
 ```
 
-We can reproject the data with `st_transform()`. This will create a curvilinear grid cell with the advantage that no information is lost - cell values remain identical. This is the case because `st_transform()` reprojects without resampling. 
+We can reproject the data with `st_transform()`. This will create a curvilinear grid cell with the advantage that no information is lost - cell values remain identical. This is the case because `st_transform()` reprojects without resampling. opposed to `terra`, where a new cell grid is created and values interpolated, the the grid's geometry is transformed, warping the grid, to match e.g. the new CRS. The cell values stay the same, though their position might change. [Here](https://r-spatial.github.io/stars/articles/stars5.html#warping-a-raster) you can dive deeper into vector-raster conversions, reprojection, and warping with stars. 
 
 ```{r}
 CA_pop_cube_curv <- sf::st_transform(CA_pop_cube, 
@@ -1091,6 +1092,8 @@ Bunch, R., & Lloyd, R. (2000). The Search for Boundaries on Maps: Color Processi
 Dunnington, D. (2023). Spatial objects using ggspatial and ggplot2 [Vignette]. https://paleolimbot.github.io/ggspatial/articles/ggspatial.html
 
 Dunnington, D., Thorne, B., & Hernangómez, D. (2023). ggspatial: Spatial Data Framework for ggplot2 (Version 1.1.9) [Computer software]. Comprehensive R Archive Network (CRAN). https://CRAN.R-project.org/package=ggspatial
+
+GDAL/OGR contributors. (n.d.). GDAL applications. GDAL. https://gdal.org/en/stable/programs/index.html#gdal-application
 
 Unwin, A. (2020, January 31). Why is data visualization important? What is important in data visualization? Harvard Data Science Review. https://hdsr.mitpress.mit.edu/pub/zok97i7p/release/4
 
