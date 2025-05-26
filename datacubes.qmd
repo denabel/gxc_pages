@@ -269,18 +269,22 @@ CA_pop_stack["2019"]
 ```{r}
 # Give me all values
 # Returns data.frame
-CA_pop_stack[]
+#CA_pop_stack[] # actual code
+summary(values(CA_pop_stack)) # but for a quick impression we summarize
 
 # Give me values for cell numbers 700,000 for all layers
 # Returns data.frame
-CA_pop_stack[700000]
+#CA_pop_stack[700000]
 
 # Give me values for cell numbers 700,000-700,010 for all layers
 # Returns data.frame
-CA_pop_stack[700000:700010]
+#CA_pop_stack[700000:700010] # actual code
+values(CA_pop_stack)[700000:700010, ] # but for a quick impression 
 
 # Give me values for cell numbers 700,000 and 700,010 for all layers
-CA_pop_stack[c(700000,700010)]
+#CA_pop_stack[c(700000,700010)] # actual code
+vals <- CA_pop_stack[c(700000, 700010)] # but for an overview we just look at the first rows
+print(head(vals))
 ```
 
 **Combination**
@@ -292,7 +296,8 @@ class(CA_pop_stack[[4]][700000])
              
 # Give me all values for layer with time "2019"
 # Returns data.frame / array
-CA_pop_stack[[1]][]
+# CA_pop_stack[[1]][] # actual code
+head(CA_pop_stack[[1]][]) # but for a quick inspection we will only display the first rows
 ```
 
 Alternatively, you can use **array slicing syntax** on `SpatRaster` objects:
