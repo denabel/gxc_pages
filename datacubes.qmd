@@ -14,6 +14,7 @@ library(tidyterra)
 library(stars)
 library(units)
 library(dplyr)
+library(styler)
 ```
 
 ## What are datacubes?
@@ -184,7 +185,7 @@ units(CA_pop_stack)
 To have a first impression of what your data looks like it is recommendable to add minimum and maximum values to the metadata. 
 
 ```{r}
-setMinMax(CA_pop_stack, force=TRUE)
+setMinMax(CA_pop_stack, force = TRUE)
 
 print(CA_pop_stack)
 ```
@@ -202,10 +203,10 @@ crs(CA_pop_stack)
 For an alteration i.e. an reprojection of the CRS we will apply `terra::project()`. This will create a new cell grid based in the target CRS. The original values are then interpolated using methods such as nearest-neighbor, bilinear, or cubic interpolation. This resampling of the original cell values means they are lost in the new cell grid. [Here](https://rspatial.github.io/terra/reference/project.html) you can gain more insights into reprojection with terra. 
 
 ```{r}
-CA_pop_stack <- terra::project(CA_pop_stack, 
-                               y = "EPSG:3310",
-                               method = "bilinear"
-                               )
+CA_pop_stack <- terra::project(CA_pop_stack,
+  y = "EPSG:3310",
+  method = "bilinear"
+)
 
 print(CA_pop_stack)
 ```
@@ -251,14 +252,14 @@ CA_pop_stack[[1]]
 # Give me layers 1 to 3
 CA_pop_stack[[1:3]]
 
-# Give me layers 1 and 3 
-CA_pop_stack[[c(1,3)]]
+# Give me layers 1 and 3
+CA_pop_stack[[c(1, 3)]]
 
 # Indexing by layer name
 # Returns SpatRaster
 CA_pop_stack[["pop_2018"]]
 
-# Indexing by time point 
+# Indexing by time point
 # !only single brackets work!
 # Returns SpatRaster
 CA_pop_stack["2019"]
@@ -269,20 +270,20 @@ CA_pop_stack["2019"]
 ```{r}
 # Give me all values
 # Returns data.frame
-#CA_pop_stack[] # actual code
+# CA_pop_stack[] # actual code
 summary(values(CA_pop_stack)) # but for a quick impression we summarize
 
 # Give me values for cell numbers 700,000 for all layers
 # Returns data.frame
-#CA_pop_stack[700000]
+# CA_pop_stack[700000]
 
 # Give me values for cell numbers 700,000-700,010 for all layers
 # Returns data.frame
-#CA_pop_stack[700000:700010] # actual code
-values(CA_pop_stack)[700000:700010, ] # but for a quick impression 
+# CA_pop_stack[700000:700010] # actual code
+values(CA_pop_stack)[700000:700010, ] # but for a quick impression
 
 # Give me values for cell numbers 700,000 and 700,010 for all layers
-#CA_pop_stack[c(700000,700010)] # actual code
+# CA_pop_stack[c(700000,700010)] # actual code
 vals <- CA_pop_stack[c(700000, 700010)] # but for an overview we just look at the first rows
 print(head(vals))
 ```
@@ -293,7 +294,7 @@ print(head(vals))
 # Give me value for cell index 700,000 for layer 4
 # Returns data.frame
 class(CA_pop_stack[[4]][700000])
-             
+
 # Give me all values for layer with time "2019"
 # Returns data.frame / array
 # CA_pop_stack[[1]][] # actual code
@@ -305,34 +306,35 @@ Alternatively, you can use **array slicing syntax** on `SpatRaster` objects:
 ```{r}
 #| eval: false
 your_raster[i, # rows
-            i, # columns
-            i, # layers
-            drop = FALSE/TRUE # whether to keep `SpatRaster`geometry
-            ]
+  i, # columns
+  i, # layers
+  drop = FALSE / TRUE # whether to keep `SpatRaster`geometry
+]
 ```
 
 ```{r}
 CA_pop_stack[500:1000,
-             500:1000, 
-             1,
-             drop = FALSE
-             ]
+  500:1000,
+  1,
+  drop = FALSE
+]
 ```
 
 ```{r}
 CA_pop_stack[500:1000,
-             500:1000, 
-             1,
-             drop = TRUE # default
-             ]
+  500:1000,
+  1,
+  drop = TRUE # default
+]
 ```
 
 ```{r}
 # Plot a single layer
 terra::plot(CA_pop_stack[0:500,
-                         0:500, 
-                         1,
-                         drop = FALSE])
+  0:500,
+  1,
+  drop = FALSE
+])
 ```
 
 </details>
@@ -346,8 +348,8 @@ Exporting raster stacks is really nor hurdle. GDAL help us converting raster dat
 writeRaster(
   CA_pop_stack,
   "./data/CA_pop_stack.tif",
-  overwrite=TRUE,
-  gdal=c("COMPRESS=LZW","BIGTIFF=YES")
+  overwrite = TRUE,
+  gdal = c("COMPRESS=LZW", "BIGTIFF=YES")
 )
 ```
 
@@ -384,8 +386,9 @@ Again, integrating these steps sounds great. But hold on! This generates four se
 
 ```{r}
 files <- list.files("./data",
-                    pattern = "US-CA_ppp_20(17|18|19|20)_1km\\.tif$",
-                    full.names = TRUE)
+  pattern = "US-CA_ppp_20(17|18|19|20)_1km\\.tif$",
+  full.names = TRUE
+)
 CA_pop_cube <- read_stars(files)
 
 print(CA_pop_cube)
@@ -410,8 +413,9 @@ OK, so this was kind of complex and could lead to mistakes. A simpler approach w
 
 ```{r}
 files <- list.files("./data",
-                    pattern = "US-CA_ppp_20(17|18|19|20)_1km\\.tif$",
-                    full.names = TRUE)
+  pattern = "US-CA_ppp_20(17|18|19|20)_1km\\.tif$",
+  full.names = TRUE
+)
 
 # Read layers along time dimension
 CA_pop_cube <- read_stars(files, along = list(time = dates))
@@ -429,8 +433,9 @@ The `st_dimensions()`and `st_set_dimensions()` functions are super helpful to ac
 ```{r}
 layer_posix <- as.POSIXct(dates, tz = "UTC")
 CA_pop_cube <- st_set_dimensions(CA_pop_cube,
-                                 which = "time",
-                                 values = layer_posix)
+  which = "time",
+  values = layer_posix
+)
 
 st_dimensions(CA_pop_cube)$time
 ```
@@ -439,8 +444,9 @@ We can also simplify the dimension by assigning years as numeric values.
 
 ```{r}
 CA_pop_cube <- st_set_dimensions(CA_pop_cube,
-                          which = "time",
-                          values = 2017:2020)
+  which = "time",
+  values = 2017:2020
+)
 
 st_dimensions(CA_pop_cube)$time
 ```
@@ -491,9 +497,9 @@ st_crs(CA_pop_cube)
 We can reproject the data with `st_transform()`. This will create a curvilinear grid cell with the advantage that no information is lost - cell values remain identical. This is the case because `st_transform()` reprojects without resampling. opposed to `terra`, where a new cell grid is created and values interpolated, the the grid's geometry is transformed, warping the grid, to match e.g. the new CRS. The cell values stay the same, though their position might change. [Here](https://r-spatial.github.io/stars/articles/stars5.html#warping-a-raster) you can dive deeper into vector-raster conversions, reprojection, and warping with stars. 
 
 ```{r}
-CA_pop_cube_curv <- sf::st_transform(CA_pop_cube, 
-                                     crs = 3310
-                                     )
+CA_pop_cube_curv <- sf::st_transform(CA_pop_cube,
+  crs = 3310
+)
 
 print(CA_pop_cube_curv)
 ```
@@ -505,8 +511,10 @@ grid <- st_bbox(CA_pop_cube) |>
   st_as_sfc() |>
   st_transform(crs = 3310) |>
   st_bbox() |>
-  st_as_stars(nx = dim(CA_pop_cube)["x"], 
-              ny = dim(CA_pop_cube)["y"])
+  st_as_stars(
+    nx = dim(CA_pop_cube)["x"],
+    ny = dim(CA_pop_cube)["y"]
+  )
 
 CA_pop_cube <- st_warp(CA_pop_cube, grid)
 
@@ -528,17 +536,18 @@ str(CA_pop_cube[["population"]])
 str(CA_pop_cube$population)
 
 # Spatial slicing on four levels
-CA_pop_cube[1, # which attribute
-            , # x
-            , # y
-            ] # which time
+CA_pop_cube[
+  1, # which attribute
+  , # x
+  , # y
+] # which time
 # Here we select attribute 1 across all dimensions
 
 # All data for first time-slice
-CA_pop_cube[ , , , 1]
+CA_pop_cube[, , , 1]
 
 # Specifying x and y window
-CA_pop_cube[ ,1:100 ,1:100 , ]
+CA_pop_cube[, 1:100, 1:100, ]
 ```
 
 ## Export
@@ -547,10 +556,10 @@ There is also a native export function for `stars` objects.
 
 ```{r}
 write_stars(CA_pop_cube,
-            "./data/CA_pop_cube.tif",
-            driver = "GTiff",
-            options = c("COMPRESS=LZW", "BIGTIFF=YES")
-            )
+  "./data/CA_pop_cube.tif",
+  driver = "GTiff",
+  options = c("COMPRESS=LZW", "BIGTIFF=YES")
+)
 ```
 
 The **GeoTIFF** format will store the most important data on cell values, x, y, and "bands" and the associated CRS. However, it will discard our coding of the time metadata. If we want to export the `stars` object for `R` usage only, we can simply store it as `.rds`-file to preserve the entire dataset. Exporting for external usage which preserves the extra dimensions can be done in **NetCDF** format.
@@ -558,9 +567,10 @@ The **GeoTIFF** format will store the most important data on cell values, x, y, 
 ```{r}
 saveRDS(CA_pop_cube, "./data/CA_pop_cube.rds")
 
-write_stars(CA_pop_cube, 
-            "./data/CA_pop_cube.nc",
-            driver = "netCDF")
+write_stars(CA_pop_cube,
+  "./data/CA_pop_cube.nc",
+  driver = "netCDF"
+)
 ```
 
 # Converting between `stars` and `terra`

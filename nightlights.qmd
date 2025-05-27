@@ -119,8 +119,8 @@ We will focus on California. Let's load US states shapefiles with the `tigris` p
 
 ```{r}
 #| fig.asp: 1
-CA_sf <- tigris::states(progress_bar=FALSE) |> 
-  dplyr::filter(STUSPS == "CA") |> 
+CA_sf <- tigris::states(progress_bar = FALSE) |>
+  dplyr::filter(STUSPS == "CA") |>
   sf::st_transform(crs = "EPSG:4326")
 
 print(CA_sf)
@@ -142,16 +142,15 @@ Now we can download the data from NASA's API.
 
 ```{r}
 #| eval: false
-CA_nl_stack <- bm_raster(roi_sf = CA_sf,
-                         product_id = "VNP46A4", # for yearly data
-                         date = 2017:2020, # same four years like our population data
-                         bearer = bearer, # your API token
-                         output_location_type = "file", # we want to store geotiff on disk
-                         file_dir = "./data/", # where to store geotiff
-                         file_return_null = FALSE # also create SpatRaster file
+CA_nl_stack <- bm_raster(
+  roi_sf = CA_sf,
+  product_id = "VNP46A4", # for yearly data
+  date = 2017:2020, # same four years like our population data
+  bearer = bearer, # your API token
+  output_location_type = "file", # we want to store geotiff on disk
+  file_dir = "./data/", # where to store geotiff
+  file_return_null = FALSE # also create SpatRaster file
 )
-
-
 ```
 
 <details>
@@ -166,7 +165,6 @@ Let's have a quick lock at our data:
 CA_nl_2020 <- terra::rast("./data/VNP46A4_NearNadir_Composite_Snow_Free_qflag_t2020.tif")
 
 print(CA_nl_2020)
-
 ```
 
  
@@ -180,20 +178,26 @@ CA_nl_2020[] <- log(CA_nl_2020[] + 1)
 
 ggplot() +
   geom_spatraster(data = CA_nl_2020) +
-  geom_sf(data = CA_sf,
-          fill = "transparent",
-          color = "white",
-          size = 4) +
-  scale_fill_gradient2(low = "black",
-                       mid = "yellow",
-                       high = "red",
-                       midpoint = 3,
-                       na.value = "transparent") +
+  geom_sf(
+    data = CA_sf,
+    fill = "transparent",
+    color = "white",
+    size = 4
+  ) +
+  scale_fill_gradient2(
+    low = "black",
+    mid = "yellow",
+    high = "red",
+    midpoint = 3,
+    na.value = "transparent"
+  ) +
   labs(title = "Nighttime Lights in California 2020") +
   coord_sf() +
   theme_void() +
-  theme(plot.title = element_text(face = "bold", hjust = 0.5),
-        legend.position = "none")
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    legend.position = "none"
+  )
 ```
 
 
@@ -203,16 +207,16 @@ In order to define our AOI to Los Angeles County &#127747; we first need to:
 
 ```{r}
 # Load LA County file
-LA_county <- tigris::counties("CA", 
-                              progress_bar = FALSE
-                              ) |> 
-  filter(NAME == "Los Angeles") |> 
+LA_county <- tigris::counties("CA",
+  progress_bar = FALSE
+) |>
+  filter(NAME == "Los Angeles") |>
   st_transform(crs = "EPSG:4326")
 
-# Subset to "mainland" California and 
+# Subset to "mainland" California and
 # exclude the two islands Santa Catalina and San Clemente
 LA_county <- LA_county %>%
-  st_cast("POLYGON") %>% 
+  st_cast("POLYGON") %>%
   mutate(area = st_area(.)) %>%
   slice_max(area, n = 1)
 ```
@@ -226,14 +230,16 @@ Now that we have an `sf` file of our AOI, we can prepare our two raster files.
 
 ```{r}
 # Create LA raster files for population and night lights in 2020
-LA_pop_2020 <- terra::rast("./data/US-CA_ppp_2020_1km.tif") |> 
-  terra::mask(terra::vect(LA_county)) |> 
+LA_pop_2020 <- terra::rast("./data/US-CA_ppp_2020_1km.tif") |>
+  terra::mask(terra::vect(LA_county)) |>
   terra::crop(LA_county)
 
 LA_pop_2020[] <- log(LA_pop_2020[] + 1)
 
-LA_nl_2020 <- terra::mask(CA_nl_2020,
-                          terra::vect(LA_county)) |>
+LA_nl_2020 <- terra::mask(
+  CA_nl_2020,
+  terra::vect(LA_county)
+) |>
   terra::crop(LA_county)
 ```
 
@@ -264,16 +270,16 @@ Firstly we will try out `terra::disagg()` / `terra::aggregate()` . By splitting 
 ```{r}
 # Increase resolution for population data
 LA_pop_2020_high <- terra::disagg(LA_pop_2020,
-                                 fact = c(2, 2),
-                                 method = "bilinear")
+  fact = c(2, 2),
+  method = "bilinear"
+)
 
 # There is still a slight mismatch due to rounding errors (one more ncol)
 # Let's crop to the spatial extent of the nightlights data
 LA_pop_2020_high <- crop(
-  LA_pop_2020_high, 
+  LA_pop_2020_high,
   terra::ext(LA_nl_2020)
 )
-
 ```
 
 ```{r}
@@ -283,7 +289,7 @@ res(LA_nl_2020)
 ext(LA_pop_2020_high)
 ext(LA_nl_2020)
 
-# A small rounding error in extent will prohibit to concatenate 
+# A small rounding error in extent will prohibit to concatenate
 # into a stack. We now force the extent
 ext(LA_pop_2020_high) <- ext(LA_nl_2020)
 ```
@@ -295,16 +301,16 @@ ext(LA_pop_2020_high) <- ext(LA_nl_2020)
 ```{r}
 # Decrease resolution for nightlights data
 LA_nl_2020_low <- terra::aggregate(LA_nl_2020,
-                                     fact = c(2, 2),
-                                     method = "bilinear")
+  fact = c(2, 2),
+  method = "bilinear"
+)
 
 # There is still a slight mismatch due to rounding errors (one more ncol)
 # Let's crop to the spatial extent of the population data
 LA_nl_2020_low <- crop(
-  LA_nl_2020_low, 
+  LA_nl_2020_low,
   terra::ext(LA_pop_2020)
 )
-
 ```
 
 ```{r}
@@ -371,17 +377,23 @@ LA_nl_2020_resampled <- resample(
 )
 
 # Create training data - one row per cell
-train_data <- as.data.frame(LA_nl_2020_resampled, 
-                            xy = TRUE, 
-                            cells = TRUE,
-                            na.rm = FALSE) |> 
-  left_join(as.data.frame(LA_pop_2020, 
-                          xy=FALSE, 
-                          cells=TRUE, 
-                          na.rm=FALSE),
-            by = "cell") |> 
-  rename(nightlights = t2020,
-         population = `US-CA_ppp_2020_1km`)
+train_data <- as.data.frame(LA_nl_2020_resampled,
+  xy = TRUE,
+  cells = TRUE,
+  na.rm = FALSE
+) |>
+  left_join(
+    as.data.frame(LA_pop_2020,
+      xy = FALSE,
+      cells = TRUE,
+      na.rm = FALSE
+    ),
+    by = "cell"
+  ) |>
+  rename(
+    nightlights = t2020,
+    population = `US-CA_ppp_2020_1km`
+  )
 
 train_data <- na.omit(train_data)
 ```
@@ -413,7 +425,7 @@ Now we have a million options to analyse our raster stack.
 
 ```{r}
 # Global univariate means
-global(LA_stack, fun = mean, na.rm=TRUE)
+global(LA_stack, fun = mean, na.rm = TRUE)
 
 # Bivariate correlations
 layerCor(LA_stack, fun = "cor", use = "complete.obs")

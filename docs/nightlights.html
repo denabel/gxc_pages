@@ -148,6 +148,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Datacubes</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="./graphicdisplay.html">
+ <span class="dropdown-text">Graphic Display</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="./nightlights.html">
  <span class="dropdown-text">Nightlights</span></a>
   </li>  
@@ -225,10 +229,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#accuracy-of-nighttime-light-data" id="toc-accuracy-of-nighttime-light-data" class="nav-link" data-scroll-target="#accuracy-of-nighttime-light-data">Accuracy of Nighttime Light Data 📈</a></li>
   </ul></li>
-  <li><a href="#acquisition-of-nighttime-light-data" id="toc-acquisition-of-nighttime-light-data" class="nav-link" data-scroll-target="#acquisition-of-nighttime-light-data">Acquisition of Nighttime Light Data 📡</a>
-  <ul class="collapse">
   <li><a href="#nasas-blackmarble" id="toc-nasas-blackmarble" class="nav-link" data-scroll-target="#nasas-blackmarble">NASA’s Blackmarble 🌑</a></li>
-  </ul></li>
   <li><a href="#introduction-case-study" id="toc-introduction-case-study" class="nav-link" data-scroll-target="#introduction-case-study">Introduction case study</a>
   <ul class="collapse">
   <li><a href="#r-package-blackmarbler" id="toc-r-package-blackmarbler" class="nav-link" data-scroll-target="#r-package-blackmarbler">R package <code>blackmarbler</code></a></li>
@@ -323,10 +324,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Finally, while NLs are often interpreted as indicators of modernization, urbanization, economic development, and technological innovation, they can also signify longer working hours and potentially weaker labor protections, reflecting broader social conditions.</p>
 <p><em>“[…] usefulness of nighttime lights as proxy depends on optimal weight of proxy measure […]”</em> (<a href="https://doi.org/10.1007/978-3-319-22810-5_15">Chen, 2016</a>)</p>
 <p>You can find a really elaborate documentation of NL data indication also discussing impacts on ecosystems and health <a href="https://doi.org/10.1016/j.rse.2019.111443">here</a>.</p>
-</section>
-</section>
-<section id="acquisition-of-nighttime-light-data" class="level1">
-<h1>Acquisition of Nighttime Light Data 📡</h1>
+<details>
+<summary>
+Acquisition of Nighttime Light Data 📡
+</summary>
 <p>Remote sensing normally relies on the <a href="https://denabel.github.io/gxc_pages/eod_intro.html">reflection</a> of <a href="https://denabel.github.io/gxc_pages/eod_intro.html">electromagnetic radiation</a> derived from the Sun on the Earth’s surface. This technique is called passive remote sensing, since the sensor does not <em>actively</em> emit electromagnetic radiation to explore the Earth’s surface. But what happens at night?</p>
 <p>One could, of course one could apply active remote sensing such as RADAR (Radio Detection and Ranging), LiDAR (Light Detection and Ranging) or SAR (Synthetic Aperture RADAR) but these sensors present many difficulties in interpretation and require more pre-processing. However, there is still electromagnetic radiation that can be detected at night. Nevertheless, electromagnetic radiation can still be detected at night. At night, it is not the reflection of electromagnetic radiation that is assessed, but solely emissions from the Earth’s surface, e.g.&nbsp;thermal infrared detecting heat or microwave radiation. Artificial lights e.g.&nbsp;street lights are detected since they are situated in the visible infrared and near-infrared part of the radiometric spectrum.</p>
 <div class="quarto-figure quarto-figure-center">
@@ -352,11 +353,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p><strong>Citizen Science</strong>: The “Cities at Night” project aimes to allocate and geo-reference nighttime photos from ISS. It works with in 3-steps: classification, allocation and geo-referencing. The broad participation of 20,000 volunteers in project resulted in 190,000 night images tagged, 3000 images located (1 GCP), 700 images geo-referenced (multiple GCP). The resulting photos were used in various studies concerning light pollution monitoring, epidemiological studies and ecological studies.</p>
-<p>(<a href="https://doi.org/10.1016/j.rse.2019.111443">Levin, 2020</a>)</p>
-<section id="nasas-blackmarble" class="level2">
-<h2 class="anchored" data-anchor-id="nasas-blackmarble">NASA’s Blackmarble 🌑</h2>
-<p><a href="https://blackmarble.gsfc.nasa.gov/">NASA’s Blackmarble</a> uses VIIRS DNB sensors on board of the Suomi NPP and NOAA-20 satellites. The VIIRS DNB has a high spatial resolution of 500 m and is calibrated and corrected for atmospheric, terrain, lunar BRDF, thermal, and stray light effects. This is resulting in faster retrieval time and less noise, facilitating research based on daily, seasonal and annual changes in NLs (<a href="https://doi.org/10.1016/j.rse.2019.111443">Levin, 2020</a>). Therefore, NASA’s Blackmarble is the most commonly used NL data set in recent studies.</p>
+(<a href="https://doi.org/10.1016/j.rse.2019.111443">Levin, 2020</a>)
+</details>
 </section>
+</section>
+<section id="nasas-blackmarble" class="level1">
+<h1>NASA’s Blackmarble 🌑</h1>
+<p><a href="https://blackmarble.gsfc.nasa.gov/">NASA’s Blackmarble</a> uses VIIRS DNB sensors on board of the Suomi NPP and NOAA-20 satellites. The VIIRS DNB has a high spatial resolution of 500 m and is calibrated and corrected for atmospheric, terrain, lunar BRDF, thermal, and stray light effects. This is resulting in faster retrieval time and less noise, facilitating research based on daily, seasonal and annual changes in NLs (<a href="https://doi.org/10.1016/j.rse.2019.111443">Levin, 2020</a>). Therefore, NASA’s Blackmarble is the most commonly used NL data set in recent studies.</p>
 </section>
 <section id="introduction-case-study" class="level1">
 <h1>Introduction case study</h1>
@@ -377,8 +380,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The function <code>bm_raster()</code> to retrieve the nighttime lights requires as input an <code>sf</code>object to determine the spatial extent of the downloaded data. The object must be in <strong>WGS84</strong>.</p>
 <p>We will focus on California. Let’s load US states shapefiles with the <code>tigris</code> package and subset to California.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>CA_sf <span class="ot">&lt;-</span> tigris<span class="sc">::</span><span class="fu">states</span>(<span class="at">progress_bar=</span><span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(STUSPS <span class="sc">==</span> <span class="st">"CA"</span>) <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>CA_sf <span class="ot">&lt;-</span> tigris<span class="sc">::</span><span class="fu">states</span>(<span class="at">progress_bar =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(STUSPS <span class="sc">==</span> <span class="st">"CA"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="st">"EPSG:4326"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Retrieving data for the year 2024</code></pre>
@@ -415,14 +418,15 @@ Geodetic CRS:  WGS 84
 </div>
 <p>Now we can download the data from NASA’s API.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>CA_nl_stack <span class="ot">&lt;-</span> <span class="fu">bm_raster</span>(<span class="at">roi_sf =</span> CA_sf,</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">product_id =</span> <span class="st">"VNP46A4"</span>, <span class="co"># for yearly data</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">date =</span> <span class="dv">2017</span><span class="sc">:</span><span class="dv">2020</span>, <span class="co"># same four years like our population data</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">bearer =</span> bearer, <span class="co"># your API token</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">output_location_type =</span> <span class="st">"file"</span>, <span class="co"># we want to store geotiff on disk</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">file_dir =</span> <span class="st">"./data/"</span>, <span class="co"># where to store geotiff</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                         <span class="at">file_return_null =</span> <span class="cn">FALSE</span> <span class="co"># also create SpatRaster file</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>CA_nl_stack <span class="ot">&lt;-</span> <span class="fu">bm_raster</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">roi_sf =</span> CA_sf,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">product_id =</span> <span class="st">"VNP46A4"</span>, <span class="co"># for yearly data</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">date =</span> <span class="dv">2017</span><span class="sc">:</span><span class="dv">2020</span>, <span class="co"># same four years like our population data</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">bearer =</span> bearer, <span class="co"># your API token</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_location_type =</span> <span class="st">"file"</span>, <span class="co"># we want to store geotiff on disk</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">file_dir =</span> <span class="st">"./data/"</span>, <span class="co"># where to store geotiff</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">file_return_null =</span> <span class="cn">FALSE</span> <span class="co"># also create SpatRaster file</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <details>
 <summary>
@@ -456,20 +460,26 @@ max value   : 269.2 </code></pre>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_spatraster</span>(<span class="at">data =</span> CA_nl_2020) <span class="sc">+</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> CA_sf,</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">fill =</span> <span class="st">"transparent"</span>,</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">color =</span> <span class="st">"white"</span>,</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"black"</span>,</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>                       <span class="at">mid =</span> <span class="st">"yellow"</span>,</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>                       <span class="at">high =</span> <span class="st">"red"</span>,</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="dv">3</span>,</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>                       <span class="at">na.value =</span> <span class="st">"transparent"</span>) <span class="sc">+</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Nighttime Lights in California 2020"</span>) <span class="sc">+</span></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>() <span class="sc">+</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> CA_sf,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"transparent"</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"white"</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">4</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">low =</span> <span class="st">"black"</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">mid =</span> <span class="st">"yellow"</span>,</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">high =</span> <span class="st">"red"</span>,</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">midpoint =</span> <span class="dv">3</span>,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.value =</span> <span class="st">"transparent"</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Nighttime Lights in California 2020"</span>) <span class="sc">+</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>() <span class="sc">+</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>&lt;SpatRaster&gt; resampled to 500980 cells.</code></pre>
 </div>
@@ -487,18 +497,18 @@ max value   : 269.2 </code></pre>
 <p>In order to define our AOI to Los Angeles County 🌃 we first need to:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load LA County file</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>LA_county <span class="ot">&lt;-</span> tigris<span class="sc">::</span><span class="fu">counties</span>(<span class="st">"CA"</span>, </span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">progress_bar =</span> <span class="cn">FALSE</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                              ) <span class="sc">|&gt;</span> </span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(NAME <span class="sc">==</span> <span class="st">"Los Angeles"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>LA_county <span class="ot">&lt;-</span> tigris<span class="sc">::</span><span class="fu">counties</span>(<span class="st">"CA"</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress_bar =</span> <span class="cn">FALSE</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(NAME <span class="sc">==</span> <span class="st">"Los Angeles"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="st">"EPSG:4326"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Retrieving data for the year 2024</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset to "mainland" California and </span></span>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset to "mainland" California and</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># exclude the two islands Santa Catalina and San Clemente</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>LA_county <span class="ot">&lt;-</span> LA_county <span class="sc">%&gt;%</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_cast</span>(<span class="st">"POLYGON"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_cast</span>(<span class="st">"POLYGON"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">area =</span> <span class="fu">st_area</span>(.)) <span class="sc">%&gt;%</span></span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(area, <span class="at">n =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -535,15 +545,17 @@ Geodetic CRS:  WGS 84
 <p>Now that we have an <code>sf</code> file of our AOI, we can prepare our two raster files.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create LA raster files for population and night lights in 2020</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>LA_pop_2020 <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(<span class="st">"./data/US-CA_ppp_2020_1km.tif"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">mask</span>(terra<span class="sc">::</span><span class="fu">vect</span>(LA_county)) <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>LA_pop_2020 <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(<span class="st">"./data/US-CA_ppp_2020_1km.tif"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">mask</span>(terra<span class="sc">::</span><span class="fu">vect</span>(LA_county)) <span class="sc">|&gt;</span></span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">crop</span>(LA_county)</span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>LA_pop_2020[] <span class="ot">&lt;-</span> <span class="fu">log</span>(LA_pop_2020[] <span class="sc">+</span> <span class="dv">1</span>)</span>
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>LA_nl_2020 <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">mask</span>(CA_nl_2020,</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>                          terra<span class="sc">::</span><span class="fu">vect</span>(LA_county)) <span class="sc">|&gt;</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">crop</span>(LA_county)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>LA_nl_2020 <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">mask</span>(</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  CA_nl_2020,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">vect</span>(LA_county)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">crop</span>(LA_county)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="disaggregation" class="level2">
@@ -592,15 +604,16 @@ First option: Increase resolution for population data
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Increase resolution for population data</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>LA_pop_2020_high <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">disagg</span>(LA_pop_2020,</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">fact =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>),</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">method =</span> <span class="st">"bilinear"</span>)</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co"># There is still a slight mismatch due to rounding errors (one more ncol)</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's crop to the spatial extent of the nightlights data</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>LA_pop_2020_high <span class="ot">&lt;-</span> <span class="fu">crop</span>(</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  LA_pop_2020_high, </span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">ext</span>(LA_nl_2020)</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fact =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>),</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"bilinear"</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co"># There is still a slight mismatch due to rounding errors (one more ncol)</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's crop to the spatial extent of the nightlights data</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>LA_pop_2020_high <span class="ot">&lt;-</span> <span class="fu">crop</span>(</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  LA_pop_2020_high,</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">ext</span>(LA_nl_2020)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cross-check</span></span>
@@ -620,7 +633,7 @@ First option: Increase resolution for population data
 <div class="cell-output cell-output-stdout">
 <pre><code>SpatExtent : -118.95, -117.645833333333, 33.6583333333333, 34.825 (xmin, xmax, ymin, ymax)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A small rounding error in extent will prohibit to concatenate </span></span>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A small rounding error in extent will prohibit to concatenate</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># into a stack. We now force the extent</span></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ext</span>(LA_pop_2020_high) <span class="ot">&lt;-</span> <span class="fu">ext</span>(LA_nl_2020)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -632,15 +645,16 @@ Second option: Decrease resolution for nightlights data
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Decrease resolution for nightlights data</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>LA_nl_2020_low <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">aggregate</span>(LA_nl_2020,</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">fact =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>),</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">method =</span> <span class="st">"bilinear"</span>)</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co"># There is still a slight mismatch due to rounding errors (one more ncol)</span></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's crop to the spatial extent of the population data</span></span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>LA_nl_2020_low <span class="ot">&lt;-</span> <span class="fu">crop</span>(</span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  LA_nl_2020_low, </span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">ext</span>(LA_pop_2020)</span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fact =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>),</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"bilinear"</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="co"># There is still a slight mismatch due to rounding errors (one more ncol)</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's crop to the spatial extent of the population data</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>LA_nl_2020_low <span class="ot">&lt;-</span> <span class="fu">crop</span>(</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  LA_nl_2020_low,</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">ext</span>(LA_pop_2020)</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cross-check</span></span>
@@ -759,19 +773,25 @@ Attache Paket: 'randomForest'</code></pre>
 <span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create training data - one row per cell</span></span>
-<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(LA_nl_2020_resampled, </span>
-<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>                            <span class="at">xy =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a>                            <span class="at">cells =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a>                            <span class="at">na.rm =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">as.data.frame</span>(LA_pop_2020, </span>
-<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a>                          <span class="at">xy=</span><span class="cn">FALSE</span>, </span>
-<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>                          <span class="at">cells=</span><span class="cn">TRUE</span>, </span>
-<span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a>                          <span class="at">na.rm=</span><span class="cn">FALSE</span>),</span>
-<span id="cb63-17"><a href="#cb63-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="st">"cell"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb63-18"><a href="#cb63-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">nightlights =</span> t2020,</span>
-<span id="cb63-19"><a href="#cb63-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">population =</span> <span class="st">`</span><span class="at">US-CA_ppp_2020_1km</span><span class="st">`</span>)</span>
-<span id="cb63-20"><a href="#cb63-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb63-21"><a href="#cb63-21" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(train_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(LA_nl_2020_resampled,</span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">xy =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">cells =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">FALSE</span></span>
+<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>(LA_pop_2020,</span>
+<span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">xy =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb63-17"><a href="#cb63-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">cells =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb63-18"><a href="#cb63-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.rm =</span> <span class="cn">FALSE</span></span>
+<span id="cb63-19"><a href="#cb63-19" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb63-20"><a href="#cb63-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">"cell"</span></span>
+<span id="cb63-21"><a href="#cb63-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb63-22"><a href="#cb63-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb63-23"><a href="#cb63-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">nightlights =</span> t2020,</span>
+<span id="cb63-24"><a href="#cb63-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">population =</span> <span class="st">`</span><span class="at">US-CA_ppp_2020_1km</span><span class="st">`</span></span>
+<span id="cb63-25"><a href="#cb63-25" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb63-26"><a href="#cb63-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-27"><a href="#cb63-27" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(train_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Ready to fit the model and predict population data on 500m grid.</p>
 <div class="cell">
@@ -800,27 +820,27 @@ Attache Paket: 'randomForest'</code></pre>
 <p>Now we have a million options to analyse our raster stack.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Global univariate means</span></span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">global</span>(LA_stack, <span class="at">fun =</span> mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">global</span>(LA_stack, <span class="at">fun =</span> mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                          mean
 population           2.9236307
 nightlights          0.5277355
-population_predicted 2.7929295</code></pre>
+population_predicted 2.7920416</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bivariate correlations</span></span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">layerCor</span>(LA_stack, <span class="at">fun =</span> <span class="st">"cor"</span>, <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$correlation
                      population nightlights population_predicted
-population            1.0000000   0.8245851            0.8759981
-nightlights           0.8245851   1.0000000            0.8731157
-population_predicted  0.8759981   0.8731157            1.0000000
+population            1.0000000   0.8245851            0.8760559
+nightlights           0.8245851   1.0000000            0.8735970
+population_predicted  0.8760559   0.8735970            1.0000000
 
 $mean
                      population nightlights population_predicted
 population                  NaN    2.923631            2.9236307
 nightlights           0.5277355         NaN            0.5277355
-population_predicted  2.7929295    2.792929                  NaN
+population_predicted  2.7920416    2.792042                  NaN
 
 $n
                      population nightlights population_predicted

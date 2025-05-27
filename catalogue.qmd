@@ -64,24 +64,27 @@ kable(dataset_attributes_daily, format = "markdown")
 ```{r echo=FALSE, warning=FALSE}
 # Create variables table
 variables_table <- data.frame(
-  Variable = c("2m_temperature", "total_precipitation", "10m_u_component_of_wind", "10m_v_component_of_wind",
-               "10m_wind_speed", "total_cloud_cover", "leaf_area_index_high_vegetation", "leaf_area_index_low_vegetation", "snowfall"),
-  Description = c("Air temperature at 2 meters above the surface (°C)",
-                  "Total accumulated precipitation (m)",
-                  "Eastward component of wind speed at 10 meters (m/s)",
-                  "Northward component of wind speed at 10 meters (m/s)",
-                  "Wind speed magnitude at 10 meters (m/s)",
-                  "Fraction of sky covered by clouds (0-1)",
-                  "Leaf area index for high vegetation (m²/m²)",
-                  "Leaf area index for low vegetation (m²/m²)",
-                  "Total accumulated snowfall (m)"),
+  Variable = c(
+    "2m_temperature", "total_precipitation", "10m_u_component_of_wind", "10m_v_component_of_wind",
+    "10m_wind_speed", "total_cloud_cover", "leaf_area_index_high_vegetation", "leaf_area_index_low_vegetation", "snowfall"
+  ),
+  Description = c(
+    "Air temperature at 2 meters above the surface (°C)",
+    "Total accumulated precipitation (m)",
+    "Eastward component of wind speed at 10 meters (m/s)",
+    "Northward component of wind speed at 10 meters (m/s)",
+    "Wind speed magnitude at 10 meters (m/s)",
+    "Fraction of sky covered by clouds (0-1)",
+    "Leaf area index for high vegetation (m²/m²)",
+    "Leaf area index for low vegetation (m²/m²)",
+    "Total accumulated snowfall (m)"
+  ),
   `ERA5-Land` = c("✔", "✔", "✔", "✔", "", "", "✔", "✔", "✔"),
   `ERA5 Single Levels` = c("✔", "", "✔", "✔", "✔", "✔", "✔", "✔", "")
 )
 
 # Render as table
 kable(variables_table, format = "markdown")
-
 ```
 
 ### Daily resolution indicators
@@ -96,5 +99,4 @@ daily_variables_table <- data.frame(
 )
 
 kable(daily_variables_table, format = "markdown")
-
 ```

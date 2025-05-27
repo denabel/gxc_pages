@@ -44,8 +44,8 @@ terra::rast()
 We can now populate a raster with data. First, we generate a random set of 16 numbers between 1 and 100. These values are then reshaped into a 4-row matrix, effectively organizing the data into a grid format suitable for raster representation. The `terra::rast()` function converts this matrix into a raster object, creating a structured spatial dataset. 
 
 ```{r fill-raster}
-input_data <- 
-  sample(1:100, 16) |> 
+input_data <-
+  sample(1:100, 16) |>
   matrix(nrow = 4)
 
 raster_layer <- terra::rast(input_data)
@@ -144,19 +144,19 @@ After demonstrating basic raster operations, exploring more advanced techniques 
 
 ```{r belgium}
 world <- rnaturalearth::ne_countries(
-  scale = "medium", 
-  returnclass = "sf")
+  scale = "medium",
+  returnclass = "sf"
+)
 
 # Subset to relevant variables
-world <- world |> 
+world <- world |>
   dplyr::select(admin, geometry)
 
 # Subset to Belgium
-belgium <- world |> 
+belgium <- world |>
   dplyr::filter(admin == "Belgium")
 
 sf::st_geometry(belgium)
-
 ```
 
 The `rnaturalearth::ne_countries()` function loads a world map as an `sf` object. The dataset is then filtered to select only the relevant variables—admin (country name) and geometry. Using the `dplyr::filter() `function, the dataset is subsetted to include only the geometry for Belgium. If you know the shape of Belgium's boundaries, plotting this subsetted dataset corroborates that this operation was successful. 
@@ -192,7 +192,7 @@ Combining cropping and masking can achieve results similar to subsetting vector 
 
 ```{r crop-mask-raster}
 temp_6_2019_belgium <-
-  terra::crop(temp_6_2019_celsius, belgium) |> 
+  terra::crop(temp_6_2019_celsius, belgium) |>
   raster::mask(terra::vect(belgium))
 
 terra::plot(temp_6_2019_belgium)
@@ -207,9 +207,9 @@ First, we perform a sampling of random points from the cropped and masked raster
 
 ```{r random-points}
 random_points <-
-  temp_6_2019_belgium |> 
-  terra::spatSample(size = 10, na.rm = TRUE, as.points = TRUE) |> 
-  sf::st_as_sf() |> 
+  temp_6_2019_belgium |>
+  terra::spatSample(size = 10, na.rm = TRUE, as.points = TRUE) |>
+  sf::st_as_sf() |>
   dplyr::select(-1)
 ```
 
@@ -235,9 +235,9 @@ Once the raster values have been extracted, the next step is to add these values
 
 ```{r add-results}
 random_points <-
-  random_points |> 
+  random_points |>
   dplyr::mutate(
-    temp_value = 
+    temp_value =
       as.vector(
         terra::extract(temp_6_2019_belgium, random_points, ID = FALSE, raw = TRUE)
       )
@@ -254,7 +254,7 @@ Here's an example of such spatial buffers for our points in Belgium. We have dra
 tm_shape(temp_6_2019_belgium) +
   tm_raster() +
   tm_shape(
-    sf::st_buffer(random_points, 5000) 
+    sf::st_buffer(random_points, 5000)
   ) +
   tm_dots(size = .1) +
   tm_borders()
@@ -265,17 +265,17 @@ In the example below, we first create a buffer of 5,000 meters (5 km) around eac
 
 ```{r add-results-buffer}
 random_points <-
-  random_points |> 
+  random_points |>
   dplyr::mutate(
-    temp_value_buffer = 
+    temp_value_buffer =
       as.vector(
         terra::extract(
-          temp_6_2019_belgium, 
-          random_points |> 
-            sf::st_buffer(5000), 
-          ID = FALSE, 
+          temp_6_2019_belgium,
+          random_points |>
+            sf::st_buffer(5000),
+          ID = FALSE,
           raw = TRUE
-          )
+        )
       )
   )
 

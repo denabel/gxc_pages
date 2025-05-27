@@ -23,7 +23,6 @@ library(gridExtra)
 library(keyring)
 library(tictoc)
 library(gxc)
-
 ```
 
 
@@ -31,16 +30,18 @@ library(gxc)
 # Load shapefiles and prepare grids ---------------------------------------
 
 # Retrieve Germany's bounding box
-germany <- ne_countries(country = "Germany", 
-                        scale = "medium", 
-                        returnclass = "sf") 
-  
+germany <- ne_countries(
+  country = "Germany",
+  scale = "medium",
+  returnclass = "sf"
+)
+
 # Generate the grid
 grid_national <- sf::st_make_grid(
-  st_as_sfc(st_bbox(germany)), 
-  n = c(100,100)
-  ) 
-  
+  st_as_sfc(st_bbox(germany)),
+  n = c(100, 100)
+)
+
 grid_national <- st_sf(geometry = grid_national)
 
 # Assign WGS84 CRS
@@ -59,17 +60,17 @@ corner_indices <- c(ll_index, lr_index, ul_index, ur_index)
 
 # Sample-function (always including the four corner cells).
 sample_grid <- function(n, my_grid, extent_polygons) {
-  if(n < 4) stop("n must be at least 4 to include all corner cells.")
-  
+  if (n < 4) stop("n must be at least 4 to include all corner cells.")
+
   # Calculate n-corner polygons
   n_random <- n - length(extent_polygons)
-  
+
   # Exclude the corner cells from the random sample
   remaining <- my_grid[-extent_polygons, ]
-  
+
   # Randomly sample from the remaining cells
   random_sample <- remaining[sample(nrow(remaining), n_random), ]
-  
+
   # Combine the corner cells with the random sample
   sampled <- rbind(my_grid[extent_polygons, ], random_sample)
   return(sampled)
@@ -88,45 +89,44 @@ for (i in seq_along(sample_sizes)) {
 }
 
 names(samples_list) <- paste0("sample_", sample_sizes)
-
 ```
 
 
 ```{r grid-plot, include = FALSE}
-
 # Visualize
 plots <- lapply(seq_along(sample_sizes), function(i) {
   n <- sample_sizes[i]
   sampled_sf <- samples_list[[i]]
-  
+
   ggplot() +
-    geom_sf(data = sampled_sf, 
-            fill = "#c994c7", 
-            color = "#dd1c77", 
-            size = 0.3) +
+    geom_sf(
+      data = sampled_sf,
+      fill = "#c994c7",
+      color = "#dd1c77",
+      size = 0.3
+    ) +
     geom_sf(data = germany, fill = NA, color = "#2c7fb8", size = 0.8) +
     ggtitle(paste("Sample size:", n)) +
     theme_minimal()
 })
 
 gridExtra::grid.arrange(grobs = plots[-c(1:3)], ncol = 3)
-
 ```
 
 ```{r execute-time, include = FALSE}
 # # Loop over poly_link-function and measure elapsed time -------------------
-# 
+#
 # # Add random time identifier in grids
 # samples_list <- lapply(samples_list, function(grid) {
 #   grid$date_raw <- "12-2020"
 #   grid
 # })
-# 
+#
 # # Set up API access
 # api_key <- Sys.getenv("WF_API_KEY")
-# 
+#
 # keyring::key_set_with_value(service = "wf_api_key", password = api_key)
-# 
+#
 # # Set up new dataframe measuring elapsed time
 # results_df <- data.frame(
 #   spatial_extent = character(),
@@ -135,18 +135,18 @@ gridExtra::grid.arrange(grobs = plots[-c(1:3)], ncol = 3)
 #   seconds = numeric(),
 #   stringsAsFactors = FALSE
 # )
-# 
+#
 # # Loop over the list of samples using tictoc to measure execution time.
 # time_span_values <- c(0,2,11)
-# 
+#
 # for (i in seq_along(samples_list)) {
 #   sample_size <- sample_sizes[i]
 #   sample_polygons <- samples_list[[i]]
-#   
+#
 #   for (ts in time_span_values) {
-#   
+#
 #   # Start timing using tic().
-#   tic()  
+#   tic()
 #   # Run poly_link function
 #   poly_result <- poly_link(
 #     indicator = "2m_temperature",
@@ -162,10 +162,10 @@ gridExtra::grid.arrange(grobs = plots[-c(1:3)], ncol = 3)
 #     keep_raw = FALSE)
 #   # Stop timing and capture the elapsed time.
 #   toc_out <- toc(quiet = TRUE)
-#   
+#
 #   # The output toc_out is a list with the start and stop times. Compute the elapsed time.
 #   elapsed_time <- toc_out$toc - toc_out$tic
-#   
+#
 #   focal_period <- if (ts == 0) {
 #     "Month"
 #   } else if (ts == 2) {
@@ -175,7 +175,7 @@ gridExtra::grid.arrange(grobs = plots[-c(1:3)], ncol = 3)
 #   } else {
 #     NA
 #   }
-#   
+#
 #   # Append the results to the results_df data frame.
 #   results_df <- rbind(results_df, data.frame(
 #     spatial_extent = "Germany",
@@ -184,20 +184,19 @@ gridExtra::grid.arrange(grobs = plots[-c(1:3)], ncol = 3)
 #     seconds = elapsed_time,
 #     stringsAsFactors = FALSE
 #   ))
-#   
+#
 #   # Save as rds
 #   saveRDS(results_df, file = "./data/performance_results.rds")
 #   }
 # }
-
 ```
 
 ```{r time-plot, echo = FALSE, message = FALSE}
 results_df <- readRDS("./data/performance_results.rds")
 
 # split data based on groups for tabs
-df_list <- results_df %>% 
-  group_by(spatial_extent) %>% 
+df_list <- results_df %>%
+  group_by(spatial_extent) %>%
   group_split()
 
 # Default ggplot
@@ -208,17 +207,21 @@ p <- ggplot() +
     y = "Execution Time (minutes)",
     color = "Focal Period"
   ) +
-  scale_color_manual(values = c("month" = "#dd1c77",
-                                "seasonal" = "#225ea8",
-                                "yearly" = "#7fcdbb"))+
+  scale_color_manual(values = c(
+    "month" = "#dd1c77",
+    "seasonal" = "#225ea8",
+    "yearly" = "#7fcdbb"
+  )) +
   theme_minimal()
 
 # Looping through list of subsets
 for (d in df_list) {
   p <- p +
     geom_point(data = d, aes(x = sample_size, y = seconds / 60, color = focal_period)) +
-    geom_smooth(data = d, aes(x = sample_size, y = seconds / 60, color = focal_period),
-                method = "loess", se = FALSE)
+    geom_smooth(
+      data = d, aes(x = sample_size, y = seconds / 60, color = focal_period),
+      method = "loess", se = FALSE
+    )
 }
 
 # Convert to plotly object
@@ -306,7 +309,6 @@ p_plotly <- p_plotly %>% layout(
 
 # Display the interactive plot.
 p_plotly
-
 ```
 
 ## Should I enable parallel processing?
@@ -325,18 +327,20 @@ We are accessing the `2m_temperature` indicator from the `ERA5-Land` dataset for
 ```{r, echo=FALSE, warning=FALSE}
 results_df <- read_rds("./data/performance_results_parallel.rds")
 
-results_df <- results_df |>  
+results_df <- results_df |>
   mutate(
     focal_period = factor(focal_period, levels = c("Month", "Season", "6 Months", "Year")),
-    mode = factor(mode, levels = c("sequential", 
-                                   "parallel_sequential (cs=20)",
-                                   "parallel_sequential (cs=50)",
-                                   "parallel_sequential (cs=100)",
-                                   "parallel_sequential (cs=200)",
-                                   "parallel_multisession (cs=20)",
-                                   "parallel_multisession (cs=50)",
-                                   "parallel_multisession (cs=100)",
-                                   "parallel_multisession (cs=200)"))
+    mode = factor(mode, levels = c(
+      "sequential",
+      "parallel_sequential (cs=20)",
+      "parallel_sequential (cs=50)",
+      "parallel_sequential (cs=100)",
+      "parallel_sequential (cs=200)",
+      "parallel_multisession (cs=20)",
+      "parallel_multisession (cs=50)",
+      "parallel_multisession (cs=100)",
+      "parallel_multisession (cs=200)"
+    ))
   )
 
 focal_periods <- levels(results_df$focal_period)
@@ -344,27 +348,33 @@ modes <- sort(unique(results_df$mode))
 
 # --- Custom Manual Color Scheme ---
 # Manually specify colors for each mode. Adjust as needed.
-colors <- c("#045a8d", 
-            "#ae017e", "#ae017e", "#ae017e", "#ae017e",
-            "#006d2c", "#006d2c", "#006d2c", "#006d2c") 
+colors <- c(
+  "#045a8d",
+  "#ae017e", "#ae017e", "#ae017e", "#ae017e",
+  "#006d2c", "#006d2c", "#006d2c", "#006d2c"
+)
 colors <- colors[seq_along(modes)]
 names(colors) <- modes
 
 # --- Manual Line Settings ---
 # Define the line dash type and alpha for each mode.
 # (These vectors will be recycled if there are more modes than values.)
-line_dash_types <- rep(c("solid",
-                         "dash", "solid","dash", "dash", 
-                         "dash", "solid","dash", "dash"), length.out = length(modes))
-line_alphas <- rep(c(1, 
-                     0.4, 1, 0.4, 0.4,
-                     0.4, 1, 0.4, 0.4), length.out = length(modes))
+line_dash_types <- rep(c(
+  "solid",
+  "dash", "solid", "dash", "dash",
+  "dash", "solid", "dash", "dash"
+), length.out = length(modes))
+line_alphas <- rep(c(
+  1,
+  0.4, 1, 0.4, 0.4,
+  0.4, 1, 0.4, 0.4
+), length.out = length(modes))
 
 # --- Build Data Traces ---
 # We create data traces for each combination of focal_period and mode.
 # Each combination produces two traces: one for points and one for a smooth line.
-trace_list <- list()  # to hold data traces (which will be updated by the dropdown)
-trace_focal <- c()    # record the focal_period for each data trace
+trace_list <- list() # to hold data traces (which will be updated by the dropdown)
+trace_focal <- c() # record the focal_period for each data trace
 
 for (fp in focal_periods) {
   for (m in modes) {
@@ -376,14 +386,14 @@ for (fp in focal_periods) {
         y = d_sub$seconds / 60,
         type = "scatter",
         mode = "markers",
-        name = m,   # legend label will be the mode
+        name = m, # legend label will be the mode
         marker = list(color = colors[m]),
         legendgroup = m,
-        showlegend = TRUE  # these traces are intended to show the legend
+        showlegend = TRUE # these traces are intended to show the legend
       )
       trace_list[[length(trace_list) + 1]] <- trace_points
       trace_focal <- c(trace_focal, as.character(fp))
-      
+
       # --- Smooth Trace ---
       if (nrow(d_sub) >= 3) {
         loess_fit <- loess((seconds / 60) ~ sample_size, data = d_sub)
@@ -397,13 +407,13 @@ for (fp in focal_periods) {
       i <- match(m, modes)
       # Adjust the line color to include alpha.
       line_color_with_alpha <- alpha(colors[m], line_alphas[i])
-      
+
       trace_smooth <- list(
         x = x_new,
         y = y_new,
         type = "scatter",
         mode = "lines",
-        name = m,   # same mode name, but we hide its legend to merge with points.
+        name = m, # same mode name, but we hide its legend to merge with points.
         line = list(color = line_color_with_alpha, dash = line_dash_types[i]),
         legendgroup = m,
         showlegend = FALSE
@@ -419,7 +429,7 @@ for (fp in focal_periods) {
 dummy_traces <- list()
 for (m in modes) {
   dummy_traces[[length(dummy_traces) + 1]] <- list(
-    x = NA, 
+    x = NA,
     y = NA,
     type = "scatter",
     mode = "markers",
@@ -436,28 +446,30 @@ p_plotly <- plot_ly()
 # Add the data traces (which will be updated by the dropdown menu).
 for (tr in trace_list) {
   p_plotly <- add_trace(p_plotly,
-                        x = tr$x,
-                        y = tr$y,
-                        type = tr$type,
-                        mode = tr$mode,
-                        name = tr$name,
-                        marker = tr$marker,
-                        line = tr$line,
-                        legendgroup = tr$legendgroup,
-                        showlegend = tr$showlegend)
+    x = tr$x,
+    y = tr$y,
+    type = tr$type,
+    mode = tr$mode,
+    name = tr$name,
+    marker = tr$marker,
+    line = tr$line,
+    legendgroup = tr$legendgroup,
+    showlegend = tr$showlegend
+  )
 }
 # Add the dummy legend traces (these remain always visible).
 for (tr in dummy_traces) {
   p_plotly <- add_trace(p_plotly,
-                        x = tr$x,
-                        y = tr$y,
-                        type = tr$type,
-                        mode = tr$mode,
-                        name = tr$name,
-                        marker = tr$marker,
-                        legendgroup = tr$legendgroup,
-                        showlegend = tr$showlegend,
-                        hoverinfo = tr$hoverinfo)
+    x = tr$x,
+    y = tr$y,
+    type = tr$type,
+    mode = tr$mode,
+    name = tr$name,
+    marker = tr$marker,
+    legendgroup = tr$legendgroup,
+    showlegend = tr$showlegend,
+    hoverinfo = tr$hoverinfo
+  )
 }
 
 # --- Create the Update Menu for focal_period ---
@@ -469,7 +481,7 @@ for (fp in focal_periods) {
     method = "restyle",
     args = list("visible", visibility),
     label = fp,
-    traces = seq_len(length(trace_list))  # update only the data traces
+    traces = seq_len(length(trace_list)) # update only the data traces
   )
 }
 
@@ -477,7 +489,7 @@ for (fp in focal_periods) {
 p_plotly <- p_plotly %>% layout(
   title = "Execution Time vs Sample Size",
   y = 0.85,
-  margin = list(t = 150),  # Increase top margin to 150 (adjust as needed)
+  margin = list(t = 150), # Increase top margin to 150 (adjust as needed)
   xaxis = list(title = "Sample Size"),
   yaxis = list(title = "Execution Time (minutes)"),
   updatemenus = list(
@@ -485,9 +497,9 @@ p_plotly <- p_plotly %>% layout(
       type = "dropdown",
       active = 0,
       buttons = focal_period_buttons,
-      x = 0.1,                # left-align the dropdown
+      x = 0.1, # left-align the dropdown
       y = 1.15,
-      xanchor = "left",       # ensures left alignment
+      xanchor = "left", # ensures left alignment
       yanchor = "top"
     )
   ),
@@ -505,8 +517,6 @@ p_plotly <- p_plotly %>% layout(
 )
 
 p_plotly
-
-
 ```
 
 ## Replication code
@@ -521,7 +531,6 @@ library(gridExtra)
 library(keyring)
 library(tictoc)
 library(gxc)
-
 ```
 
 ## Generate random sample
@@ -530,16 +539,18 @@ library(gxc)
 # Load shapefiles and prepare grids ---------------------------------------
 
 # Retrieve Germany's bounding box
-germany <- ne_countries(country = "Germany", 
-                        scale = "medium", 
-                        returnclass = "sf") 
-  
+germany <- ne_countries(
+  country = "Germany",
+  scale = "medium",
+  returnclass = "sf"
+)
+
 # Generate the grid
 grid_national <- sf::st_make_grid(
-  st_as_sfc(st_bbox(germany)), 
-  n = c(100,100)
-  ) 
-  
+  st_as_sfc(st_bbox(germany)),
+  n = c(100, 100)
+)
+
 grid_national <- st_sf(geometry = grid_national)
 
 # Assign WGS84 CRS
@@ -558,17 +569,17 @@ corner_indices <- c(ll_index, lr_index, ul_index, ur_index)
 
 # Sample-function (always including the four corner cells).
 sample_grid <- function(n, my_grid, extent_polygons) {
-  if(n < 4) stop("n must be at least 4 to include all corner cells.")
-  
+  if (n < 4) stop("n must be at least 4 to include all corner cells.")
+
   # Calculate n-corner polygons
   n_random <- n - length(extent_polygons)
-  
+
   # Exclude the corner cells from the random sample
   remaining <- my_grid[-extent_polygons, ]
-  
+
   # Randomly sample from the remaining cells
   random_sample <- remaining[sample(nrow(remaining), n_random), ]
-  
+
   # Combine the corner cells with the random sample
   sampled <- rbind(my_grid[extent_polygons, ], random_sample)
   return(sampled)
@@ -587,47 +598,46 @@ for (i in seq_along(sample_sizes)) {
 }
 
 names(samples_list) <- paste0("sample_", sample_sizes)
-
 ```
 
 
 ```{r grid-plot2}
-
 # Visualize
 plots <- lapply(seq_along(sample_sizes), function(i) {
   n <- sample_sizes[i]
   sampled_sf <- samples_list[[i]]
-  
+
   ggplot() +
-    geom_sf(data = sampled_sf, 
-            fill = "#c994c7", 
-            color = "#dd1c77", 
-            size = 0.3) +
+    geom_sf(
+      data = sampled_sf,
+      fill = "#c994c7",
+      color = "#dd1c77",
+      size = 0.3
+    ) +
     geom_sf(data = germany, fill = NA, color = "#2c7fb8", size = 0.8) +
     ggtitle(paste("Sample size:", n)) +
     theme_minimal()
 })
 
 gridExtra::grid.arrange(grobs = plots[-c(1:3)], ncol = 3)
-
 ```
 
 ## Calculate execution time for each specification
 
 ```{r execute-time2}
 # # Loop over poly_link-function and measure elapsed time -------------------
-# 
+#
 # # Add random time identifier in grids
 # samples_list <- lapply(samples_list, function(grid) {
 #   grid$date_raw <- "12-2020"
 #   grid
 # })
-# 
+#
 # # Set up API access
 # api_key <- Sys.getenv("WF_API_KEY")
-# 
+#
 # keyring::key_set_with_value(service = "wf_api_key", password = api_key)
-# 
+#
 # # Set up new dataframe measuring elapsed time
 # results_df <- data.frame(
 #   spatial_extent = character(),
@@ -636,18 +646,18 @@ gridExtra::grid.arrange(grobs = plots[-c(1:3)], ncol = 3)
 #   seconds = numeric(),
 #   stringsAsFactors = FALSE
 # )
-# 
+#
 # # Loop over the list of samples using tictoc to measure execution time.
 # time_span_values <- c(0,2,11)
-# 
+#
 # for (i in seq_along(samples_list)) {
 #   sample_size <- sample_sizes[i]
 #   sample_polygons <- samples_list[[i]]
-#   
+#
 #   for (ts in time_span_values) {
-#   
+#
 #   # Start timing using tic().
-#   tic()  
+#   tic()
 #   # Run poly_link function
 #   poly_result <- poly_link(
 #     indicator = "2m_temperature",
@@ -663,10 +673,10 @@ gridExtra::grid.arrange(grobs = plots[-c(1:3)], ncol = 3)
 #     keep_raw = FALSE)
 #   # Stop timing and capture the elapsed time.
 #   toc_out <- toc(quiet = TRUE)
-#   
+#
 #   # The output toc_out is a list with the start and stop times. Compute the elapsed time.
 #   elapsed_time <- toc_out$toc - toc_out$tic
-#   
+#
 #   focal_period <- if (ts == 0) {
 #     "Month"
 #   } else if (ts == 2) {
@@ -676,7 +686,7 @@ gridExtra::grid.arrange(grobs = plots[-c(1:3)], ncol = 3)
 #   } else {
 #     NA
 #   }
-#   
+#
 #   # Append the results to the results_df data frame.
 #   results_df <- rbind(results_df, data.frame(
 #     spatial_extent = "Germany",
@@ -685,12 +695,11 @@ gridExtra::grid.arrange(grobs = plots[-c(1:3)], ncol = 3)
 #     seconds = elapsed_time,
 #     stringsAsFactors = FALSE
 #   ))
-#   
+#
 #   # Save as rds
 #   saveRDS(results_df, file = "./data/performance_results.rds")
 #   }
 # }
-
 ```
 
 ## Visualize
@@ -699,8 +708,8 @@ gridExtra::grid.arrange(grobs = plots[-c(1:3)], ncol = 3)
 results_df <- readRDS("./data/performance_results.rds")
 
 # split data based on groups for tabs
-df_list <- results_df %>% 
-  group_by(spatial_extent) %>% 
+df_list <- results_df %>%
+  group_by(spatial_extent) %>%
   group_split()
 
 # Default ggplot
@@ -711,17 +720,21 @@ p <- ggplot() +
     y = "Execution Time (minutes)",
     color = "Focal Period"
   ) +
-  scale_color_manual(values = c("month" = "#dd1c77",
-                                "seasonal" = "#225ea8",
-                                "yearly" = "#7fcdbb"))+
+  scale_color_manual(values = c(
+    "month" = "#dd1c77",
+    "seasonal" = "#225ea8",
+    "yearly" = "#7fcdbb"
+  )) +
   theme_minimal()
 
 # Looping through list of subsets
 for (d in df_list) {
   p <- p +
     geom_point(data = d, aes(x = sample_size, y = seconds / 60, color = focal_period)) +
-    geom_smooth(data = d, aes(x = sample_size, y = seconds / 60, color = focal_period),
-                method = "loess", se = FALSE)
+    geom_smooth(
+      data = d, aes(x = sample_size, y = seconds / 60, color = focal_period),
+      method = "loess", se = FALSE
+    )
 }
 
 # Convert to plotly object
@@ -809,5 +822,4 @@ p_plotly <- p_plotly %>% layout(
 
 # Display the interactive plot.
 # p_plotly
-
 ```

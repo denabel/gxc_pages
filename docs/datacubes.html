@@ -559,7 +559,7 @@ Defining value units
 <h3 class="anchored" data-anchor-id="defining-minimum-and-maximum-values">Defining minimum and maximum values</h3>
 <p>To have a first impression of what your data looks like it is recommendable to add minimum and maximum values to the metadata.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setMinMax</span>(CA_pop_stack, <span class="at">force=</span><span class="cn">TRUE</span>)</span>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setMinMax</span>(CA_pop_stack, <span class="at">force =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(CA_pop_stack)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -596,10 +596,10 @@ time (years): 2017 to 2020 (2 steps) </code></pre>
 </div>
 <p>For an alteration i.e.&nbsp;an reprojection of the CRS we will apply <code>terra::project()</code>. This will create a new cell grid based in the target CRS. The original values are then interpolated using methods such as nearest-neighbor, bilinear, or cubic interpolation. This resampling of the original cell values means they are lost in the new cell grid. <a href="https://rspatial.github.io/terra/reference/project.html">Here</a> you can gain more insights into reprojection with terra.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>CA_pop_stack <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">project</span>(CA_pop_stack, </span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">y =</span> <span class="st">"EPSG:3310"</span>,</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">method =</span> <span class="st">"bilinear"</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                               )</span>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>CA_pop_stack <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">project</span>(CA_pop_stack,</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">"EPSG:3310"</span>,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"bilinear"</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(CA_pop_stack)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -688,8 +688,8 @@ max values  :  22052.6, 22123.96, 22208.66
 unit        :    count,    count,    count 
 time (years): 2017 to 2019 (2 steps) </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Give me layers 1 and 3 </span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>CA_pop_stack[[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Give me layers 1 and 3</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>CA_pop_stack[[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class       : SpatRaster 
 dimensions  : 1287, 1168, 2  (nrow, ncol, nlyr)
@@ -719,7 +719,7 @@ max value   : 22123.96
 unit        :    count 
 time (years): 2018 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Indexing by time point </span></span>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Indexing by time point</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="co"># !only single brackets work!</span></span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Returns SpatRaster</span></span>
 <span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>CA_pop_stack[<span class="st">"2019"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -741,7 +741,7 @@ time (years): 2019 </code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Give me all values</span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Returns data.frame</span></span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="co">#CA_pop_stack[] # actual code</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="co"># CA_pop_stack[] # actual code</span></span>
 <span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">values</span>(CA_pop_stack)) <span class="co"># but for a quick impression we summarize</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    pop_2017          pop_2018          pop_2019          pop_2020      
@@ -755,12 +755,12 @@ time (years): 2019 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Give me values for cell numbers 700,000 for all layers</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Returns data.frame</span></span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="co">#CA_pop_stack[700000]</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="co"># CA_pop_stack[700000]</span></span>
 <span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Give me values for cell numbers 700,000-700,010 for all layers</span></span>
 <span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Returns data.frame</span></span>
-<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a><span class="co">#CA_pop_stack[700000:700010] # actual code</span></span>
-<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(CA_pop_stack)[<span class="dv">700000</span><span class="sc">:</span><span class="dv">700010</span>, ] <span class="co"># but for a quick impression </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a><span class="co"># CA_pop_stack[700000:700010] # actual code</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(CA_pop_stack)[<span class="dv">700000</span><span class="sc">:</span><span class="dv">700010</span>, ] <span class="co"># but for a quick impression</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       pop_2017  pop_2018  pop_2019  pop_2020
  [1,] 1.6528070 1.6790969 1.7370507 1.7269908
@@ -776,7 +776,7 @@ time (years): 2019 </code></pre>
 [11,] 0.6026462 0.6208204 0.6165476 0.6315076</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Give me values for cell numbers 700,000 and 700,010 for all layers</span></span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="co">#CA_pop_stack[c(700000,700010)] # actual code</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="co"># CA_pop_stack[c(700000,700010)] # actual code</span></span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>vals <span class="ot">&lt;-</span> CA_pop_stack[<span class="fu">c</span>(<span class="dv">700000</span>, <span class="dv">700010</span>)] <span class="co"># but for an overview we just look at the first rows</span></span>
 <span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(vals))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -810,17 +810,17 @@ time (years): 2019 </code></pre>
 <p>Alternatively, you can use <strong>array slicing syntax</strong> on <code>SpatRaster</code> objects:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>your_raster[i, <span class="co"># rows</span></span>
-<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>            i, <span class="co"># columns</span></span>
-<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>            i, <span class="co"># layers</span></span>
-<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>            drop <span class="ot">=</span> <span class="cn">FALSE</span><span class="sc">/</span><span class="cn">TRUE</span> <span class="co"># whether to keep `SpatRaster`geometry</span></span>
-<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>            ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  i, <span class="co"># columns</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>  i, <span class="co"># layers</span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>  drop <span class="ot">=</span> <span class="cn">FALSE</span> <span class="sc">/</span> <span class="cn">TRUE</span> <span class="co"># whether to keep `SpatRaster`geometry</span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>CA_pop_stack[<span class="dv">500</span><span class="sc">:</span><span class="dv">1000</span>,</span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>             <span class="dv">500</span><span class="sc">:</span><span class="dv">1000</span>, </span>
-<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>             <span class="dv">1</span>,</span>
-<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>             drop <span class="ot">=</span> <span class="cn">FALSE</span></span>
-<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>             ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">500</span><span class="sc">:</span><span class="dv">1000</span>,</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>,</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>  drop <span class="ot">=</span> <span class="cn">FALSE</span></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class       : SpatRaster 
 dimensions  : 501, 501, 1  (nrow, ncol, nlyr)
@@ -837,10 +837,10 @@ time (years): 2017 </code></pre>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>CA_pop_stack[<span class="dv">500</span><span class="sc">:</span><span class="dv">1000</span>,</span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>             <span class="dv">500</span><span class="sc">:</span><span class="dv">1000</span>, </span>
-<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>             <span class="dv">1</span>,</span>
-<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>             drop <span class="ot">=</span> <span class="cn">TRUE</span> <span class="co"># default</span></span>
-<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>             ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">500</span><span class="sc">:</span><span class="dv">1000</span>,</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>,</span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>  drop <span class="ot">=</span> <span class="cn">TRUE</span> <span class="co"># default</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          pop_2017
 1     0.000000e+00
@@ -100848,9 +100848,10 @@ time (years): 2017 </code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot a single layer</span></span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(CA_pop_stack[<span class="dv">0</span><span class="sc">:</span><span class="dv">500</span>,</span>
-<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">0</span><span class="sc">:</span><span class="dv">500</span>, </span>
-<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">1</span>,</span>
-<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">drop =</span> <span class="cn">FALSE</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span><span class="sc">:</span><span class="dv">500</span>,</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>,</span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">drop =</span> <span class="cn">FALSE</span></span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -100869,8 +100870,8 @@ time (years): 2017 </code></pre>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(</span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>  CA_pop_stack,</span>
 <span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"./data/CA_pop_stack.tif"</span>,</span>
-<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">overwrite=</span><span class="cn">TRUE</span>,</span>
-<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">gdal=</span><span class="fu">c</span>(<span class="st">"COMPRESS=LZW"</span>,<span class="st">"BIGTIFF=YES"</span>)</span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">overwrite =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">gdal =</span> <span class="fu">c</span>(<span class="st">"COMPRESS=LZW"</span>, <span class="st">"BIGTIFF=YES"</span>)</span>
 <span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -100931,11 +100932,12 @@ y    1 1136  42.01 -0.008333 WGS 84 FALSE [y]</code></pre>
 <p>Again, integrating these steps sounds great. But hold on! This generates four separate attributes. <strong>This is not what we want!</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"./data"</span>,</span>
-<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">pattern =</span> <span class="st">"US-CA_ppp_20(17|18|19|20)_1km</span><span class="sc">\\</span><span class="st">.tif$"</span>,</span>
-<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a>CA_pop_cube <span class="ot">&lt;-</span> <span class="fu">read_stars</span>(files)</span>
-<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(CA_pop_cube)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pattern =</span> <span class="st">"US-CA_ppp_20(17|18|19|20)_1km</span><span class="sc">\\</span><span class="st">.tif$"</span>,</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">full.names =</span> <span class="cn">TRUE</span></span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>CA_pop_cube <span class="ot">&lt;-</span> <span class="fu">read_stars</span>(files)</span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-7"><a href="#cb80-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(CA_pop_cube)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>stars object with 2 dimensions and 4 attributes
 attribute(s), summary of first 1e+05 cells:
@@ -100974,13 +100976,14 @@ f    1    4 2017-01-01  365 days   Date    NA    </code></pre>
 <p>OK, so this was kind of complex and could lead to mistakes. A simpler approach would be to read the layers directly into one object based on the supplied date variable.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"./data"</span>,</span>
-<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">pattern =</span> <span class="st">"US-CA_ppp_20(17|18|19|20)_1km</span><span class="sc">\\</span><span class="st">.tif$"</span>,</span>
-<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Read layers along time dimension</span></span>
-<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>CA_pop_cube <span class="ot">&lt;-</span> <span class="fu">read_stars</span>(files, <span class="at">along =</span> <span class="fu">list</span>(<span class="at">time =</span> dates))</span>
-<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(CA_pop_cube)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pattern =</span> <span class="st">"US-CA_ppp_20(17|18|19|20)_1km</span><span class="sc">\\</span><span class="st">.tif$"</span>,</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">full.names =</span> <span class="cn">TRUE</span></span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Read layers along time dimension</span></span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>CA_pop_cube <span class="ot">&lt;-</span> <span class="fu">read_stars</span>(files, <span class="at">along =</span> <span class="fu">list</span>(<span class="at">time =</span> dates))</span>
+<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(CA_pop_cube)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>stars object with 3 dimensions and 1 attribute
 attribute(s), summary of first 1e+05 cells:
@@ -101002,10 +101005,11 @@ time    1    4 2017-01-01  365 days   Date    NA    </code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>layer_posix <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>(dates, <span class="at">tz =</span> <span class="st">"UTC"</span>)</span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>CA_pop_cube <span class="ot">&lt;-</span> <span class="fu">st_set_dimensions</span>(CA_pop_cube,</span>
-<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">which =</span> <span class="st">"time"</span>,</span>
-<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">values =</span> layer_posix)</span>
-<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a><span class="fu">st_dimensions</span>(CA_pop_cube)<span class="sc">$</span>time</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">which =</span> <span class="st">"time"</span>,</span>
+<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">values =</span> layer_posix</span>
+<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-7"><a href="#cb87-7" aria-hidden="true" tabindex="-1"></a><span class="fu">st_dimensions</span>(CA_pop_cube)<span class="sc">$</span>time</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$from
 [1] 1
@@ -101035,10 +101039,11 @@ attr(,"class")
 <p>We can also simplify the dimension by assigning years as numeric values.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>CA_pop_cube <span class="ot">&lt;-</span> <span class="fu">st_set_dimensions</span>(CA_pop_cube,</span>
-<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">which =</span> <span class="st">"time"</span>,</span>
-<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">values =</span> <span class="dv">2017</span><span class="sc">:</span><span class="dv">2020</span>)</span>
-<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a><span class="fu">st_dimensions</span>(CA_pop_cube)<span class="sc">$</span>time</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">which =</span> <span class="st">"time"</span>,</span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">values =</span> <span class="dv">2017</span><span class="sc">:</span><span class="dv">2020</span></span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a><span class="fu">st_dimensions</span>(CA_pop_cube)<span class="sc">$</span>time</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$from
 [1] 1
@@ -101163,9 +101168,9 @@ GEOGCRS["WGS 84",
 </div>
 <p>We can reproject the data with <code>st_transform()</code>. This will create a curvilinear grid cell with the advantage that no information is lost - cell values remain identical. This is the case because <code>st_transform()</code> reprojects without resampling. opposed to <code>terra</code>, where a new cell grid is created and values interpolated, the the grid’s geometry is transformed, warping the grid, to match e.g.&nbsp;the new CRS. The cell values stay the same, though their position might change. <a href="https://r-spatial.github.io/stars/articles/stars5.html#warping-a-raster">Here</a> you can dive deeper into vector-raster conversions, reprojection, and warping with stars.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>CA_pop_cube_curv <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_transform</span>(CA_pop_cube, </span>
-<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">crs =</span> <span class="dv">3310</span></span>
-<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>                                     )</span>
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>CA_pop_cube_curv <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_transform</span>(CA_pop_cube,</span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">crs =</span> <span class="dv">3310</span></span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(CA_pop_cube_curv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -101191,12 +101196,14 @@ curvilinear grid</code></pre>
 <span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sfc</span>() <span class="sc">|&gt;</span></span>
 <span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="dv">3310</span>) <span class="sc">|&gt;</span></span>
 <span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_bbox</span>() <span class="sc">|&gt;</span></span>
-<span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_stars</span>(<span class="at">nx =</span> <span class="fu">dim</span>(CA_pop_cube)[<span class="st">"x"</span>], </span>
-<span id="cb104-6"><a href="#cb104-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">ny =</span> <span class="fu">dim</span>(CA_pop_cube)[<span class="st">"y"</span>])</span>
-<span id="cb104-7"><a href="#cb104-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb104-8"><a href="#cb104-8" aria-hidden="true" tabindex="-1"></a>CA_pop_cube <span class="ot">&lt;-</span> <span class="fu">st_warp</span>(CA_pop_cube, grid)</span>
+<span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_stars</span>(</span>
+<span id="cb104-6"><a href="#cb104-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">nx =</span> <span class="fu">dim</span>(CA_pop_cube)[<span class="st">"x"</span>],</span>
+<span id="cb104-7"><a href="#cb104-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ny =</span> <span class="fu">dim</span>(CA_pop_cube)[<span class="st">"y"</span>]</span>
+<span id="cb104-8"><a href="#cb104-8" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb104-9"><a href="#cb104-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb104-10"><a href="#cb104-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(CA_pop_cube)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb104-10"><a href="#cb104-10" aria-hidden="true" tabindex="-1"></a>CA_pop_cube <span class="ot">&lt;-</span> <span class="fu">st_warp</span>(CA_pop_cube, grid)</span>
+<span id="cb104-11"><a href="#cb104-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-12"><a href="#cb104-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(CA_pop_cube)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>stars object with 3 dimensions and 1 attribute
 attribute(s), summary of first 1e+05 cells:
@@ -101231,10 +101238,11 @@ time    1    4    2017     1                        NA    </code></pre>
 <pre><code> Units: [count] num [1:1234, 1:1136, 1:4] NA NA NA NA NA NA NA NA NA NA ...</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Spatial slicing on four levels</span></span>
-<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>CA_pop_cube[<span class="dv">1</span>, <span class="co"># which attribute</span></span>
-<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>            , <span class="co"># x</span></span>
-<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>            , <span class="co"># y</span></span>
-<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>            ] <span class="co"># which time</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>CA_pop_cube[</span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="co"># which attribute</span></span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>  , <span class="co"># x</span></span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>  , <span class="co"># y</span></span>
+<span id="cb112-6"><a href="#cb112-6" aria-hidden="true" tabindex="-1"></a>] <span class="co"># which time</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>stars object with 3 dimensions and 1 attribute
 attribute(s), summary of first 1e+05 cells:
@@ -101249,7 +101257,7 @@ time    1    4    2017     1                        NA    </code></pre>
 <div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we select attribute 1 across all dimensions</span></span>
 <span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a><span class="co"># All data for first time-slice</span></span>
-<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a>CA_pop_cube[ , , , <span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a>CA_pop_cube[, , , <span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>stars object with 3 dimensions and 1 attribute
 attribute(s), summary of first 1e+05 cells:
@@ -101262,7 +101270,7 @@ y       1 1136  458361  -930 NAD83 / California Albers [y]
 time    1    1    2017     1                        NA    </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Specifying x and y window</span></span>
-<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>CA_pop_cube[ ,<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span> ,<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span> , ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>CA_pop_cube[, <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>stars object with 3 dimensions and 1 attribute
 attribute(s):
@@ -101281,18 +101289,19 @@ time    1   4    2017     1                        NA    </code></pre>
 <p>There is also a native export function for <code>stars</code> objects.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_stars</span>(CA_pop_cube,</span>
-<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a>            <span class="st">"./data/CA_pop_cube.tif"</span>,</span>
-<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">driver =</span> <span class="st">"GTiff"</span>,</span>
-<span id="cb118-4"><a href="#cb118-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">options =</span> <span class="fu">c</span>(<span class="st">"COMPRESS=LZW"</span>, <span class="st">"BIGTIFF=YES"</span>)</span>
-<span id="cb118-5"><a href="#cb118-5" aria-hidden="true" tabindex="-1"></a>            )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"./data/CA_pop_cube.tif"</span>,</span>
+<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">driver =</span> <span class="st">"GTiff"</span>,</span>
+<span id="cb118-4"><a href="#cb118-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">c</span>(<span class="st">"COMPRESS=LZW"</span>, <span class="st">"BIGTIFF=YES"</span>)</span>
+<span id="cb118-5"><a href="#cb118-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The <strong>GeoTIFF</strong> format will store the most important data on cell values, x, y, and “bands” and the associated CRS. However, it will discard our coding of the time metadata. If we want to export the <code>stars</code> object for <code>R</code> usage only, we can simply store it as <code>.rds</code>-file to preserve the entire dataset. Exporting for external usage which preserves the extra dimensions can be done in <strong>NetCDF</strong> format.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(CA_pop_cube, <span class="st">"./data/CA_pop_cube.rds"</span>)</span>
 <span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb119-3"><a href="#cb119-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write_stars</span>(CA_pop_cube, </span>
-<span id="cb119-4"><a href="#cb119-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">"./data/CA_pop_cube.nc"</span>,</span>
-<span id="cb119-5"><a href="#cb119-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">driver =</span> <span class="st">"netCDF"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb119-3"><a href="#cb119-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write_stars</span>(CA_pop_cube,</span>
+<span id="cb119-4"><a href="#cb119-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"./data/CA_pop_cube.nc"</span>,</span>
+<span id="cb119-5"><a href="#cb119-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">driver =</span> <span class="st">"netCDF"</span></span>
+<span id="cb119-6"><a href="#cb119-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>

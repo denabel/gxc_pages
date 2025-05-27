@@ -121,13 +121,13 @@ Firstly, we will add a geom to a blank canvas.
 german_districts <- sf::read_sf("./data/VG250_KRS.shp")
 
 # load district attributes
-attributes_districts <- 
-  readr::read_csv2("./data/attributes_districts.csv") |> 
+attributes_districts <-
+  readr::read_csv2("./data/attributes_districts.csv") |>
   dplyr::mutate(ecar_share = as.numeric(ecar_share))
 
 # join data
-german_districts_enhanced <- 
-  german_districts |>  
+german_districts_enhanced <-
+  german_districts |>
   dplyr::left_join(attributes_districts, by = "AGS")
 
 # load states shapefile
@@ -135,12 +135,12 @@ german_states <- sf::read_sf("./data/VG250_LAN.shp")
 ```
 
 ```{r}
-# a simple first map 
+# a simple first map
 ggplot(data = german_districts_enhanced)
 ```
 
 ```{r}
-# a simple first map 
+# a simple first map
 ggplot() +
   geom_sf(data = german_districts_enhanced)
 ```
@@ -163,11 +163,11 @@ Are you having trouble choosing the right color? Some excellent tutorials exist,
 # change color palette
 ggplot() +
   geom_sf(
-    data = german_districts_enhanced, 
+    data = german_districts_enhanced,
     aes(fill = ecar_share)
-  ) + 
+  ) +
   # readable with color vision deficiencies
-  scale_fill_viridis_c(option = "plasma", direction = -1) 
+  scale_fill_viridis_c(option = "plasma", direction = -1)
 ```
 
 Now, we want to proceed adding more layers. 
@@ -176,30 +176,30 @@ Now, we want to proceed adding more layers.
 # the shapefile includes polygons of oceans and lakes
 # easy fix on the fly when you know your data
 german_states <-
-  german_states |>  
+  german_states |>
   dplyr::filter(GF == 4)
 
 # add layer with German states
 ggplot() +
   geom_sf(
-    data = german_districts_enhanced, 
-    aes(fill = ecar_share), 
+    data = german_districts_enhanced,
+    aes(fill = ecar_share),
     color = NA
-  ) + 
+  ) +
   scale_fill_viridis_c(
-    option = "plasma", 
+    option = "plasma",
     direction = -1
   ) +
   # add another layer
   geom_sf(
-    data = german_states, 
+    data = german_states,
     # filling transparent
     fill = "transparent",
     # color of borders
-    color = "black", 
+    color = "black",
     # size of borders
     size = 1
-  )  
+  )
 ```
 
 ## Save and reuse 
@@ -210,27 +210,27 @@ Furthermore, you can save them just as any `ggplot2` graph. The `ggsave()` funct
 
 ```{r}
 # assign to object
-ecar_map <- 
+ecar_map <-
   ggplot() +
   geom_sf(
-    data = german_districts_enhanced, 
-    aes(fill = ecar_share), 
+    data = german_districts_enhanced,
+    aes(fill = ecar_share),
     color = NA
-  ) + 
+  ) +
   scale_fill_viridis_c(
     option = "plasma",
     direction = -1,
     name = "E-Car Share",
     guide = guide_legend(
-      direction= "horizontal",
+      direction = "horizontal",
       label.position = "bottom"
     )
-  ) + 
+  ) +
   geom_sf(
-    data = german_states, 
-    fill = "transparent", 
+    data = german_states,
+    fill = "transparent",
     color = "black"
-  ) 
+  )
 
 # save as png-file
 # ggsave("ecar_map.png", ecar_map, dpi = 300)
@@ -255,7 +255,7 @@ ecar_map +
     location = "br"
   ) +
   ggspatial::annotation_north_arrow(
-    location = "tr", 
+    location = "tr",
     style = ggspatial::north_arrow_minimal()
   )
 ```
@@ -280,9 +280,10 @@ terra::plot(ger_pop_2020)
 Let's transform it into ETRS89/UTM 32N (EPSG: 25832). You will detect a slight adjustment to the visualization.
 
 ```{r}
-ger_pop_2020 <- terra::project(ger_pop_2020, 
-                               "EPSG:25832"
-                               )
+ger_pop_2020 <- terra::project(
+  ger_pop_2020,
+  "EPSG:25832"
+)
 
 terra::plot(ger_pop_2020)
 ```
@@ -290,15 +291,15 @@ terra::plot(ger_pop_2020)
 Now we will turn to `ggplot2` to add layers. 
 
 ```{r}
-ggplot()+
+ggplot() +
   geom_spatraster(data = ger_pop_2020)
 ```
 
 Of course we will also work on the color scheme and adjust it to our research objectif. 
 
 ```{r}
-ggplot()+
-  geom_spatraster(data = ger_pop_2020)+
+ggplot() +
+  geom_spatraster(data = ger_pop_2020) +
   scale_fill_whitebox_c(
     palette = "muted",
     n.breaks = 12,
@@ -307,8 +308,8 @@ ggplot()+
 ```
 
 ```{r}
-ggplot()+
-  geom_spatraster(data = ger_pop_2020)+
+ggplot() +
+  geom_spatraster(data = ger_pop_2020) +
   scale_fill_viridis_c(
     n.breaks = 12,
     guide = guide_legend(reverse = TRUE)
@@ -320,12 +321,12 @@ For better readability and interpretation let's also add labels.
 ```{r}
 #| eval: false
 #| fig.asp: 1
-ggplot()+
-  geom_spatraster(data = ger_pop_2020)+
+ggplot() +
+  geom_spatraster(data = ger_pop_2020) +
   scale_fill_viridis_c(
     n.breaks = 12,
     guide = guide_legend(reverse = TRUE)
-  )+
+  ) +
   labs(
     fill = "Population\ncount",
     title = "Estimated population of Germany in 2020",
@@ -352,12 +353,14 @@ We already saw in the previous exercise that `ggplot()` initializes a blank canv
 library(tidyterra)
 library(scales)
 
-ggplot()+
-  geom_spatraster(data = CA_pop_stack[[1]])+
-  scale_fill_viridis_c(na.value = "transparent",
-                       name = "Pop count",
-                       limits = c(0, 2000),
-                       oob = scales::squish)+
+ggplot() +
+  geom_spatraster(data = CA_pop_stack[[1]]) +
+  scale_fill_viridis_c(
+    na.value = "transparent",
+    name = "Pop count",
+    limits = c(0, 2000),
+    oob = scales::squish
+  ) +
   theme_minimal()
 ```
 
@@ -367,27 +370,32 @@ Single layers can also be accessed with the layer name supplied to the `aes(fill
 library(tidyterra)
 library(scales)
 
-ggplot()+
-  geom_spatraster(data = CA_pop_stack, 
-                  aes(fill = pop_2017)
-                  )+
-  scale_fill_viridis_c(na.value = "transparent",
-                       name = "Pop count",
-                       limits = c(0, 2000),
-                       oob = scales::squish)+
+ggplot() +
+  geom_spatraster(
+    data = CA_pop_stack,
+    aes(fill = pop_2017)
+  ) +
+  scale_fill_viridis_c(
+    na.value = "transparent",
+    name = "Pop count",
+    limits = c(0, 2000),
+    oob = scales::squish
+  ) +
   theme_minimal()
 ```
 
 For visualizing all four layers simultaneously, we can utilize the `facet_wrap()` command. Instead of providing the name of a third variable to command, we call `lyr`, which `geom_spatraster()`recognizes as the third dimension. 
 
 ```{r}
-ggplot()+
-  geom_spatraster(data = CA_pop_stack)+
-  scale_fill_viridis_c(na.value = "transparent",
-                       name = "Pop count",
-                       limits = c(0, 2000),
-                       oob = scales::squish)+
-  facet_wrap(~ lyr)+
+ggplot() +
+  geom_spatraster(data = CA_pop_stack) +
+  scale_fill_viridis_c(
+    na.value = "transparent",
+    name = "Pop count",
+    limits = c(0, 2000),
+    oob = scales::squish
+  ) +
+  facet_wrap(~lyr) +
   theme_minimal()
 ```
 
@@ -401,17 +409,19 @@ facet_labels <- function(label) {
   new_label
 }
 
-ggplot()+
-  geom_spatraster(data = CA_pop_stack)+
-  scale_fill_viridis_c(na.value = "transparent",
-                       name = "Pop count",
-                       limits = c(0, 2000),
-                       oob = scales::squish)+
-  facet_wrap(~ lyr,
-             labeller = labeller(
-               lyr = facet_labels
-             )
-  )+
+ggplot() +
+  geom_spatraster(data = CA_pop_stack) +
+  scale_fill_viridis_c(
+    na.value = "transparent",
+    name = "Pop count",
+    limits = c(0, 2000),
+    oob = scales::squish
+  ) +
+  facet_wrap(~lyr,
+    labeller = labeller(
+      lyr = facet_labels
+    )
+  ) +
   theme_minimal()
 ```
 
@@ -427,18 +437,20 @@ facet_labels <- function(label) {
   new_label
 }
 
-ggplot()+
-  geom_spatraster(data = CA_pop_stack)+
-  scale_fill_viridis_c(na.value = "transparent",
-                       name = "Pop count",
-                       limits = c(0, 2000),
-                       oob = scales::squish)+
-  facet_wrap(~ lyr,
-             labeller = labeller(
-               lyr = facet_labels
-             )
-  )+
-  theme_minimal()+
+ggplot() +
+  geom_spatraster(data = CA_pop_stack) +
+  scale_fill_viridis_c(
+    na.value = "transparent",
+    name = "Pop count",
+    limits = c(0, 2000),
+    oob = scales::squish
+  ) +
+  facet_wrap(~lyr,
+    labeller = labeller(
+      lyr = facet_labels
+    )
+  ) +
+  theme_minimal() +
   labs(
     title = "Population in California",
     subtitle = "In absolute numbers on 1x1km grid",
@@ -470,7 +482,7 @@ CA_pop_cube
 Base `R` plotting of `stars` objects is possible. However, the default color-scheme is limited and often results in plots like this one which are relatively uninformative. It would require manual workarounds on breaks to adjust this. We prefer to directly move on to `ggplot`.
 
 ```{r}
-plot(CA_pop_cube[,,,1])
+plot(CA_pop_cube[, , , 1])
 ```
 
 Setting up your visualization with `ggplot` is very similar to the approach before for `SpatRaster` data. `geom_stars` allows us to directly input a stars object.
@@ -479,13 +491,16 @@ Setting up your visualization with `ggplot` is very similar to the approach befo
 #| eval: false
 #| fig.asp: 1
 ggplot() +
-  geom_stars(data = CA_pop_cube[,,,1], 
-             aes(fill = population)
-             ) +
-  scale_fill_viridis_c(na.value = "transparent",
-                       name = "Pop count",
-                       limits = c(0, 2000),
-                       oob = scales::squish)+
+  geom_stars(
+    data = CA_pop_cube[, , , 1],
+    aes(fill = population)
+  ) +
+  scale_fill_viridis_c(
+    na.value = "transparent",
+    name = "Pop count",
+    limits = c(0, 2000),
+    oob = scales::squish
+  ) +
   coord_equal() +
   theme_minimal()
 ```
@@ -497,16 +512,19 @@ With `facet_wrap`, we can create a combination of several layers into one plot. 
 #| eval: false
 #| fig.asp: 1
 ggplot() +
-  geom_stars(data = CA_pop_cube, 
-             aes(fill = population)
-             ) +
-  scale_fill_viridis_c(na.value = "transparent",
-                       name = "Pop count",
-                       limits = c(0, 2000),
-                       oob = scales::squish)+
+  geom_stars(
+    data = CA_pop_cube,
+    aes(fill = population)
+  ) +
+  scale_fill_viridis_c(
+    na.value = "transparent",
+    name = "Pop count",
+    limits = c(0, 2000),
+    oob = scales::squish
+  ) +
   coord_equal() +
-  facet_wrap(~ time)+
-  theme_minimal()+
+  facet_wrap(~time) +
+  theme_minimal() +
   labs(
     title = "Population in California",
     subtitle = "In absolute numbers on 1x1km grid",
