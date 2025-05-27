@@ -18,6 +18,8 @@ library(dplyr)
 
 # Graphic Display of Raster Data 
 
+![Data Visualization, [Source](https://www.elmhurst.edu/wp-content/uploads/2020/11/data-visualization-illustration.jpg)](https://www.elmhurst.edu/wp-content/uploads/2020/11/data-visualization-illustration.jpg){width=40%"}
+
 ## Why and how should we use data visualization?
 
 **Enhancing Understanding and Interpretation**
@@ -60,7 +62,7 @@ library(dplyr)
    
 ([Unwin, 2020](https://hdsr.mitpress.mit.edu/pub/zok97i7p/release/4))
    
-Reduce data-ink example:
+!["The interior decoration of graphics generates a lot of ink that does not tell the viewer anything new." - Edward Tufte, [Source: The Data-ink Ration](https://img.pagecloud.com/I9GrTCjxdLR2CgoJhlolhFF08tE=/800x0/filters:no_upscale()/simplexct/Slide2.jpeg)](https://img.pagecloud.com/I9GrTCjxdLR2CgoJhlolhFF08tE=/800x0/filters:no_upscale()/simplexct/Slide2.jpeg){width="50%"}
 
 Check out [Edward Tufte's](https://www.edwardtufte.com/tufte/) work on data visualization to achieve **graphical excellence**. It is a *minimalist* approach to visualization which **maximizes the proportion of data-ink** to total ink in a plot. [Tufte in R](http://motioninsocial.com/tufte/) offers many examples how to translate Tufte's perspective into graphs in R.
 
@@ -74,6 +76,8 @@ Why using ggplot2 for programming graphics?
 In general, `ggplot2` is well-suited for **multi-dimensional data** that can be displayed in layered plots. 
 
 **What are layered plots?**
+
+![Layered Plot, [Source: Drawing Layered Plot with ggplot2](https://cdn.thenewstack.io/media/2015/04/car-smooth-pt.png)](https://cdn.thenewstack.io/media/2015/04/car-smooth-pt.png){width="50%"}
 
 Layered plots are made by stacking different parts of a chart on top of each other. Each "layer" adds something to the visual.
 
@@ -143,7 +147,7 @@ ggplot() +
 
 Now we can dive into the aesthetics of our map. When choosing a color scheme it is important to respect that: 
 
-![Examples of categorical, sequential and diverging palettes. [Source: Geocomputation with R](https://r.geocompx.org/adv-map)](https://r.geocompx.org/figures/colpal-1.png)
+![Examples of categorical, sequential and diverging palettes. [Source: Geocomputation with R](https://r.geocompx.org/adv-map)](https://r.geocompx.org/figures/colpal-1.png){width="50%"}
 
 - Certain colors and color contrast can make interpretation hard.
 
