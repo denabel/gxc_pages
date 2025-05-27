@@ -18,6 +18,8 @@ website:
             text: Raster data
           - href: datacubes.qmd
             text: Datacubes
+          - href: graphicdisplay.qmd  
+            text: Graphic Display
           - href: nightlights.qmd
             text: Nightlights
           - href: issp.qmd
