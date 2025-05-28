@@ -14,6 +14,8 @@ website:
             text: Intro to EO data
           - href: quality_criteria.qmd
             text: Quality criteria
+          - href: crs-qmd
+            text: Intro to CRSs
           - href: raster_data.qmd
             text: Raster data
           - href: datacubes.qmd

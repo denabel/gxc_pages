@@ -1055,5 +1055,82 @@
     "title": "Graphic Display",
     "section": "",
     "text": "Now we turn towards our stars datacubes and explore the visualization options. First, we load the raster cube created in the previous session.\n\nCA_pop_cube &lt;- readRDS(\"./data/CA_pop_cube.rds\")\n\nCA_pop_cube\n\nstars object with 3 dimensions and 1 attribute\nattribute(s), summary of first 1e+05 cells:\n                   Min. 1st Qu. Median     Mean   3rd Qu.     Max.  NA's\npopulation [count]    0       0      0 2.112075 0.1045545 1906.748 71165\ndimension(s):\n     from   to  offset delta                    refsys x/y\nx       1 1234 -415531 783.7 NAD83 / California Albers [x]\ny       1 1136  458361  -930 NAD83 / California Albers [y]\ntime    1    4    2017     1                        NA    \n\n\nBase R plotting of stars objects is possible. However, the default color-scheme is limited and often results in plots like this one which are relatively uninformative. It would require manual workarounds on breaks to adjust this. We prefer to directly move on to ggplot.\n\nplot(CA_pop_cube[, , , 1])\n\n\n\n\n\n\n\n\nSetting up your visualization with ggplot is very similar to the approach before for SpatRaster data. geom_stars allows us to directly input a stars object.\n\nggplot() +\n  geom_stars(\n    data = CA_pop_cube[, , , 1],\n    aes(fill = population)\n  ) +\n  scale_fill_viridis_c(\n    na.value = \"transparent\",\n    name = \"Pop count\",\n    limits = c(0, 2000),\n    oob = scales::squish\n  ) +\n  coord_equal() +\n  theme_minimal()\n\nWith facet_wrap, we can create a combination of several layers into one plot. Given that stars objects can have &gt;1 bands, we specify it with the exact name. Here it is “time”. Facet labels are directly derived from that band. We do not need to wrangle with labeling further.\n\nggplot() +\n  geom_stars(\n    data = CA_pop_cube,\n    aes(fill = population)\n  ) +\n  scale_fill_viridis_c(\n    na.value = \"transparent\",\n    name = \"Pop count\",\n    limits = c(0, 2000),\n    oob = scales::squish\n  ) +\n  coord_equal() +\n  facet_wrap(~time) +\n  theme_minimal() +\n  labs(\n    title = \"Population in California\",\n    subtitle = \"In absolute numbers on 1x1km grid\",\n    caption = \"Source: WorldPop (2018)\"\n  ) +\n  annotation_scale(\n    location = \"bl\",\n    width_hint = 0.3\n  ) +\n  annotation_north_arrow(\n    location = \"tr\",\n    which_north = \"true\",\n    style = north_arrow_fancy_orienteering\n  )\n\n\n\nLiterature\n\nBunch, R., & Lloyd, R. (2000). The Search for Boundaries on Maps: Color Processing and Map Pattern Effects. Cartography and Geographic Information Science, 27(1), 15–30. https://doi.org/10.1559/152304000783548046\nDunnington, D. (2023). Spatial objects using ggspatial and ggplot2 [Vignette]. https://paleolimbot.github.io/ggspatial/articles/ggspatial.html\nDunnington, D., Thorne, B., & Hernangómez, D. (2023). ggspatial: Spatial Data Framework for ggplot2 (Version 1.1.9) [Computer software]. Comprehensive R Archive Network (CRAN). https://CRAN.R-project.org/package=ggspatial\nLovelace, R., Nowosad, J., & Muenchow, J. (2025). Conclusion. In Geocomputation with R. Retrieved May 27, 2025, from https://r.geocompx.org/conclusion\nUnwin, A. (2020, January 31). Why is data visualization important? What is important in data visualization? Harvard Data Science Review. https://hdsr.mitpress.mit.edu/pub/zok97i7p/release/4\nWickham, H. (2010). A Layered Grammar of Graphics. Journal of Computational and Graphical Statistics, 19(1), 3–28. https://doi.org/10.1198/jcgs.2009.07098\nWickham, H. (2011). ggplot2. Wiley interdisciplinary reviews: computational statistics, 3(2), 180-185. https://doi.org/10.1002/wics.147"
+  },
+  {
+    "objectID": "crs.html",
+    "href": "crs.html",
+    "title": "Introduction to Coordinate Reference Systems",
+    "section": "",
+    "text": "When working with geospatial data in R—or in any Geographic Information System (GIS)—understanding Coordinate Reference Systems (CRS) is essential. CRSs provide the mathematical and conceptual framework that builds a connection between real-world locations on Earth’s surface and data points by mathematical modelling. The choice of CRS depends on the regional extent of the Area of Interest. Every CRS consists off a projected coordinate reference system and a geographic reference system (QGIS Documentation). The CRS tells Geographic Information Systems (GIS), such as R, where raster data s located in geographic space (Data Carpentry)."
+  },
+  {
+    "objectID": "crs.html#what-is-a-coordinate-reference-system",
+    "href": "crs.html#what-is-a-coordinate-reference-system",
+    "title": "Introduction to Coordinate Reference Systems",
+    "section": "",
+    "text": "When working with geospatial data in R—or in any Geographic Information System (GIS)—understanding Coordinate Reference Systems (CRS) is essential. CRSs provide the mathematical and conceptual framework that builds a connection between real-world locations on Earth’s surface and data points by mathematical modelling. The choice of CRS depends on the regional extent of the Area of Interest. Every CRS consists off a projected coordinate reference system and a geographic reference system (QGIS Documentation). The CRS tells Geographic Information Systems (GIS), such as R, where raster data s located in geographic space (Data Carpentry)."
+  },
+  {
+    "objectID": "crs.html#what-are-we-referencing-to",
+    "href": "crs.html#what-are-we-referencing-to",
+    "title": "Introduction to Coordinate Reference Systems",
+    "section": "What are we referencing to?",
+    "text": "What are we referencing to?"
+  },
+  {
+    "objectID": "crs.html#core-components-of-a-crs",
+    "href": "crs.html#core-components-of-a-crs",
+    "title": "Introduction to Coordinate Reference Systems",
+    "section": "Core Components of a CRS",
+    "text": "Core Components of a CRS\n\n\n\nComponents CRS, Source: Federal Agency for Cartography and Geodesy (BKG)\n\n\n\nDatum\nThe datum is like the coordinates system’s anchor. It defines the Earth’s center. The Z-axis points through the North and South Poles (aligned with Earth’s rotation), the X-axis points towards the Prime Meridian (zero longitude), the Y-axis completes the 3D system at a right angle to the others (Seeger 1999). A quite well-known global datum is e.g. WGS84 (World Geodetic System 1984) that is also used in GPS.\n\n\n\nGeographical Coordinate System, Source: Seeger 1999\n\n\n\n\nCoordinate System\nCoordinate systems is like a set of rules that tells us how to describe locations on a map or in space. It defines:\n\nHow many directions we need to describe a point (like 2D with x and y, or 3D with x, y, and z),\nThe order in which we write the coordinates (e.g., is it (x, y) or (latitude, longitude)?),\nWhat kind of values the coordinates are (like angles in degrees or distances in meters).\n\n\n\nProjection\nA projection i.e. map projection, describes the mathematical representation of a 3-dimensional, spherical, geodetic ellipsoid as a 2-dimensional plane. One can imagine positioning a light source in a transparent, resulting in shadows on the walls. Most well-know projecitons are e.g. the Universal Transverse Mercator (UTM) and Gauß-Krüger projection (Seeger 1999). There are different forms of map projection methods: cylindrical, cone, flat surface.\n\n\n\nThe three families of ap projections. They can be represented by a) cylindrical projections, b) conical projections or c) planar projections. Source: QGIS Project\n\n\n\n\nWhy is it important for geospatial data?\nCRSs are fundamental in locating and analyzing spatial data. They determine how your data connects to real-world geography and impact everything from visualization to statistical modeling. In fact, all coordinates are based on a reference systems that changes periodically, since the Earth does as well (e.g. tectonic movements, volcanic eruptions etc.) CRSs contain all parameters necessary to locate a point i.e. datum (the “center”), coordinate system (measurement framework) and the coordinates (direct or indirect positions). So to make use of coordinates and to visualize spatial phenomenons on a map you need a CRS (Seeger 1999). The choice of map projection you choose for your research depends manly on the regional extent on your Area of Interest (AOI), your research motives. Also, you should look in to the accuracy of different CRS for your AOI, but we’ll have a look into that later.\n\nReal-world Applications\n\n\n\nDirect and Indirect Positioning, Source: Federal Agency for Cartography and Geodesy (BKG)"
+  },
+  {
+    "objectID": "crs.html#different-types-of-crs",
+    "href": "crs.html#different-types-of-crs",
+    "title": "Introduction to Coordinate Reference Systems",
+    "section": "Different types of CRS",
+    "text": "Different types of CRS\nGeographic Coordinate System: Coordinates are in degrees of latitude and longitude (and height). The latitude is parallel to the equator and the longitude perpendicular to the equator, creating a grid.\nProjected Coordinate System: There are 2-dimensional PCS containing 2 axis, the XY-plane. As well as, 3-dimensional PCS that add a Z-dimension, the dimension of space.\nWhat are EPSG codes?"
+  },
+  {
+    "objectID": "crs.html#accuracy-of-map-projections",
+    "href": "crs.html#accuracy-of-map-projections",
+    "title": "Introduction to Coordinate Reference Systems",
+    "section": "Accuracy of map projections",
+    "text": "Accuracy of map projections\n\n\n\nThe above image shows maps of the United States in different projections. Notice the differences in shape associated with each projection. These differences are a direct result of the calculations used to flatten the data onto a 2-dimensional map. (Source: opennews.org) {: .text-center}, Source: Introduction to Geospatial Concepts\n\n\nEvery map projection shows a form of distortion i.e. inaccuracy to reality. A map projection is always compromising between angular, distance or area conformity. Therefore when choosing a CRS for your research you need to find one best fitted for your objectives.\nAngular Conformity/ Orthomorphic projections: Keep the angles between directions correct — just like on a real compass. That’s helpful when accurate shapes and directions are more important than size. Therefore these maps are commonly used for navigation or meteorological data. Orthomoprhic projections are e.g. the Mercator or the Lambert Conformal Conic projection.\nEqual distance/ Equidistant projections: Keep distances accurate, but only from one or two specific points or along certain lines. For example, if a city is in the center of the map, the distance from that city to other places is correct. These projections are most useful in seismic mapping or navigation. Equidistant projections are e.g. the Plate Carrée Equidistant Cylindrical and Equidirectangular projection.\nEqual area projections : Keep the same proportional relationship of areas. Used mostly for educational maps, city planning, more precise for smaller spatial extent. Map projections that preserve an equal distance are e.g. Alber’s equal area, Lambert’s equal area and Mollweide Equal Area Cylindrical projection."
+  },
+  {
+    "objectID": "crs.html#datum-and-reference-ellipsoids",
+    "href": "crs.html#datum-and-reference-ellipsoids",
+    "title": "Introduction to Coordinate Reference Systems",
+    "section": "Datum and reference ellipsoids",
+    "text": "Datum and reference ellipsoids"
+  },
+  {
+    "objectID": "crs.html#transformations-conversions",
+    "href": "crs.html#transformations-conversions",
+    "title": "Introduction to Coordinate Reference Systems",
+    "section": "Transformations & Conversions",
+    "text": "Transformations & Conversions\nWhen working with geospatial data you might encounter different sources that all use different CRS. When CRSs are not alligned correctly distances can be wrong, areas can be distorted and point’s won’t match up, even if they are in the same real world location. To overlay, analyse and interpret data they must all be in the same CRS. In this case conversion or transformation into other CRSs might be necessary. Conversions mean the change of the coordinate from one CRS to another, based on the same datum. Transformations mean a change of coordinates from one CRS to another with different datum but based on a set of points common in both CRS."
+  },
+  {
+    "objectID": "crs.html#working-with-crs-in-r",
+    "href": "crs.html#working-with-crs-in-r",
+    "title": "Introduction to Coordinate Reference Systems",
+    "section": "Working with CRS in R",
+    "text": "Working with CRS in R\nMetadata like the CRS can be looked into with st_stars(), crs() or in terra. With the stars and the terra package the CRS can be checked on and also reprojected."
+  },
+  {
+    "objectID": "crs.html#tools-and-standards",
+    "href": "crs.html#tools-and-standards",
+    "title": "Introduction to Coordinate Reference Systems",
+    "section": "Tools and standards",
+    "text": "Tools and standards\nCRS information can be represented and transformed in PROJ an open-source library storing. GDAL can help in translating between various geospatial formats, editing and manipulating vector and raster files. Also, repojection with GDAL is possible."
+  },
+  {
+    "objectID": "crs.html#best-practice",
+    "href": "crs.html#best-practice",
+    "title": "Introduction to Coordinate Reference Systems",
+    "section": "Best Practice",
+    "text": "Best Practice\n\n\nLiterature\n\nData Carpentry. (n.d.). Introduction to coordinate reference systems. https://datacarpentry.github.io/organization-geospatial/03-crs\nFederal Agency for Cartography and Geodesy (BKG). (n.d.). European spatial reference systems. https://crs.bkg.bund.de/pub01EuropeanSpatialRefernceSystems.pdf\nJanssen, V. (2009). Understanding coordinate reference systems, datums and transformations. https://figshare.utas.edu.au/articles/journal_contribution/Understanding_coordinate_reference_systems_datums_and_transformations/22873136/1?file=40609577\nSeeger, H. (1999). Spatial referencing and coordinate systems. Geographical information systems, 1, 757-766. https://www.geos.ed.ac.uk/~gisteac/gis_book_abridged/files/ch30.pdf\nQGIS Project. (2024). A gentle introduction to GIS: Coordinate reference systems. QGIS Documentation. https://docs.qgis.org/3.40/en/docs/gentle_gis_introduction/coordinate_reference_systems.html"
   }
 ]

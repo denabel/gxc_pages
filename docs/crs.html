@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Introduction to Coordinate Reference Systems – GESIS meets Copernicus (GxC)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-ddd961a2510921635943dfbbd19534c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GESIS meets Copernicus (GxC)</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorials" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorials</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorials">    
+        <li>
+    <a class="dropdown-item" href="./eod_intro.html">
+ <span class="dropdown-text">Intro to EO data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./quality_criteria.html">
+ <span class="dropdown-text">Quality criteria</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./crs-qmd">
+ <span class="dropdown-text">Intro to CRSs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./raster_data.html">
+ <span class="dropdown-text">Raster data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./datacubes.html">
+ <span class="dropdown-text">Datacubes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./graphicdisplay.html">
+ <span class="dropdown-text">Graphic Display</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./nightlights.html">
+ <span class="dropdown-text">Nightlights</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./issp.html">
+ <span class="dropdown-text">Case study ISSP</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gles_panel.html">
+ <span class="dropdown-text">Case study GLES Panel</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./resources.html">
+ <span class="dropdown-text">Further resources</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Software</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-software">    
+        <li>
+    <a class="dropdown-item" href="./package.html">
+ <span class="dropdown-text">gxc package</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./catalogue.html">
+ <span class="dropdown-text">Indicators</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./performance.html">
+ <span class="dropdown-text">Performance</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./courses.html"> 
+<span class="menu-text">Courses</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./articles.html"> 
+<span class="menu-text">Articles</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./mailinglist.html"> 
+<span class="menu-text">Mailing list</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./imprint.html"> 
+<span class="menu-text">Imprint</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-is-a-coordinate-reference-system" id="toc-what-is-a-coordinate-reference-system" class="nav-link active" data-scroll-target="#what-is-a-coordinate-reference-system">What is a Coordinate Reference System?</a></li>
+  <li><a href="#what-are-we-referencing-to" id="toc-what-are-we-referencing-to" class="nav-link" data-scroll-target="#what-are-we-referencing-to">What are we referencing to?</a></li>
+  <li><a href="#core-components-of-a-crs" id="toc-core-components-of-a-crs" class="nav-link" data-scroll-target="#core-components-of-a-crs">Core Components of a CRS</a>
+  <ul class="collapse">
+  <li><a href="#datum" id="toc-datum" class="nav-link" data-scroll-target="#datum">Datum</a></li>
+  <li><a href="#coordinate-system" id="toc-coordinate-system" class="nav-link" data-scroll-target="#coordinate-system">Coordinate System</a></li>
+  <li><a href="#projection" id="toc-projection" class="nav-link" data-scroll-target="#projection">Projection</a></li>
+  <li><a href="#why-is-it-important-for-geospatial-data" id="toc-why-is-it-important-for-geospatial-data" class="nav-link" data-scroll-target="#why-is-it-important-for-geospatial-data">Why is it important for geospatial data?</a></li>
+  </ul></li>
+  <li><a href="#different-types-of-crs" id="toc-different-types-of-crs" class="nav-link" data-scroll-target="#different-types-of-crs">Different types of CRS</a></li>
+  <li><a href="#accuracy-of-map-projections" id="toc-accuracy-of-map-projections" class="nav-link" data-scroll-target="#accuracy-of-map-projections">Accuracy of map projections</a></li>
+  <li><a href="#transformations-conversions" id="toc-transformations-conversions" class="nav-link" data-scroll-target="#transformations-conversions">Transformations &amp; Conversions</a></li>
+  <li><a href="#working-with-crs-in-r" id="toc-working-with-crs-in-r" class="nav-link" data-scroll-target="#working-with-crs-in-r">Working with CRS in R</a></li>
+  <li><a href="#tools-and-standards" id="toc-tools-and-standards" class="nav-link" data-scroll-target="#tools-and-standards">Tools and standards</a></li>
+  <li><a href="#best-practice" id="toc-best-practice" class="nav-link" data-scroll-target="#best-practice">Best Practice</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Introduction to Coordinate Reference Systems</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="what-is-a-coordinate-reference-system" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-a-coordinate-reference-system">What is a Coordinate Reference System?</h2>
+<p>When working with geospatial data in R—or in any Geographic Information System (GIS)—understanding Coordinate Reference Systems (CRS) is essential. CRSs provide the mathematical and conceptual framework that builds a connection between real-world locations on Earth’s surface and data points by mathematical modelling. The choice of CRS depends on the regional extent of the Area of Interest. Every CRS consists off a projected coordinate reference system and a geographic reference system <a href="https://docs.qgis.org/3.40/en/docs/gentle_gis_introduction/coordinate_reference_systems.html">(QGIS Documentation)</a>. The CRS tells Geographic Information Systems (GIS), such as R, where raster data s located in geographic space <a href="https://datacarpentry.github.io/organization-geospatial/03-crs">(Data Carpentry)</a>.</p>
+</section>
+<section id="what-are-we-referencing-to" class="level2">
+<h2 class="anchored" data-anchor-id="what-are-we-referencing-to">What are we referencing to?</h2>
+</section>
+<section id="core-components-of-a-crs" class="level2">
+<h2 class="anchored" data-anchor-id="core-components-of-a-crs">Core Components of a CRS</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./docs/CRS_files/crs.png" class="img-fluid figure-img"></p>
+<figcaption>Components CRS, <a href="https://crs.bkg.bund.de/pub01EuropeanSpatialRefernceSystems.pdf">Source: Federal Agency for Cartography and Geodesy (BKG)</a></figcaption>
+</figure>
+</div>
+<section id="datum" class="level3">
+<h3 class="anchored" data-anchor-id="datum">Datum</h3>
+<p>The datum is like the coordinates system’s anchor. It defines the Earth’s center. The Z-axis points through the North and South Poles (aligned with Earth’s rotation), the X-axis points towards the Prime Meridian (zero longitude), the Y-axis completes the 3D system at a right angle to the others <a href="https://www.geos.ed.ac.uk/~gisteac/gis_book_abridged/files/ch30.pdf">(Seeger 1999)</a>. A quite well-known global datum is e.g.&nbsp;WGS84 (World Geodetic System 1984) that is also used in GPS.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./docs/CRS_files/ellipsodial_crs.png" class="img-fluid figure-img"></p>
+<figcaption>Geographical Coordinate System, <a href="https://www.geos.ed.ac.uk/~gisteac/gis_book_abridged/files/ch30.pdf">Source: Seeger 1999</a></figcaption>
+</figure>
+</div>
+</section>
+<section id="coordinate-system" class="level3">
+<h3 class="anchored" data-anchor-id="coordinate-system">Coordinate System</h3>
+<p>Coordinate systems is like a set of rules that tells us how to describe locations on a map or in space. It defines:</p>
+<ul>
+<li><p>How many directions we need to describe a point (like 2D with x and y, or 3D with x, y, and z),</p></li>
+<li><p>The order in which we write the coordinates (e.g., is it (x, y) or (latitude, longitude)?),</p></li>
+<li><p>What kind of values the coordinates are (like angles in degrees or distances in meters).</p></li>
+</ul>
+</section>
+<section id="projection" class="level3">
+<h3 class="anchored" data-anchor-id="projection">Projection</h3>
+<p>A projection i.e.&nbsp;map projection, describes the mathematical representation of a 3-dimensional, spherical, geodetic ellipsoid as a 2-dimensional plane. One can imagine positioning a light source in a transparent, resulting in shadows on the walls. Most well-know projecitons are e.g.&nbsp;the Universal Transverse Mercator (UTM) and Gauß-Krüger projection <a href="https://www.geos.ed.ac.uk/~gisteac/gis_book_abridged/files/ch30.pdf">(Seeger 1999)</a>. There are different forms of map projection methods: cylindrical, cone, flat surface.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./docs/CRS_files/projection_methods.png" class="img-fluid figure-img"></p>
+<figcaption>The three families of ap projections. They can be represented by a) cylindrical projections, b) conical projections or c) planar projections. <a href="https://docs.qgis.org/3.40/en/docs/gentle_gis_introduction/coordinate_reference_systems.html">Source: QGIS Project</a></figcaption>
+</figure>
+</div>
+</section>
+<section id="why-is-it-important-for-geospatial-data" class="level3">
+<h3 class="anchored" data-anchor-id="why-is-it-important-for-geospatial-data">Why is it important for geospatial data?</h3>
+<p>CRSs are fundamental in locating and analyzing spatial data. They determine how your data connects to real-world geography and impact everything from visualization to statistical modeling. In fact, all coordinates are based on a reference systems that changes periodically, since the Earth does as well (e.g.&nbsp;tectonic movements, volcanic eruptions etc.) CRSs contain all parameters necessary to locate a point i.e.&nbsp;datum (the “center”), coordinate system (measurement framework) and the coordinates (direct or indirect positions). So to make use of coordinates and to visualize spatial phenomenons on a map you need a CRS <a href="https://www.geos.ed.ac.uk/~gisteac/gis_book_abridged/files/ch30.pdf">(Seeger 1999)</a>. The choice of map projection you choose for your research depends manly on the regional extent on your Area of Interest (AOI), your research motives. Also, you should look in to the accuracy of different CRS for your AOI, but we’ll have a look into that later.</p>
+<section id="real-world-applications" class="level4">
+<h4 class="anchored" data-anchor-id="real-world-applications">Real-world Applications</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./docs/CRS_files/crs_positioning.png" class="img-fluid figure-img"></p>
+<figcaption>Direct and Indirect Positioning, <a href="https://crs.bkg.bund.de/pub01EuropeanSpatialRefernceSystems.pdf">Source: Federal Agency for Cartography and Geodesy (BKG)</a></figcaption>
+</figure>
+</div>
+</section>
+</section>
+</section>
+<section id="different-types-of-crs" class="level2">
+<h2 class="anchored" data-anchor-id="different-types-of-crs">Different types of CRS</h2>
+<p><strong>Geographic Coordinate System</strong>: Coordinates are in degrees of latitude and longitude (and height). The latitude is parallel to the equator and the longitude perpendicular to the equator, creating a grid.</p>
+<p><strong>Projected Coordinate System</strong>: There are 2-dimensional PCS containing 2 axis, the XY-plane. As well as, 3-dimensional PCS that add a Z-dimension, the dimension of space.</p>
+<p><strong>What are EPSG codes?</strong></p>
+</section>
+<section id="accuracy-of-map-projections" class="level2">
+<h2 class="anchored" data-anchor-id="accuracy-of-map-projections">Accuracy of map projections</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://media.opennews.org/cache/06/37/0637aa2541b31f526ad44f7cb2db7b6c.jpg" class="img-fluid figure-img"></p>
+<figcaption>The above image shows maps of the United States in different projections. Notice the differences in shape associated with each projection. These differences are a direct result of the calculations used to flatten the data onto a 2-dimensional map. (Source: opennews.org) {: .text-center}, <a href="https://datacarpentry.github.io/organization-geospatial/03-crs">Source: Introduction to Geospatial Concepts</a></figcaption>
+</figure>
+</div>
+<p>Every map projection shows a form of distortion i.e.&nbsp;inaccuracy to reality. A map projection is always compromising between angular, distance or area conformity. Therefore when choosing a CRS for your research you need to find one best fitted for your objectives.</p>
+<p><strong>Angular Conformity/ Orthomorphic projections</strong>: Keep the angles between directions correct — just like on a real compass. That’s helpful when accurate shapes and directions are more important than size. Therefore these maps are commonly used for navigation or meteorological data. Orthomoprhic projections are e.g.&nbsp;the Mercator or the Lambert Conformal Conic projection.</p>
+<p><strong>Equal distance/ Equidistant projections</strong>: Keep distances accurate, but only from one or two specific points or along certain lines. For example, if a city is in the center of the map, the distance from that city to other places is correct. These projections are most useful in seismic mapping or navigation. Equidistant projections are e.g.&nbsp;the Plate Carrée Equidistant Cylindrical and Equidirectangular projection.</p>
+<p><strong>Equal area projections </strong>: Keep the same proportional relationship of areas. Used mostly for educational maps, city planning, more precise for smaller spatial extent. Map projections that preserve an equal distance are e.g.&nbsp;Alber’s equal area, Lambert’s equal area and Mollweide Equal Area Cylindrical projection.</p>
+</section>
+<section id="transformations-conversions" class="level2">
+<h2 class="anchored" data-anchor-id="transformations-conversions">Transformations &amp; Conversions</h2>
+<p>When working with geospatial data you might encounter different sources that all use different CRS. When CRSs are not alligned correctly distances can be wrong, areas can be distorted and point’s won’t match up, even if they are in the same real world location. To overlay, analyse and interpret data they must all be in the same CRS. In this case conversion or transformation into other CRSs might be necessary. <strong>Conversions</strong> mean the change of the coordinate from one CRS to another, based on the same datum. <strong>Transformations</strong> mean a change of coordinates from one CRS to another with different datum but based on a set of points common in both CRS.</p>
+</section>
+<section id="working-with-crs-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="working-with-crs-in-r">Working with CRS in R</h2>
+<p>Metadata like the CRS can be looked into with <code>st_stars()</code>, <code>crs()</code> or in <code>terra</code>. With the <code>stars</code> and the <code>terra</code> package the CRS can be checked on and also reprojected.</p>
+</section>
+<section id="tools-and-standards" class="level2">
+<h2 class="anchored" data-anchor-id="tools-and-standards">Tools and standards</h2>
+<p>CRS information can be represented and transformed in PROJ an open-source library storing. GDAL can help in translating between various geospatial formats, editing and manipulating vector and raster files. Also, repojection with GDAL is possible.</p>
+</section>
+<section id="best-practice" class="level2">
+<h2 class="anchored" data-anchor-id="best-practice">Best Practice</h2>
+<details>
+<summary>
+Literature
+</summary>
+<p>Data Carpentry. (n.d.). Introduction to coordinate reference systems. https://datacarpentry.github.io/organization-geospatial/03-crs</p>
+<p>Federal Agency for Cartography and Geodesy (BKG). (n.d.). European spatial reference systems. https://crs.bkg.bund.de/pub01EuropeanSpatialRefernceSystems.pdf</p>
+<p>Janssen, V. (2009). Understanding coordinate reference systems, datums and transformations. https://figshare.utas.edu.au/articles/journal_contribution/Understanding_coordinate_reference_systems_datums_and_transformations/22873136/1?file=40609577</p>
+<p>Seeger, H. (1999). Spatial referencing and coordinate systems. Geographical information systems, 1, 757-766. https://www.geos.ed.ac.uk/~gisteac/gis_book_abridged/files/ch30.pdf</p>
+<p>QGIS Project. (2024). A gentle introduction to GIS: Coordinate reference systems. QGIS Documentation. https://docs.qgis.org/3.40/en/docs/gentle_gis_introduction/coordinate_reference_systems.html</p>
+</details>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
