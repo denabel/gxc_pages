@@ -2,6 +2,43 @@
 title: "Performance"
 ---
 
+## Why is information about performance important? What does it say about the package?
+
+![The devtools package development workflow. [Source: Wickham & Brian 2023](https://r-pkgs.org/other-markdown.html)](https://r-pkgs.org/diagrams/workflow.png){width="60%"}
+
+Testing, documentation, and performance evaluation are critical throughout the development of an R package. These practices ensure reliability, maintainability, user trust, and a positive user experience. A well-designed package should produce correct and transparent results, function consistently across systems and R versions, and offer performance suitable for real-world applications. Clear documentation, intuitive interfaces, and informative error messages enhance usability and minimize the risk of misuse [(Wickham & Bryan 2023)](18  Other markdown files – R Packages (2e)). 
+
+## How are we assessing performance? Different ways of assessing performance?
+
+CRAN's standards for package submissions check for performance and correctness. CRAN has established a set of policies regarding quality, copyright, effectiveness and performance [(R Core Team)](https://cran.r-project.org/web/packages/policies.html). 
+
+<details>
+ <summary>Packages that help you check the performance of your package</summary>
+
+**`bench`**: measures execution time, memory use, garbage Collection. Assessing overall performance of funtcions under realistic workloads. 
+
+**`microbenchmark`**: 
+
+**`profvis`**: 
+
+**`roxygen2`**: 
+
+**`pkgdown`**: Builds websites from package documentation. Enhances accessability and transparency of your package's functions and usage examples. 
+
+**`cli`**: 
+
+**`usethis`**: Automates setup of common package components (e.g. tests, GitHub, licences). Promotes best practices in project structure and consistency, boosting maintainability. 
+
+**`lintr`**: Static code analysis for R. Identifies style violations and potential coding issues, encouraging clean readable code. 
+</details>
+
+## How does gxc perform? 
+
+### Parallel processing 
+
+### `futureverse`
+
+
 ## How long will the package run on an average laptop?
 
 Here, you can explore performance of the `gxc`-package in terms of execution time. We have tested several specifications and varied the most important parameters which might affect the processing time and which are representative of typical specifications in previous studies: 
@@ -324,6 +361,7 @@ If `parallel=TRUE`, data processing is performed by pre-chunking input data. The
 
 We are accessing the `2m_temperature` indicator from the `ERA5-Land` dataset for this exercise. The code was run on an average office laptop (Intel Core i7-10510U CPU, 16GB RAM, Windows 10).
 
+
 ```{r, echo=FALSE, warning=FALSE}
 results_df <- read_rds("./data/performance_results_parallel.rds")
 
@@ -519,7 +557,8 @@ p_plotly <- p_plotly %>% layout(
 p_plotly
 ```
 
-## Replication code
+<details>
+ <summary>Replication code</summary>
 
 ```{r packages2, warning = FALSE, message = FALSE}
 # Load packages
@@ -533,7 +572,7 @@ library(tictoc)
 library(gxc)
 ```
 
-## Generate random sample
+**Generate random sample**
 
 ```{r create-grid2}
 # Load shapefiles and prepare grids ---------------------------------------
@@ -622,7 +661,7 @@ plots <- lapply(seq_along(sample_sizes), function(i) {
 gridExtra::grid.arrange(grobs = plots[-c(1:3)], ncol = 3)
 ```
 
-## Calculate execution time for each specification
+**Calculate execution time for each specification**
 
 ```{r execute-time2}
 # # Loop over poly_link-function and measure elapsed time -------------------
@@ -702,7 +741,7 @@ gridExtra::grid.arrange(grobs = plots[-c(1:3)], ncol = 3)
 # }
 ```
 
-## Visualize
+**Visualize**
 
 ```{r time-plot2}
 results_df <- readRDS("./data/performance_results.rds")
@@ -823,3 +862,14 @@ p_plotly <- p_plotly %>% layout(
 # Display the interactive plot.
 # p_plotly
 ```
+</details>
+
+<details>
+ <summary>Literature</summary>
+ 
+R Core Team. (n.d.). CRAN repository policy. The Comprehensive R Archive Network (CRAN). https://cran.r-project.org/web/packages/policies.html
+ 
+Wickham, H., & Bryan, J. (2023). 18 Other markdown files. In R Packages (2nd ed.). https://r-pkgs.org/other-markdown.html
+
+
+</details>
