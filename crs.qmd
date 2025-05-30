@@ -8,6 +8,16 @@ When working with geospatial data in R—or in any Geographic Information System
 
 ## What are we referencing to?
 
+Before working with coordinate reference systems (CRS), it's useful to first understand the shape of the Earth — our starting point. While we often describe Earth as a sphere, it's not a perfect globe. Its shape is influenced by gravity, varying topography, and fluctuating sea levels, making it far more complex.
+
+The most accurate model of Earth’s irregular surface is called the Geoid. It reflects variations in gravity and represents the shape the oceans would take under the influence of Earth's gravity and rotation alone, without winds or tides. However, because of its complexity, the Geoid is difficult to describe mathematically.
+
+![This is a Geoid, [Source: Image](https://timeandnavigation.si.edu/multimedia-asset/geoid)](https://th.bing.com/th/id/R.c7ac974327943884f2bc11570bdd897e?rik=KjePWmOgZbNssQ&riu=http%3a%2f%2ftimeandnavigation.si.edu%2fsites%2fdefault%2ffiles%2fmultimedia-assets%2f540-geoid_-_nga.jpg&ehk=lTUV6blZCP5h6pTyDVL6ruBd9SHeubopClLxB9T2%2fbM%3d&risl=&pid=ImgRaw&r=0){width="40%"}
+
+To simplify calculations and mapping, scientists use reference ellipsoids — mathematically defined, smooth, and slightly flattened spheres. These rotation ellipsoids approximate the shape of the Geoid and are easier to work with in geospatial analysis. While they don’t match the Earth’s true surface perfectly, they offer a practical solution for working at global or regional scales. Different ellipsoids are optimized for different areas of the Earth, especially when precision is needed on a local level [(Janssen 2009)](https://figshare.utas.edu.au/articles/journal_contribution/Understanding_coordinate_reference_systems_datums_and_transformations/22873136/1?file=40609577)
+
+![Ellipsoids approximating the Geoid, [Source: Image](https://community.emlid.com/uploads/default/optimized/3X/8/4/846f70aaccaec65f31ef1b1cde74db2b37c0c533_2_600x375.jpeg)](https://community.emlid.com/uploads/default/optimized/3X/8/4/846f70aaccaec65f31ef1b1cde74db2b37c0c533_2_600x375.jpeg)
+
 ## Core Components of a CRS
 
 ![Components CRS, [Source: Federal Agency for Cartography and Geodesy (BKG)](https://crs.bkg.bund.de/pub01EuropeanSpatialRefernceSystems.pdf) ](./docs/CRS_files/crs.png)
@@ -17,7 +27,7 @@ When working with geospatial data in R—or in any Geographic Information System
 
 The datum is like the coordinates system's anchor. It defines the Earth's center. The Z-axis points through the North and South Poles (aligned with Earth's rotation), the X-axis points towards the Prime Meridian (zero longitude), the Y-axis completes the 3D system at a right angle to the others [(Seeger 1999)](https://www.geos.ed.ac.uk/~gisteac/gis_book_abridged/files/ch30.pdf). A quite well-known global datum is e.g. WGS84 (World Geodetic System 1984) that is also used in GPS.
 
-![Geographical Coordinate System, [Source: Seeger 1999](https://www.geos.ed.ac.uk/~gisteac/gis_book_abridged/files/ch30.pdf)](./docs/CRS_files/ellipsodial_crs.png){width="30%}
+![Geographical Coordinate System, [Source: Seeger 1999](https://www.geos.ed.ac.uk/~gisteac/gis_book_abridged/files/ch30.pdf)](./docs/CRS_files/ellipsodial_crs.png){width="30%"}
 
 ### Coordinate System
 
@@ -51,6 +61,8 @@ CRSs are fundamental in locating and analyzing spatial data. They determine how 
 
 **Projected Coordinate System**: There are 2-dimensional PCS containing 2 axis, the XY-plane. As well as, 3-dimensional PCS that add a Z-dimension, the dimension of space. 
 
+[(QGIS Project 2024)](https://docs.qgis.org/3.40/en/docs/gentle_gis_introduction/coordinate_reference_systems.html)
+
 **What are EPSG codes?**
 
 ## Accuracy of map projections 
@@ -65,10 +77,12 @@ Every map projection shows a form of distortion i.e. inaccuracy to reality. A ma
 
 **Equal area projections **: Keep the same proportional relationship of areas. Used mostly for educational maps, city planning, more precise for smaller spatial extent. Map projections that preserve an equal distance are e.g. Alber’s equal area, Lambert’s equal area and Mollweide Equal Area Cylindrical projection. 
 
+[(QGIS Project 2024)](https://docs.qgis.org/3.40/en/docs/gentle_gis_introduction/coordinate_reference_systems.html)
+
 ## Transformations & Conversions 
 
 When working with geospatial data you might encounter different sources that all use different CRS. When CRSs are not alligned correctly distances can be wrong, areas can be distorted and point's won't match up, even if they are in the same real world location. To overlay, analyse and interpret data they must all be in the same CRS. In this case conversion or transformation into other CRSs might be necessary. **Conversions** mean the change of the coordinate from one CRS to another, based on the same datum. 
-**Transformations** mean a change of coordinates from one CRS to another with different datum but based on a set of points common in both CRS. 
+**Transformations** mean a change of coordinates from one CRS to another with different datum but based on a set of points common in both CRS [(Data Carpentry 2025)](https://datacarpentry.github.io/organization-geospatial/03-crs). 
 
 ## Working with CRS in R
 
@@ -76,7 +90,7 @@ Metadata like the CRS can be looked into with `st_stars()`, `crs()` or in `terra
 
 ## Tools and standards
 
-CRS information can be represented and transformed in PROJ an open-source library storing. GDAL can help in translating between various geospatial formats, editing and manipulating vector and raster files. Also, repojection with GDAL is possible. 
+CRS information can be represented and transformed in PROJ an open-source library storing. GDAL can help in translating between various geospatial formats, editing and manipulating vector and raster files. Also, repojection with GDAL is possible [(Data Carpentry 2025)](https://datacarpentry.github.io/organization-geospatial/03-crs). 
 
 ## Best Practice
 

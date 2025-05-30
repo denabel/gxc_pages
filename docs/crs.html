@@ -240,6 +240,21 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="what-are-we-referencing-to" class="level2">
 <h2 class="anchored" data-anchor-id="what-are-we-referencing-to">What are we referencing to?</h2>
+<p>Before working with coordinate reference systems (CRS), it’s useful to first understand the shape of the Earth — our starting point. While we often describe Earth as a sphere, it’s not a perfect globe. Its shape is influenced by gravity, varying topography, and fluctuating sea levels, making it far more complex.</p>
+<p>The most accurate model of Earth’s irregular surface is called the Geoid. It reflects variations in gravity and represents the shape the oceans would take under the influence of Earth’s gravity and rotation alone, without winds or tides. However, because of its complexity, the Geoid is difficult to describe mathematically.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://th.bing.com/th/id/R.c7ac974327943884f2bc11570bdd897e?rik=KjePWmOgZbNssQ&amp;riu=http%3a%2f%2ftimeandnavigation.si.edu%2fsites%2fdefault%2ffiles%2fmultimedia-assets%2f540-geoid_-_nga.jpg&amp;ehk=lTUV6blZCP5h6pTyDVL6ruBd9SHeubopClLxB9T2%2fbM%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0" class="img-fluid figure-img" style="width:40.0%"></p>
+<figcaption>This is a Geoid, <a href="https://timeandnavigation.si.edu/multimedia-asset/geoid">Source: Image</a></figcaption>
+</figure>
+</div>
+<p>To simplify calculations and mapping, scientists use reference ellipsoids — mathematically defined, smooth, and slightly flattened spheres. These rotation ellipsoids approximate the shape of the Geoid and are easier to work with in geospatial analysis. While they don’t match the Earth’s true surface perfectly, they offer a practical solution for working at global or regional scales. Different ellipsoids are optimized for different areas of the Earth, especially when precision is needed on a local level <a href="https://figshare.utas.edu.au/articles/journal_contribution/Understanding_coordinate_reference_systems_datums_and_transformations/22873136/1?file=40609577">(Janssen 2009)</a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://community.emlid.com/uploads/default/optimized/3X/8/4/846f70aaccaec65f31ef1b1cde74db2b37c0c533_2_600x375.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Ellipsoids approximating the Geoid, <a href="https://community.emlid.com/uploads/default/optimized/3X/8/4/846f70aaccaec65f31ef1b1cde74db2b37c0c533_2_600x375.jpeg">Source: Image</a></figcaption>
+</figure>
+</div>
 </section>
 <section id="core-components-of-a-crs" class="level2">
 <h2 class="anchored" data-anchor-id="core-components-of-a-crs">Core Components of a CRS</h2>
@@ -254,7 +269,7 @@ ul.task-list li input[type="checkbox"] {
 <p>The datum is like the coordinates system’s anchor. It defines the Earth’s center. The Z-axis points through the North and South Poles (aligned with Earth’s rotation), the X-axis points towards the Prime Meridian (zero longitude), the Y-axis completes the 3D system at a right angle to the others <a href="https://www.geos.ed.ac.uk/~gisteac/gis_book_abridged/files/ch30.pdf">(Seeger 1999)</a>. A quite well-known global datum is e.g.&nbsp;WGS84 (World Geodetic System 1984) that is also used in GPS.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./docs/CRS_files/ellipsodial_crs.png" class="img-fluid figure-img"></p>
+<p><img src="./docs/CRS_files/ellipsodial_crs.png" class="img-fluid figure-img" style="width:30.0%"></p>
 <figcaption>Geographical Coordinate System, <a href="https://www.geos.ed.ac.uk/~gisteac/gis_book_abridged/files/ch30.pdf">Source: Seeger 1999</a></figcaption>
 </figure>
 </div>
@@ -296,6 +311,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="different-types-of-crs">Different types of CRS</h2>
 <p><strong>Geographic Coordinate System</strong>: Coordinates are in degrees of latitude and longitude (and height). The latitude is parallel to the equator and the longitude perpendicular to the equator, creating a grid.</p>
 <p><strong>Projected Coordinate System</strong>: There are 2-dimensional PCS containing 2 axis, the XY-plane. As well as, 3-dimensional PCS that add a Z-dimension, the dimension of space.</p>
+<p><a href="https://docs.qgis.org/3.40/en/docs/gentle_gis_introduction/coordinate_reference_systems.html">(QGIS Project 2024)</a></p>
 <p><strong>What are EPSG codes?</strong></p>
 </section>
 <section id="accuracy-of-map-projections" class="level2">
@@ -310,10 +326,11 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Angular Conformity/ Orthomorphic projections</strong>: Keep the angles between directions correct — just like on a real compass. That’s helpful when accurate shapes and directions are more important than size. Therefore these maps are commonly used for navigation or meteorological data. Orthomoprhic projections are e.g.&nbsp;the Mercator or the Lambert Conformal Conic projection.</p>
 <p><strong>Equal distance/ Equidistant projections</strong>: Keep distances accurate, but only from one or two specific points or along certain lines. For example, if a city is in the center of the map, the distance from that city to other places is correct. These projections are most useful in seismic mapping or navigation. Equidistant projections are e.g.&nbsp;the Plate Carrée Equidistant Cylindrical and Equidirectangular projection.</p>
 <p><strong>Equal area projections </strong>: Keep the same proportional relationship of areas. Used mostly for educational maps, city planning, more precise for smaller spatial extent. Map projections that preserve an equal distance are e.g.&nbsp;Alber’s equal area, Lambert’s equal area and Mollweide Equal Area Cylindrical projection.</p>
+<p><a href="https://docs.qgis.org/3.40/en/docs/gentle_gis_introduction/coordinate_reference_systems.html">(QGIS Project 2024)</a></p>
 </section>
 <section id="transformations-conversions" class="level2">
 <h2 class="anchored" data-anchor-id="transformations-conversions">Transformations &amp; Conversions</h2>
-<p>When working with geospatial data you might encounter different sources that all use different CRS. When CRSs are not alligned correctly distances can be wrong, areas can be distorted and point’s won’t match up, even if they are in the same real world location. To overlay, analyse and interpret data they must all be in the same CRS. In this case conversion or transformation into other CRSs might be necessary. <strong>Conversions</strong> mean the change of the coordinate from one CRS to another, based on the same datum. <strong>Transformations</strong> mean a change of coordinates from one CRS to another with different datum but based on a set of points common in both CRS.</p>
+<p>When working with geospatial data you might encounter different sources that all use different CRS. When CRSs are not alligned correctly distances can be wrong, areas can be distorted and point’s won’t match up, even if they are in the same real world location. To overlay, analyse and interpret data they must all be in the same CRS. In this case conversion or transformation into other CRSs might be necessary. <strong>Conversions</strong> mean the change of the coordinate from one CRS to another, based on the same datum. <strong>Transformations</strong> mean a change of coordinates from one CRS to another with different datum but based on a set of points common in both CRS <a href="https://datacarpentry.github.io/organization-geospatial/03-crs">(Data Carpentry 2025)</a>.</p>
 </section>
 <section id="working-with-crs-in-r" class="level2">
 <h2 class="anchored" data-anchor-id="working-with-crs-in-r">Working with CRS in R</h2>
@@ -321,7 +338,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="tools-and-standards" class="level2">
 <h2 class="anchored" data-anchor-id="tools-and-standards">Tools and standards</h2>
-<p>CRS information can be represented and transformed in PROJ an open-source library storing. GDAL can help in translating between various geospatial formats, editing and manipulating vector and raster files. Also, repojection with GDAL is possible.</p>
+<p>CRS information can be represented and transformed in PROJ an open-source library storing. GDAL can help in translating between various geospatial formats, editing and manipulating vector and raster files. Also, repojection with GDAL is possible <a href="https://datacarpentry.github.io/organization-geospatial/03-crs">(Data Carpentry 2025)</a>.</p>
 </section>
 <section id="best-practice" class="level2">
 <h2 class="anchored" data-anchor-id="best-practice">Best Practice</h2>
