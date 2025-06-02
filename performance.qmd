@@ -2,19 +2,19 @@
 title: "Performance"
 ---
 
-## Why is information about performance important? What does it say about the package?
+## Why is information on performance important? 
 
 ![The devtools package development workflow. [Source: Wickham & Brian 2023](https://r-pkgs.org/other-markdown.html)](https://r-pkgs.org/diagrams/workflow.png){width="60%"}
 
 Testing, documentation, and performance evaluation are critical throughout the development of an R package. These practices ensure reliability, maintainability, user trust, and a positive user experience. A well-designed package should produce correct and transparent results, function consistently across systems and R versions, and offer performance suitable for real-world applications. Clear documentation, intuitive interfaces, and informative error messages enhance usability and minimize the risk of misuse [(Wickham & Bryan 2023)](18  Other markdown files – R Packages (2e)). 
 
-## How are we assessing performance? Different ways of assessing performance?
+## How are we assessing performance? 
 
 CRAN's standards for package submissions check for performance and correctness. CRAN has established a set of policies regarding quality, copyright, effectiveness and performance [(R Core Team)](https://cran.r-project.org/web/packages/policies.html). 
 
 <details>
  <summary>Packages that help you check the performance of your package</summary>
-
+ 
 **`bench`**: measures execution time, memory use, garbage Collection. Assessing overall performance of funtcions under realistic workloads. 
 
 **`microbenchmark`**: 
@@ -32,11 +32,66 @@ CRAN's standards for package submissions check for performance and correctness. 
 **`lintr`**: Static code analysis for R. Identifies style violations and potential coding issues, encouraging clean readable code. 
 </details>
 
-## How does gxc perform? 
+## How does gxc work? 
 
 ### Parallel processing 
 
+When activating parallel processing tasks are divided into equally sized chunks and directed to multiple CPU cores. Imagine you are baking cookies, in a sequential mode you would use one tray in one oven at a time. Moving to parallel-sequential, here you would use 10 ovens for baking your cookies but only with one tray in each oven. However, in parallel-processing you would use 10 ovens and and multiple trays in each oven at the same time. Thus, when working with so many ovens and trays maybe cookies will burn and you would have to walk between all the different ovens, that is what is called **overhead**. 
+Overhead is the extra time, resources and effort needed to manage a task, apart from the task itself. In parallel-processing managing multiple threads, sending data to each chunk, retrieve results and synchronizing requires time and memory i.e. overhead. It is the cost of making things faster [(R Core Team 2025)](https://stat.ethz.ch/R-manual/R-devel/library/parallel/doc/parallel.pdf). 
+The time to run e.g. `poly_link()` function depends on the number of grid cells i.e. sample size and the time of interest (TOI). The nested loop first iterates through each sampled grid (e.g. different amount of polygons) and then through different TOI. 
+The `tictoc` package can record the time for this process. 
+For smaller chunks parallel processing creates more overhead and is less efficient. Larger chunks reduce the overhead and perform generally better. 
+For the `gxc`-package parallel-processing shows the best performance especially for larger sample sizes.
+
+<details>
+ <summary>How to increase the speed of your package</summary>
+ 
+You can use the `parallel`-package in base R (function like `lapply()`, `sapply()` or `apply()`) for parallel computing. In the case they run slow you can apply interfaces to other languages like complied code in Rcpp. A code profiler like the `profvis`-package can help you find the _bottleneck_ of your code i.e. where the slow code lies. Moreover, your code structure and order affect performance and speed. 
+So start:
+
+- Sorting and ordering with algorithms like `c(“shell”, “quick”, “radix”)`
+
+- Converting data frames to (sparse) matrices
+
+- Using specialized row and column functions e.g. `apply()`-functions from the `matrixStats`-package
+
+- Defining a memory directory
+
+- Avoiding copies
+
+- Vectorizing your code (works faster than loops)
+
+- Choosing the right data type (integers and factors work faster than characters),
+
+- Using bytecode compilation
+
+- Caching results 
+
+- Employing `data.table` or `dplyr`-functions 
+
+[(Gillespie & Lovelace 2021)](https://csgillespie.github.io/efficientR/performance.html#performance-parallel)
+</details>
+
 ### `futureverse`
+
+The `futureverse` i.e. `future`-package is an API for sequential and parallel-processing. The package implements sequential, multicore, multisession and cluster features. Expressions can be evaluated on the local machine, in a parallel set of local machines or distributed on a mix of local and remote machines. 
+
+_"Future is an abstraction for a value that may be availabe at some point in the future."_ [(Bengtsson 2024)](https://github.com/futureverse/future)
+
+Futures can be created implicitly or explicitly, they can be resolved or unresolved and there are different ways of resolving a future. The way of resolution can be defined by choosing a fitting backend/ package e.g. `sequential` resolves futures sequentially and in the current R process whereas `multisession`resolves futures parallely via a background R session on the current machine.  The backend needs to be specified by the user to optimize functionality though there are some defaults for all backends: 
+
+- evaluation on local environment (unless defined otherwise),
+- global variables are identified automatically, 
+- future expressions are only evaluated once. 
+
+### Synchronous futures
+
+Synchronous futures are resolved one after another. The main process is blocked until the resolution is completed. **Sequential futures** are the default backend in the `future`-package. They operate similar to regular R evaluation. The future is resolved in the local environment in the moment it is created. 
+
+### Asynchronous futures
+
+Asynchronous futures are resolved in the background and do not cause blocking of other tasks/ operations. You can carry on like that until you request a result of a still unresolved future or try to start another future while all background workers are busy, then the process will be blocked. The cookie-analogy: You can start prepping the next batch of cookies while the first one bakes but when the ovens are full you will need to wait to bake it or taste the ones that are still in the oven. 
+
 
 
 ## How long will the package run on an average laptop?
