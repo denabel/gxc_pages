@@ -5,6 +5,7 @@ title: "Performance"
 ```{r load-packages}
 #| include: false
 library(future)
+library(plotly)
 ```
 
 
@@ -202,6 +203,128 @@ gridExtra::grid.arrange(grobs = plots[-c(1:3)], ncol = 3)
 #   }
 # }
 ```
+
+**Visualize**
+
+```{r time-plot2}
+results_df <- readRDS("./data/performance_results.rds")
+
+# split data based on groups for tabs
+df_list <- results_df %>%
+  group_by(spatial_extent) %>%
+  group_split()
+
+# Default ggplot
+p <- ggplot() +
+  labs(
+    title = "Execution Time vs Sample Size",
+    x = "Sample Size",
+    y = "Execution Time (minutes)",
+    color = "Focal Period"
+  ) +
+  scale_color_manual(values = c(
+    "month" = "#dd1c77",
+    "seasonal" = "#225ea8",
+    "yearly" = "#7fcdbb"
+  )) +
+  theme_minimal()
+
+# Looping through list of subsets
+for (d in df_list) {
+  p <- p +
+    geom_point(data = d, aes(x = sample_size, y = seconds / 60, color = focal_period)) +
+    geom_smooth(
+      data = d, aes(x = sample_size, y = seconds / 60, color = focal_period),
+      method = "loess", se = FALSE
+    )
+}
+
+# Convert to plotly object
+p_plotly <- ggplotly(p)
+
+# Update layout
+
+# Create buttons
+# Spatial extent
+spatial_extent_buttons <- list(
+  list(
+    method = "restyle",
+    args = list("visible", list(TRUE, TRUE)),
+    label = "Germany"
+  ),
+  list(
+    method = "restyle",
+    args = list("visible", list(FALSE, FALSE)),
+    label = "Europe"
+  )
+)
+
+# Baseline period
+baseline_buttons <- list(
+  list(
+    method = "restyle",
+    args = list("line.dash", "solid"),
+    label = "No baseline"
+  ),
+  list(
+    method = "restyle",
+    args = list("line.dash", "dot"),
+    label = "10y baseline"
+  ),
+  list(
+    method = "restyle",
+    args = list("line.dash", "dash"),
+    label = "30y baseline"
+  )
+)
+
+# Adjust layout accordingly
+p_plotly <- p_plotly %>% layout(
+  title = list(
+    text = "Execution Time vs Sample Size",
+    y = 0.85
+  ),
+  # Increase the top margin to give more space
+  margin = list(t = 150),
+  updatemenus = list(
+    list(
+      type = "dropdown",
+      active = 0,
+      buttons = spatial_extent_buttons,
+      x = 0, y = 1.12,
+      xanchor = "left",
+      yanchor = "top"
+    ),
+    list(
+      type = "dropdown",
+      active = 0,
+      buttons = baseline_buttons,
+      x = 0.2, y = 1.12,
+      xanchor = "left",
+      yanchor = "top"
+    )
+  ),
+  annotations = list(
+    list(
+      x = 0, y = 1.22,
+      xref = "paper", yref = "paper",
+      text = "Spatial extent",
+      showarrow = FALSE,
+      font = list(size = 14)
+    ),
+    list(
+      x = 0.2, y = 1.22,
+      xref = "paper", yref = "paper",
+      text = "Baseline period",
+      showarrow = FALSE,
+      font = list(size = 14)
+    )
+  )
+)
+
+# Display the interactive plot.
+# p_plotly
+``` 
  </details>
 
 ```{r packages, include = FALSE}
@@ -613,128 +736,176 @@ We are accessing the `2m_temperature` indicator from the `ERA5-Land` dataset for
 <details>
  <summary>Replication code</summary>
 
-**Visualize**
+```{r}
+# Load required packages
+library(tidyverse)
+library(plotly)
+library(scales) # for the alpha() function
 
-```{r time-plot2}
-results_df <- readRDS("./data/performance_results.rds")
+# Read the performance results for parallel processing
+results_df <- readr::read_rds("./data/performance_results_parallel.rds")
 
-# split data based on groups for tabs
-df_list <- results_df %>%
-  group_by(spatial_extent) %>%
-  group_split()
+# Set factor levels for focal period and processing mode for consistent plotting
+results_df <- results_df %>%
+  mutate(
+    focal_period = factor(focal_period, levels = c("Month", "Season", "6 Months", "Year")),
+    mode = factor(mode, levels = c(
+      "sequential",
+      "parallel_sequential (cs=20)",
+      "parallel_sequential (cs=50)",
+      "parallel_sequential (cs=100)",
+      "parallel_sequential (cs=200)",
+      "parallel_multisession (cs=20)",
+      "parallel_multisession (cs=50)",
+      "parallel_multisession (cs=100)",
+      "parallel_multisession (cs=200)"
+    ))
+  )
 
-# Default ggplot
-p <- ggplot() +
-  labs(
-    title = "Execution Time vs Sample Size",
-    x = "Sample Size",
-    y = "Execution Time (minutes)",
-    color = "Focal Period"
-  ) +
-  scale_color_manual(values = c(
-    "month" = "#dd1c77",
-    "seasonal" = "#225ea8",
-    "yearly" = "#7fcdbb"
-  )) +
-  theme_minimal()
+# Define custom colors for each processing mode
+colors <- c(
+  "#045a8d", # sequential
+  rep("#ae017e", 4), # parallel_sequential
+  rep("#006d2c", 4)  # parallel_multisession
+)
+colors <- colors[seq_along(levels(results_df$mode))]
+names(colors) <- levels(results_df$mode)
 
-# Looping through list of subsets
-for (d in df_list) {
-  p <- p +
-    geom_point(data = d, aes(x = sample_size, y = seconds / 60, color = focal_period)) +
-    geom_smooth(
-      data = d, aes(x = sample_size, y = seconds / 60, color = focal_period),
-      method = "loess", se = FALSE
-    )
+# Define line dash types and alpha transparency for each mode
+line_dash_types <- c(
+  "solid",    # sequential
+  "dash", "solid", "dash", "dash",      # parallel_sequential
+  "dash", "solid", "dash", "dash"       # parallel_multisession
+)
+line_alphas <- c(
+  1,         # sequential
+  0.4, 1, 0.4, 0.4,    # parallel_sequential
+  0.4, 1, 0.4, 0.4     # parallel_multisession
+)
+
+# Prepare lists for plotly traces and focal period tracking
+focal_periods <- levels(results_df$focal_period)
+modes <- levels(results_df$mode)
+
+trace_list <- list()
+trace_focal <- c()
+
+# Loop through each focal period and mode to create traces for points and smoothed lines
+for (fp in focal_periods) {
+  for (i in seq_along(modes)) {
+    m <- modes[i]
+    d_sub <- filter(results_df, focal_period == fp, mode == m)
+    if (nrow(d_sub) > 0) {
+      # Add scatter points for each mode
+      trace_list[[length(trace_list) + 1]] <- list(
+        x = d_sub$sample_size,
+        y = d_sub$seconds / 60, # Convert seconds to minutes
+        type = "scatter",
+        mode = "markers",
+        name = m,
+        marker = list(color = colors[m]),
+        legendgroup = m,
+        showlegend = TRUE
+      )
+      trace_focal <- c(trace_focal, fp)
+
+      # Add smoothed line (loess) if enough data points are available
+      if (nrow(d_sub) >= 3) {
+        loess_fit <- loess((seconds / 60) ~ sample_size, data = d_sub)
+        x_new <- sort(d_sub$sample_size)
+        y_new <- predict(loess_fit, newdata = data.frame(sample_size = x_new))
+      } else {
+        x_new <- d_sub$sample_size
+        y_new <- d_sub$seconds / 60
+      }
+      # Add the smoothed line trace
+      trace_list[[length(trace_list) + 1]] <- list(
+        x = x_new,
+        y = y_new,
+        type = "scatter",
+        mode = "lines",
+        name = m,
+        line = list(color = alpha(colors[m], line_alphas[i]), dash = line_dash_types[i]),
+        legendgroup = m,
+        showlegend = FALSE
+      )
+      trace_focal <- c(trace_focal, fp)
+    }
+  }
 }
 
-# Convert to plotly object
-p_plotly <- ggplotly(p)
-
-# Update layout
-
-# Create buttons
-# Spatial extent
-spatial_extent_buttons <- list(
-  list(
-    method = "restyle",
-    args = list("visible", list(TRUE, TRUE)),
-    label = "Germany"
-  ),
-  list(
-    method = "restyle",
-    args = list("visible", list(FALSE, FALSE)),
-    label = "Europe"
+# Optional: Add dummy traces for the legend (ensures all modes appear in the legend)
+dummy_traces <- list()
+for (m in modes) {
+  dummy_traces[[length(dummy_traces) + 1]] <- list(
+    x = NA, y = NA,
+    type = "scatter", mode = "markers",
+    name = m,
+    marker = list(color = colors[m]),
+    legendgroup = m,
+    showlegend = TRUE,
+    hoverinfo = "none"
   )
-)
+}
 
-# Baseline period
-baseline_buttons <- list(
-  list(
+# Build the plotly object by adding all traces
+#p_plotly <- plot_ly()
+#for (tr in trace_list) {
+#  p_plotly <- add_trace(p_plotly, !!!tr)
+#}
+#for (tr in dummy_traces) {
+#  p_plotly <- add_trace(p_plotly, !!!tr)
+#}
+
+p_plotly <- plot_ly()
+for (tr in trace_list) {
+  p_plotly <- do.call(add_trace, c(list(p_plotly), tr))
+}
+for (tr in dummy_traces) {
+  p_plotly <- do.call(add_trace, c(list(p_plotly), tr))
+}
+
+# Create dropdown menu buttons to filter by focal period
+focal_period_buttons <- list()
+for (fp in focal_periods) {
+  visibility <- trace_focal == fp
+  focal_period_buttons[[length(focal_period_buttons) + 1]] <- list(
     method = "restyle",
-    args = list("line.dash", "solid"),
-    label = "No baseline"
-  ),
-  list(
-    method = "restyle",
-    args = list("line.dash", "dot"),
-    label = "10y baseline"
-  ),
-  list(
-    method = "restyle",
-    args = list("line.dash", "dash"),
-    label = "30y baseline"
+    args = list("visible", visibility),
+    label = fp
   )
-)
+}
 
-# Adjust layout accordingly
-p_plotly <- p_plotly %>% layout(
-  title = list(
-    text = "Execution Time vs Sample Size",
-    y = 0.85
-  ),
-  # Increase the top margin to give more space
-  margin = list(t = 150),
-  updatemenus = list(
-    list(
-      type = "dropdown",
-      active = 0,
-      buttons = spatial_extent_buttons,
-      x = 0, y = 1.12,
-      xanchor = "left",
-      yanchor = "top"
+# Finalize plot layout with title, axis labels, and dropdown menu
+p_plotly <- p_plotly %>%
+  layout(
+    title = "Execution Time vs Sample Size",
+    margin = list(t = 150),
+    xaxis = list(title = "Sample Size"),
+    yaxis = list(title = "Execution Time (minutes)"),
+    updatemenus = list(
+      list(
+        type = "dropdown",
+        active = 0,
+        buttons = focal_period_buttons,
+        x = 0.1, y = 1.15,
+        xanchor = "left", yanchor = "top"
+      )
     ),
-    list(
-      type = "dropdown",
-      active = 0,
-      buttons = baseline_buttons,
-      x = 0.2, y = 1.12,
-      xanchor = "left",
-      yanchor = "top"
-    )
-  ),
-  annotations = list(
-    list(
-      x = 0, y = 1.22,
-      xref = "paper", yref = "paper",
-      text = "Spatial extent",
-      showarrow = FALSE,
-      font = list(size = 14)
-    ),
-    list(
-      x = 0.2, y = 1.22,
-      xref = "paper", yref = "paper",
-      text = "Baseline period",
-      showarrow = FALSE,
-      font = list(size = 14)
+    annotations = list(
+      list(
+        x = 0.1, y = 1.25,
+        xref = "paper", yref = "paper",
+        text = "Focal period",
+        showarrow = FALSE,
+        font = list(size = 14)
+      )
     )
   )
-)
 
-# Display the interactive plot.
-# p_plotly
-``` 
-
+# Display the interactive plot
+p_plotly
+```
 </details> 
 
 
