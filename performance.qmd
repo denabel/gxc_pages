@@ -8,6 +8,7 @@ library(gxc)
 library(sf)
 library(dplyr)
 library(ggplot2)
+library(stringr)
 library(plotly)
 library(rnaturalearth)
 library(bench)
@@ -72,7 +73,6 @@ sample_grid <- function(n, grid, corners) {
 
 # Sample grids with various n
 sample_sizes <- c(10, 20, 50, 100, 200, 500, 1000, 2000, 5000)
-samples_list <- list()
 
 # Loop over the sample sizes
 samples_list <- lapply(sample_sizes, sample_grid, grid_ger, corners)
@@ -91,13 +91,13 @@ samples <- bind_rows(samples_list, .id = "sample")
 ggplot(samples) +
   geom_sf(fill = "#c994c7", color = "#dd1c77", size = 0.3) +
   geom_sf(data = germany, fill = NA, color = "#2c7fb8", size = 0.8) +
-  facet_wrap(~sample, ncol = 3, dir = "v", labeller = function(variable, value) {
-    paste("Sample =", gsub("sample_", "", value))
+  facet_wrap(~sample, ncol = 3, dir = "v", labeller = function(value) {
+      as.data.frame(paste("Sample =", gsub("sample_", "", value$sample)))
   }) +
   theme_void()
 ```
 
-To analyse performance, we will run the following R code repeatedly:
+To analyse performance, we will run the following R code repeatedly. The curly braces indicate the function arguments that vary between function calls. Each of these calls is benchmarked 10 times to ensure the consistency of timings.
 
 ``` r
 link_monthly(
@@ -107,46 +107,67 @@ link_monthly(
 )
 ```
 
-We use the `2m_temperature` indicator from the [`ERA5-Land` monthly averages](https://doi.org/10.24381/cds.68d2bb30) for this exercise. The code was run on an average office laptop (Intel Core i7-10510U CPU, 16GB RAM, Windows 10). The benchmarking is powered by the [bench](https://bench.r-lib.org/) package. To see the replication code, expand the collapsed code below.
+We use the `2m_temperature` indicator from the [`ERA5-Land` monthly averages](https://doi.org/10.24381/cds.68d2bb30) for this exercise. The code was run on an average office laptop (Intel Core i7-10510U CPU, 16GB RAM, Windows 10). The benchmarking is powered by the [bench](https://bench.r-lib.org/) package.
 
-<details><summary>Code for benchmarking</summary>
 ```{r execute-time2}
-# Add random time identifier in grids
+# Add arbitrary time identifier to grid
 samples_list <- lapply(samples_list, function(grid) {
   grid$date <- "2020-12-01"
   grid
 })
 
-make_link_expr <- function(.data, ts) {
-  bquote(
-    gxc::link_monthly(
-      .data = .(.data),
+# Pre-cache (to keep timings consistent)
+invisible({
+  link_monthly(samples_list[[1]], indicator = "2m_temperature", time_span = 0)
+  link_monthly(samples_list[[2]], indicator = "2m_temperature", time_span = 2)
+  link_monthly(samples_list[[3]], indicator = "2m_temperature", time_span = 11)
+})
+
+time_spans <- c(0, 2, 11)
+
+# Benchmark
+bm <- bench::press(
+  sample_size = samples_list,
+  time_span = time_spans,
+  bench::mark(
+    link_monthly(
+      .data = samples_list[[sprintf("sample_%s", sample_size)]],
       indicator = "2m_temperature",
-      time_span = .(ts)
-    )
+      time_span = time_span,
+      verbose = FALSE
+    ),
+    iterations = 10
   )
-}
-
-link_exprs <- lapply(samples_list, function(sample) {
-  time_span_values <- c(0, 2, 11)
-  lapply(time_span_values, function(time_span) {
-      make_link_expr(sample, time_span)
-  })
-}) |>
-  unlist(recursive = FALSE)
-
-bm <- do.call(bench::mark, c(link_exprs, iterations = 1, check = FALSE))
+)
 ```
-</details>
 
 <details><summary>Code for the interactive plot</summary>
 ```{r time-plot2}
-# split data based on groups for tabs
-df_list <- results_df %>%
-  group_by(spatial_extent) %>%
-  group_split()
+bm$sample <- sapply(bm$sample, nrow)
+bm$time_span <- sapply(bm$time_span, switch, `0` = "month", `2` = "seasonal", `11` = "yearly")
 
-# Default ggplot
+ggplot(bm, aes(x = sample, y = median, color = time_span)) +
+  geom_point() +
+  geom_smooth(method = "loess", se = FALSE) +
+  labs(
+    title = "Execution time vs. sample size",
+    x = "Sample size",
+    y = "Execution time",
+    color = "Observation period"
+  ) +
+  scale_color_manual(values = c(
+    "month" = "#dd1c77",
+    "seasonal" = "#225ea8",
+    "yearly" = "#7fcdbb"
+  )) +
+  theme_minimal()
+
+bm_list <- lapply(time_span_values, function(ts) {
+  expr <- vapply(bm$expression, deparse1, character(1))
+  bm[grepl(sprintf("time_span = %s", ts), expr), ]
+})
+
+# Base ggplot
 p <- ggplot() +
   labs(
     title = "Execution Time vs Sample Size",
@@ -159,7 +180,7 @@ p <- ggplot() +
     "seasonal" = "#225ea8",
     "yearly" = "#7fcdbb"
   )) +
-  theme_minimal()
+  theme_void()
 
 # Looping through list of subsets
 for (d in df_list) {
