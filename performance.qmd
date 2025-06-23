@@ -30,35 +30,58 @@ When thinking about performance in spatio-temporal applications, there are four 
 To exemplify, we will create an example grid with varying sample sizes (10 to 5,000) and observation periods (0 days, 2 days, 11 days). You can expand the collapsed code below to see how we created the data.
 
 <details><summary>Code to create example data</summary>
-```{r create-grid2}
-# Retrieve Germany's geometry
+```{r create-grid2, warning=FALSE}
+# Retrieve geometries
 germany <- ne_countries(
   country = "Germany",
   scale = "medium",
   returnclass = "sf"
 )
 
-# Generate the grid
-grid_ger <- sf::st_make_grid(
-  st_as_sfc(st_bbox(germany)),
-  n = c(100, 100)
-)
+europe <- ne_countries(
+  continent = "Europe",
+  scale = "medium",
+  returnclass = "sf"
+) |>
+  st_intersection(st_as_sfc(st_bbox(c(
+    xmin = -10.0,
+    ymin = 35.0,
+    xmax = 40.0,
+    ymax = 71.0
+  ), crs = st_crs(4326))))
 
-grid_ger <- st_sf(geometry = grid_ger)
+# Generate grids
+grid_ger <- st_bbox(germany) |>
+  st_as_sfc() |>
+  st_make_grid(n = c(100, 100)) |>
+  st_sf(geometry = _)
 
-# Define the four corner cells (by relying on the indexing of the grid cell)
-ll_index <- 1
-lr_index <- 100
-ul_index <- 9901
-ur_index <- 10000
+grid_eu <- st_bbox(europe) |>
+  st_as_sfc() |>
+  st_make_grid(n = c(100, 100)) |>
+  st_sf(geometry = _)
 
-corners <- c(ll_index, lr_index, ul_index, ur_index)
+get_corners <- function(grid) {
+  bbox <- st_bbox(grid)
+  corners <- st_sfc(
+    st_point(bbox[c("xmin", "ymin")]),
+    st_point(bbox[c("xmax", "ymin")]),
+    st_point(bbox[c("xmin", "ymax")]),
+    st_point(bbox[c("xmax", "ymax")]),
+    crs = st_crs(grid)
+  )
+  corners <- st_within(corners, grid)
+  attributes(corners) <- NULL
+  names(corners) <- c("ll", "lr", "ul", "ur")
+  unlist(corners)
+}
 
 # Sample-function (always including the four corner cells).
-sample_grid <- function(n, grid, corners) {
+sample_grid <- function(n, grid) {
   if (n < 4) stop("n must be at least 4 to include all corner cells.")
 
   # Calculate n-corner polygons
+  corners <- get_corners(grid)
   n_random <- n - length(corners)
 
   # Exclude the corner cells from the random sample
@@ -75,24 +98,26 @@ sample_grid <- function(n, grid, corners) {
 sample_sizes <- c(10, 20, 50, 100, 200, 500, 1000, 2000, 5000)
 
 # Loop over the sample sizes
-samples_list <- lapply(sample_sizes, sample_grid, grid_ger, corners)
-names(samples_list) <- paste0("sample_", sample_sizes)
+samples_ger <- lapply(sample_sizes, sample_grid, grid_ger)
+samples_eu <- lapply(sample_sizes, sample_grid, grid_eu)
+samples <- c(samples_ger, samples_eu)
+names(samples) <- sprintf("%s_sample_%s", rep(c("ger", "eu"), each = length(sample_sizes)), sample_sizes)
 ```
 </details>
 
-The data consists of 9 lists containing vector cells with a varying sample size:
+The data consists of 18 lists containing vector cells with a varying sample size:
 
 ```{r}
-str(samples_list, max.level = 1, give.attr = FALSE)
+str(samples, max.level = 1, give.attr = FALSE)
 ```
 
 ```{r grid-plot2}
-samples <- bind_rows(samples_list, .id = "sample")
-ggplot(samples) +
+plot_samples <- bind_rows(samples[startsWith(names(samples), "ger")], .id = "sample")
+ggplot(plot_samples) +
   geom_sf(fill = "#c994c7", color = "#dd1c77", size = 0.3) +
   geom_sf(data = germany, fill = NA, color = "#2c7fb8", size = 0.8) +
   facet_wrap(~sample, ncol = 3, dir = "v", labeller = function(value) {
-      as.data.frame(paste("Sample =", gsub("sample_", "", value$sample)))
+      as.data.frame(paste("Sample =", gsub("ger_sample_", "", value$sample)))
   }) +
   theme_void()
 ```
@@ -111,27 +136,31 @@ We use the `2m_temperature` indicator from the [`ERA5-Land` monthly averages](ht
 
 ```{r execute-time2}
 # Add arbitrary time identifier to grid
-samples_list <- lapply(samples_list, function(grid) {
+samples <- lapply(samples, function(grid) {
   grid$date <- "2020-12-01"
   grid
 })
 
 # Pre-cache (to keep timings consistent)
 invisible({
-  link_monthly(samples_list[[1]], indicator = "2m_temperature", time_span = 0)
-  link_monthly(samples_list[[2]], indicator = "2m_temperature", time_span = 2)
-  link_monthly(samples_list[[3]], indicator = "2m_temperature", time_span = 11)
+  link_monthly(samples[[1]], indicator = "2m_temperature", time_span = 0)
+  link_monthly(samples[[1]], indicator = "2m_temperature", time_span = 2)
+  link_monthly(samples[[1]], indicator = "2m_temperature", time_span = 11)
+  link_monthly(samples[[10]], indicator = "2m_temperature", time_span = 0)
+  link_monthly(samples[[10]], indicator = "2m_temperature", time_span = 2)
+  link_monthly(samples[[10]], indicator = "2m_temperature", time_span = 11)
 })
 
 time_spans <- c(0, 2, 11)
 
 # Benchmark
 bm <- bench::press(
-  sample_size = samples_list,
+  extent = c("ger", "eu"),
+  sample_size = sample_sizes,
   time_span = time_spans,
   bench::mark(
     link_monthly(
-      .data = samples_list[[sprintf("sample_%s", sample_size)]],
+      .data = samples[[sprintf("%s_sample_%s", extent, sample_size)]],
       indicator = "2m_temperature",
       time_span = time_span,
       verbose = FALSE
@@ -143,24 +172,53 @@ bm <- bench::press(
 
 <details><summary>Code for the interactive plot</summary>
 ```{r time-plot2}
-bm$sample <- sapply(bm$sample, nrow)
-bm$time_span <- sapply(bm$time_span, switch, `0` = "month", `2` = "seasonal", `11` = "yearly")
 
-ggplot(bm, aes(x = sample, y = median, color = time_span)) +
-  geom_point() +
-  geom_smooth(method = "loess", se = FALSE) +
-  labs(
-    title = "Execution time vs. sample size",
-    x = "Sample size",
-    y = "Execution time",
-    color = "Observation period"
-  ) +
-  scale_color_manual(values = c(
-    "month" = "#dd1c77",
-    "seasonal" = "#225ea8",
-    "yearly" = "#7fcdbb"
-  )) +
-  theme_minimal()
+bm$time_span <- sapply(as.character(bm$time_span), switch, `0` = "month", `2` = "seasonal", `11` = "yearly")
+
+plots <- lapply(c("ger", "eu"), function(extent) {
+  data <- bm[bm$extent %in% extent, ]
+  p <- ggplot(data, aes(x = sample_size, y = median, color = time_span)) +
+    geom_point() +
+    geom_smooth(method = "loess", se = FALSE) +
+    labs(
+      title = "Execution time vs. sample size",
+      x = "Sample size",
+      y = "Execution time",
+      color = "Observation period"
+    ) +
+    scale_color_manual(values = c(
+      "month" = "#dd1c77",
+      "seasonal" = "#225ea8",
+      "yearly" = "#7fcdbb"
+    )) +
+    theme_minimal()
+  
+  
+  ggplotly(p) |>
+    layout(visible = identical(extent, "ger"))
+}) |>
+  setNames(c("ger", "eu"))
+
+n1 <- length(plots$ger$x$data)
+n2 <- length(plots$eu$x$data)
+
+vis_eu <- c(rep(TRUE, n1), rep(FALSE, n2))
+vis_ger <- c(rep(FALSE, n1), rep(TRUE, n2))
+
+menus <- list(
+  list(
+    type = "dropdown",
+    active = 0,
+    buttons = list(
+      list(label = "Europe", method = "restyle", args = list("visible", vis_eu)),
+      list(label = "Germany", method = "restyle", args = list("visible", vis_ger))
+    )
+  )
+)
+
+p <- plotly_build(plots$ger)
+p$x$data <- c(plots$ger$x$data, plots$eu$x$data)
+layout(p, updatemenus = menus)
 
 bm_list <- lapply(time_span_values, function(ts) {
   expr <- vapply(bm$expression, deparse1, character(1))
