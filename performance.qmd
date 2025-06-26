@@ -78,7 +78,7 @@ get_corners <- function(grid) {
 }
 
 # Sample-function (always including the four corner cells).
-sample_grid <- function(n, grid) {
+sample_grid <- function(n, grid, seed = NULL) {
   if (n < 4) stop("n must be at least 4 to include all corner cells.")
 
   # Calculate n-corner polygons
@@ -89,6 +89,7 @@ sample_grid <- function(n, grid) {
   remaining <- grid[-corners, ]
 
   # Randomly sample from the remaining cells
+  set.seed(seed)
   random_sample <- remaining[sample(nrow(remaining), n_random), ]
 
   # Combine the corner cells with the random sample
@@ -100,7 +101,7 @@ sample_sizes <- c(10, 20, 50, 100, 200, 500, 1000, 2000, 5000)
 
 # Loop over the sample sizes
 samples_ger <- lapply(sample_sizes, sample_grid, grid_ger)
-samples_eu <- lapply(sample_sizes, sample_grid, grid_eu)
+samples_eu <- lapply(sample_sizes, sample_grid, grid_eu, seed = 111)
 samples <- c(samples_ger, samples_eu)
 names(samples) <- sprintf("%s_sample_%s", rep(c("ger", "eu"), each = length(sample_sizes)), sample_sizes)
 ```
@@ -257,6 +258,34 @@ p |>
   ))
 ``` 
  </details>
+
+
+
+```{r execute-time-parallel, eval=FALSE}
+bm <- bench::press(
+  extent = c("ger", "eu"),
+  sample_size = sample_sizes,
+  time_span = time_spans,
+  chunk_size = c(50, 100, 200),
+  workers = c(2, 6),
+  bench::mark(
+    {
+      future::plan(future::multisession, workers = workers)
+      
+      link_monthly(
+        .data = samples[[sprintf("%s_sample_%s", extent, sample_size)]],
+        indicator = "2m_temperature",
+        time_span = time_span,
+        verbose = FALSE,
+        parallel = TRUE,
+        chunk_size = chunk_size
+      )
+    },
+    iterations = 10
+  )
+)
+```
+
 
 
 ## How does gxc work? 
