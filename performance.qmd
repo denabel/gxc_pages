@@ -7,6 +7,7 @@ title: "Performance"
 library(gxc)
 library(sf)
 library(dplyr)
+library(purrr)
 library(ggplot2)
 library(stringr)
 library(tidyr)
@@ -172,7 +173,7 @@ bm <- bench::press(
 )
 ```
 
-```{r, echo=FALSE}
+```{r read-bm_seq, echo=FALSE}
 (bm <- readRDS("data/bm_seq.rds"))
 ```
 
@@ -182,7 +183,7 @@ bm <- bench::press(
 bm$time_span <- sapply(
   as.character(bm$time_span),
   switch,
-  `0` = "month",
+  `0` = "monthly",
   `2` = "seasonal",
   `11` = "yearly"
 )
@@ -239,7 +240,7 @@ menus <- list(
 
 annot <- list(
   x = 0,
-  y = 1.19,
+  y = 1.22,
   xref = "paper", yref = "paper",
   text = "Spatial extent",
   showarrow = FALSE,
@@ -248,7 +249,7 @@ annot <- list(
 
 p <- plotly_build(plots$ger)
 p$x$data <- c(plots$ger$x$data, plots$eu$x$data)
-p |>
+p <- p |>
   layout(updatemenus = menus, annotations = annot, margin = list(t = 150)) |>
   style(hovertemplate = "<i>Time</i>: %{y} s") |>
   config(displaylogo = FALSE, modeBarButtonsToRemove = c(
@@ -259,10 +260,14 @@ p |>
 ``` 
  </details>
 
+```{r, echo=FALSE}
+p
+```
+
 
 
 ```{r execute-time-parallel, eval=FALSE}
-bm <- bench::press(
+bm_parallel <- bench::press(
   extent = c("ger", "eu"),
   sample_size = sample_sizes,
   time_span = time_spans,
@@ -286,6 +291,221 @@ bm <- bench::press(
 )
 ```
 
+```{r read-bm_parallel, echo=FALSE}
+(bm_parallel <- readRDS("data/bm_parallel.rds"))
+```
+
+<details><summary>Code for the interactive plot</summary>
+```{r time-plot3}
+bm_parallel$time_span <- sapply(
+  as.character(bm_parallel$time_span),
+  switch,
+  `0` = "monthly",
+  `2` = "seasonal",
+  `11` = "yearly"
+)
+
+
+part_plot <- function(ext, time, cs, workers) {
+  data <- bm |>
+    filter(extent %in% !!ext) |>
+    filter(time_span %in% !!time) |>
+    select(sample_size, median, time_span, time) |>
+    mutate(
+      min = sapply(time, min),
+      max = sapply(time, max)
+    ) |>
+    unnest_longer(time)
+  
+  data_parallel <- bm_parallel |>
+    filter(extent %in% !!ext) |>
+    filter(time_span %in% !!time) |>
+    filter(chunk_size %in% !!cs) |>
+    filter(workers %in% !!workers) |>
+    select(sample_size, median, time_span, time, chunk_size, workers) |>
+    mutate(
+      min = sapply(time, min),
+      max = sapply(time, max)
+    ) |>
+    unnest_longer(time) |>
+    mutate(
+      chunk_size = factor(as.character(chunk_size), levels = c("50", "100", "200")),
+      workers = factor(as.character(workers), levels = c("2", "6"))
+    )
+  data <- bind_rows("Sequential" = data, "Parallel" = data_parallel, .id = "execution")
+
+  p <- ggplot(data, aes(x = sample_size, color = execution, group = execution)) +
+    geom_point(aes(y = unclass(time))) +
+    geom_line(aes(y = unclass(median))) +
+    geom_ribbon(aes(ymin = min, ymax = max), alpha = 0.2, color = NA) +
+    labs(
+      title = "Execution time vs. sample size",
+      x = "Sample size",
+      y = "Execution time (in s)",
+      color = NULL
+    ) +
+    scale_y_continuous(limits = c(0, max(unclass(bm$median)))) +
+    scale_color_discrete() +
+    theme_minimal()
+
+    ggplotly(p) |>
+      style(
+        p,
+        visible = identical(ext, "ger") &&
+          identical(time, "monthly") &&
+          identical(cs, 50) &&
+          identical(workers, 2)
+      )
+}
+
+
+plots <- lapply(c("ger", "eu"), function(ext) {
+  lapply(c("monthly", "seasonal", "yearly"), function(time) {
+    lapply(c(50, 100, 200), function(cs) {
+      lapply(c(2, 6), function(workers) {
+        part_plot(ext, time, cs, workers)
+      }) |>
+        setNames(c(2, 6))
+    }) |>
+      setNames(c(50, 100, 200))
+  }) |>
+    setNames(c("monthly", "seasonal", "yearly"))
+}) |>
+  setNames(c("ger", "eu")) |>
+  list_flatten() |>
+  list_flatten() |>
+  list_flatten()
+
+
+vis_ger <- grepl("ger", names(plots))
+vis_monthly <- grepl("monthly", names(plots))
+vis_seasonal <- grepl("seasonal", names(plots))
+vis_yearly <- !vis_monthly & !vis_seasonal
+vis_cs50 <- grepl("50", names(plots))
+vis_cs100 <- grepl("100", names(plots))
+vis_cs200 <- !vis_cs50 & !vis_cs100
+vis_2workers <- grepl("2$", names(plots))
+vis_6workers <- grepl("6$", names(plots))
+
+menus <- list(
+  list(
+    id = "ext", type = "dropdown", active = 0, x = 0.125, y = 1.12,
+    buttons = list(
+      list(label = "Germany", method = "restyle", args = list("customdata", 0)), 
+      list(label = "Europe", method = "restyle", args = list("customdata", 1))
+    )
+  ),
+  list(
+    id = "time", type = "dropdown", active = 0, x = 0.375, y = 1.12,
+    buttons = list(
+      list(label = "Monthly", method = "restyle", args = list("customdata", 0)),
+      list(label = "Seasonal", method = "restyle", args = list("customdata", 1)),
+      list(label = "Yearly", method = "restyle", args = list("customdata", 2))
+    )
+  ),
+  list(
+    id = "cs", type = "dropdown", active = 0, x = 0.625, y = 1.12,
+    buttons = list(
+      list(label = "50", method = "restyle", args = list("customdata", 0)),
+      list(label = "100", method = "restyle", args = list("customdata", 1)),
+      list(label = "200", method = "restyle", args = list("customdata", 2))
+    )
+  ),
+  list(
+    id = "workers", type = "dropdown", active = 0, x = 0.875, y = 1.12,
+    buttons = list(
+      list(label = "2 workers", method = "restyle", args = list("customdata", 0)),
+      list(label = "6 workers", method = "restyle", args = list("customdata", 1))
+    )
+  )
+)
+
+annot <- list(
+  list(
+    x = 0,
+    y = 1.22,
+    xref = "paper", yref = "paper",
+    text = "Spatial extent",
+    showarrow = FALSE,
+    font = list(size = 14)
+  ),
+  list(
+    x = 0.25,
+    y = 1.22,
+    xref = "paper", yref = "paper",
+    text = "Observation period",
+    showarrow = FALSE,
+    font = list(size = 14)
+  ),
+  list(
+    x = 0.5,
+    y = 1.22,
+    xref = "paper", yref = "paper",
+    text = "Chunk size",
+    showarrow = FALSE,
+    font = list(size = 14)
+  ),
+  list(
+    x = 0.75,
+    y = 1.22,
+    xref = "paper", yref = "paper",
+    text = "Number of workers",
+    showarrow = FALSE,
+    font = list(size = 14)
+  )
+)
+
+p <- plotly_build(plots$ger_monthly_50_2)
+p$x$data <- lapply(plots, \(p) p$x$data) |> list_flatten()
+p <- p |>
+  layout(updatemenus = menus, annotations = annot, margin = list(t = 150)) |>
+  style(hovertemplate = "<i>Time</i>: %{y} s") |>
+  config(displaylogo = FALSE, modeBarButtonsToRemove = c(
+    "zoomIn2d", "zoomOut2d", "toImage", "hoverCompareCartesian",
+    "hoverClosestCartesian", "resetScale2d", "autoScale2d", "lasso2d",
+    "select2d", "pan2d", "zoom2d"
+  )) |>
+    htmlwidgets::onRender("
+    function(el, x) {
+        var isUpdating = false;
+    
+        el.on('plotly_restyle', function(data) {
+            // prevent infinite loops
+            if (isUpdating) return; 
+            isUpdating = true;
+        
+            // get indices of all menus
+            var m = el.layout.updatemenus;
+            var ext_i = m[0].active || 0;
+            var time_i = m[1].active || 0;
+            var cs_i = m[2].active || 0;
+            var work_i = m[3].active || 0;
+    
+            // calculate which traces should be visible
+            // traces per combination = 3 * 2 (Seq & Par) = 6.
+            var combo = (ext_i * 18) + (time_i * 6) + (cs_i * 2) + work_i;
+            var tracesPerCombo = el.data.length / 36;
+            var start = combo * tracesPerCombo;
+            var end = start + tracesPerCombo;
+    
+            // create visibility array
+            var vis = [];
+            for (var i = 0; i < el.data.length; i++) {
+                vis[i] = (i >= start && i < end);
+            }
+    
+            Plotly.restyle(el, {visible: vis}).then(function() {
+                isUpdating = false;
+            });
+        });
+    }
+  ")
+```
+</details>
+
+```{r, echo = FALSE}
+p
+```
 
 
 ## How does gxc work? 
@@ -380,391 +600,6 @@ Testing, documentation, and performance evaluation are critical throughout the d
 ## How are we assessing performance? 
 
 CRAN's standards for package submissions check for performance and correctness. CRAN has established a set of policies regarding quality, copyright, effectiveness and performance [(R Core Team)](https://cran.r-project.org/web/packages/policies.html). 
-
-
-## Should I enable parallel processing?
-
-`gxc` follows the parallel computing paradigm of the `future` package. By default, this is disabled and the data will be processed through a "standard" sequential pipeline. However, users can enable parallel processing in all major functions (`parallel = TRUE`). This can significantly increase execution time of processes which use large datasets. In our functions, parallel computing becomes especially relevant when observations are linked with EO data based on varying focal time periods. At the same time, setting up a parallel plan and chunk-based processing generates an overhead which could lead to performance decreases compared to sequential approaches. This is especially true for smaller datasets with narrower spatial extent and fewer observations. 
-
-If `parallel=TRUE`, data processing is performed by pre-chunking input data. The chunk sizes can be varied with `chunk_size=`. The default is set to `50`. The plot below gives you an indication whether it makes sense to enable parallel computing. It compares 1. a "purely" sequential approach (`parallel=FALSE`) with 2. an enabled pre-chunking but no specified parallel plan (`parallel=TRUE` and `future::plan(sequential)`) and 3. an enabled pre-chunking and a parallel plan with six workers (`parallel=TRUE` and `future::plan(multisession, workers = 6)`). The specifications are:
-
-1. **Sample size**: 10-10000 
-2. **Spatial extent**: Germany 
-3. **Focal period**: Averages for month, season, 6 months, and year
-4. **Focal time**: Varying time points for each observation.
-
-We are accessing the `2m_temperature` indicator from the `ERA5-Land` dataset for this exercise. The code was run on an average office laptop (Intel Core i7-10510U CPU, 16GB RAM, Windows 10).
-
-<details>
- <summary>Replication code</summary>
-
-```{r}
-# Load required packages
-library(tidyverse)
-library(plotly)
-library(scales) # for the alpha() function
-
-# Read the performance results for parallel processing
-results_df <- readr::read_rds("./data/performance_results_parallel.rds")
-
-# Set factor levels for focal period and processing mode for consistent plotting
-results_df <- results_df %>%
-  mutate(
-    focal_period = factor(focal_period, levels = c("Month", "Season", "6 Months", "Year")),
-    mode = factor(mode, levels = c(
-      "sequential",
-      "parallel_sequential (cs=20)",
-      "parallel_sequential (cs=50)",
-      "parallel_sequential (cs=100)",
-      "parallel_sequential (cs=200)",
-      "parallel_multisession (cs=20)",
-      "parallel_multisession (cs=50)",
-      "parallel_multisession (cs=100)",
-      "parallel_multisession (cs=200)"
-    ))
-  )
-
-# Define custom colors for each processing mode
-colors <- c(
-  "#045a8d", # sequential
-  rep("#ae017e", 4), # parallel_sequential
-  rep("#006d2c", 4)  # parallel_multisession
-)
-colors <- colors[seq_along(levels(results_df$mode))]
-names(colors) <- levels(results_df$mode)
-
-# Define line dash types and alpha transparency for each mode
-line_dash_types <- c(
-  "solid",    # sequential
-  "dash", "solid", "dash", "dash",      # parallel_sequential
-  "dash", "solid", "dash", "dash"       # parallel_multisession
-)
-line_alphas <- c(
-  1,         # sequential
-  0.4, 1, 0.4, 0.4,    # parallel_sequential
-  0.4, 1, 0.4, 0.4     # parallel_multisession
-)
-
-# Prepare lists for plotly traces and focal period tracking
-focal_periods <- levels(results_df$focal_period)
-modes <- levels(results_df$mode)
-
-trace_list <- list()
-trace_focal <- c()
-
-# Loop through each focal period and mode to create traces for points and smoothed lines
-for (fp in focal_periods) {
-  for (i in seq_along(modes)) {
-    m <- modes[i]
-    d_sub <- filter(results_df, focal_period == fp, mode == m)
-    if (nrow(d_sub) > 0) {
-      # Add scatter points for each mode
-      trace_list[[length(trace_list) + 1]] <- list(
-        x = d_sub$sample_size,
-        y = d_sub$seconds / 60, # Convert seconds to minutes
-        type = "scatter",
-        mode = "markers",
-        name = m,
-        marker = list(color = colors[m]),
-        legendgroup = m,
-        showlegend = TRUE
-      )
-      trace_focal <- c(trace_focal, fp)
-
-      # Add smoothed line (loess) if enough data points are available
-      if (nrow(d_sub) >= 3) {
-        loess_fit <- loess((seconds / 60) ~ sample_size, data = d_sub)
-        x_new <- sort(d_sub$sample_size)
-        y_new <- predict(loess_fit, newdata = data.frame(sample_size = x_new))
-      } else {
-        x_new <- d_sub$sample_size
-        y_new <- d_sub$seconds / 60
-      }
-      # Add the smoothed line trace
-      trace_list[[length(trace_list) + 1]] <- list(
-        x = x_new,
-        y = y_new,
-        type = "scatter",
-        mode = "lines",
-        name = m,
-        line = list(color = alpha(colors[m], line_alphas[i]), dash = line_dash_types[i]),
-        legendgroup = m,
-        showlegend = FALSE
-      )
-      trace_focal <- c(trace_focal, fp)
-    }
-  }
-}
-
-# Optional: Add dummy traces for the legend (ensures all modes appear in the legend)
-dummy_traces <- list()
-for (m in modes) {
-  dummy_traces[[length(dummy_traces) + 1]] <- list(
-    x = NA, y = NA,
-    type = "scatter", mode = "markers",
-    name = m,
-    marker = list(color = colors[m]),
-    legendgroup = m,
-    showlegend = TRUE,
-    hoverinfo = "none"
-  )
-}
-
-# Build the plotly object by adding all traces
-#p_plotly <- plot_ly()
-#for (tr in trace_list) {
-#  p_plotly <- add_trace(p_plotly, !!!tr)
-#}
-#for (tr in dummy_traces) {
-#  p_plotly <- add_trace(p_plotly, !!!tr)
-#}
-
-p_plotly <- plot_ly()
-for (tr in trace_list) {
-  p_plotly <- do.call(add_trace, c(list(p_plotly), tr))
-}
-for (tr in dummy_traces) {
-  p_plotly <- do.call(add_trace, c(list(p_plotly), tr))
-}
-
-# Create dropdown menu buttons to filter by focal period
-focal_period_buttons <- list()
-for (fp in focal_periods) {
-  visibility <- trace_focal == fp
-  focal_period_buttons[[length(focal_period_buttons) + 1]] <- list(
-    method = "restyle",
-    args = list("visible", visibility),
-    label = fp
-  )
-}
-
-# Finalize plot layout with title, axis labels, and dropdown menu
-p_plotly <- p_plotly %>%
-  layout(
-    title = "Execution Time vs Sample Size",
-    margin = list(t = 150),
-    xaxis = list(title = "Sample Size"),
-    yaxis = list(title = "Execution Time (minutes)"),
-    updatemenus = list(
-      list(
-        type = "dropdown",
-        active = 0,
-        buttons = focal_period_buttons,
-        x = 0.1, y = 1.15,
-        xanchor = "left", yanchor = "top"
-      )
-    ),
-    annotations = list(
-      list(
-        x = 0.1, y = 1.25,
-        xref = "paper", yref = "paper",
-        text = "Focal period",
-        showarrow = FALSE,
-        font = list(size = 14)
-      )
-    )
-  )
-
-# Display the interactive plot
-p_plotly
-```
-</details> 
-
-
-```{r, echo=FALSE, warning=FALSE}
-results_df <- read_rds("./data/performance_results_parallel.rds")
-
-results_df <- results_df |>
-  mutate(
-    focal_period = factor(focal_period, levels = c("Month", "Season", "6 Months", "Year")),
-    mode = factor(mode, levels = c(
-      "sequential",
-      "parallel_sequential (cs=20)",
-      "parallel_sequential (cs=50)",
-      "parallel_sequential (cs=100)",
-      "parallel_sequential (cs=200)",
-      "parallel_multisession (cs=20)",
-      "parallel_multisession (cs=50)",
-      "parallel_multisession (cs=100)",
-      "parallel_multisession (cs=200)"
-    ))
-  )
-
-focal_periods <- levels(results_df$focal_period)
-modes <- sort(unique(results_df$mode))
-
-# --- Custom Manual Color Scheme ---
-# Manually specify colors for each mode. Adjust as needed.
-colors <- c(
-  "#045a8d",
-  "#ae017e", "#ae017e", "#ae017e", "#ae017e",
-  "#006d2c", "#006d2c", "#006d2c", "#006d2c"
-)
-colors <- colors[seq_along(modes)]
-names(colors) <- modes
-
-# --- Manual Line Settings ---
-# Define the line dash type and alpha for each mode.
-# (These vectors will be recycled if there are more modes than values.)
-line_dash_types <- rep(c(
-  "solid",
-  "dash", "solid", "dash", "dash",
-  "dash", "solid", "dash", "dash"
-), length.out = length(modes))
-line_alphas <- rep(c(
-  1,
-  0.4, 1, 0.4, 0.4,
-  0.4, 1, 0.4, 0.4
-), length.out = length(modes))
-
-# --- Build Data Traces ---
-# We create data traces for each combination of focal_period and mode.
-# Each combination produces two traces: one for points and one for a smooth line.
-trace_list <- list() # to hold data traces (which will be updated by the dropdown)
-trace_focal <- c() # record the focal_period for each data trace
-
-for (fp in focal_periods) {
-  for (m in modes) {
-    d_sub <- results_df %>% filter(focal_period == fp, mode == m)
-    if (nrow(d_sub) > 0) {
-      # --- Points Trace ---
-      trace_points <- list(
-        x = d_sub$sample_size,
-        y = d_sub$seconds / 60,
-        type = "scatter",
-        mode = "markers",
-        name = m, # legend label will be the mode
-        marker = list(color = colors[m]),
-        legendgroup = m,
-        showlegend = TRUE # these traces are intended to show the legend
-      )
-      trace_list[[length(trace_list) + 1]] <- trace_points
-      trace_focal <- c(trace_focal, as.character(fp))
-
-      # --- Smooth Trace ---
-      if (nrow(d_sub) >= 3) {
-        loess_fit <- loess((seconds / 60) ~ sample_size, data = d_sub)
-        x_new <- sort(d_sub$sample_size)
-        y_new <- predict(loess_fit, newdata = data.frame(sample_size = x_new))
-      } else {
-        x_new <- d_sub$sample_size
-        y_new <- d_sub$seconds / 60
-      }
-      # Match the mode index to get its corresponding line settings.
-      i <- match(m, modes)
-      # Adjust the line color to include alpha.
-      line_color_with_alpha <- alpha(colors[m], line_alphas[i])
-
-      trace_smooth <- list(
-        x = x_new,
-        y = y_new,
-        type = "scatter",
-        mode = "lines",
-        name = m, # same mode name, but we hide its legend to merge with points.
-        line = list(color = line_color_with_alpha, dash = line_dash_types[i]),
-        legendgroup = m,
-        showlegend = FALSE
-      )
-      trace_list[[length(trace_list) + 1]] <- trace_smooth
-      trace_focal <- c(trace_focal, as.character(fp))
-    }
-  }
-}
-
-# --- Create Dummy Legend Traces ---
-# These traces serve solely as legend entries (one per mode) and are not affected by the dropdown.
-dummy_traces <- list()
-for (m in modes) {
-  dummy_traces[[length(dummy_traces) + 1]] <- list(
-    x = NA,
-    y = NA,
-    type = "scatter",
-    mode = "markers",
-    name = m,
-    marker = list(color = colors[m]),
-    legendgroup = m,
-    showlegend = TRUE,
-    hoverinfo = "none"
-  )
-}
-
-# --- Build the Plotly Object ---
-p_plotly <- plot_ly()
-# Add the data traces (which will be updated by the dropdown menu).
-for (tr in trace_list) {
-  p_plotly <- add_trace(p_plotly,
-    x = tr$x,
-    y = tr$y,
-    type = tr$type,
-    mode = tr$mode,
-    name = tr$name,
-    marker = tr$marker,
-    line = tr$line,
-    legendgroup = tr$legendgroup,
-    showlegend = tr$showlegend
-  )
-}
-# Add the dummy legend traces (these remain always visible).
-for (tr in dummy_traces) {
-  p_plotly <- add_trace(p_plotly,
-    x = tr$x,
-    y = tr$y,
-    type = tr$type,
-    mode = tr$mode,
-    name = tr$name,
-    marker = tr$marker,
-    legendgroup = tr$legendgroup,
-    showlegend = tr$showlegend,
-    hoverinfo = tr$hoverinfo
-  )
-}
-
-# --- Create the Update Menu for focal_period ---
-# Each button shows only the data traces that belong to a given focal_period.
-focal_period_buttons <- list()
-for (fp in focal_periods) {
-  visibility <- sapply(trace_focal, function(x) x == fp)
-  focal_period_buttons[[length(focal_period_buttons) + 1]] <- list(
-    method = "restyle",
-    args = list("visible", visibility),
-    label = fp,
-    traces = seq_len(length(trace_list)) # update only the data traces
-  )
-}
-
-# --- Add Update Menu and Layout ---
-p_plotly <- p_plotly %>% layout(
-  title = "Execution Time vs Sample Size",
-  y = 0.85,
-  margin = list(t = 150), # Increase top margin to 150 (adjust as needed)
-  xaxis = list(title = "Sample Size"),
-  yaxis = list(title = "Execution Time (minutes)"),
-  updatemenus = list(
-    list(
-      type = "dropdown",
-      active = 0,
-      buttons = focal_period_buttons,
-      x = 0.1, # left-align the dropdown
-      y = 1.15,
-      xanchor = "left", # ensures left alignment
-      yanchor = "top"
-    )
-  ),
-  annotations = list(
-    list(
-      x = 0.1,
-      y = 1.25,
-      xref = "paper",
-      yref = "paper",
-      text = "Focal period",
-      showarrow = FALSE,
-      font = list(size = 14)
-    )
-  )
-)
-
-p_plotly
-```
 
 
 <details>

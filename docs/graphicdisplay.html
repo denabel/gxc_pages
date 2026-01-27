@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,10 +69,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-ddd961a2510921635943dfbbd19534c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -138,6 +138,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="./quality_criteria.html">
  <span class="dropdown-text">Quality criteria</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./crs.html">
+ <span class="dropdown-text">Intro to CRS</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./raster_data.html">
@@ -547,7 +551,7 @@ dbl (5): car_density, publictransport_meandist, population, green_voteshare,...
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>ger_pop_2020</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class       : SpatRaster 
-dimensions  : 934, 1100, 1  (nrow, ncol, nlyr)
+size        : 934, 1100, 1  (nrow, ncol, nlyr)
 resolution  : 0.008333333, 0.008333333  (x, y)
 extent      : 5.87375, 15.04042, 47.27458, 55.05792  (xmin, xmax, ymin, ymax)
 coord. ref. : lon/lat WGS 84 (EPSG:4326) 
@@ -663,7 +667,7 @@ max value   :                    4513.521 </code></pre>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>CA_pop_stack</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class       : SpatRaster 
-dimensions  : 1287, 1168, 4  (nrow, ncol, nlyr)
+size        : 1287, 1168, 4  (nrow, ncol, nlyr)
 resolution  : 828.2603, 828.2603  (x, y)
 extent      : -415531, 551877.1, -607609.6, 458361.4  (xmin, xmax, ymin, ymax)
 coord. ref. : NAD83 / California Albers (EPSG:3310) 
@@ -671,8 +675,8 @@ source      : CA_pop_stack.tif
 names       : pop_2017, pop_2018, pop_2019, pop_2020 
 min values  :      0.0,     0.00,     0.00,     0.00 
 max values  :  22052.6, 22123.96, 22208.66, 22285.26 
-unit        :    count,    count,    count,    count 
-time (years): 2017 to 2020 (2 steps) </code></pre>
+unit        : count 
+time (years): 2017 to 2020 (4 steps) </code></pre>
 </div>
 </div>
 <p>We already saw in the previous exercise that <code>ggplot()</code> initializes a blank canvas which we will fill with geoms. <code>tidyterra's</code> <code>geom_spatraster()</code> is used for plotting <code>SpatRaster</code>objects. Since we already learnt about indexing we can create a single layer plot by accessing single layers.</p>
@@ -680,14 +684,14 @@ time (years): 2017 to 2020 (2 steps) </code></pre>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyterra)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Paket 'scales' wurde unter R Version 4.4.3 erstellt</code></pre>
+<pre><code>Warning: package 'scales' was built under R version 4.4.3</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
-Attache Paket: 'scales'</code></pre>
+Attaching package: 'scales'</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Das folgende Objekt ist maskiert 'package:terra':
+<pre><code>The following object is masked from 'package:terra':
 
     rescale</code></pre>
 </div>
@@ -1028,8 +1032,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1140,7 +1142,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
