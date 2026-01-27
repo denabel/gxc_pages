@@ -4,4 +4,64 @@ title: "Further resources"
 
 ## Helpful EO packages in R
 
-comming soon
+### Base & Workflow packages 
+
+**remotes** (EO-workflwos, [more info](https://CRAN.R-project.org/package=remotes))
+
+**future.apply** (parallel processing for complex data), sf (simple feature standards for vector data e.g. points, lines, polygones, basis for boarders, AOIs, ect., [more info](https://cran.r-project.org/package=sf ))
+
+**dplyr** (grammar of data manipulation for tabular data, attribute tables, pixel statistics, etc, [more info](https://cran.r-project.org/package=dplyr))
+
+**rnaturalearth** (hold an facilitate interaction with natural earth vector map data, providing map data, [more info](https://cran.r-project.org/web/packages/rnaturalearth/vignettes/rnaturalearth.html))
+
+**lubridate** (facilitates work with  date and time information, essential for time series, [more info](https://cran.r-project.org/package=lubridate))
+
+**keyring** (manages access data securely via the operating system keychain system, e.g. for API keys from EO services, [more info](https://cran.r-project.org/package=keyring))
+
+**progressr** (uniform system for progress indicatoes, displays progress during long EO calculations, [more info](https://cran.r-project.org/package=progressr))
+
+**tidyverse** (collection from ggplot2, dplyr, tidyr, readr, purr, etc.: provides a uniform, „tidy“ data ecosystem that many EO workflows fit well, [more info](https://cran.r-project.org/package=tidyverse))
+
+**devtools** (helps with developping, testing, and installing R packages; useful if you your own EO helper packages or maintain forks, [more info](https://cran.r-project.org/package=devtools))
+
+### Vector & Raster Data
+
+**sf**
+
+**terra** (raster and spatial raster library, for complex raster data, multi-band EO data, resampling, overlays, etc., [more info](https://cran.r-project.org/package=terra))
+
+**stars** (handles grids and general multidimensional arrays (x, y, time, band) as „spatio temporal arrays“; good for netCDF and data cubes, [more info](https://cran.r-project.org/package=stars))
+
+**gdalcubes** (builds spatio-temporal data cubes from EO grids (e.g. Sentinel time series) and enables efficient aggregation and analysis, [more info](https://cran.r-project.org/package=gdalcubes))
+
+### Geostatistics, statistics, ML
+
+**gstat** (gesostatistical models (variograms, kriging, simulation) for continuous variables, e.g. interpolation of EO-based indices, [more info](https://cran.r-project.org/package=gstat))
+
+**spatstat** (comprehensive tools for spatial point analysis; usable for EO-derived point data (e.g. detection, events, [more info](https://cran.r-project.org/package=spatstat))
+
+**randomForest** (implements random forest models; classic for land cover classification and pixel-based mapping from EO features, [more info](https://cran.r-project.org/package=randomForest))
+
+### GIS engines and special tools
+
+**RSAGA** (interface to SAGA GIS; enables terrain analysis, hydrology, morphometry, etc. from R on EO derivates, [more info](https://cran.r-project.org/package=RSAGA))
+
+**dggridR** (generates discrete global grids (e.g. hexagonal grids) and supports mapping/ aggregation on global grids; useful for global EO monitoring, [more info](https://cran.r-project.org/package=dggridR))
+
+**GDAMTools** (tools related to GADM boundary data, often used for aggregating EO data by administrative region, [more info](https://cran.r-project.org/package=GDAMTools))
+
+**Geodata** (provides globally available raster and vector data (e.g. cliamte, elevation models, land cover) for easy download, [more info](https://cran.r-project.org/package=geodata))
+
+**giscoR** (access to Eurostat GISCO geodata(boundaries, grids, regions) with clean meadata structure; typical context layer for EO analyses in Europe, [more info](https://cran.r-project.org/package=giscoR))
+
+### Visualilzation 
+
+**leaflet** (bindings to the Leaflet JavaScript library for interactive web maps, including raster and vector overlays for EO products, [more info](https://cran.r-project.org/package=leaflet))
+
+**tamp** (thematic mapping framework for static and interactive maps, easily integrated with sf/stars/terra, [more info]/https://cran.r-project.org/package=tmap)) 
+
+**tidyterra** (support package for better utilization of terra objects with ggplot2/tidyverse (e.g. geom_spatraster(), geom_spatvector(), [more info](https://cran.r-project.org/package=tidyterra))
+
+### EO-specific data access packages
+
+**ecmwfr** ((client for ECMWF API/ Climate Data Store, enables download of ERA5 & other re-analysis/ models, [more info](https://cran.r-project.org/package=ecmwfr))
