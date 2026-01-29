@@ -389,14 +389,14 @@ vis_6workers <- grepl("6$", names(plots))
 
 menus <- list(
   list(
-    id = "ext", type = "dropdown", active = 0, x = 0.125, y = 1.12,
+    id = "ext", type = "dropdown", active = 0, x = 0.175, y = 1.12,
     buttons = list(
       list(label = "Germany", method = "restyle", args = list("customdata", 0)), 
       list(label = "Europe", method = "restyle", args = list("customdata", 1))
     )
   ),
   list(
-    id = "time", type = "dropdown", active = 0, x = 0.375, y = 1.12,
+    id = "time", type = "dropdown", active = 0, x = 0.425, y = 1.12,
     buttons = list(
       list(label = "Monthly", method = "restyle", args = list("customdata", 0)),
       list(label = "Seasonal", method = "restyle", args = list("customdata", 1)),
@@ -404,7 +404,7 @@ menus <- list(
     )
   ),
   list(
-    id = "cs", type = "dropdown", active = 0, x = 0.625, y = 1.12,
+    id = "cs", type = "dropdown", active = 0, x = 0.675, y = 1.12,
     buttons = list(
       list(label = "50", method = "restyle", args = list("customdata", 0)),
       list(label = "100", method = "restyle", args = list("customdata", 1)),
@@ -412,7 +412,7 @@ menus <- list(
     )
   ),
   list(
-    id = "workers", type = "dropdown", active = 0, x = 0.875, y = 1.12,
+    id = "workers", type = "dropdown", active = 0, x = 0.925, y = 1.12,
     buttons = list(
       list(label = "2 workers", method = "restyle", args = list("customdata", 0)),
       list(label = "6 workers", method = "restyle", args = list("customdata", 1))
@@ -438,7 +438,7 @@ annot <- list(
     font = list(size = 14)
   ),
   list(
-    x = 0.5,
+    x = 0.63,
     y = 1.22,
     xref = "paper", yref = "paper",
     text = "Chunk size",
@@ -446,7 +446,7 @@ annot <- list(
     font = list(size = 14)
   ),
   list(
-    x = 0.75,
+    x = 0.965,
     y = 1.22,
     xref = "paper", yref = "paper",
     text = "Number of workers",

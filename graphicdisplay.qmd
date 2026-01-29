@@ -22,43 +22,7 @@ library(dplyr)
 
 ## Why and how should we use data visualization?
 
-**Enhancing Understanding and Interpretation**
-
-- Facilitates interpretation of complex data and statistics. 
-
-- Offers alternative perspectives or additional information. 
-
-- Helps diagnose strengths and weaknesses of complex models (e.g. multidimensional geospatial data)
-
-**Core Tool in Data Exploration**
-
-- Crucial for exploratory data analysis and data mining. 
-
-- Useful in uncovering structures statistical models might miss: 
-  
-  - Outliers, clusters, unusual groups, trends, local patterns, boundaries, missing values etc.
-   
-- Aids in data cleaning and pre-processing, especially in mulit-band raster data and temporal stacks (e.g., data cubes)
-
-**Stimulating Insight and Scientific Discovery**
-
-- Raises new questions and hypotheses
-
-- Encourages critical thinking and deeper research. 
-
-'A graphic is _not_ worth a thousand words!'
-
-**Encouraging Critical Reflection**
-
-- Do not jump to conclusions and avoid overinterpretation
-
-- Graphics must be interpreted in context: 
-  
-  - data source, collection methods, display choices.
-
-- Effective visualization purposeful: 
-   
-   - Attracting attention, focus on key features, synergize with supporting text, minimize non-data ink. 
+Visualizing Earth observation data makes complex numbers and statistics much easier to understand than raw tables. Good graphics help us see patterns, similarities and relationships in multidimensional geospatial data that might otherwise stay hidden. They are a core tool in exploratory data analysis: visualization can reveal outliers, clusters, local trends, boundaries or missing values, and thus support data cleaning and pre-processing, especiaally in multi-band raster data and temporal stacks such as data cubes. At the same time, graphics are not a substitute for careful analysis. They should be read critically and always in context, considering data sourrces, collection methods and design choices, so that they stimulate new questions and insights without leading us to quicl or misleading conclusions.
    
 ([Unwin, 2020](https://hdsr.mitpress.mit.edu/pub/zok97i7p/release/4))
    
