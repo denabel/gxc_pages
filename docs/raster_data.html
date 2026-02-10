@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -21,8 +21,9 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -64,15 +65,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -105,13 +108,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">GESIS meets Copernicus (GxC)</span>
     </a>
@@ -140,12 +145,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Quality criteria</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="./crs.html">
+ <span class="dropdown-text">Intro to CRS</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="./raster_data.html">
  <span class="dropdown-text">Raster data</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./datacubes.html">
  <span class="dropdown-text">Datacubes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./graphicdisplay.html">
+ <span class="dropdown-text">Graphic Display</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./nightlights.html">
@@ -177,10 +190,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="./catalogue.html">
  <span class="dropdown-text">Indicators</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./performance.html">
- <span class="dropdown-text">Performance</span></a>
   </li>  
     </ul>
   </li>
@@ -276,27 +285,27 @@ Raster data and image classification in remote sensing
 <p>Necessary metadata in raster data includes several key components that define its structure and spatial characteristics. Raster dimensions specify the number of columns, rows, and total cells, which determine the overall size of the dataset. The raster’s extent, similar to a bounding box in vector data, defines the spatial boundaries of the dataset. Resolution refers to the size of each raster cell, impacting the level of detail captured in the data. Lastly, the coordinate reference system (CRS) is essential, as it determines the precise geographic location of the raster layer on the Earth’s surface. Together, these metadata elements provide crucial information that allows for accurate interpretation and analysis of raster data.</p>
 <p>The following <code>R</code> code creates an empty raster using the <code>terra</code> package. The function <code>terra::rast()</code> initializes a blank raster object without predefined dimensions, extent, resolution, or coordinate reference system. The function can later be customized by specifying its properties, such as the number of rows and columns, spatial extent, or resolution.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">rast</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">rast</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We can now populate a raster with data. First, we generate a random set of 16 numbers between 1 and 100. These values are then reshaped into a 4-row matrix, effectively organizing the data into a grid format suitable for raster representation. The <code>terra::rast()</code> function converts this matrix into a raster object, creating a structured spatial dataset.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>input_data <span class="ot">&lt;-</span> </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="dv">16</span>) <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>input_data <span class="ot">&lt;-</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="dv">16</span>) <span class="sc">|&gt;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="dv">4</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>raster_layer <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(input_data)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>raster_layer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>raster_layer</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class       : SpatRaster 
-dimensions  : 4, 4, 1  (nrow, ncol, nlyr)
+size        : 4, 4, 1  (nrow, ncol, nlyr)
 resolution  : 1, 1  (x, y)
 extent      : 0, 4, 0, 4  (xmin, xmax, ymin, ymax)
 coord. ref. :  
 source(s)   : memory
 name        : lyr.1 
-min value   :     1 
-max value   :    99 </code></pre>
+min value   :    10 
+max value   :    97 </code></pre>
 </div>
 </div>
 <p>Here’s what each component of the output of the raster object represents:</p>
@@ -312,7 +321,7 @@ max value   :    99 </code></pre>
 </ul>
 <p>The output confirms that the raster is a small 4×4 grid with integer values ranging from 16 to 84 and no predefined spatial reference system. We can already start plotting the data using:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(raster_layer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(raster_layer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -328,16 +337,16 @@ max value   :    99 </code></pre>
 <p>In <code>R</code>, the <code>terra</code> package is one of the most commonly used tools for working with raster data, offering a comprehensive set of functions for manipulating, analyzing, and visualizing raster datasets. Additionally, the <code>stars</code> package provides another approach, with an interface to simple features through the <code>sf</code> package, making it helpful in working with raster data in a way that integrates smoothly with vector data. The <code>terra</code> package is also well-suited for performing more complex operations, such as zonal statistics, which allow users to analyze the relationship between raster values and specific areas or zones. Similarly, the <code>spatstat</code> package is helpful for spatial statistics, offering tools for analyzing spatial point patterns and raster data in various advanced statistical contexts. In the following, we will concentrate on using the functionalities of the <code>terra</code> package.</p>
 <p>In the code below, June and July 2019 raster temperature data are loaded into R. The TIFF files <code>temp_6_2019.tif</code> and <code>temp_7_2019.tif</code> contain monthly temperature measurements. Again, we use the <code>terra::rast()</code> function to read these TIFF files and convert them into raster objects.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>temp_6_2019 <span class="ot">&lt;-</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>temp_6_2019 <span class="ot">&lt;-</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">rast</span>(<span class="st">"./data/temp_6_2019.tif"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>temp_7_2019 <span class="ot">&lt;-</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">rast</span>(<span class="st">"./data/temp_7_2019.tif"</span>)</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>temp_6_2019</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>temp_6_2019</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class       : SpatRaster 
-dimensions  : 561, 1440, 1  (nrow, ncol, nlyr)
+size        : 561, 1440, 1  (nrow, ncol, nlyr)
 resolution  : 0.25, 0.25  (x, y)
 extent      : -180.125, 179.875, -56.125, 84.125  (xmin, xmax, ymin, ymax)
 coord. ref. : lon/lat WGS 84 (EPSG:4326) 
@@ -349,7 +358,7 @@ max value   :                                               313.1426 </code></pr
 </div>
 <p>These objects now hold the temperature data as gridded rasters, where each cell in the grid corresponds to a specific temperature value for June and July 2019. By printing the <code>temp_6_2019</code> raster object, we can see the metadata and values of the June 2019 temperature data, which include the raster’s dimensions, resolution, extent, and range of temperature values. In contrast to the simple example from earlier, a coordinate reference system is now defined. We can compare these two raster data objects by plotting them.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(temp_6_2019)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(temp_6_2019)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -359,7 +368,7 @@ max value   :                                               313.1426 </code></pr
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(temp_7_2019)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(temp_7_2019)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -370,7 +379,7 @@ max value   :                                               313.1426 </code></pr
 </div>
 <p>Loading and plotting raster data in <code>R</code> is a straightforward process, and it can be quickly done using packages like terra. However, in addition to visualization, performing simple statistics on raster data can also be quite helpful in gaining insights. Fortunately, working with raster data is efficient and relatively fast, making it suitable for various types of analysis. For example, to calculate the mean of the raster data, one can use the <code>terra::global()</code> function with the argument <code>fun = "mean"</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">global</span>(temp_6_2019, <span class="at">fun =</span> <span class="st">"mean"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">global</span>(temp_6_2019, <span class="at">fun =</span> <span class="st">"mean"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                                           mean
 SFC (Ground or water surface); 2 metre temperature [C] 289.9985</code></pre>
@@ -378,16 +387,16 @@ SFC (Ground or water surface); 2 metre temperature [C] 289.9985</code></pre>
 </div>
 <p>Although raster data can be considered simple data tables, working with them involves some differences from other data types, such as simple features from the <code>sf</code> package. One of the key advantages of raster data is that you can perform operations on entire layers at once, making it easy to calculate new values. For example, if you want to convert temperature data from Kelvin to Celsius, you can subtract 273.15 from the raster values.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>temp_6_2019_celsius <span class="ot">&lt;-</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>temp_6_2019_celsius <span class="ot">&lt;-</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  temp_6_2019 <span class="sc">-</span> <span class="fl">273.15</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>temp_7_2019_celsius <span class="ot">&lt;-</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  temp_7_2019 <span class="sc">-</span> <span class="fl">273.15</span></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>temp_6_2019_celsius</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>temp_6_2019_celsius</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class       : SpatRaster 
-dimensions  : 561, 1440, 1  (nrow, ncol, nlyr)
+size        : 561, 1440, 1  (nrow, ncol, nlyr)
 resolution  : 0.25, 0.25  (x, y)
 extent      : -180.125, 179.875, -56.125, 84.125  (xmin, xmax, ymin, ymax)
 coord. ref. : lon/lat WGS 84 (EPSG:4326) 
@@ -400,7 +409,7 @@ max value   :                                               39.99258 </code></pr
 </div>
 <p>In the code above, two new rasters are created, temp_6_2019_celsius and temp_7_2019_celsius, subtracting 273.15 from the original temperature rasters for June and July 2019, respectively. This transformation effectively converts the temperature values from Kelvin to Celsius. When you display temp_6_2019_celsius, the newly calculated raster for June 2019 is shown in Celsius. This approach illustrates how easy it is to manipulate raster layers and perform calculations across entire datasets. Again, we can plot the result of this endeavor directly.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(temp_6_2019_celsius)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(temp_6_2019_celsius)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -411,13 +420,13 @@ max value   :                                               39.99258 </code></pr
 </div>
 <p>One of the advantages of working with raster data is that you can directly perform calculations using two or more raster layers, allowing for seamless spatial analysis. The code below calculates the difference between the temperature data for July 2019 (temp_7_2019) and June 2019 (temp_6_2019) by subtracting the June raster from the July raster. This calculation creates a new raster, temp_diff, representing the temperature change between the two months. Using raster operations directly, we can easily compare data across layers without extracting or manipulating the data manually.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>temp_diff <span class="ot">&lt;-</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>temp_diff <span class="ot">&lt;-</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  temp_7_2019 <span class="sc">-</span> temp_6_2019</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>temp_diff</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>temp_diff</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class       : SpatRaster 
-dimensions  : 561, 1440, 1  (nrow, ncol, nlyr)
+size        : 561, 1440, 1  (nrow, ncol, nlyr)
 resolution  : 0.25, 0.25  (x, y)
 extent      : -180.125, 179.875, -56.125, 84.125  (xmin, xmax, ymin, ymax)
 coord. ref. : lon/lat WGS 84 (EPSG:4326) 
@@ -430,7 +439,7 @@ max value   :                                              12.255859 </code></pr
 </div>
 <p>Plotting this newly created raster data visualizes the resulting temperature difference, providing a clear graphical representation of the spatial variation in temperature between June and July 2019.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(temp_diff)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(temp_diff)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -444,19 +453,20 @@ max value   :                                              12.255859 </code></pr
 <h2 class="anchored" data-anchor-id="more-advanced-raster-data-wrangling">More Advanced Raster Data Wrangling</h2>
 <p>After demonstrating basic raster operations, exploring more advanced techniques for manipulating raster data is vital. One common operation in spatial data analysis is subsetting, which allows us to focus on specific areas or values within a dataset. If you are familiar with vector data, you may know that subsetting can often be done by filtering based on specific attribute values. For example, if we want to subset a world map to show only Belgium, we can use the <code>tidyverse</code> functions with the <code>sf</code> package.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>world <span class="ot">&lt;-</span> rnaturalearth<span class="sc">::</span><span class="fu">ne_countries</span>(</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale =</span> <span class="st">"medium"</span>, </span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">returnclass =</span> <span class="st">"sf"</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset to relevant variables</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>world <span class="ot">&lt;-</span> world <span class="sc">|&gt;</span> </span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(admin, geometry)</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset to Belgium</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>belgium <span class="ot">&lt;-</span> world <span class="sc">|&gt;</span> </span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(admin <span class="sc">==</span> <span class="st">"Belgium"</span>)</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>sf<span class="sc">::</span><span class="fu">st_geometry</span>(belgium)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>world <span class="ot">&lt;-</span> rnaturalearth<span class="sc">::</span><span class="fu">ne_countries</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale =</span> <span class="st">"medium"</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">returnclass =</span> <span class="st">"sf"</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset to relevant variables</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>world <span class="ot">&lt;-</span> world <span class="sc">|&gt;</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(admin, geometry)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset to Belgium</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>belgium <span class="ot">&lt;-</span> world <span class="sc">|&gt;</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(admin <span class="sc">==</span> <span class="st">"Belgium"</span>)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>sf<span class="sc">::</span><span class="fu">st_geometry</span>(belgium)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Geometry set for 1 feature 
 Geometry type: MULTIPOLYGON
@@ -481,8 +491,8 @@ Geodetic CRS:  WGS 84</code></pre>
 <p>With raster data, subsetting works differently compared to vector data. While vector data can be filtered based on attribute values, raster data is typically subsetted based on the spatial extent of a region of interest, often defined by bounding boxes or other geospatial datasets. These operations are particularly effective with raster data, where <strong>cropping</strong> and <strong>masking</strong> become essential tools for extracting specific areas or modifying datasets. Cropping refers to trimming the raster to a specific extent, which is useful when you want to focus on a defined area by reducing the size of the raster without altering its values. Masking, on the other hand, involves overlaying a mask layer (such as a polygon or another raster) to restrict or eliminate certain parts of the data, effectively setting values outside the mask to NA or another placeholder. These operations allow for more focused analysis by isolating relevant portions of the raster dataset, making them particularly powerful when working with large spatial datasets.</p>
 <p>Again, cropping is a method of cutting out a specific ‘slice’ of a raster layer based on an input dataset or geospatial extent, such as the extent of another geospatial dataset. Cropping reduces the spatial extent of a raster to a specified extent of another source. In <code>terra</code>, we can use the <code>terra::crop()</code> function for this effort.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>cropped_temp_6_2019 <span class="ot">&lt;-</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">crop</span>(temp_6_2019_celsius, belgium)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>cropped_temp_6_2019 <span class="ot">&lt;-</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">crop</span>(temp_6_2019_celsius, belgium)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -495,8 +505,8 @@ Geodetic CRS:  WGS 84</code></pre>
 </div>
 <p>Likewise, masking is similar to cropping, yet values outside the extent are set to missing values (<code>NA</code>). Masking creates a precise match between the spatial extent of your shape and the raster values and can be applied using the <code>terra::mask()</code> function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>masked_temp_6_2019 <span class="ot">&lt;-</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  raster<span class="sc">::</span><span class="fu">mask</span>(temp_6_2019_celsius, terra<span class="sc">::</span><span class="fu">vect</span>(belgium))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>masked_temp_6_2019 <span class="ot">&lt;-</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  raster<span class="sc">::</span><span class="fu">mask</span>(temp_6_2019_celsius, terra<span class="sc">::</span><span class="fu">vect</span>(belgium))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -509,11 +519,11 @@ Geodetic CRS:  WGS 84</code></pre>
 </div>
 <p>Combining cropping and masking can achieve results similar to subsetting vector data but applied to raster datasets. This combination allows for more flexible control over which part of the raster is included in the final result, mainly when working with regions defined by vector data. First, we crop the raster to the extent of a designated area, such as Belgium. This operation reduces the raster’s spatial extent to a rectangular bounding box that covers Belgium. Next, we mask the cropped raster using the geometry of Belgium, ensuring that only the region inside Belgium’s borders is retained. Any values outside the boundary are set to <code>NA</code>, excluding them from the analysis.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>temp_6_2019_belgium <span class="ot">&lt;-</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">crop</span>(temp_6_2019_celsius, belgium) <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>temp_6_2019_belgium <span class="ot">&lt;-</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">crop</span>(temp_6_2019_celsius, belgium) <span class="sc">|&gt;</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  raster<span class="sc">::</span><span class="fu">mask</span>(terra<span class="sc">::</span><span class="fu">vect</span>(belgium))</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(temp_6_2019_belgium)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(temp_6_2019_belgium)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -528,14 +538,14 @@ Geodetic CRS:  WGS 84</code></pre>
 <p>Now that we’ve covered basic and intermediate raster operations, we can explore more advanced methods that combine raster data with other data sources. These elaborated techniques allow for more prosperous, more complex analyses, as raster data can be integrated with vector data, time series, or external databases. For example, raster data can be combined with point data, polygon features, or other geospatial layers to perform spatial analysis, such as spatial interpolation, environmental modeling, or multi-layer analysis. These methods unlock new possibilities for understanding spatial relationships, trends, and patterns beyond simple raster manipulations, enabling more sophisticated environmental science, urban planning, and climate modeling workflows. By combining raster data with diverse data sources, we gain deeper insights and expand the analytical power of GIS.</p>
 <p>First, we perform a sampling of random points from the cropped and masked raster layer for Belgium. The <code>terra::spatSample()</code> function randomly selects 10 points from the <code>temp_6_2019_belgium</code> raster. This process provides a set of random points from the raster layer, which can be used for further spatial analysis or statistical processing.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>random_points <span class="ot">&lt;-</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  temp_6_2019_belgium <span class="sc">|&gt;</span> </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">spatSample</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>, <span class="at">as.points =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_as_sf</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>random_points <span class="ot">&lt;-</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  temp_6_2019_belgium <span class="sc">|&gt;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">spatSample</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>, <span class="at">as.points =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_as_sf</span>() <span class="sc">|&gt;</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(random_points)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(random_points)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -546,8 +556,8 @@ Geodetic CRS:  WGS 84</code></pre>
 </div>
 <p>What can we do with these points in conjungtion with raster data? One of the key advantages of raster data is its ability to extract information quickly and efficiently, making it ideal for large-scale analyses where speed is crucial. If we aim to to extract the raster information of each point location, we can use a method called raster extraction. Say, we aim to to extract the values for all points on the following map:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(temp_6_2019_belgium)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(random_points, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">cex =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(temp_6_2019_belgium)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(random_points, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">cex =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -558,50 +568,50 @@ Geodetic CRS:  WGS 84</code></pre>
 </div>
 <p>In this example, the <code>terra::extract()</code> function extracts the temperature values from the <code>temp_6_2019_belgium</code> raster at the locations defined by the random_points. By setting <code>ID = FALSE</code>, the function only returns the raster values at the points without including the ID of the points themselves. This procedure allows for quick retrieval of raster data at selected locations, such as the temperature values at the sampled points in Belgium. The extracted values can then be used for further analysis, such as statistical calculations, comparisons, or visualizations. This method is highly efficient and ideal for extracting raster data at multiple locations in one operation.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">extract</span>(temp_6_2019_belgium, random_points, <span class="at">ID =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">extract</span>(temp_6_2019_belgium, random_points, <span class="at">ID =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   SFC (Ground or water surface); 2 metre temperature [C]
-1                                                18.07852
-2                                                18.18594
-3                                                17.55117
-4                                                19.04922
-5                                                17.81094
-6                                                18.54922
-7                                                17.61172
-8                                                18.29141
-9                                                18.82852
-10                                               17.19375</code></pre>
+1                                                18.82461
+2                                                18.26797
+3                                                18.19375
+4                                                18.00039
+5                                                17.81680
+6                                                18.07852
+7                                                17.66836
+8                                                17.70742
+9                                                18.34414
+10                                               17.61172</code></pre>
 </div>
 </div>
 <p>Once the raster values have been extracted, the next step is to add these values to an existing dataset for further analysis. In this example, the temperature values extracted from the <code>temp_6_2019_belgium</code> raster are added to the random_points dataset. The <code>terra::extract()</code> function retrieves the temperature values at the sampled points, and the results are stored in a new column, temp_value. The <code>dplyr::mutate()</code> function is used to create this new column, where the <code>as.vector()</code> function ensures that the extracted data is formatted as a vector that can be added to the dataset. By setting <code>raw = TRUE</code>, the function returns the raw values of the raster at the specified points. After this operation, the random_points dataset now includes the temperature values from the raster, which can be used for further statistical analysis, visualizations, or comparisons with other variables.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>random_points <span class="ot">&lt;-</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  random_points <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>random_points <span class="ot">&lt;-</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  random_points <span class="sc">|&gt;</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">temp_value =</span> </span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">temp_value =</span></span>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.vector</span>(</span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>        terra<span class="sc">::</span><span class="fu">extract</span>(temp_6_2019_belgium, random_points, <span class="at">ID =</span> <span class="cn">FALSE</span>, <span class="at">raw =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>      )</span>
 <span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>random_points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>random_points</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Simple feature collection with 10 features and 1 field
 Geometry type: POINT
 Dimension:     XY
-Bounding box:  xmin: 4 ymin: 50 xmax: 6.25 ymax: 51.25
+Bounding box:  xmin: 3.25 ymin: 50 xmax: 5.5 ymax: 51.25
 Geodetic CRS:  WGS 84
              geometry temp_value
-1   POINT (4.75 50.5)   18.07852
-2        POINT (4 51)   18.18594
-3     POINT (5.25 50)   17.55117
-4  POINT (5.25 51.25)   19.04922
-5  POINT (4.75 50.25)   17.81094
-6      POINT (4.5 51)   18.54922
-7      POINT (4.5 50)   17.61172
-8    POINT (5.5 50.5)   18.29141
-9  POINT (5.75 50.75)   18.82852
-10 POINT (6.25 50.25)   17.19375</code></pre>
+1     POINT (5 51.25)   18.82461
+2   POINT (4.5 50.75)   18.26797
+3  POINT (4.25 51.25)   18.19375
+4    POINT (4.5 50.5)   18.00039
+5  POINT (3.75 51.25)   17.81680
+6   POINT (4.75 50.5)   18.07852
+7   POINT (5.5 50.25)   17.66836
+8  POINT (3.25 50.75)   17.70742
+9     POINT (4.25 51)   18.34414
+10     POINT (4.5 50)   17.61172</code></pre>
 </div>
 </div>
 <p>In some cases, extracting information for a single point may not provide enough context, as it can be too narrow. It may overlook surrounding information that could be important for analysis. To address this, we can create spatial buffers around the points of interest, which expands the area from which we can extract data and helps incorporate neighboring locations’ influence. A spatial buffer creates a specified radius around each point, allowing us to account for the surrounding area when performing extraction or analysis.</p>
@@ -617,39 +627,39 @@ Geodetic CRS:  WGS 84
 </div>
 <p>To extract raster data within a specified buffer around each point, we can combine the <code>terra::extract()</code> function from the terra package with the <code>sf::st_buffer()</code> function from the sf package. This method allows us to capture information from the exact point and a surrounding area, providing a more comprehensive understanding of the spatial context. In the example below, we first create a buffer of 5,000 meters (5 km) around each random point using <code>sf::st_buffer()</code>. Then, the <code>terra::extract()</code> function extracts raster values from the <code>temp_6_2019_belgium</code> layer within the buffered area. This approach ensures that each point now has a value that reflects the raster data from its surrounding area rather than just from the point itself, providing more spatial context for further analysis.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>random_points <span class="ot">&lt;-</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  random_points <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>random_points <span class="ot">&lt;-</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  random_points <span class="sc">|&gt;</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">temp_value_buffer =</span> </span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">temp_value_buffer =</span></span>
 <span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.vector</span>(</span>
 <span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>        terra<span class="sc">::</span><span class="fu">extract</span>(</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>          temp_6_2019_belgium, </span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>          random_points <span class="sc">|&gt;</span> </span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>            sf<span class="sc">::</span><span class="fu">st_buffer</span>(<span class="dv">5000</span>), </span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">ID =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>          temp_6_2019_belgium,</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>          random_points <span class="sc">|&gt;</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>            sf<span class="sc">::</span><span class="fu">st_buffer</span>(<span class="dv">5000</span>),</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">ID =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">raw =</span> <span class="cn">TRUE</span></span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>        )</span>
 <span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>      )</span>
 <span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>random_points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>random_points</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Simple feature collection with 10 features and 2 fields
 Geometry type: POINT
 Dimension:     XY
-Bounding box:  xmin: 4 ymin: 50 xmax: 6.25 ymax: 51.25
+Bounding box:  xmin: 3.25 ymin: 50 xmax: 5.5 ymax: 51.25
 Geodetic CRS:  WGS 84
              geometry temp_value temp_value_buffer
-1   POINT (4.75 50.5)   18.07852          18.07852
-2        POINT (4 51)   18.18594          18.18594
-3     POINT (5.25 50)   17.55117          17.55117
-4  POINT (5.25 51.25)   19.04922          19.04922
-5  POINT (4.75 50.25)   17.81094          17.81094
-6      POINT (4.5 51)   18.54922          18.54922
-7      POINT (4.5 50)   17.61172          17.61172
-8    POINT (5.5 50.5)   18.29141          18.29141
-9  POINT (5.75 50.75)   18.82852          18.82852
-10 POINT (6.25 50.25)   17.19375          17.19375</code></pre>
+1     POINT (5 51.25)   18.82461          18.82461
+2   POINT (4.5 50.75)   18.26797          18.26797
+3  POINT (4.25 51.25)   18.19375          18.19375
+4    POINT (4.5 50.5)   18.00039          18.00039
+5  POINT (3.75 51.25)   17.81680          17.81680
+6   POINT (4.75 50.5)   18.07852          18.07852
+7   POINT (5.5 50.25)   17.66836          17.66836
+8  POINT (3.25 50.75)   17.70742          17.70742
+9     POINT (4.25 51)   18.34414          18.34414
+10     POINT (4.5 50)   17.61172          17.61172</code></pre>
 </div>
 </div>
 </section>
@@ -658,12 +668,12 @@ Geodetic CRS:  WGS 84
 <p>Much more can be done with raster data, including integrating data from the internet, applying even more complex spatial analysis methods, and utilizing more advanced procedures for linking raster data with other datasets. These techniques are explored in other, more specialized introductions to spatial analysis. However, before wrapping up our discussion on raster data, it’s essential to mention two additional concepts that expand the capabilities of working with raster data: raster stacks and data cubes.</p>
 <p><em>Raster stacks</em>: Until now, we have been working with unidimensional raster data, where each raster layer represents a single attribute (e.g., temperature for one specific period). However, rasters can also be stacked together into a raster stack. A raster stack is a collection of multiple layers with the same spatial extent and resolution. Still, each layer may represent a different attribute or a different time step. For example, you could have a stack of temperature rasters for multiple months, where each layer corresponds to a different month of the year. Raster stacks allow for more sophisticated temporal or multi-attribute analysis.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>temp_stack <span class="ot">&lt;-</span> <span class="fu">c</span>(temp_6_2019, temp_7_2019)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>temp_stack <span class="ot">&lt;-</span> <span class="fu">c</span>(temp_6_2019, temp_7_2019)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>temp_stack</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>temp_stack</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class       : SpatRaster 
-dimensions  : 561, 1440, 2  (nrow, ncol, nlyr)
+size        : 561, 1440, 2  (nrow, ncol, nlyr)
 resolution  : 0.25, 0.25  (x, y)
 extent      : -180.125, 179.875, -56.125, 84.125  (xmin, xmax, ymin, ymax)
 coord. ref. : lon/lat WGS 84 (EPSG:4326) 
@@ -689,239 +699,243 @@ max values  :                        313.1426,                        314.7812 <
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
       }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
         }
       }
       return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
     });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
     }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
-    };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
         }
-        return container.innerHTML
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -929,185 +943,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 </div> <!-- /content -->
 
 

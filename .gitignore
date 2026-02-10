@@ -7,3 +7,5 @@ data/issp_env/
 data/EO_data/
 
 /.quarto/
+
+**/*.quarto_ipynb

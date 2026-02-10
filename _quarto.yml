@@ -1,5 +1,8 @@
 project:
   type: website
+  render: 
+    - "*.qmd"
+    - "!performance.qmd"
   output-dir: docs
 
 website:
