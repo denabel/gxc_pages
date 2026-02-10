@@ -36,8 +36,8 @@ website:
             text: gxc package
           - href: catalogue.qmd
             text: Indicators
-          - href: performance.qmd
-            text: Performance
+          # - href: performance.qmd
+          #   text: Performance
       - href: courses.qmd
         text: Courses
       - href: articles.qmd
