@@ -3,33 +3,32 @@ title: "Introduction to Earth observation data"
 ---
 
 ```{r echo = FALSE}
-library(emo)
-earth <- emo::ji("earth")
-globe <- emo::ji("globe_with_meridians")
-rocket <- emo::ji("rocket")
-satellite <- emo::ji("artificial_satellite")
-antenna <- emo::ji("satellite")
-milky_way <- emo::ji("milky_way")
-night_lights <- emo::ji("city_sunrise")
-map <- emo::ji("world_map")
-factory <- emo::ji("factory")
-thunder <- emo::ji("cloud_with_lightning_and_rain")
-snowflake <- emo::ji("snowflake")
-tornado <- emo::ji("tornado")
-landscape <- emo::ji("national_park")
-whale <- emo::ji("whale")
-thermometer <- emo::ji("thermometer")
-gift <- emo::ji("gift")
-seedling <- emo::ji("seedling")
-dove <- emo::ji("dove")
-ballot_box <- emo::ji("ballot_box")
-chart_up <- emo::ji("chart_with_upwards_trend")
-muscle <- emo::ji("muscle")
-law <- emo::ji("scroll")
-
+# library(emo)
+# earth <- emo::ji("earth")
+# globe <- emo::ji("globe_with_meridians")
+# rocket <- emo::ji("rocket")
+# satellite <- emo::ji("artificial_satellite")
+# antenna <- emo::ji("satellite")
+# milky_way <- emo::ji("milky_way")
+# night_lights <- emo::ji("city_sunrise")
+# map <- emo::ji("world_map")
+# factory <- emo::ji("factory")
+# thunder <- emo::ji("cloud_with_lightning_and_rain")
+# snowflake <- emo::ji("snowflake")
+# tornado <- emo::ji("tornado")
+# landscape <- emo::ji("national_park")
+# whale <- emo::ji("whale")
+# thermometer <- emo::ji("thermometer")
+# gift <- emo::ji("gift")
+# seedling <- emo::ji("seedling")
+# dove <- emo::ji("dove")
+# ballot_box <- emo::ji("ballot_box")
+# chart_up <- emo::ji("chart_with_upwards_trend")
+# muscle <- emo::ji("muscle")
+# law <- emo::ji("scroll")
 ```
 
-## What is Earth observation data? `r globe`
+## What is Earth observation data? 🌐
 
 ![Journey into EO data for social scientists (AI generated image).](images/EO_cats.png){ width=60% align=center }
 
@@ -45,10 +44,10 @@ Earth observation (EO) data refers to all collected information about the Earth'
 There is often confusion about terms such as Earth observation data, geodata,
 remote sensing, or satellite data. Let's disentangle these different concepts.
 
-- **Earth observation data** `r earth`: Information collected about the Earth's system
-- **Geospatial data** `r map`: Data that is georeferenced (includes information on the location)
-- **Remote sensing data** `r antenna`: Information that is acquired by sensors "from a distance". Remote sensing uses electromagnetic radiation from a source (natural, e.g. solar radiation, or artificial, e.g. radar) that interacts with targets on the Earth's surface in a unique way (spectral signatures).
-- **Satellite data** `r satellite`: Information that is acquired by sensors via satellites
+- **Earth observation data** 🌍: Information collected about the Earth's system
+- **Geospatial data** 🗺️: Data that is georeferenced (includes information on the location)
+- **Remote sensing data** 📡: Information that is acquired by sensors "from a distance". Remote sensing uses electromagnetic radiation from a source (natural, e.g. solar radiation, or artificial, e.g. radar) that interacts with targets on the Earth's surface in a unique way (spectral signatures).
+- **Satellite data** 📡: Information that is acquired by sensors via satellites
 
 <details>
   <summary>Background on Remote Sensing</summary>
@@ -72,20 +71,20 @@ The Venn diagram below visualizes these definitions and shows overlaps and gaps 
 Let's disentangle these overlaps a bit further:
 
 - **A**: The area **A** captures all concepts discussed above - Georeferenced 
-Earth observation data derived from satellite sensors. An example for this are nighttime lights `r night_lights`. Night lights are highly informative
+Earth observation data derived from satellite sensors. An example for this are nighttime lights 🌃. Night lights are highly informative
 for social scientists to measure population growth, electrification and light pollution, the expansion of urban areas, the [impacts of natural events](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0218883), and economic activity. An important satellite for nighttime lights is the [NASA/NOAA Suomi National Polar-orbiting Partnership (Suomi NPP)](https://eospso.nasa.gov/missions/suomi-national-polar-orbiting-partnership), which was launched in 2011. On board of Suomi NPP, the [Visible Infrared Imaging Radiometer Suite (VIIRS) instrument](https://blackmarble.gsfc.nasa.gov/#instrument) observes nighttime lights with the day night band (DNB). Luckily for us, we do not have to handle this raw data. NASA's [Black Marble project](https://blackmarble.gsfc.nasa.gov/) offers various pre-processed products with high spatial and temporal resolution and temporal coverage since 2012. The data products are free and open access. R user benefit from the [BlackMarbleR-package](https://worldbank.github.io/blackmarbler/), which is a user-friendly interface to Black Marble data.   
 - **B**: Area **B** is similar to **A** except that this data is derived from
 remote sensing OTHER than satellite data. There are, in fact, other platforms for sensors, like aircrafts or drones. For example, data on gases in the atmosphere are collected that way. Often, airborne data has a smaller geographical coverage and is more case specific. Furthermore, it is much more often proprietary and costly. For example, commercial providers offer airborne measurements of GHG emissions on a very high spatial resolution (<1m) to estimate point-source emissions of factories and power plants.
 - **C**: **C** represents EO data which is georeferenced but NOT derived from
 remote sensing. There are several alternatives to EO data generation: Ground-based sensors (called "in-situ") are widespread sources of EO data. [Weather stations](https://www.dwd.de/EN/aboutus/observing/surface_observation/_functions/Teasergroup/bodenmessnetz.html) or local [air quality sensors](https://www.umweltbundesamt.de/en/data/air/air-data/air-quality) are common examples. Projects like Google's StreetView can also be classified here. But **C** also captures a data source which is very familiar to social scientists: Field surveys and survey-based methods. [Biodiversity monitoring](https://www.gbif.org/) and soil quality projects often employ these methods. This work is not necessarily performed by experts only. Citizen science projects have contributed immensely to mapping local biodiversity, air quality, or land use: For example, scientists work together with "laypeople" to map bird populations like the RSPB in the UK with the annual [Big Garden Birdwatch](https://www.rspb.org.uk/whats-happening/big-garden-birdwatch). Check out the [European Citizen Science Association](https://www.ecsa.ngo/) website to learn more about this form of data generation.
-- **D** and **E**: The two areas **D** and **E** deviate from the previous concepts because they are NOT EO data. **D** captures all geodata which is not derived from remote sensing and does not constitute EO data. This is primarily data which is human-centered - many examples of which are familiar to social scientists: Georeferenced variables on socio-demographics or economic indicators like Census data, electoral outcomes, or environmental attitudes and behavior. Examples for **E**, which represents data gathered based on remote sensing but is NOT classified as Earth observation, are space exploration and astronomy `r milky_way`. Imaging of Mars' surface is such an example. Future generations of social scientists might be concerned with interplanetary societal issues - (un)fortunately for us, we will focus on societies from planet Earth `r rocket`.
+- **D** and **E**: The two areas **D** and **E** deviate from the previous concepts because they are NOT EO data. **D** captures all geodata which is not derived from remote sensing and does not constitute EO data. This is primarily data which is human-centered - many examples of which are familiar to social scientists: Georeferenced variables on socio-demographics or economic indicators like Census data, electoral outcomes, or environmental attitudes and behavior. Examples for **E**, which represents data gathered based on remote sensing but is NOT classified as Earth observation, are space exploration and astronomy 🌃. Imaging of Mars' surface is such an example. Future generations of social scientists might be concerned with interplanetary societal issues - (un)fortunately for us, we will focus on societies from planet Earth 🚀.
 
 As you can see, the main areas when it comes to EO data are **A**, **B**, and **C**. As social scientists interested in working with EO data, **D** is similarly relevant: Often, we are interested in spatially linking our social indicators (**D**) with EO data. We therefore see these as two sides of the same coin. The geolocation represents the functional link between our social indicators and the Earth system context.
 
 There are a few additional areas in the Venn diagram which we have not highlighted. These are the fields which do not overlap with the circle for
 "geodata". Since we are focussing on geo-referenced data in this project, these parts will not be further considered in our tutorials.
 
-The conceptual distinctions between the ways of obtaining data (in-situ, airborne, or satellite sensors) are important but often not clear cut in practice. Most of the time, we access processed (and/or simulated) data products `r gift`, which are generated by integrating datastreams from various sensors to increase data quality. This is done to enhance accuracy, scope or resolution, helps to validate data, or to fill data gaps. We will explore a few common sources and indicators in the next chapter.
+The conceptual distinctions between the ways of obtaining data (in-situ, airborne, or satellite sensors) are important but often not clear cut in practice. Most of the time, we access processed (and/or simulated) data products 🎁, which are generated by integrating datastreams from various sensors to increase data quality. This is done to enhance accuracy, scope or resolution, helps to validate data, or to fill data gaps. We will explore a few common sources and indicators in the next chapter.
 
 ## Applications in the social sciences
 
@@ -93,12 +92,12 @@ EO data is not just utilized in the Earth system sciences. A growing interest in
 
 We have identified 6 major topics in the social sciences which have benefited from this data source in the past: 
 
-1. **Environmental social sciences** `r seedling`, 
-2. **Conflict and peace research** `r dove`, 
-3. **Political attitudes and behavior** `r ballot_box`,
-4. **Policy studies** `r law`,
-5. **Economic development and inequality** `r chart_up`, and 
-6. **Public health** `r muscle`.
+1. **Environmental social sciences** 🎁, 
+2. **Conflict and peace research** 🕊️, 
+3. **Political attitudes and behavior** 🗳️,
+4. **Policy studies** 📜,
+5. **Economic development and inequality** 📈, and 
+6. **Public health** 💪.
 
 The **environmental social sciences** are a growing research field at the intersection between the Earth system and societies. One particular topic, the role of extreme weather events for people's environmental attitudes and behavior, has especially benefited from a growing data availability of EO data. A noteworthy study by @hoffmann_climate_2022 analyses how the experience of climate anomalies and extremes influences environmental attitudes and vote intention in Europe. They integrate sources from 1. harmonized Eurobarometer surveys, 2. EU parliamentary electoral data, and 3. climatological data and aggregate it on the regional level (NUTS2 and NUTS3). The climatological data is derived from C3S ERA5 reanalysis and is utilized to calculate temperature anomalies and extremes based on the reference period 1971-2000. Their findings suggest an effect of temperature anomalies (heat, "dry spell") on environmental concern and vote intention. 
 
@@ -134,11 +133,11 @@ program, which will be further expanded in the coming years. On the [Copernicus 
 is estimated at 12 terabytes. Given this complexity, Copernicus has 
 separated its services for public usage along several thematic areas:
 
-- **Atmosphere** `r factory`: [Copernicus Atmosphere Monitoring Service](https://atmosphere.copernicus.eu/) (CAMS)
-- **Marine** `r whale`: [Copernicus Marine Service](https://marine.copernicus.eu/) (CMEMS)
-- **Land** `r landscape`: [Copernicus Land Monitoring Service](https://land.copernicus.eu/en) (CLMS)
-- **Climate change** `r snowflake` `r thermometer`: [Copernicus Climate Change Service](https://climate.copernicus.eu/) (C3S)
-- **Emergency** `r thunder` `r tornado`: [Copernicus Emergency Management Service](https://emergency.copernicus.eu/) (CEMS).
+- **Atmosphere** 🏭`: [Copernicus Atmosphere Monitoring Service](https://atmosphere.copernicus.eu/) (CAMS)
+- **Marine** 🐋: [Copernicus Marine Service](https://marine.copernicus.eu/) (CMEMS)
+- **Land** 🏞️: [Copernicus Land Monitoring Service](https://land.copernicus.eu/en) (CLMS)
+- **Climate change** ❄️ 🌡️: [Copernicus Climate Change Service](https://climate.copernicus.eu/) (C3S)
+- **Emergency** ⛈️ 🌪️: [Copernicus Emergency Management Service](https://emergency.copernicus.eu/) (CEMS).
 
 ![Copernicus infrastructure and data services. Source: https://www.copernicus.eu/en/accessing-data-where-and-how/conventional-data-access-hubs](images/copernicus_services.png){ width=60% align=center }
 

@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Graphic Display – GESIS meets Copernicus (GxC)</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -67,15 +70,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="./">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -115,8 +117,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">GESIS meets Copernicus (GxC)</span>
     </a>
@@ -190,10 +190,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="./catalogue.html">
  <span class="dropdown-text">Indicators</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./performance.html">
- <span class="dropdown-text">Performance</span></a>
   </li>  
     </ul>
   </li>
@@ -523,15 +519,15 @@ dbl (5): car_density, publictransport_meandist, population, green_voteshare,...
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>ger_pop_2020</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>class       : SpatRaster 
+<pre><code>class       : SpatRaster
 size        : 934, 1100, 1  (nrow, ncol, nlyr)
 resolution  : 0.008333333, 0.008333333  (x, y)
 extent      : 5.87375, 15.04042, 47.27458, 55.05792  (xmin, xmax, ymin, ymax)
-coord. ref. : lon/lat WGS 84 (EPSG:4326) 
-source      : deu_ppp_2020_1km_Aggregated.tif 
-name        : deu_ppp_2020_1km_Aggregated 
-min value   :                       0.000 
-max value   :                    4513.521 </code></pre>
+coord. ref. : lon/lat WGS 84 (EPSG:4326)
+source      : deu_ppp_2020_1km_Aggregated.tif
+name        : deu_ppp_2020_1km_Aggregated
+min value   :                           0
+max value   :                 4513.520508</code></pre>
 </div>
 </div>
 <p>Let’s create a simple plot.</p>
@@ -639,17 +635,17 @@ max value   :                    4513.521 </code></pre>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>CA_pop_stack</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>class       : SpatRaster 
+<pre><code>class       : SpatRaster
 size        : 1287, 1168, 4  (nrow, ncol, nlyr)
 resolution  : 828.2603, 828.2603  (x, y)
 extent      : -415531, 551877.1, -607609.6, 458361.4  (xmin, xmax, ymin, ymax)
-coord. ref. : NAD83 / California Albers (EPSG:3310) 
-source      : CA_pop_stack.tif 
-names       : pop_2017, pop_2018, pop_2019, pop_2020 
-min values  :      0.0,     0.00,     0.00,     0.00 
-max values  :  22052.6, 22123.96, 22208.66, 22285.26 
-unit        : count 
-time (years): 2017 to 2020 (4 steps) </code></pre>
+coord. ref. : NAD83 / California Albers (EPSG:3310)
+source      : CA_pop_stack.tif
+names       :     pop_2017,     pop_2018,     pop_2019,     pop_2020
+min values  :            0,            0,            0,            0
+max values  : 22052.595703, 22123.962891, 22208.664062, 22285.261719
+unit        : count
+time (years): 2017-00-00 to 2020-00-00 (4 steps)</code></pre>
 </div>
 </div>
 <p>We already saw in the previous exercise that <code>ggplot()</code> initializes a blank canvas which we will fill with geoms. <code>tidyterra's</code> <code>geom_spatraster()</code> is used for plotting <code>SpatRaster</code>objects. Since we already learnt about indexing we can create a single layer plot by accessing single layers.</p>
@@ -834,7 +830,7 @@ Attache Paket: 'scales'</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>stars object with 3 dimensions and 1 attribute
 attribute(s), summary of first 1e+05 cells:
-                   Min. 1st Qu. Median     Mean   3rd Qu.     Max.  NA's
+                   Min. 1st Qu. Median     Mean   3rd Qu.     Max.   NAs
 population [count]    0       0      0 2.112075 0.1045545 1906.748 71165
 dimension(s):
      from   to  offset delta                    refsys x/y

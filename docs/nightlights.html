@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Case study: Nighttime lights – GESIS meets Copernicus (GxC)</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -67,15 +70,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="./">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -115,8 +117,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">GESIS meets Copernicus (GxC)</span>
     </a>
@@ -190,10 +190,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="./catalogue.html">
  <span class="dropdown-text">Indicators</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./performance.html">
- <span class="dropdown-text">Performance</span></a>
   </li>  
     </ul>
   </li>
@@ -446,15 +442,15 @@ By default, the function writes the data to the <code>R</code> environment (<cod
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(CA_nl_2020)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>class       : SpatRaster 
+<pre><code>class       : SpatRaster
 size        : 2275, 2485, 1  (nrow, ncol, nlyr)
 resolution  : 0.004166667, 0.004166667  (x, y)
 extent      : -124.4833, -114.1292, 32.52917, 42.00833  (xmin, xmax, ymin, ymax)
-coord. ref. : lon/lat WGS 84 (EPSG:4326) 
-source      : VNP46A4_NearNadir_Composite_Snow_Free_qflag_t2020.tif 
-name        : t2020 
-min value   :   0.0 
-max value   : 269.2 </code></pre>
+coord. ref. : lon/lat WGS 84 (EPSG:4326)
+source      : VNP46A4_NearNadir_Composite_Snow_Free_qflag_t2020.tif
+name        :      t2020
+min value   :          0
+max value   : 269.200012</code></pre>
 </div>
 </div>
 </section>
@@ -574,31 +570,31 @@ Checking cell size
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(LA_pop_2020)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>class       : SpatRaster 
+<pre><code>class       : SpatRaster
 size        : 140, 157, 1  (nrow, ncol, nlyr)
 resolution  : 0.008333333, 0.008333333  (x, y)
 extent      : -118.9512, -117.6429, 33.65792, 34.82458  (xmin, xmax, ymin, ymax)
-coord. ref. : lon/lat WGS 84 (EPSG:4326) 
+coord. ref. : lon/lat WGS 84 (EPSG:4326)
 source(s)   : memory
-varname     : US-CA_ppp_2020_1km 
-name        : US-CA_ppp_2020_1km 
-min value   :           0.000000 
-max value   :           9.843707 </code></pre>
+varname     : US-CA_ppp_2020_1km
+name        : US-CA_ppp_2020_1km
+min value   :                  0
+max value   :           9.843707</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(LA_nl_2020)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>class       : SpatRaster 
+<pre><code>class       : SpatRaster
 size        : 280, 313, 1  (nrow, ncol, nlyr)
 resolution  : 0.004166667, 0.004166667  (x, y)
 extent      : -118.95, -117.6458, 33.65833, 34.825  (xmin, xmax, ymin, ymax)
-coord. ref. : lon/lat WGS 84 (EPSG:4326) 
+coord. ref. : lon/lat WGS 84 (EPSG:4326)
 source(s)   : memory
-varname     : VNP46A4_NearNadir_Composite_Snow_Free_qflag_t2020 
-name        :    t2020 
-min value   : 0.000000 
-max value   : 4.400603 </code></pre>
+varname     : VNP46A4_NearNadir_Composite_Snow_Free_qflag_t2020
+name        :    t2020
+min value   :        0
+max value   : 4.400603</code></pre>
 </div>
 </div>
 </details>
@@ -633,11 +629,11 @@ First option: Increase resolution for population data
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ext</span>(LA_pop_2020_high)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>SpatExtent : -118.9512495092, -117.64708284775, 33.65791673341, 34.82458339541 (xmin, xmax, ymin, ymax)</code></pre>
+<pre><code>SpatExtent : -118.95124950920001, -117.64708284775, 33.657916733410033, 34.824583395410031 (xmin, xmax, ymin, ymax)</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ext</span>(LA_nl_2020)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>SpatExtent : -118.95, -117.645833333333, 33.6583333333333, 34.825 (xmin, xmax, ymin, ymax)</code></pre>
+<pre><code>SpatExtent : -118.95, -117.64583333333334, 33.658333333333331, 34.824999999999996 (xmin, xmax, ymin, ymax)</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A small rounding error in extent will prohibit to concatenate</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># into a stack. We now force the extent</span></span>
@@ -674,11 +670,11 @@ Second option: Decrease resolution for nightlights data
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ext</span>(LA_pop_2020)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>SpatExtent : -118.9512495092, -117.6429161811, 33.65791673341, 34.82458339541 (xmin, xmax, ymin, ymax)</code></pre>
+<pre><code>SpatExtent : -118.95124950920001, -117.64291618110001, 33.657916733410033, 34.824583395410031 (xmin, xmax, ymin, ymax)</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ext</span>(LA_nl_2020_low)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>SpatExtent : -118.95, -117.641666666667, 33.6583333333333, 34.825 (xmin, xmax, ymin, ymax)</code></pre>
+<pre><code>SpatExtent : -118.95, -117.64166666666668, 33.658333333333331, 34.824999999999996 (xmin, xmax, ymin, ymax)</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ext</span>(LA_nl_2020_low) <span class="ot">&lt;-</span> <span class="fu">ext</span>(LA_pop_2020)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -702,11 +698,11 @@ Second option: Decrease resolution for nightlights data
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ext</span>(LA_pop_2020_resampled)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>SpatExtent : -118.95, -117.645833333333, 33.6583333333333, 34.825 (xmin, xmax, ymin, ymax)</code></pre>
+<pre><code>SpatExtent : -118.95, -117.64583333333334, 33.658333333333331, 34.824999999999996 (xmin, xmax, ymin, ymax)</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ext</span>(LA_nl_2020)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>SpatExtent : -118.95, -117.645833333333, 33.6583333333333, 34.825 (xmin, xmax, ymin, ymax)</code></pre>
+<pre><code>SpatExtent : -118.95, -117.64583333333334, 33.658333333333331, 34.824999999999996 (xmin, xmax, ymin, ymax)</code></pre>
 </div>
 </div>
 </section>
@@ -718,17 +714,17 @@ Second option: Decrease resolution for nightlights data
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(LA_stack)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>class       : SpatRaster 
+<pre><code>class       : SpatRaster
 size        : 280, 313, 2  (nrow, ncol, nlyr)
 resolution  : 0.004166667, 0.004166667  (x, y)
 extent      : -118.95, -117.6458, 33.65833, 34.825  (xmin, xmax, ymin, ymax)
-coord. ref. : lon/lat WGS 84 (EPSG:4326) 
+coord. ref. : lon/lat WGS 84 (EPSG:4326)
 source(s)   : memory
-varnames    : VNP46A4_NearNadir_Composite_Snow_Free_qflag_t2020 
-              VNP46A4_NearNadir_Composite_Snow_Free_qflag_t2020 
-names       : US-CA_ppp_2020_1km,    t2020 
-min values  :           0.000000, 0.000000 
-max values  :           9.733816, 4.400603 </code></pre>
+varnames    : VNP46A4_NearNadir_Composite_Snow_Free_qflag_t2020
+              VNP46A4_NearNadir_Composite_Snow_Free_qflag_t2020
+names       : US-CA_ppp_2020_1km,    t2020
+min values  :                  0,        0
+max values  :           9.733816, 4.400603</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -828,22 +824,22 @@ Attache Paket: 'randomForest'</code></pre>
 <pre><code>                          mean
 population           2.9236307
 nightlights          0.5277355
-population_predicted 2.7916561</code></pre>
+population_predicted 2.7896852</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bivariate correlations</span></span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">layerCor</span>(LA_stack, <span class="at">fun =</span> <span class="st">"cor"</span>, <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$correlation
                      population nightlights population_predicted
-population            1.0000000   0.8245851            0.8757805
-nightlights           0.8245851   1.0000000            0.8731580
-population_predicted  0.8757805   0.8731580            1.0000000
+population            1.0000000   0.8245851            0.8757305
+nightlights           0.8245851   1.0000000            0.8735019
+population_predicted  0.8757305   0.8735019            1.0000000
 
 $mean
                      population nightlights population_predicted
 population                  NaN    2.923631            2.9236307
 nightlights           0.5277355         NaN            0.5277355
-population_predicted  2.7916561    2.791656                  NaN
+population_predicted  2.7896852    2.789685                  NaN
 
 $n
                      population nightlights population_predicted

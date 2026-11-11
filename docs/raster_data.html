@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Working with raster data in R – GESIS meets Copernicus (GxC)</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -67,15 +70,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="./">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -115,8 +117,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">GESIS meets Copernicus (GxC)</span>
     </a>
@@ -297,15 +297,15 @@ Raster data and image classification in remote sensing
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>raster_layer</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>class       : SpatRaster 
+<pre><code>class       : SpatRaster
 size        : 4, 4, 1  (nrow, ncol, nlyr)
 resolution  : 1, 1  (x, y)
 extent      : 0, 4, 0, 4  (xmin, xmax, ymin, ymax)
-coord. ref. :  
+coord. ref. : 
 source(s)   : memory
-name        : lyr.1 
-min value   :    10 
-max value   :    97 </code></pre>
+name        : lyr.1
+min value   :     7
+max value   :    91</code></pre>
 </div>
 </div>
 <p>Here’s what each component of the output of the raster object represents:</p>
@@ -345,15 +345,15 @@ max value   :    97 </code></pre>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>temp_6_2019</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>class       : SpatRaster 
+<pre><code>class       : SpatRaster
 size        : 561, 1440, 1  (nrow, ncol, nlyr)
 resolution  : 0.25, 0.25  (x, y)
 extent      : -180.125, 179.875, -56.125, 84.125  (xmin, xmax, ymin, ymax)
-coord. ref. : lon/lat WGS 84 (EPSG:4326) 
-source      : temp_6_2019.tif 
-name        : SFC (Ground or water surface); 2 metre temperature [C] 
-min value   :                                               258.1914 
-max value   :                                               313.1426 </code></pre>
+coord. ref. : lon/lat WGS 84 (EPSG:4326)
+source      : temp_6_2019.tif
+name        : SFC (Ground or water surface); 2 metre temperature [C]
+min value   :                                             258.191406
+max value   :                                             313.142578</code></pre>
 </div>
 </div>
 <p>These objects now hold the temperature data as gridded rasters, where each cell in the grid corresponds to a specific temperature value for June and July 2019. By printing the <code>temp_6_2019</code> raster object, we can see the metadata and values of the June 2019 temperature data, which include the raster’s dimensions, resolution, extent, and range of temperature values. In contrast to the simple example from earlier, a coordinate reference system is now defined. We can compare these two raster data objects by plotting them.</p>
@@ -395,16 +395,16 @@ SFC (Ground or water surface); 2 metre temperature [C] 289.9985</code></pre>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>temp_6_2019_celsius</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>class       : SpatRaster 
+<pre><code>class       : SpatRaster
 size        : 561, 1440, 1  (nrow, ncol, nlyr)
 resolution  : 0.25, 0.25  (x, y)
 extent      : -180.125, 179.875, -56.125, 84.125  (xmin, xmax, ymin, ymax)
-coord. ref. : lon/lat WGS 84 (EPSG:4326) 
+coord. ref. : lon/lat WGS 84 (EPSG:4326)
 source(s)   : memory
-varname     : temp_6_2019 
-name        : SFC (Ground or water surface); 2 metre temperature [C] 
-min value   :                                              -14.95859 
-max value   :                                               39.99258 </code></pre>
+varname     : temp_6_2019
+name        : SFC (Ground or water surface); 2 metre temperature [C]
+min value   :                                             -14.958594
+max value   :                                              39.992578</code></pre>
 </div>
 </div>
 <p>In the code above, two new rasters are created, temp_6_2019_celsius and temp_7_2019_celsius, subtracting 273.15 from the original temperature rasters for June and July 2019, respectively. This transformation effectively converts the temperature values from Kelvin to Celsius. When you display temp_6_2019_celsius, the newly calculated raster for June 2019 is shown in Celsius. This approach illustrates how easy it is to manipulate raster layers and perform calculations across entire datasets. Again, we can plot the result of this endeavor directly.</p>
@@ -425,16 +425,16 @@ max value   :                                               39.99258 </code></pr
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>temp_diff</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>class       : SpatRaster 
+<pre><code>class       : SpatRaster
 size        : 561, 1440, 1  (nrow, ncol, nlyr)
 resolution  : 0.25, 0.25  (x, y)
 extent      : -180.125, 179.875, -56.125, 84.125  (xmin, xmax, ymin, ymax)
-coord. ref. : lon/lat WGS 84 (EPSG:4326) 
+coord. ref. : lon/lat WGS 84 (EPSG:4326)
 source(s)   : memory
-varname     : temp_7_2019 
-name        : SFC (Ground or water surface); 2 metre temperature [C] 
-min value   :                                              -6.845703 
-max value   :                                              12.255859 </code></pre>
+varname     : temp_7_2019
+name        : SFC (Ground or water surface); 2 metre temperature [C]
+min value   :                                              -6.845703
+max value   :                                              12.255859</code></pre>
 </div>
 </div>
 <p>Plotting this newly created raster data visualizes the resulting temperature difference, providing a clear graphical representation of the spatial variation in temperature between June and July 2019.</p>
@@ -571,16 +571,16 @@ Geodetic CRS:  WGS 84</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">extract</span>(temp_6_2019_belgium, random_points, <span class="at">ID =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   SFC (Ground or water surface); 2 metre temperature [C]
-1                                                18.82461
-2                                                18.26797
-3                                                18.19375
-4                                                18.00039
-5                                                17.81680
-6                                                18.07852
-7                                                17.66836
-8                                                17.70742
-9                                                18.34414
-10                                               17.61172</code></pre>
+1                                                17.81680
+2                                                19.04922
+3                                                17.89297
+4                                                17.55117
+5                                                17.55898
+6                                                17.58438
+7                                                17.95352
+8                                                19.34609
+9                                                17.22891
+10                                               18.19375</code></pre>
 </div>
 </div>
 <p>Once the raster values have been extracted, the next step is to add these values to an existing dataset for further analysis. In this example, the temperature values extracted from the <code>temp_6_2019_belgium</code> raster are added to the random_points dataset. The <code>terra::extract()</code> function retrieves the temperature values at the sampled points, and the results are stored in a new column, temp_value. The <code>dplyr::mutate()</code> function is used to create this new column, where the <code>as.vector()</code> function ensures that the extracted data is formatted as a vector that can be added to the dataset. By setting <code>raw = TRUE</code>, the function returns the raw values of the raster at the specified points. After this operation, the random_points dataset now includes the temperature values from the raster, which can be used for further statistical analysis, visualizations, or comparisons with other variables.</p>
@@ -599,19 +599,19 @@ Geodetic CRS:  WGS 84</code></pre>
 <pre><code>Simple feature collection with 10 features and 1 field
 Geometry type: POINT
 Dimension:     XY
-Bounding box:  xmin: 3.25 ymin: 50 xmax: 5.5 ymax: 51.25
+Bounding box:  xmin: 3 ymin: 50 xmax: 5.5 ymax: 51.25
 Geodetic CRS:  WGS 84
              geometry temp_value
-1     POINT (5 51.25)   18.82461
-2   POINT (4.5 50.75)   18.26797
-3  POINT (4.25 51.25)   18.19375
-4    POINT (4.5 50.5)   18.00039
-5  POINT (3.75 51.25)   17.81680
-6   POINT (4.75 50.5)   18.07852
-7   POINT (5.5 50.25)   17.66836
-8  POINT (3.25 50.75)   17.70742
-9     POINT (4.25 51)   18.34414
-10     POINT (4.5 50)   17.61172</code></pre>
+1  POINT (3.75 51.25)   17.81680
+2  POINT (5.25 51.25)   19.04922
+3   POINT (3.5 50.75)   17.89297
+4     POINT (5.25 50)   17.55117
+5     POINT (3 50.75)   17.55898
+6     POINT (4.25 50)   17.58438
+7   POINT (4.25 50.5)   17.95352
+8      POINT (5.5 51)   19.34609
+9  POINT (3.25 51.25)   17.22891
+10 POINT (4.25 50.75)   18.19375</code></pre>
 </div>
 </div>
 <p>In some cases, extracting information for a single point may not provide enough context, as it can be too narrow. It may overlook surrounding information that could be important for analysis. To address this, we can create spatial buffers around the points of interest, which expands the area from which we can extract data and helps incorporate neighboring locations’ influence. A spatial buffer creates a specified radius around each point, allowing us to account for the surrounding area when performing extraction or analysis.</p>
@@ -647,19 +647,19 @@ Geodetic CRS:  WGS 84
 <pre><code>Simple feature collection with 10 features and 2 fields
 Geometry type: POINT
 Dimension:     XY
-Bounding box:  xmin: 3.25 ymin: 50 xmax: 5.5 ymax: 51.25
+Bounding box:  xmin: 3 ymin: 50 xmax: 5.5 ymax: 51.25
 Geodetic CRS:  WGS 84
              geometry temp_value temp_value_buffer
-1     POINT (5 51.25)   18.82461          18.82461
-2   POINT (4.5 50.75)   18.26797          18.26797
-3  POINT (4.25 51.25)   18.19375          18.19375
-4    POINT (4.5 50.5)   18.00039          18.00039
-5  POINT (3.75 51.25)   17.81680          17.81680
-6   POINT (4.75 50.5)   18.07852          18.07852
-7   POINT (5.5 50.25)   17.66836          17.66836
-8  POINT (3.25 50.75)   17.70742          17.70742
-9     POINT (4.25 51)   18.34414          18.34414
-10     POINT (4.5 50)   17.61172          17.61172</code></pre>
+1  POINT (3.75 51.25)   17.81680          17.81680
+2  POINT (5.25 51.25)   19.04922          19.04922
+3   POINT (3.5 50.75)   17.89297          17.89297
+4     POINT (5.25 50)   17.55117          17.55117
+5     POINT (3 50.75)   17.55898          17.55898
+6     POINT (4.25 50)   17.58438          17.58438
+7   POINT (4.25 50.5)   17.95352          17.95352
+8      POINT (5.5 51)   19.34609          19.34609
+9  POINT (3.25 51.25)   17.22891          17.22891
+10 POINT (4.25 50.75)   18.19375          18.19375</code></pre>
 </div>
 </div>
 </section>
@@ -672,16 +672,16 @@ Geodetic CRS:  WGS 84
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>temp_stack</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>class       : SpatRaster 
+<pre><code>class       : SpatRaster
 size        : 561, 1440, 2  (nrow, ncol, nlyr)
 resolution  : 0.25, 0.25  (x, y)
 extent      : -180.125, 179.875, -56.125, 84.125  (xmin, xmax, ymin, ymax)
-coord. ref. : lon/lat WGS 84 (EPSG:4326) 
-sources     : temp_6_2019.tif  
-              temp_7_2019.tif  
-names       : SFC (Ground or ~temperature [C], SFC (Ground or ~temperature [C] 
-min values  :                        258.1914,                        258.7051 
-max values  :                        313.1426,                        314.7812 </code></pre>
+coord. ref. : lon/lat WGS 84 (EPSG:4326)
+sources     : temp_6_2019.tif
+              temp_7_2019.tif
+names       : SFC (Ground or ~temperature [C], SFC (Ground or ~temperature [C]
+min values  :                      258.191406,                      258.705078
+max values  :                      313.142578,                       314.78125</code></pre>
 </div>
 </div>
 <p><em>Data cubes</em>: Building on the concept of raster stacks, data cubes take this idea further by organizing raster data into a three-dimensional structure. A data cube represents multiple raster layers across spatial and temporal dimensions (and sometimes additional dimensions, such as different environmental variables). This format allows for efficient storage, processing, and analysis of large volumes of spatiotemporal data. Data cubes are particularly useful in remote sensing applications, where you may have large datasets consisting of multiple bands (e.g., satellite imagery) or data captured over time.</p>
