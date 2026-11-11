@@ -198,8 +198,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#catalogues" id="toc-catalogues" class="nav-link active" data-scroll-target="#catalogues">Catalogues</a>
+  <li><a href="#catalogues-in-plain-words" id="toc-catalogues-in-plain-words" class="nav-link active" data-scroll-target="#catalogues-in-plain-words">Catalogues in plain words</a>
   <ul class="collapse">
+  <li><a href="#what-is-a-catalogue" id="toc-what-is-a-catalogue" class="nav-link" data-scroll-target="#what-is-a-catalogue">What is a catalogue?</a></li>
+  <li><a href="#where-do-the-data-come-from" id="toc-where-do-the-data-come-from" class="nav-link" data-scroll-target="#where-do-the-data-come-from">Where do the data come from?</a></li>
+  <li><a href="#how-detailed-are-the-data" id="toc-how-detailed-are-the-data" class="nav-link" data-scroll-target="#how-detailed-are-the-data">How detailed are the data?</a></li>
+  <li><a href="#the-catalogues-at-a-glance" id="toc-the-catalogues-at-a-glance" class="nav-link" data-scroll-target="#the-catalogues-at-a-glance">The catalogues at a glance</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
   <li><a href="#which-catalogue-should-i-use" id="toc-which-catalogue-should-i-use" class="nav-link" data-scroll-target="#which-catalogue-should-i-use">Which catalogue should I use?</a></li>
   </ul></li>
   <li><a href="#indicators" id="toc-indicators" class="nav-link" data-scroll-target="#indicators">Indicators</a>
@@ -238,8 +243,45 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>This page lists all indicators available in <code>gxc</code> (version 1.0.0) and the catalogues that provide them. The tables are generated from the package itself. In R, <code>lookup("&lt;indicator&gt;")</code> shows the same information for a single indicator, and <code>gxc_indicators()</code> lists all of them.</p>
-<section id="catalogues" class="level2">
-<h2 class="anchored" data-anchor-id="catalogues">Catalogues</h2>
+<section id="catalogues-in-plain-words" class="level2">
+<h2 class="anchored" data-anchor-id="catalogues-in-plain-words">Catalogues in plain words</h2>
+<section id="what-is-a-catalogue" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-a-catalogue">What is a catalogue?</h3>
+<p>A catalogue is one specific dataset that <code>gxc</code> can download for you. You choose it with the <code>catalogue</code> argument of <code>link_daily()</code> or <code>link_monthly()</code>. The same indicator, for example air temperature, is often available in several catalogues. They differ in where the data come from, how detailed they are in space and time, and which region they cover.</p>
+</section>
+<section id="where-do-the-data-come-from" class="level3">
+<h3 class="anchored" data-anchor-id="where-do-the-data-come-from">Where do the data come from?</h3>
+<ul>
+<li><strong>ERA5</strong> is a so-called <em>reanalysis</em> by the European Centre for Medium-Range Weather Forecasts (ECMWF). A weather model is fed with millions of past observations (weather stations, satellites, balloons, ships) to reconstruct the weather of the whole planet for every hour since
+<ol start="1940" type="1">
+<li>The result is a complete, consistent picture without gaps, also for places without any weather station.</li>
+</ol></li>
+<li><strong>ERA5-Land</strong> is a more detailed version of ERA5 for land areas only. It covers the period from 1950 and shows finer differences, for example between valleys and mountains, but has no values over the sea.</li>
+<li><strong>DWD</strong> grids are produced by the German Weather Service from its dense network of weather stations. They are very detailed but cover Germany only.</li>
+</ul>
+</section>
+<section id="how-detailed-are-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="how-detailed-are-the-data">How detailed are the data?</h3>
+<ul>
+<li><strong>Spatial resolution</strong> is the size of one grid cell, the smallest area with its own value. 0.25° corresponds to roughly 28 km, 0.1° to roughly 9 km and the DWD grids to 1 km. Every location within one cell gets the same value.</li>
+<li><strong>Temporal resolution</strong> is the time step of the values: one value per day (daily catalogues, used with <code>link_daily()</code>) or one value per month (monthly catalogues, used with <code>link_monthly()</code>).</li>
+</ul>
+</section>
+<section id="the-catalogues-at-a-glance" class="level3">
+<h3 class="anchored" data-anchor-id="the-catalogues-at-a-glance">The catalogues at a glance</h3>
+<ul>
+<li><strong><code>derived-era5-land-daily-statistics</code></strong> (default of <code>link_daily()</code>): daily values from ERA5-Land, about 9 km, worldwide on land. Downloaded via the Copernicus Climate Data Store, where requests can wait in a queue for a long time.</li>
+<li><strong><code>arco-era5-land-daily</code></strong> (experimental): the same daily ERA5-Land values, but computed by <code>gxc</code> from hourly data that are read directly from ECMWF’s cloud storage. Usually much faster, as there is no queue, and it offers more indicators, such as precipitation.</li>
+<li><strong><code>derived-era5-single-levels-daily-statistics</code></strong>: daily values from ERA5, about 28 km, worldwide including the sea.</li>
+<li><strong><code>reanalysis-era5-land-monthly-means</code></strong> (default of <code>link_monthly()</code>): monthly averages from ERA5-Land, about 9 km, worldwide on land.</li>
+<li><strong><code>reanalysis-era5-single-levels-monthly-means</code></strong>: monthly averages from ERA5, about 28 km, worldwide including the sea.</li>
+<li><strong><code>dwd-hyras-daily</code></strong>: daily values for Germany at 1 km from the German Weather Service. No registration needed.</li>
+<li><strong><code>dwd-monthly</code></strong>: monthly values for Germany at 1 km from the German Weather Service. No registration needed.</li>
+</ul>
+<p>All ERA5 catalogues require a free account at ECMWF (see <a href="https://github.com/denabel/gxc#api-access">API access</a>).</p>
+</section>
+<section id="overview" class="level3">
+<h3 class="anchored" data-anchor-id="overview">Overview</h3>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -313,9 +355,11 @@ ul.task-list li input[type="checkbox"] {
 </table>
 </div>
 </div>
+</section>
 <section id="which-catalogue-should-i-use" class="level3">
 <h3 class="anchored" data-anchor-id="which-catalogue-should-i-use">Which catalogue should I use?</h3>
 <ul>
+<li><strong>Not sure?</strong> For daily data, start with <code>"arco-era5-land-daily"</code>; for monthly data, with the default <code>"reanalysis-era5-land-monthly-means"</code>.</li>
 <li><strong>Germany, high resolution:</strong> the DWD catalogues (1 km). No API key needed.</li>
 <li><strong>Daily data elsewhere, or long baselines:</strong> <code>"arco-era5-land-daily"</code>. It reads hourly ERA5-Land data directly from ECMWF’s cloud-optimised store, aggregates them to daily values and is usually much faster than the CDS catalogues, whose requests can wait in a queue for up to an hour. Its values match <code>"derived-era5-land-daily-statistics"</code>. It is still experimental.</li>
 <li><strong>Over sea, or indicators not in ERA5-Land:</strong> the ERA5 single-levels catalogues (0.25°).</li>
