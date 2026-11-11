@@ -2,101 +2,171 @@
 title: "Indicator catalogue"
 ---
 
-## Accessed datasets
+```{r setup, include=FALSE}
+library(gxc)
+library(knitr)
 
-This page summarizes the supported catalogue of indicators. The current version
-accesses datasets from:
+# Metadata per indicator and catalogue, taken directly from the installed
+# gxc version, so the tables stay in sync with the package
+inds    <- unique(gxc_indicators()$indicator)
+details <- do.call(rbind, lapply(inds, function(i) {
+  d <- as.data.frame(lookup(i)$details)
+  d$indicator <- i
+  d
+}))
+```
 
-### Monthly Resolution
+This page lists all indicators available in `gxc` (version
+`r packageVersion("gxc")`) and the catalogues that provide them. The tables
+are generated from the package itself. In R, `lookup("<indicator>")` shows
+the same information for a single indicator, and `gxc_indicators()` lists
+all of them.
 
-**1. Copernicus Climate Change Service (C3S)**:  
+## Catalogues
 
-- [ERA5-Land Monthly Averaged Data (1950–Present)](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-monthly-means?tab=overview)
-- [ERA5 Monthly Averaged Data on Single Levels (1940–Present)](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-monthly-means?tab=overview)
+```{r catalogues, echo=FALSE}
+# Descriptive information per catalogue
+info <- data.frame(
+  catalogue = c(
+    "derived-era5-land-daily-statistics",
+    "derived-era5-single-levels-daily-statistics",
+    "arco-era5-land-daily",
+    "reanalysis-era5-land-monthly-means",
+    "reanalysis-era5-single-levels-monthly-means",
+    "dwd-hyras-daily",
+    "dwd-monthly"
+  ),
+  dataset = c(
+    "[ERA5-Land post-processed daily statistics](https://cds.climate.copernicus.eu/datasets/derived-era5-land-daily-statistics)",
+    "[ERA5 post-processed daily statistics on single levels](https://cds.climate.copernicus.eu/datasets/derived-era5-single-levels-daily-statistics)",
+    "Daily statistics computed by gxc from [ERA5-Land hourly data, ARCO version](https://confluence.ecmwf.int/spaces/CKB/pages/638817583/Analysis+Ready+Cloud+Optimised+ARCO) (experimental)",
+    "[ERA5-Land monthly averaged data](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-monthly-means)",
+    "[ERA5 monthly averaged data on single levels](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-monthly-means)",
+    "[DWD HYRAS daily grids](https://opendata.dwd.de/climate_environment/CDC/grids_germany/daily/hyras_de/)",
+    "[DWD monthly grids](https://opendata.dwd.de/climate_environment/CDC/grids_germany/monthly/)"
+  ),
+  access = c(
+    "CDS API key, request queue",
+    "CDS API key, request queue",
+    "CDS API key, no queue",
+    "CDS API key, request queue",
+    "CDS API key, request queue",
+    "none",
+    "none"
+  )
+)
 
-### Daily Resolution
+cats <- unique(details[, c("catalogue", "temporal", "resolution", "coverage")])
+cats <- merge(info, cats, by = "catalogue", sort = FALSE)
+cats$n_indicators <- as.vector(table(details$catalogue)[cats$catalogue])
+cats$catalogue    <- paste0("`", cats$catalogue, "`")
 
-- [ERA5-Land post-processed daily statistics from 1950 to present](https://cds.climate.copernicus.eu/datasets/derived-era5-land-daily-statistics?tab=overview)
-- [ERA5 post-processed daily statistics on single levels from 1940 to present](https://cds.climate.copernicus.eu/datasets/derived-era5-single-levels-daily-statistics?tab=overview)
+kable(
+  cats[, c("catalogue", "dataset", "temporal", "resolution", "coverage", "n_indicators", "access")],
+  col.names = c("Catalogue", "Dataset", "Time", "Resolution", "Coverage", "Indicators", "Access"),
+  format = "markdown"
+)
+```
 
-### Future datasets include:
+### Which catalogue should I use?
 
+- **Germany, high resolution:** the DWD catalogues (1 km). No API key needed.
+- **Daily data elsewhere, or long baselines:** `"arco-era5-land-daily"`. It
+  reads hourly ERA5-Land data directly from ECMWF's cloud-optimised store,
+  aggregates them to daily values and is usually
+  much faster than the CDS catalogues, whose requests can wait in a queue
+  for up to an hour. Its values match `"derived-era5-land-daily-statistics"`.
+  It is still experimental.
+- **Over sea, or indicators not in ERA5-Land:** the ERA5 single-levels
+  catalogues (0.25°).
+- **Monthly data:** the ERA5 or DWD monthly catalogues.
+
+## Indicators
+
+Each cell shows the unit of the values returned by that catalogue. An empty
+cell means the indicator is not available there.
+
+```{r matrix-fn, include=FALSE}
+indicator_matrix <- function(catalogues, labels) {
+  d <- details[details$catalogue %in% catalogues, ]
+  m <- reshape(
+    d[, c("indicator", "catalogue", "unit")],
+    idvar = "indicator", timevar = "catalogue", direction = "wide"
+  )
+  names(m) <- sub("^unit\\.", "", names(m))
+  m <- m[, c("indicator", intersect(catalogues, names(m)))]
+  m[is.na(m)] <- ""
+  m$indicator <- paste0("`", m$indicator, "`")
+  m <- m[order(m$indicator), ]
+  names(m) <- c("Indicator", labels[match(names(m)[-1], catalogues)])
+  rownames(m) <- NULL
+  m
+}
+```
+
+### ERA5 and ERA5-Land
+
+```{r era5, echo=FALSE}
+era5_cats <- c(
+  "derived-era5-land-daily-statistics",
+  "arco-era5-land-daily",
+  "derived-era5-single-levels-daily-statistics",
+  "reanalysis-era5-land-monthly-means",
+  "reanalysis-era5-single-levels-monthly-means"
+)
+era5_labels <- c(
+  "ERA5-Land daily (CDS)",
+  "ERA5-Land daily (ARCO)",
+  "ERA5 daily",
+  "ERA5-Land monthly",
+  "ERA5 monthly"
+)
+kable(indicator_matrix(era5_cats, era5_labels), format = "markdown")
+```
+
+### DWD (Germany)
+
+```{r dwd, echo=FALSE}
+kable(
+  indicator_matrix(c("dwd-hyras-daily", "dwd-monthly"), c("HYRAS daily", "Monthly")),
+  format = "markdown"
+)
+```
+
+## Units and daily statistics
+
+For daily ERA5 and ARCO catalogues, the `statistic` argument of
+`link_daily()` sets how the hourly values of a day are combined:
+`"daily_mean"` (default), `"daily_maximum"`, `"daily_minimum"` and, for
+accumulated indicators, `"daily_sum"`.
+
+Accumulated indicators such as precipitation, snowfall and radiation are
+stored as hourly amounts. Their daily mean is therefore an amount per hour
+(e.g. `m/h`). Use `statistic = "daily_sum"` for daily totals (`m/day`).
+Monthly ERA5 values of these indicators are mean daily totals (`m/day`).
+The `.unit` column in the output of `link_daily()` and `link_monthly()`
+always states the unit of the returned values.
+
+Temperatures from ERA5 are in Kelvin (K), from DWD in degrees Celsius.
+
+```{r notes, echo=FALSE, results="asis"}
+notes <- unique(details[!is.na(details$note), c("indicator", "catalogue", "note")])
+if (nrow(notes) > 0) {
+  cat("### Notes per indicator\n\n")
+  for (n in unique(notes$note)) {
+    sel <- notes[notes$note == n, ]
+    cat("- ", n, " Applies to: ",
+        paste0("`", unique(sel$indicator), "`", collapse = ", "), "\n", sep = "")
+  }
+}
+```
+
+## Planned datasets
+
+- Hourly resolution, e.g. [ERA5-Land hourly data from 1950 to present](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=overview)
+  (currently only used internally to compute daily values) and
+  [ERA5 hourly data on single levels from 1940 to present](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview)
 - [Thermal comfort indices derived from ERA5 reanalysis](https://cds.climate.copernicus.eu/datasets/derived-utci-historical?tab=overview)
-- [ERA5 hourly data on single levels from 1940 to present](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview)
-- [ERA5-Land hourly data from 1950 to present](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=overview)
 - [Fire burned area from 2001 to present derived from satellite observations](https://cds.climate.copernicus.eu/datasets/satellite-fire-burned-area?tab=overview)
 - [Emission Database for Global Atmospheric Research (EDGAR)](https://edgar.jrc.ec.europa.eu/)
 - [CAMS global greenhouse gas reanalysis (EGG4)](https://ads.atmosphere.copernicus.eu/datasets/cams-global-ghg-reanalysis-egg4?tab=overview)
-
-## Dataset Attributes
-
-```{r ERA5-monthly, echo=FALSE, warning=FALSE}
-library(knitr)
-
-# Create dataset attributes table for monthly resolution
-dataset_attributes <- data.frame(
-  Attribute = c("Projection", "Spatial Resolution", "Spatial Coverage (Extent)", "Temporal Resolution", "Temporal Coverage", "Update Frequency"),
-  `ERA5-Land Monthly Averaged Data` = c("WGS84 (EPSG:4326)", "~9 km (~0.1°)", "Global (-90° to 90°, -180° to 180°)", "Monthly", "1950 to present", "Monthly"),
-  `ERA5 Monthly Averaged Data on Single Levels` = c("WGS84 (EPSG:4326)", "~31 km (~0.25°)", "Global (-90° to 90°, -180° to 180°)", "Monthly", "1940 to present", "Monthly")
-)
-
-# Render as table
-kable(dataset_attributes, format = "markdown")
-```
-
-```{r ERA5-daily, echo=FALSE, warning=FALSE}
-library(knitr)
-
-# Create dataset attributes table for daily resolution
-dataset_attributes_daily <- data.frame(
-  Attribute = c("Projection", "Spatial Resolution", "Spatial Coverage (Extent)", "Temporal Resolution", "Temporal Coverage", "Update Frequency"),
-  `Derived ERA5 Land Daily Statistics` = c("WGS84 (EPSG:4326)", "~9 km (~0.1°)", "Global (-90° to 90°, -180° to 180°)", "Daily", "As available", "Daily"),
-  `Derived ERA5 Single Levels Daily Statistics` = c("WGS84 (EPSG:4326)", "~31 km (~0.25°)", "Global (-90° to 90°, -180° to 180°)", "Daily", "As available", "Daily")
-)
-
-kable(dataset_attributes_daily, format = "markdown")
-```
-
-## Supported indicators
-
-### Monthly resolution indicators
-
-```{r echo=FALSE, warning=FALSE}
-# Create variables table
-variables_table <- data.frame(
-  Variable = c(
-    "2m_temperature", "total_precipitation", "10m_u_component_of_wind", "10m_v_component_of_wind",
-    "10m_wind_speed", "total_cloud_cover", "leaf_area_index_high_vegetation", "leaf_area_index_low_vegetation", "snowfall"
-  ),
-  Description = c(
-    "Air temperature at 2 meters above the surface (°C)",
-    "Total accumulated precipitation (m)",
-    "Eastward component of wind speed at 10 meters (m/s)",
-    "Northward component of wind speed at 10 meters (m/s)",
-    "Wind speed magnitude at 10 meters (m/s)",
-    "Fraction of sky covered by clouds (0-1)",
-    "Leaf area index for high vegetation (m²/m²)",
-    "Leaf area index for low vegetation (m²/m²)",
-    "Total accumulated snowfall (m)"
-  ),
-  `ERA5-Land` = c("✔", "✔", "✔", "✔", "", "", "✔", "✔", "✔"),
-  `ERA5 Single Levels` = c("✔", "", "✔", "✔", "✔", "✔", "✔", "✔", "")
-)
-
-# Render as table
-kable(variables_table, format = "markdown")
-```
-
-### Daily resolution indicators
-
-```{r echo=FALSE, warning=FALSE}
-# Create variables table for daily resolution
-daily_variables_table <- data.frame(
-  Variable = c("2m_temperature"),
-  Description = c("Air temperature at 2 m above the surface (°C)"),
-  `Derived ERA5 Land Daily Statistics` = c("✔"),
-  `Derived ERA5 Single Levels Daily Statistics` = c("✔")
-)
-
-kable(daily_variables_table, format = "markdown")
-```

@@ -194,18 +194,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#accessed-datasets" id="toc-accessed-datasets" class="nav-link active" data-scroll-target="#accessed-datasets">Accessed datasets</a>
+  <li><a href="#catalogues" id="toc-catalogues" class="nav-link active" data-scroll-target="#catalogues">Catalogues</a>
   <ul class="collapse">
-  <li><a href="#monthly-resolution" id="toc-monthly-resolution" class="nav-link" data-scroll-target="#monthly-resolution">Monthly Resolution</a></li>
-  <li><a href="#daily-resolution" id="toc-daily-resolution" class="nav-link" data-scroll-target="#daily-resolution">Daily Resolution</a></li>
-  <li><a href="#future-datasets-include" id="toc-future-datasets-include" class="nav-link" data-scroll-target="#future-datasets-include">Future datasets include:</a></li>
+  <li><a href="#which-catalogue-should-i-use" id="toc-which-catalogue-should-i-use" class="nav-link" data-scroll-target="#which-catalogue-should-i-use">Which catalogue should I use?</a></li>
   </ul></li>
-  <li><a href="#dataset-attributes" id="toc-dataset-attributes" class="nav-link" data-scroll-target="#dataset-attributes">Dataset Attributes</a></li>
-  <li><a href="#supported-indicators" id="toc-supported-indicators" class="nav-link" data-scroll-target="#supported-indicators">Supported indicators</a>
+  <li><a href="#indicators" id="toc-indicators" class="nav-link" data-scroll-target="#indicators">Indicators</a>
   <ul class="collapse">
-  <li><a href="#monthly-resolution-indicators" id="toc-monthly-resolution-indicators" class="nav-link" data-scroll-target="#monthly-resolution-indicators">Monthly resolution indicators</a></li>
-  <li><a href="#daily-resolution-indicators" id="toc-daily-resolution-indicators" class="nav-link" data-scroll-target="#daily-resolution-indicators">Daily resolution indicators</a></li>
+  <li><a href="#era5-and-era5-land" id="toc-era5-and-era5-land" class="nav-link" data-scroll-target="#era5-and-era5-land">ERA5 and ERA5-Land</a></li>
+  <li><a href="#dwd-germany" id="toc-dwd-germany" class="nav-link" data-scroll-target="#dwd-germany">DWD (Germany)</a></li>
   </ul></li>
+  <li><a href="#units-and-daily-statistics" id="toc-units-and-daily-statistics" class="nav-link" data-scroll-target="#units-and-daily-statistics">Units and daily statistics</a>
+  <ul class="collapse">
+  <li><a href="#notes-per-indicator" id="toc-notes-per-indicator" class="nav-link" data-scroll-target="#notes-per-indicator">Notes per indicator</a></li>
+  </ul></li>
+  <li><a href="#planned-datasets" id="toc-planned-datasets" class="nav-link" data-scroll-target="#planned-datasets">Planned datasets</a></li>
   </ul>
 </nav>
     </div>
@@ -231,253 +233,276 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="accessed-datasets" class="level2">
-<h2 class="anchored" data-anchor-id="accessed-datasets">Accessed datasets</h2>
-<p>This page summarizes the supported catalogue of indicators. The current version accesses datasets from:</p>
-<section id="monthly-resolution" class="level3">
-<h3 class="anchored" data-anchor-id="monthly-resolution">Monthly Resolution</h3>
-<p><strong>1. Copernicus Climate Change Service (C3S)</strong>:</p>
+<p>This page lists all indicators available in <code>gxc</code> (version 1.0.0) and the catalogues that provide them. The tables are generated from the package itself. In R, <code>lookup("&lt;indicator&gt;")</code> shows the same information for a single indicator, and <code>gxc_indicators()</code> lists all of them.</p>
+<section id="catalogues" class="level2">
+<h2 class="anchored" data-anchor-id="catalogues">Catalogues</h2>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Catalogue</th>
+<th style="text-align: left;">Dataset</th>
+<th style="text-align: left;">Time</th>
+<th style="text-align: left;">Resolution</th>
+<th style="text-align: left;">Coverage</th>
+<th style="text-align: right;">Indicators</th>
+<th style="text-align: left;">Access</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>derived-era5-land-daily-statistics</code></td>
+<td style="text-align: left;"><a href="https://cds.climate.copernicus.eu/datasets/derived-era5-land-daily-statistics">ERA5-Land post-processed daily statistics</a></td>
+<td style="text-align: left;">daily</td>
+<td style="text-align: left;">0.1° x 0.1°</td>
+<td style="text-align: left;">global (land only)</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">CDS API key, request queue</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>derived-era5-single-levels-daily-statistics</code></td>
+<td style="text-align: left;"><a href="https://cds.climate.copernicus.eu/datasets/derived-era5-single-levels-daily-statistics">ERA5 post-processed daily statistics on single levels</a></td>
+<td style="text-align: left;">daily</td>
+<td style="text-align: left;">0.25° x 0.25°</td>
+<td style="text-align: left;">global</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">CDS API key, request queue</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>reanalysis-era5-land-monthly-means</code></td>
+<td style="text-align: left;"><a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-monthly-means">ERA5-Land monthly averaged data</a></td>
+<td style="text-align: left;">monthly</td>
+<td style="text-align: left;">0.1° x 0.1°</td>
+<td style="text-align: left;">global (land only)</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: left;">CDS API key, request queue</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>reanalysis-era5-single-levels-monthly-means</code></td>
+<td style="text-align: left;"><a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-monthly-means">ERA5 monthly averaged data on single levels</a></td>
+<td style="text-align: left;">monthly</td>
+<td style="text-align: left;">0.25° x 0.25°</td>
+<td style="text-align: left;">global</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">CDS API key, request queue</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>dwd-hyras-daily</code></td>
+<td style="text-align: left;"><a href="https://opendata.dwd.de/climate_environment/CDC/grids_germany/daily/hyras_de/">DWD HYRAS daily grids</a></td>
+<td style="text-align: left;">daily</td>
+<td style="text-align: left;">1 km x 1 km</td>
+<td style="text-align: left;">Germany</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">none</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>dwd-monthly</code></td>
+<td style="text-align: left;"><a href="https://opendata.dwd.de/climate_environment/CDC/grids_germany/monthly/">DWD monthly grids</a></td>
+<td style="text-align: left;">monthly</td>
+<td style="text-align: left;">1 km x 1 km</td>
+<td style="text-align: left;">Germany</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">none</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<section id="which-catalogue-should-i-use" class="level3">
+<h3 class="anchored" data-anchor-id="which-catalogue-should-i-use">Which catalogue should I use?</h3>
 <ul>
-<li><a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-monthly-means?tab=overview">ERA5-Land Monthly Averaged Data (1950–Present)</a></li>
-<li><a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-monthly-means?tab=overview">ERA5 Monthly Averaged Data on Single Levels (1940–Present)</a></li>
+<li><strong>Germany, high resolution:</strong> the DWD catalogues (1 km). No API key needed.</li>
+<li><strong>Daily data elsewhere, or long baselines:</strong> <code>"arco-era5-land-daily"</code>. It reads hourly ERA5-Land data directly from ECMWF’s cloud-optimised store, aggregates them to daily values and is usually much faster than the CDS catalogues, whose requests can wait in a queue for up to an hour. Its values match <code>"derived-era5-land-daily-statistics"</code>. It is still experimental.</li>
+<li><strong>Over sea, or indicators not in ERA5-Land:</strong> the ERA5 single-levels catalogues (0.25°).</li>
+<li><strong>Monthly data:</strong> the ERA5 or DWD monthly catalogues.</li>
 </ul>
 </section>
-<section id="daily-resolution" class="level3">
-<h3 class="anchored" data-anchor-id="daily-resolution">Daily Resolution</h3>
+</section>
+<section id="indicators" class="level2">
+<h2 class="anchored" data-anchor-id="indicators">Indicators</h2>
+<p>Each cell shows the unit of the values returned by that catalogue. An empty cell means the indicator is not available there.</p>
+<section id="era5-and-era5-land" class="level3">
+<h3 class="anchored" data-anchor-id="era5-and-era5-land">ERA5 and ERA5-Land</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 18%">
+<col style="width: 23%">
+<col style="width: 14%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Indicator</th>
+<th style="text-align: left;">ERA5-Land daily (CDS)</th>
+<th style="text-align: left;">ERA5 daily</th>
+<th style="text-align: left;">ERA5-Land monthly</th>
+<th style="text-align: left;">ERA5 monthly</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>10m_u_component_of_wind</code></td>
+<td style="text-align: left;">m/s</td>
+<td style="text-align: left;">m/s</td>
+<td style="text-align: left;">m/s</td>
+<td style="text-align: left;">m/s</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>10m_v_component_of_wind</code></td>
+<td style="text-align: left;">m/s</td>
+<td style="text-align: left;">m/s</td>
+<td style="text-align: left;">m/s</td>
+<td style="text-align: left;">m/s</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>2m_temperature</code></td>
+<td style="text-align: left;">K</td>
+<td style="text-align: left;">K</td>
+<td style="text-align: left;">K</td>
+<td style="text-align: left;">K</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>downward_uv_radiation_at_the_surface</code></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">J/m2/h (daily_sum: J/m2/day)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">J/m2/day</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>instantaneous_10m_wind_gust</code></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">m/s</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">m/s</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>k_index</code></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">K</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">K</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>leaf_area_index_high_vegetation</code></td>
+<td style="text-align: left;">m2/m2</td>
+<td style="text-align: left;">m2/m2</td>
+<td style="text-align: left;">m2/m2</td>
+<td style="text-align: left;">m2/m2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>leaf_area_index_low_vegetation</code></td>
+<td style="text-align: left;">m2/m2</td>
+<td style="text-align: left;">m2/m2</td>
+<td style="text-align: left;">m2/m2</td>
+<td style="text-align: left;">m2/m2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>snow_cover</code></td>
+<td style="text-align: left;">%</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">%</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>snowfall</code></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">m/h (daily_sum: m/day)</td>
+<td style="text-align: left;">m/day</td>
+<td style="text-align: left;">m/day</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>total_cloud_cover</code></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0-1</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0-1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>total_precipitation</code></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">m/h (daily_sum: m/day)</td>
+<td style="text-align: left;">m/day</td>
+<td style="text-align: left;">m/day</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="dwd-germany" class="level3">
+<h3 class="anchored" data-anchor-id="dwd-germany">DWD (Germany)</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Indicator</th>
+<th style="text-align: left;">HYRAS daily</th>
+<th style="text-align: left;">Monthly</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>air_temperature_max</code></td>
+<td style="text-align: left;">degC</td>
+<td style="text-align: left;">degC</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>air_temperature_mean</code></td>
+<td style="text-align: left;">degC</td>
+<td style="text-align: left;">degC</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>air_temperature_min</code></td>
+<td style="text-align: left;">degC</td>
+<td style="text-align: left;">degC</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>drought_index</code></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">mm/degC</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>precipitation</code></td>
+<td style="text-align: left;">mm/day</td>
+<td style="text-align: left;">mm/month</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+<section id="units-and-daily-statistics" class="level2">
+<h2 class="anchored" data-anchor-id="units-and-daily-statistics">Units and daily statistics</h2>
+<p>For daily ERA5 and ARCO catalogues, the <code>statistic</code> argument of <code>link_daily()</code> sets how the hourly values of a day are combined: <code>"daily_mean"</code> (default), <code>"daily_maximum"</code>, <code>"daily_minimum"</code> and, for accumulated indicators, <code>"daily_sum"</code>.</p>
+<p>Accumulated indicators such as precipitation, snowfall and radiation are stored as hourly amounts. Their daily mean is therefore an amount per hour (e.g.&nbsp;<code>m/h</code>). Use <code>statistic = "daily_sum"</code> for daily totals (<code>m/day</code>). Monthly ERA5 values of these indicators are mean daily totals (<code>m/day</code>). The <code>.unit</code> column in the output of <code>link_daily()</code> and <code>link_monthly()</code> always states the unit of the returned values.</p>
+<p>Temperatures from ERA5 are in Kelvin (K), from DWD in degrees Celsius.</p>
+<section id="notes-per-indicator" class="level3">
+<h3 class="anchored" data-anchor-id="notes-per-indicator">Notes per indicator</h3>
 <ul>
-<li><a href="https://cds.climate.copernicus.eu/datasets/derived-era5-land-daily-statistics?tab=overview">ERA5-Land post-processed daily statistics from 1950 to present</a></li>
-<li><a href="https://cds.climate.copernicus.eu/datasets/derived-era5-single-levels-daily-statistics?tab=overview">ERA5 post-processed daily statistics on single levels from 1940 to present</a></li>
+<li>Monthly mean of daily totals. Applies to: <code>total_precipitation</code>, <code>snowfall</code>, <code>downward_uv_radiation_at_the_surface</code></li>
+<li>Hourly amounts; use <code>statistic = "daily_sum"</code> for daily totals. Applies to: <code>total_precipitation</code>, <code>snowfall</code>, <code>downward_uv_radiation_at_the_surface</code>, <code>surface_solar_radiation_downwards</code>, <code>surface_thermal_radiation_downwards</code></li>
+<li>Daily totals. Applies to: <code>precipitation</code></li>
+<li>Monthly totals. Applies to: <code>precipitation</code></li>
 </ul>
 </section>
-<section id="future-datasets-include" class="level3">
-<h3 class="anchored" data-anchor-id="future-datasets-include">Future datasets include:</h3>
+</section>
+<section id="planned-datasets" class="level2">
+<h2 class="anchored" data-anchor-id="planned-datasets">Planned datasets</h2>
 <ul>
+<li>Hourly resolution, e.g.&nbsp;<a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=overview">ERA5-Land hourly data from 1950 to present</a> (currently only used internally to compute daily values) and <a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview">ERA5 hourly data on single levels from 1940 to present</a></li>
 <li><a href="https://cds.climate.copernicus.eu/datasets/derived-utci-historical?tab=overview">Thermal comfort indices derived from ERA5 reanalysis</a></li>
-<li><a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview">ERA5 hourly data on single levels from 1940 to present</a></li>
-<li><a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=overview">ERA5-Land hourly data from 1950 to present</a></li>
 <li><a href="https://cds.climate.copernicus.eu/datasets/satellite-fire-burned-area?tab=overview">Fire burned area from 2001 to present derived from satellite observations</a></li>
 <li><a href="https://edgar.jrc.ec.europa.eu/">Emission Database for Global Atmospheric Research (EDGAR)</a></li>
 <li><a href="https://ads.atmosphere.copernicus.eu/datasets/cams-global-ghg-reanalysis-egg4?tab=overview">CAMS global greenhouse gas reanalysis (EGG4)</a></li>
 </ul>
-</section>
-</section>
-<section id="dataset-attributes" class="level2">
-<h2 class="anchored" data-anchor-id="dataset-attributes">Dataset Attributes</h2>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<colgroup>
-<col style="width: 24%">
-<col style="width: 33%">
-<col style="width: 41%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Attribute</th>
-<th style="text-align: left;">ERA5.Land.Monthly.Averaged.Data</th>
-<th style="text-align: left;">ERA5.Monthly.Averaged.Data.on.Single.Levels</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Projection</td>
-<td style="text-align: left;">WGS84 (EPSG:4326)</td>
-<td style="text-align: left;">WGS84 (EPSG:4326)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Spatial Resolution</td>
-<td style="text-align: left;">~9 km (~0.1°)</td>
-<td style="text-align: left;">~31 km (~0.25°)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Spatial Coverage (Extent)</td>
-<td style="text-align: left;">Global (-90° to 90°, -180° to 180°)</td>
-<td style="text-align: left;">Global (-90° to 90°, -180° to 180°)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Temporal Resolution</td>
-<td style="text-align: left;">Monthly</td>
-<td style="text-align: left;">Monthly</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Temporal Coverage</td>
-<td style="text-align: left;">1950 to present</td>
-<td style="text-align: left;">1940 to present</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Update Frequency</td>
-<td style="text-align: left;">Monthly</td>
-<td style="text-align: left;">Monthly</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<colgroup>
-<col style="width: 24%">
-<col style="width: 33%">
-<col style="width: 41%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Attribute</th>
-<th style="text-align: left;">Derived.ERA5.Land.Daily.Statistics</th>
-<th style="text-align: left;">Derived.ERA5.Single.Levels.Daily.Statistics</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Projection</td>
-<td style="text-align: left;">WGS84 (EPSG:4326)</td>
-<td style="text-align: left;">WGS84 (EPSG:4326)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Spatial Resolution</td>
-<td style="text-align: left;">~9 km (~0.1°)</td>
-<td style="text-align: left;">~31 km (~0.25°)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Spatial Coverage (Extent)</td>
-<td style="text-align: left;">Global (-90° to 90°, -180° to 180°)</td>
-<td style="text-align: left;">Global (-90° to 90°, -180° to 180°)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Temporal Resolution</td>
-<td style="text-align: left;">Daily</td>
-<td style="text-align: left;">Daily</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Temporal Coverage</td>
-<td style="text-align: left;">As available</td>
-<td style="text-align: left;">As available</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Update Frequency</td>
-<td style="text-align: left;">Daily</td>
-<td style="text-align: left;">Daily</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</section>
-<section id="supported-indicators" class="level2">
-<h2 class="anchored" data-anchor-id="supported-indicators">Supported indicators</h2>
-<section id="monthly-resolution-indicators" class="level3">
-<h3 class="anchored" data-anchor-id="monthly-resolution-indicators">Monthly resolution indicators</h3>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<colgroup>
-<col style="width: 28%">
-<col style="width: 46%">
-<col style="width: 8%">
-<col style="width: 16%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Variable</th>
-<th style="text-align: left;">Description</th>
-<th style="text-align: left;">ERA5.Land</th>
-<th style="text-align: left;">ERA5.Single.Levels</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">2m_temperature</td>
-<td style="text-align: left;">Air temperature at 2 meters above the surface (°C)</td>
-<td style="text-align: left;">✔</td>
-<td style="text-align: left;">✔</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">total_precipitation</td>
-<td style="text-align: left;">Total accumulated precipitation (m)</td>
-<td style="text-align: left;">✔</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">10m_u_component_of_wind</td>
-<td style="text-align: left;">Eastward component of wind speed at 10 meters (m/s)</td>
-<td style="text-align: left;">✔</td>
-<td style="text-align: left;">✔</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">10m_v_component_of_wind</td>
-<td style="text-align: left;">Northward component of wind speed at 10 meters (m/s)</td>
-<td style="text-align: left;">✔</td>
-<td style="text-align: left;">✔</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">10m_wind_speed</td>
-<td style="text-align: left;">Wind speed magnitude at 10 meters (m/s)</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">✔</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">total_cloud_cover</td>
-<td style="text-align: left;">Fraction of sky covered by clouds (0-1)</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">✔</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">leaf_area_index_high_vegetation</td>
-<td style="text-align: left;">Leaf area index for high vegetation (m²/m²)</td>
-<td style="text-align: left;">✔</td>
-<td style="text-align: left;">✔</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">leaf_area_index_low_vegetation</td>
-<td style="text-align: left;">Leaf area index for low vegetation (m²/m²)</td>
-<td style="text-align: left;">✔</td>
-<td style="text-align: left;">✔</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">snowfall</td>
-<td style="text-align: left;">Total accumulated snowfall (m)</td>
-<td style="text-align: left;">✔</td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</section>
-<section id="daily-resolution-indicators" class="level3">
-<h3 class="anchored" data-anchor-id="daily-resolution-indicators">Daily resolution indicators</h3>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<colgroup>
-<col style="width: 10%">
-<col style="width: 32%">
-<col style="width: 25%">
-<col style="width: 31%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Variable</th>
-<th style="text-align: left;">Description</th>
-<th style="text-align: left;">Derived.ERA5.Land.Daily.Statistics</th>
-<th style="text-align: left;">Derived.ERA5.Single.Levels.Daily.Statistics</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">2m_temperature</td>
-<td style="text-align: left;">Air temperature at 2 m above the surface (°C)</td>
-<td style="text-align: left;">✔</td>
-<td style="text-align: left;">✔</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

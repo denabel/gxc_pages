@@ -354,7 +354,7 @@
     "href": "catalogue.html",
     "title": "Indicator catalogue",
     "section": "",
-    "text": "This page summarizes the supported catalogue of indicators. The current version accesses datasets from:\n\n\n1. Copernicus Climate Change Service (C3S):\n\nERA5-Land Monthly Averaged Data (1950–Present)\nERA5 Monthly Averaged Data on Single Levels (1940–Present)\n\n\n\n\n\nERA5-Land post-processed daily statistics from 1950 to present\nERA5 post-processed daily statistics on single levels from 1940 to present\n\n\n\n\n\nThermal comfort indices derived from ERA5 reanalysis\nERA5 hourly data on single levels from 1940 to present\nERA5-Land hourly data from 1950 to present\nFire burned area from 2001 to present derived from satellite observations\nEmission Database for Global Atmospheric Research (EDGAR)\nCAMS global greenhouse gas reanalysis (EGG4)"
+    "text": "This page lists all indicators available in gxc (version 1.0.0) and the catalogues that provide them. The tables are generated from the package itself. In R, lookup(\"&lt;indicator&gt;\") shows the same information for a single indicator, and gxc_indicators() lists all of them."
   },
   {
     "objectID": "catalogue.html#accessed-datasets",
@@ -621,5 +621,33 @@
     "title": "Working with raster data in R",
     "section": "Summary",
     "text": "Summary\nIn geospatial analysis, raster data represents continuous spatial phenomena like temperature, elevation, and land cover. Raster datasets are structured as grids of cells, where each cell holds a value corresponding to a specific location on the earth’s surface. These datasets can be easily visualized and manipulated using packages like terra in R, which provides efficient tools for plotting, extracting, and calculating statistics on raster data. Operations like cropping and masking allow for focused analysis by isolating specific areas of interest, while more advanced techniques like spatial buffering let us account for the context of surrounding areas. Such procedures make raster data particularly valuable when working with large spatial datasets or conducting analyses that require a broader understanding of spatial patterns and relationships.\nHowever, as with all data, there’s much more to explore beyond the basics. Raster data can be stacked to form raster stacks, where multiple data layers, such as temperature readings over time, can be analyzed together. Going further, we can organize this data into cubes, three-dimensional structures that store vast amounts of spatiotemporal information, making them ideal for remote sensing or large-scale environmental analysis. With raster data, we can extract and analyze information at individual points and explore complex spatiotemporal relationships across multiple dimensions. As we continue to combine raster data with other geospatial datasets and apply more sophisticated methods, the possibilities for deeper insights into our world are limitless."
+  },
+  {
+    "objectID": "catalogue.html#catalogues",
+    "href": "catalogue.html#catalogues",
+    "title": "Indicator catalogue",
+    "section": "Catalogues",
+    "text": "Catalogues\n\n\n\n\n\nCatalogue\nDataset\nTime\nResolution\nCoverage\nIndicators\nAccess\n\n\n\n\nderived-era5-land-daily-statistics\nERA5-Land post-processed daily statistics\ndaily\n0.1° x 0.1°\nglobal (land only)\n6\nCDS API key, request queue\n\n\nderived-era5-single-levels-daily-statistics\nERA5 post-processed daily statistics on single levels\ndaily\n0.25° x 0.25°\nglobal\n11\nCDS API key, request queue\n\n\nreanalysis-era5-land-monthly-means\nERA5-Land monthly averaged data\nmonthly\n0.1° x 0.1°\nglobal (land only)\n8\nCDS API key, request queue\n\n\nreanalysis-era5-single-levels-monthly-means\nERA5 monthly averaged data on single levels\nmonthly\n0.25° x 0.25°\nglobal\n11\nCDS API key, request queue\n\n\ndwd-hyras-daily\nDWD HYRAS daily grids\ndaily\n1 km x 1 km\nGermany\n4\nnone\n\n\ndwd-monthly\nDWD monthly grids\nmonthly\n1 km x 1 km\nGermany\n5\nnone\n\n\n\n\n\n\nWhich catalogue should I use?\n\nGermany, high resolution: the DWD catalogues (1 km). No API key needed.\nDaily data elsewhere, or long baselines: \"arco-era5-land-daily\". It reads hourly ERA5-Land data directly from ECMWF’s cloud-optimised store, aggregates them to daily values and is usually much faster than the CDS catalogues, whose requests can wait in a queue for up to an hour. Its values match \"derived-era5-land-daily-statistics\". It is still experimental.\nOver sea, or indicators not in ERA5-Land: the ERA5 single-levels catalogues (0.25°).\nMonthly data: the ERA5 or DWD monthly catalogues."
+  },
+  {
+    "objectID": "catalogue.html#indicators",
+    "href": "catalogue.html#indicators",
+    "title": "Indicator catalogue",
+    "section": "Indicators",
+    "text": "Indicators\nEach cell shows the unit of the values returned by that catalogue. An empty cell means the indicator is not available there.\n\nERA5 and ERA5-Land\n\n\n\n\n\n\n\n\n\n\n\n\nIndicator\nERA5-Land daily (CDS)\nERA5 daily\nERA5-Land monthly\nERA5 monthly\n\n\n\n\n10m_u_component_of_wind\nm/s\nm/s\nm/s\nm/s\n\n\n10m_v_component_of_wind\nm/s\nm/s\nm/s\nm/s\n\n\n2m_temperature\nK\nK\nK\nK\n\n\ndownward_uv_radiation_at_the_surface\n\nJ/m2/h (daily_sum: J/m2/day)\n\nJ/m2/day\n\n\ninstantaneous_10m_wind_gust\n\nm/s\n\nm/s\n\n\nk_index\n\nK\n\nK\n\n\nleaf_area_index_high_vegetation\nm2/m2\nm2/m2\nm2/m2\nm2/m2\n\n\nleaf_area_index_low_vegetation\nm2/m2\nm2/m2\nm2/m2\nm2/m2\n\n\nsnow_cover\n%\n\n%\n\n\n\nsnowfall\n\nm/h (daily_sum: m/day)\nm/day\nm/day\n\n\ntotal_cloud_cover\n\n0-1\n\n0-1\n\n\ntotal_precipitation\n\nm/h (daily_sum: m/day)\nm/day\nm/day\n\n\n\n\n\n\n\nDWD (Germany)\n\n\n\n\n\nIndicator\nHYRAS daily\nMonthly\n\n\n\n\nair_temperature_max\ndegC\ndegC\n\n\nair_temperature_mean\ndegC\ndegC\n\n\nair_temperature_min\ndegC\ndegC\n\n\ndrought_index\n\nmm/degC\n\n\nprecipitation\nmm/day\nmm/month"
+  },
+  {
+    "objectID": "catalogue.html#units-and-daily-statistics",
+    "href": "catalogue.html#units-and-daily-statistics",
+    "title": "Indicator catalogue",
+    "section": "Units and daily statistics",
+    "text": "Units and daily statistics\nFor daily ERA5 and ARCO catalogues, the statistic argument of link_daily() sets how the hourly values of a day are combined: \"daily_mean\" (default), \"daily_maximum\", \"daily_minimum\" and, for accumulated indicators, \"daily_sum\".\nAccumulated indicators such as precipitation, snowfall and radiation are stored as hourly amounts. Their daily mean is therefore an amount per hour (e.g. m/h). Use statistic = \"daily_sum\" for daily totals (m/day). Monthly ERA5 values of these indicators are mean daily totals (m/day). The .unit column in the output of link_daily() and link_monthly() always states the unit of the returned values.\nTemperatures from ERA5 are in Kelvin (K), from DWD in degrees Celsius.\n\nNotes per indicator\n\nMonthly mean of daily totals. Applies to: total_precipitation, snowfall, downward_uv_radiation_at_the_surface\nHourly amounts; use statistic = \"daily_sum\" for daily totals. Applies to: total_precipitation, snowfall, downward_uv_radiation_at_the_surface, surface_solar_radiation_downwards, surface_thermal_radiation_downwards\nDaily totals. Applies to: precipitation\nMonthly totals. Applies to: precipitation"
+  },
+  {
+    "objectID": "catalogue.html#planned-datasets",
+    "href": "catalogue.html#planned-datasets",
+    "title": "Indicator catalogue",
+    "section": "Planned datasets",
+    "text": "Planned datasets\n\nHourly resolution, e.g. ERA5-Land hourly data from 1950 to present (currently only used internally to compute daily values) and ERA5 hourly data on single levels from 1940 to present\nThermal comfort indices derived from ERA5 reanalysis\nFire burned area from 2001 to present derived from satellite observations\nEmission Database for Global Atmospheric Research (EDGAR)\nCAMS global greenhouse gas reanalysis (EGG4)"
   }
 ]
