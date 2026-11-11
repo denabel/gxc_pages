@@ -191,6 +191,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./catalogue.html">
  <span class="dropdown-text">Indicators</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./performance.qmd">
+ <span class="dropdown-text">Performance</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -304,8 +308,8 @@ extent      : 0, 4, 0, 4  (xmin, xmax, ymin, ymax)
 coord. ref. : 
 source(s)   : memory
 name        : lyr.1
-min value   :     7
-max value   :    91</code></pre>
+min value   :     1
+max value   :    81</code></pre>
 </div>
 </div>
 <p>Here’s what each component of the output of the raster object represents:</p>
@@ -571,16 +575,16 @@ Geodetic CRS:  WGS 84</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">extract</span>(temp_6_2019_belgium, random_points, <span class="at">ID =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   SFC (Ground or water surface); 2 metre temperature [C]
-1                                                17.81680
-2                                                19.04922
-3                                                17.89297
-4                                                17.55117
-5                                                17.55898
-6                                                17.58438
-7                                                17.95352
-8                                                19.34609
-9                                                17.22891
-10                                               18.19375</code></pre>
+1                                                18.34414
+2                                                18.00625
+3                                                17.95742
+4                                                18.10195
+5                                                17.98672
+6                                                17.66836
+7                                                17.94180
+8                                                17.30117
+9                                                17.37930
+10                                               18.66055</code></pre>
 </div>
 </div>
 <p>Once the raster values have been extracted, the next step is to add these values to an existing dataset for further analysis. In this example, the temperature values extracted from the <code>temp_6_2019_belgium</code> raster are added to the random_points dataset. The <code>terra::extract()</code> function retrieves the temperature values at the sampled points, and the results are stored in a new column, temp_value. The <code>dplyr::mutate()</code> function is used to create this new column, where the <code>as.vector()</code> function ensures that the extracted data is formatted as a vector that can be added to the dataset. By setting <code>raw = TRUE</code>, the function returns the raw values of the raster at the specified points. After this operation, the random_points dataset now includes the temperature values from the raster, which can be used for further statistical analysis, visualizations, or comparisons with other variables.</p>
@@ -599,19 +603,19 @@ Geodetic CRS:  WGS 84</code></pre>
 <pre><code>Simple feature collection with 10 features and 1 field
 Geometry type: POINT
 Dimension:     XY
-Bounding box:  xmin: 3 ymin: 50 xmax: 5.5 ymax: 51.25
+Bounding box:  xmin: 2.75 ymin: 49.75 xmax: 5.75 ymax: 51.25
 Geodetic CRS:  WGS 84
              geometry temp_value
-1  POINT (3.75 51.25)   17.81680
-2  POINT (5.25 51.25)   19.04922
-3   POINT (3.5 50.75)   17.89297
-4     POINT (5.25 50)   17.55117
-5     POINT (3 50.75)   17.55898
-6     POINT (4.25 50)   17.58438
-7   POINT (4.25 50.5)   17.95352
-8      POINT (5.5 51)   19.34609
-9  POINT (3.25 51.25)   17.22891
-10 POINT (4.25 50.75)   18.19375</code></pre>
+1     POINT (4.25 51)   18.34414
+2     POINT (4 51.25)   18.00625
+3  POINT (5.75 49.75)   17.95742
+4     POINT (4 50.75)   18.10195
+5  POINT (5.25 49.75)   17.98672
+6   POINT (5.5 50.25)   17.66836
+7   POINT (3.25 50.5)   17.94180
+8  POINT (2.75 50.75)   17.30117
+9      POINT (5.5 50)   17.37930
+10 POINT (4.75 51.25)   18.66055</code></pre>
 </div>
 </div>
 <p>In some cases, extracting information for a single point may not provide enough context, as it can be too narrow. It may overlook surrounding information that could be important for analysis. To address this, we can create spatial buffers around the points of interest, which expands the area from which we can extract data and helps incorporate neighboring locations’ influence. A spatial buffer creates a specified radius around each point, allowing us to account for the surrounding area when performing extraction or analysis.</p>
@@ -647,19 +651,19 @@ Geodetic CRS:  WGS 84
 <pre><code>Simple feature collection with 10 features and 2 fields
 Geometry type: POINT
 Dimension:     XY
-Bounding box:  xmin: 3 ymin: 50 xmax: 5.5 ymax: 51.25
+Bounding box:  xmin: 2.75 ymin: 49.75 xmax: 5.75 ymax: 51.25
 Geodetic CRS:  WGS 84
              geometry temp_value temp_value_buffer
-1  POINT (3.75 51.25)   17.81680          17.81680
-2  POINT (5.25 51.25)   19.04922          19.04922
-3   POINT (3.5 50.75)   17.89297          17.89297
-4     POINT (5.25 50)   17.55117          17.55117
-5     POINT (3 50.75)   17.55898          17.55898
-6     POINT (4.25 50)   17.58438          17.58438
-7   POINT (4.25 50.5)   17.95352          17.95352
-8      POINT (5.5 51)   19.34609          19.34609
-9  POINT (3.25 51.25)   17.22891          17.22891
-10 POINT (4.25 50.75)   18.19375          18.19375</code></pre>
+1     POINT (4.25 51)   18.34414          18.34414
+2     POINT (4 51.25)   18.00625          18.00625
+3  POINT (5.75 49.75)   17.95742          17.95742
+4     POINT (4 50.75)   18.10195          18.10195
+5  POINT (5.25 49.75)   17.98672          17.98672
+6   POINT (5.5 50.25)   17.66836          17.66836
+7   POINT (3.25 50.5)   17.94180          17.94180
+8  POINT (2.75 50.75)   17.30117          17.30117
+9      POINT (5.5 50)   17.37930          17.37930
+10 POINT (4.75 51.25)   18.66055          18.66055</code></pre>
 </div>
 </div>
 </section>

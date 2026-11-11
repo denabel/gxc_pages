@@ -22,7 +22,66 @@ are generated from the package itself. In R, `lookup("<indicator>")` shows
 the same information for a single indicator, and `gxc_indicators()` lists
 all of them.
 
-## Catalogues
+## Catalogues in plain words
+
+### What is a catalogue?
+
+A catalogue is one specific dataset that `gxc` can download for you. You
+choose it with the `catalogue` argument of `link_daily()` or
+`link_monthly()`. The same indicator, for example air temperature, is often
+available in several catalogues. They differ in where the data come from,
+how detailed they are in space and time, and which region they cover.
+
+### Where do the data come from?
+
+- **ERA5** is a so-called *reanalysis* by the European Centre for
+  Medium-Range Weather Forecasts (ECMWF). A weather model is fed with
+  millions of past observations (weather stations, satellites, balloons,
+  ships) to reconstruct the weather of the whole planet for every hour since
+  1940. The result is a complete, consistent picture without gaps, also for
+  places without any weather station.
+- **ERA5-Land** is a more detailed version of ERA5 for land areas only. It
+  covers the period from 1950 and shows finer differences, for example
+  between valleys and mountains, but has no values over the sea.
+- **DWD** grids are produced by the German Weather Service from its dense
+  network of weather stations. They are very detailed but cover Germany
+  only.
+
+### How detailed are the data?
+
+- **Spatial resolution** is the size of one grid cell, the smallest area
+  with its own value. 0.25° corresponds to roughly 28 km, 0.1° to roughly
+  9 km and the DWD grids to 1 km. Every location within one cell gets the
+  same value.
+- **Temporal resolution** is the time step of the values: one value per day
+  (daily catalogues, used with `link_daily()`) or one value per month
+  (monthly catalogues, used with `link_monthly()`).
+
+### The catalogues at a glance
+
+- **`derived-era5-land-daily-statistics`** (default of `link_daily()`):
+  daily values from ERA5-Land, about 9 km, worldwide on land. Downloaded via
+  the Copernicus Climate Data Store, where requests can wait in a queue for
+  a long time.
+- **`arco-era5-land-daily`** (experimental): the same daily ERA5-Land
+  values, but computed by `gxc` from hourly data that are read directly
+  from ECMWF's cloud storage. Usually much faster, as there is no queue,
+  and it offers more indicators, such as precipitation.
+- **`derived-era5-single-levels-daily-statistics`**: daily values from
+  ERA5, about 28 km, worldwide including the sea.
+- **`reanalysis-era5-land-monthly-means`** (default of `link_monthly()`):
+  monthly averages from ERA5-Land, about 9 km, worldwide on land.
+- **`reanalysis-era5-single-levels-monthly-means`**: monthly averages from
+  ERA5, about 28 km, worldwide including the sea.
+- **`dwd-hyras-daily`**: daily values for Germany at 1 km from the German
+  Weather Service. No registration needed.
+- **`dwd-monthly`**: monthly values for Germany at 1 km from the German
+  Weather Service. No registration needed.
+
+All ERA5 catalogues require a free account at ECMWF (see
+[API access](https://github.com/denabel/gxc#api-access)).
+
+### Overview
 
 ```{r catalogues, echo=FALSE}
 # Descriptive information per catalogue
@@ -70,6 +129,8 @@ kable(
 
 ### Which catalogue should I use?
 
+- **Not sure?** For daily data, start with `"arco-era5-land-daily"`; for
+  monthly data, with the default `"reanalysis-era5-land-monthly-means"`.
 - **Germany, high resolution:** the DWD catalogues (1 km). No API key needed.
 - **Daily data elsewhere, or long baselines:** `"arco-era5-land-daily"`. It
   reads hourly ERA5-Land data directly from ECMWF's cloud-optimised store,

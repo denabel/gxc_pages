@@ -191,6 +191,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./catalogue.html">
  <span class="dropdown-text">Indicators</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./performance.qmd">
+ <span class="dropdown-text">Performance</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -824,22 +828,22 @@ Attache Paket: 'randomForest'</code></pre>
 <pre><code>                          mean
 population           2.9236307
 nightlights          0.5277355
-population_predicted 2.7896852</code></pre>
+population_predicted 2.7930318</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bivariate correlations</span></span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">layerCor</span>(LA_stack, <span class="at">fun =</span> <span class="st">"cor"</span>, <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$correlation
                      population nightlights population_predicted
-population            1.0000000   0.8245851            0.8757305
-nightlights           0.8245851   1.0000000            0.8735019
-population_predicted  0.8757305   0.8735019            1.0000000
+population            1.0000000   0.8245851            0.8759163
+nightlights           0.8245851   1.0000000            0.8733503
+population_predicted  0.8759163   0.8733503            1.0000000
 
 $mean
                      population nightlights population_predicted
 population                  NaN    2.923631            2.9236307
 nightlights           0.5277355         NaN            0.5277355
-population_predicted  2.7896852    2.789685                  NaN
+population_predicted  2.7930318    2.793032                  NaN
 
 $n
                      population nightlights population_predicted
