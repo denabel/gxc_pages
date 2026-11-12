@@ -2,7 +2,8 @@ project:
   type: website
   render: 
     - "*.qmd"
-    - "!performance.qmd"
+    # - "!performance.qmd"
+    # - "!issp.qmd"
   output-dir: docs
 
 website:
@@ -29,8 +30,8 @@ website:
             text: Nightlights
           - href: issp.qmd
             text: Case study ISSP
-          - href: gles_panel.qmd
-            text: Case study GLES Panel
+          # - href: gles_panel.qmd
+          #   text: Case study GLES Panel
           - href: resources.qmd
             text: Further resources
       - text: Software
@@ -47,8 +48,8 @@ website:
         text: Articles
       - href: about.qmd
         text: About
-      - href: mailinglist.qmd
-        text: Mailing list
+      # - href: mailinglist.qmd
+      #   text: Mailing list
       - href: imprint.qmd
         text: Imprint
 

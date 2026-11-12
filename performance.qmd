@@ -1,5 +1,7 @@
 ---
 title: "Performance"
+execute:
+  freeze: true
 ---
 
 <details><summary>Packages used in this section</summary>

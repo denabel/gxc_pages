@@ -169,10 +169,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Case study ISSP</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./gles_panel.html">
- <span class="dropdown-text">Case study GLES Panel</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="./resources.html">
  <span class="dropdown-text">Further resources</span></a>
   </li>  
@@ -192,7 +188,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Indicators</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./performance.qmd">
+    <a class="dropdown-item" href="./performance.html">
  <span class="dropdown-text">Performance</span></a>
   </li>  
     </ul>
@@ -208,10 +204,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
 <span class="menu-text">About</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./mailinglist.html"> 
-<span class="menu-text">Mailing list</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./imprint.html"> 
@@ -828,22 +820,22 @@ Attache Paket: 'randomForest'</code></pre>
 <pre><code>                          mean
 population           2.9236307
 nightlights          0.5277355
-population_predicted 2.7930318</code></pre>
+population_predicted 2.7902941</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bivariate correlations</span></span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">layerCor</span>(LA_stack, <span class="at">fun =</span> <span class="st">"cor"</span>, <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$correlation
                      population nightlights population_predicted
-population            1.0000000   0.8245851            0.8759163
-nightlights           0.8245851   1.0000000            0.8733503
-population_predicted  0.8759163   0.8733503            1.0000000
+population            1.0000000   0.8245851            0.8761831
+nightlights           0.8245851   1.0000000            0.8736327
+population_predicted  0.8761831   0.8736327            1.0000000
 
 $mean
                      population nightlights population_predicted
 population                  NaN    2.923631            2.9236307
 nightlights           0.5277355         NaN            0.5277355
-population_predicted  2.7930318    2.793032                  NaN
+population_predicted  2.7902941    2.790294                  NaN
 
 $n
                      population nightlights population_predicted

@@ -1,5 +1,7 @@
 ---
 title: "Case Study: Linking ISSP survey data"
+execute:
+  freeze: true
 ---
 
 ## The ISSP data
