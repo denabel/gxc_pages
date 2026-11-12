@@ -157,7 +157,7 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Indicators</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./performance.qmd">
+    <a class="dropdown-item" href="./performance.html">
  <span class="dropdown-text">Performance</span></a>
   </li>  
     </ul>
@@ -207,7 +207,8 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
   <li><a href="#which-catalogue-should-i-use" id="toc-which-catalogue-should-i-use" class="nav-link" data-scroll-target="#which-catalogue-should-i-use">Which catalogue should I use?</a></li>
   </ul></li>
-  <li><a href="#indicators" id="toc-indicators" class="nav-link" data-scroll-target="#indicators">Indicators</a>
+  <li><a href="#what-the-indicator-names-mean" id="toc-what-the-indicator-names-mean" class="nav-link" data-scroll-target="#what-the-indicator-names-mean">What the indicator names mean</a></li>
+  <li><a href="#indicators-by-catalogue" id="toc-indicators-by-catalogue" class="nav-link" data-scroll-target="#indicators-by-catalogue">Indicators by catalogue</a>
   <ul class="collapse">
   <li><a href="#era5-and-era5-land" id="toc-era5-and-era5-land" class="nav-link" data-scroll-target="#era5-and-era5-land">ERA5 and ERA5-Land</a></li>
   <li><a href="#dwd-germany" id="toc-dwd-germany" class="nav-link" data-scroll-target="#dwd-germany">DWD (Germany)</a></li>
@@ -367,8 +368,187 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 </section>
 </section>
-<section id="indicators" class="level2">
-<h2 class="anchored" data-anchor-id="indicators">Indicators</h2>
+<section id="what-the-indicator-names-mean" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-indicator-names-mean">What the indicator names mean</h2>
+<p><code>gxc</code> uses the original names of the data providers, so that results can be traced back to the source. The table translates them into plain words.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 13%">
+<col style="width: 69%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Indicator</th>
+<th style="text-align: left;">Meaning</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>surface_pressure</code></td>
+<td style="text-align: left;">Air pressure</td>
+<td style="text-align: left;">Air pressure at the ground (100 Pa = 1 hPa).</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>2m_temperature</code></td>
+<td style="text-align: left;">Air temperature</td>
+<td style="text-align: left;">Temperature of the air 2 m above the ground, as at a weather station.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>air_temperature_max</code></td>
+<td style="text-align: left;">Air temperature (maximum)</td>
+<td style="text-align: left;">Highest air temperature 2 m above the ground.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>air_temperature_mean</code></td>
+<td style="text-align: left;">Air temperature (mean)</td>
+<td style="text-align: left;">Mean air temperature 2 m above the ground over the day or month.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>air_temperature_min</code></td>
+<td style="text-align: left;">Air temperature (minimum)</td>
+<td style="text-align: left;">Lowest air temperature 2 m above the ground.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>total_cloud_cover</code></td>
+<td style="text-align: left;">Cloud cover</td>
+<td style="text-align: left;">Share of the sky covered by clouds.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>2m_dewpoint_temperature</code></td>
+<td style="text-align: left;">Dew point</td>
+<td style="text-align: left;">Temperature at which dew would form; a measure of humidity. The closer it is to the air temperature, the more humid the air.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>drought_index</code></td>
+<td style="text-align: left;">Drought index</td>
+<td style="text-align: left;">Ratio of precipitation to temperature (de Martonne); lower values mean drier conditions.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>leaf_area_index_low_vegetation</code></td>
+<td style="text-align: left;">Leaf area, low plants</td>
+<td style="text-align: left;">Area of leaves of grass and crops per area of ground.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>leaf_area_index_high_vegetation</code></td>
+<td style="text-align: left;">Leaf area, trees</td>
+<td style="text-align: left;">Area of leaves of trees and shrubs per area of ground.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>total_precipitation</code></td>
+<td style="text-align: left;">Precipitation</td>
+<td style="text-align: left;">Rain and snow that reach the ground, as a height of water (1 mm = 0.001 m).</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>precipitation</code></td>
+<td style="text-align: left;">Precipitation</td>
+<td style="text-align: left;">Rain and snow that reach the ground, in mm of water.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>snow_cover</code></td>
+<td style="text-align: left;">Snow cover</td>
+<td style="text-align: left;">Share of the area covered by snow.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>snow_depth</code></td>
+<td style="text-align: left;">Snow depth</td>
+<td style="text-align: left;">Height of the snow layer on the ground.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>snowfall</code></td>
+<td style="text-align: left;">Snowfall</td>
+<td style="text-align: left;">Snow that falls, as the height of the water it would melt to.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>volumetric_soil_water_layer_1</code></td>
+<td style="text-align: left;">Soil moisture, 0-7 cm</td>
+<td style="text-align: left;">Share of the soil volume filled with water, from the surface down to 7 cm.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>volumetric_soil_water_layer_4</code></td>
+<td style="text-align: left;">Soil moisture, 100-289 cm</td>
+<td style="text-align: left;">Share of the soil volume filled with water, 100 to 289 cm depth.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>volumetric_soil_water_layer_3</code></td>
+<td style="text-align: left;">Soil moisture, 28-100 cm</td>
+<td style="text-align: left;">Share of the soil volume filled with water, 28 to 100 cm depth.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>volumetric_soil_water_layer_2</code></td>
+<td style="text-align: left;">Soil moisture, 7-28 cm</td>
+<td style="text-align: left;">Share of the soil volume filled with water, 7 to 28 cm depth.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>soil_temperature_level_1</code></td>
+<td style="text-align: left;">Soil temperature, 0-7 cm</td>
+<td style="text-align: left;">Temperature of the soil layer from the surface down to 7 cm.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>soil_temperature_level_4</code></td>
+<td style="text-align: left;">Soil temperature, 100-289 cm</td>
+<td style="text-align: left;">Temperature of the soil layer from 100 to 289 cm depth.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>soil_temperature_level_3</code></td>
+<td style="text-align: left;">Soil temperature, 28-100 cm</td>
+<td style="text-align: left;">Temperature of the soil layer from 28 to 100 cm depth.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>soil_temperature_level_2</code></td>
+<td style="text-align: left;">Soil temperature, 7-28 cm</td>
+<td style="text-align: left;">Temperature of the soil layer from 7 to 28 cm depth.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>surface_solar_radiation_downwards</code></td>
+<td style="text-align: left;">Sunlight</td>
+<td style="text-align: left;">Energy of sunlight reaching the ground.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>skin_temperature</code></td>
+<td style="text-align: left;">Surface temperature</td>
+<td style="text-align: left;">Temperature of the ground surface itself, e.g.&nbsp;soil, plants or snow.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>surface_thermal_radiation_downwards</code></td>
+<td style="text-align: left;">Thermal radiation</td>
+<td style="text-align: left;">Heat radiated from the atmosphere and clouds towards the ground.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>k_index</code></td>
+<td style="text-align: left;">Thunderstorm index</td>
+<td style="text-align: left;">Indicates the potential for thunderstorms; higher values mean thunderstorms are more likely.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>downward_uv_radiation_at_the_surface</code></td>
+<td style="text-align: left;">UV radiation</td>
+<td style="text-align: left;">Ultraviolet sunlight reaching the ground.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>instantaneous_10m_wind_gust</code></td>
+<td style="text-align: left;">Wind gusts</td>
+<td style="text-align: left;">Strongest short wind gust at 10 m height.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>10m_v_component_of_wind</code></td>
+<td style="text-align: left;">Wind, south-north</td>
+<td style="text-align: left;">Wind speed towards the north at 10 m height; negative values mean wind towards the south.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>10m_u_component_of_wind</code></td>
+<td style="text-align: left;">Wind, west-east</td>
+<td style="text-align: left;">Wind speed towards the east at 10 m height; negative values mean wind towards the west. Combine with the north-south component for speed and direction.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="indicators-by-catalogue" class="level2">
+<h2 class="anchored" data-anchor-id="indicators-by-catalogue">Indicators by catalogue</h2>
 <p>Each cell shows the unit of the values returned by that catalogue. An empty cell means the indicator is not available there.</p>
 <section id="era5-and-era5-land" class="level3">
 <h3 class="anchored" data-anchor-id="era5-and-era5-land">ERA5 and ERA5-Land</h3>
@@ -376,15 +556,17 @@ ul.task-list li input[type="checkbox"] {
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 32%">
-<col style="width: 18%">
-<col style="width: 23%">
-<col style="width: 14%">
-<col style="width: 10%">
+<col style="width: 27%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 20%">
+<col style="width: 12%">
+<col style="width: 9%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Indicator</th>
+<th style="text-align: left;">Meaning</th>
 <th style="text-align: left;">ERA5-Land daily (CDS)</th>
 <th style="text-align: left;">ERA5 daily</th>
 <th style="text-align: left;">ERA5-Land monthly</th>
@@ -394,6 +576,7 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>10m_u_component_of_wind</code></td>
+<td style="text-align: left;">Wind, west-east</td>
 <td style="text-align: left;">m/s</td>
 <td style="text-align: left;">m/s</td>
 <td style="text-align: left;">m/s</td>
@@ -401,6 +584,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>10m_v_component_of_wind</code></td>
+<td style="text-align: left;">Wind, south-north</td>
 <td style="text-align: left;">m/s</td>
 <td style="text-align: left;">m/s</td>
 <td style="text-align: left;">m/s</td>
@@ -408,6 +592,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>2m_temperature</code></td>
+<td style="text-align: left;">Air temperature</td>
 <td style="text-align: left;">K</td>
 <td style="text-align: left;">K</td>
 <td style="text-align: left;">K</td>
@@ -415,6 +600,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>downward_uv_radiation_at_the_surface</code></td>
+<td style="text-align: left;">UV radiation</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">J/m2/h (daily_sum: J/m2/day)</td>
 <td style="text-align: left;"></td>
@@ -422,6 +608,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>instantaneous_10m_wind_gust</code></td>
+<td style="text-align: left;">Wind gusts</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">m/s</td>
 <td style="text-align: left;"></td>
@@ -429,6 +616,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>k_index</code></td>
+<td style="text-align: left;">Thunderstorm index</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">K</td>
 <td style="text-align: left;"></td>
@@ -436,6 +624,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>leaf_area_index_high_vegetation</code></td>
+<td style="text-align: left;">Leaf area, trees</td>
 <td style="text-align: left;">m2/m2</td>
 <td style="text-align: left;">m2/m2</td>
 <td style="text-align: left;">m2/m2</td>
@@ -443,6 +632,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>leaf_area_index_low_vegetation</code></td>
+<td style="text-align: left;">Leaf area, low plants</td>
 <td style="text-align: left;">m2/m2</td>
 <td style="text-align: left;">m2/m2</td>
 <td style="text-align: left;">m2/m2</td>
@@ -450,6 +640,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>snow_cover</code></td>
+<td style="text-align: left;">Snow cover</td>
 <td style="text-align: left;">%</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">%</td>
@@ -457,6 +648,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>snowfall</code></td>
+<td style="text-align: left;">Snowfall</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">m/h (daily_sum: m/day)</td>
 <td style="text-align: left;">m/day</td>
@@ -464,6 +656,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>total_cloud_cover</code></td>
+<td style="text-align: left;">Cloud cover</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">0-1</td>
 <td style="text-align: left;"></td>
@@ -471,6 +664,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>total_precipitation</code></td>
+<td style="text-align: left;">Precipitation</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">m/h (daily_sum: m/day)</td>
 <td style="text-align: left;">m/day</td>
@@ -486,9 +680,16 @@ ul.task-list li input[type="checkbox"] {
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 37%">
+<col style="width: 17%">
+<col style="width: 12%">
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Indicator</th>
+<th style="text-align: left;">Meaning</th>
 <th style="text-align: left;">HYRAS daily</th>
 <th style="text-align: left;">Monthly</th>
 </tr>
@@ -496,26 +697,31 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>air_temperature_max</code></td>
+<td style="text-align: left;">Air temperature (maximum)</td>
 <td style="text-align: left;">degC</td>
 <td style="text-align: left;">degC</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>air_temperature_mean</code></td>
+<td style="text-align: left;">Air temperature (mean)</td>
 <td style="text-align: left;">degC</td>
 <td style="text-align: left;">degC</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>air_temperature_min</code></td>
+<td style="text-align: left;">Air temperature (minimum)</td>
 <td style="text-align: left;">degC</td>
 <td style="text-align: left;">degC</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>drought_index</code></td>
+<td style="text-align: left;">Drought index</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">mm/degC</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>precipitation</code></td>
+<td style="text-align: left;">Precipitation</td>
 <td style="text-align: left;">mm/day</td>
 <td style="text-align: left;">mm/month</td>
 </tr>

@@ -14,6 +14,42 @@ details <- do.call(rbind, lapply(inds, function(i) {
   d$indicator <- i
   d
 }))
+
+# Plain-language names and short descriptions of the indicators
+glossary <- rbind(
+  c("2m_temperature", "Air temperature", "Temperature of the air 2 m above the ground, as at a weather station."),
+  c("air_temperature_mean", "Air temperature (mean)", "Mean air temperature 2 m above the ground over the day or month."),
+  c("air_temperature_max", "Air temperature (maximum)", "Highest air temperature 2 m above the ground."),
+  c("air_temperature_min", "Air temperature (minimum)", "Lowest air temperature 2 m above the ground."),
+  c("2m_dewpoint_temperature", "Dew point", "Temperature at which dew would form; a measure of humidity. The closer it is to the air temperature, the more humid the air."),
+  c("skin_temperature", "Surface temperature", "Temperature of the ground surface itself, e.g. soil, plants or snow."),
+  c("soil_temperature_level_1", "Soil temperature, 0-7 cm", "Temperature of the soil layer from the surface down to 7 cm."),
+  c("soil_temperature_level_2", "Soil temperature, 7-28 cm", "Temperature of the soil layer from 7 to 28 cm depth."),
+  c("soil_temperature_level_3", "Soil temperature, 28-100 cm", "Temperature of the soil layer from 28 to 100 cm depth."),
+  c("soil_temperature_level_4", "Soil temperature, 100-289 cm", "Temperature of the soil layer from 100 to 289 cm depth."),
+  c("volumetric_soil_water_layer_1", "Soil moisture, 0-7 cm", "Share of the soil volume filled with water, from the surface down to 7 cm."),
+  c("volumetric_soil_water_layer_2", "Soil moisture, 7-28 cm", "Share of the soil volume filled with water, 7 to 28 cm depth."),
+  c("volumetric_soil_water_layer_3", "Soil moisture, 28-100 cm", "Share of the soil volume filled with water, 28 to 100 cm depth."),
+  c("volumetric_soil_water_layer_4", "Soil moisture, 100-289 cm", "Share of the soil volume filled with water, 100 to 289 cm depth."),
+  c("total_precipitation", "Precipitation", "Rain and snow that reach the ground, as a height of water (1 mm = 0.001 m)."),
+  c("precipitation", "Precipitation", "Rain and snow that reach the ground, in mm of water."),
+  c("snowfall", "Snowfall", "Snow that falls, as the height of the water it would melt to."),
+  c("snow_cover", "Snow cover", "Share of the area covered by snow."),
+  c("snow_depth", "Snow depth", "Height of the snow layer on the ground."),
+  c("surface_pressure", "Air pressure", "Air pressure at the ground (100 Pa = 1 hPa)."),
+  c("10m_u_component_of_wind", "Wind, west-east", "Wind speed towards the east at 10 m height; negative values mean wind towards the west. Combine with the north-south component for speed and direction."),
+  c("10m_v_component_of_wind", "Wind, south-north", "Wind speed towards the north at 10 m height; negative values mean wind towards the south."),
+  c("instantaneous_10m_wind_gust", "Wind gusts", "Strongest short wind gust at 10 m height."),
+  c("surface_solar_radiation_downwards", "Sunlight", "Energy of sunlight reaching the ground."),
+  c("surface_thermal_radiation_downwards", "Thermal radiation", "Heat radiated from the atmosphere and clouds towards the ground."),
+  c("downward_uv_radiation_at_the_surface", "UV radiation", "Ultraviolet sunlight reaching the ground."),
+  c("total_cloud_cover", "Cloud cover", "Share of the sky covered by clouds."),
+  c("k_index", "Thunderstorm index", "Indicates the potential for thunderstorms; higher values mean thunderstorms are more likely."),
+  c("leaf_area_index_high_vegetation", "Leaf area, trees", "Area of leaves of trees and shrubs per area of ground."),
+  c("leaf_area_index_low_vegetation", "Leaf area, low plants", "Area of leaves of grass and crops per area of ground."),
+  c("drought_index", "Drought index", "Ratio of precipitation to temperature (de Martonne); lower values mean drier conditions.")
+)
+glossary <- data.frame(indicator = glossary[, 1], name = glossary[, 2], description = glossary[, 3])
 ```
 
 This page lists all indicators available in `gxc` (version
@@ -142,7 +178,20 @@ kable(
   catalogues (0.25°).
 - **Monthly data:** the ERA5 or DWD monthly catalogues.
 
-## Indicators
+## What the indicator names mean
+
+`gxc` uses the original names of the data providers, so that results can be
+traced back to the source. The table translates them into plain words.
+
+```{r glossary, echo=FALSE}
+g <- glossary[glossary$indicator %in% details$indicator, ]
+g <- g[order(g$name), ]
+g$indicator <- paste0("`", g$indicator, "`")
+kable(g, col.names = c("Indicator", "Meaning", "Description"),
+      format = "markdown", row.names = FALSE)
+```
+
+## Indicators by catalogue
 
 Each cell shows the unit of the values returned by that catalogue. An empty
 cell means the indicator is not available there.
@@ -157,9 +206,11 @@ indicator_matrix <- function(catalogues, labels) {
   names(m) <- sub("^unit\\.", "", names(m))
   m <- m[, c("indicator", intersect(catalogues, names(m)))]
   m[is.na(m)] <- ""
+  m$name <- glossary$name[match(m$indicator, glossary$indicator)]
+  m$name[is.na(m$name)] <- ""
+  m <- m[order(m$indicator), c("indicator", "name", intersect(catalogues, names(m)))]
   m$indicator <- paste0("`", m$indicator, "`")
-  m <- m[order(m$indicator), ]
-  names(m) <- c("Indicator", labels[match(names(m)[-1], catalogues)])
+  names(m) <- c("Indicator", "Meaning", labels[match(names(m)[-(1:2)], catalogues)])
   rownames(m) <- NULL
   m
 }
