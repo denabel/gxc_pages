@@ -4,18 +4,28 @@ title: "Courses and workshops"
 
 ## Upcoming
 
-- GESIS Workshop "**Advanced Geospatial Data Processing for Social Scientists**", April 28/29 2025
+- t.b.a.
 
-- GESIS Workshop "**Introduction to Geospatial Techniques for Social Scientists in R**", April 09/10 2025
 
 ## Past events
+
+- International Expert Workshop on "**Earth Observation Data in the Social Sciences**",
+26-28 November 2025 at GESIS - Leibniz Institute for Social Sciences.
+
+- GESIS Workshop "**Advanced Geospatial Data Processing for Social Scientists**", June 09/10 2026. All the materials are accessible [here](https://github.com/denabel/advanced_geospatial_26).
+
+- GESIS Workshop "**Introduction to Geospatial Techniques for Social Scientists in R**", April 23/24 2026. All the materials are accessible [here](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2026).
+
+- GESIS Workshop "**Advanced Geospatial Data Processing for Social Scientists**", April 28/29 2025. All the materials are accessible [here](https://github.com/denabel/advanced_geospatial).
+
+- GESIS Workshop "**Introduction to Geospatial Techniques for Social Scientists in R**", April 09/10 2025. All the materials are accessible [here](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2025).
 
 - International Expert Workshop on "**Earth Observation Data in the Social Sciences**",
 27-29 November 2024 at GESIS - Leibniz Institute for Social Sciences.
 
 - Methods Primer on "**Working with Earth Observation data in R**", 31 October 2024, MethodsNET Launch Conference at UCLouvain, Belgium. The slides are accessible [here](slides/primer.html){target="_blank"}.
 
-- GESIS Workshop on "**Introduction to Geospatial Techniques for Social Scientists in R**", including matters relevant for Earth Observation Data, April 23/24 2024. All the materials are accessible [here](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2024)
+- GESIS Workshop on "**Introduction to Geospatial Techniques for Social Scientists in R**", including matters relevant for Earth Observation Data, April 23/24 2024. All the materials are accessible [here](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2024).
 
 - International Expert Workshop on "**Earth Observation Data in the Social Sciences**",
 13-15 December 2023 at GESIS - Leibniz Institute for Social Sciences. Check out
